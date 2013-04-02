@@ -12,6 +12,8 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+//Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
+//Please see https://code.google.com/p/gocc/ for more documentation.
 package main
 
 import (
