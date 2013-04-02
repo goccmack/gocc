@@ -12,6 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+//The token package contains functions for tokens.
 package token
 
 import (
@@ -22,15 +23,18 @@ import (
 	"strings"
 )
 
+//Represents a Gocc BNF Token.
 type Token struct {
 	Type Type
 	Lit  []byte
 }
 
+//Creates a New Gocc BNF Token.
 func NewToken(typ Type, lit []byte) *Token {
 	return &Token{typ, lit}
 }
 
+//Returns whether one token is equal to another.
 func (this *Token) Equals(that *Token) bool {
 	if this == nil || that == nil {
 		return this == that
@@ -43,6 +47,7 @@ func (this *Token) Equals(that *Token) bool {
 	return bytes.Equal(this.Lit, that.Lit)
 }
 
+//Returns a string describing the token.
 func (this *Token) String() string {
 	str := ""
 	if this.Type == EOF {
@@ -54,6 +59,7 @@ func (this *Token) String() string {
 	return str
 }
 
+//Represents the Token Type
 type Type int
 
 const (
@@ -92,14 +98,17 @@ func (pos Position) String() string {
 	return s
 }
 
+//The int value of the token.
 func (T *Token) IntValue() (int64, error) {
 	return strconv.ParseInt(string(T.Lit), 10, 64)
 }
 
+//The uint value of the token.
 func (T *Token) UintValue() (uint64, error) {
 	return strconv.ParseUint(string(T.Lit), 10, 64)
 }
 
+//The SDT value of the token.
 func (T *Token) SDTVal() string {
 	sdt := string(T.Lit)
 	rex, err := regexp.Compile(`\$[0-9]+`)

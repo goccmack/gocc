@@ -26,8 +26,10 @@ import (
 // Grammar symbol index -> ItemSet index
 type GotoTableEntry map[int]int
 
+//The TransitionTable.
 type TransitionTable []*Transition
 
+//Returns a string representing the TransitionTable.
 func (T TransitionTable) String() string {
 	res := ""
 	for _, t := range T {
@@ -36,6 +38,7 @@ func (T TransitionTable) String() string {
 	return res
 }
 
+//Do a simple validity check.
 func (T TransitionTable) Check() bool {
 	for _, t1 := range T {
 		for _, t2 := range T {
@@ -47,6 +50,7 @@ func (T TransitionTable) Check() bool {
 	return true
 }
 
+//Returns a string representing the TransitionTable in the graphviz DOT format.
 func (T TransitionTable) Dot() string {
 	str := "digraph {\n"
 	for _, t := range T {
@@ -56,27 +60,32 @@ func (T TransitionTable) Dot() string {
 	return str
 }
 
+//The Transition.
 type Transition struct {
 	From, To int
 	Symbol   *ast.Symbol
 }
 
+//Returns a string representing the Transition.
 func (T *Transition) String() string {
 	return strconv.Itoa(T.From) + " -> " + strconv.Itoa(T.To) + " <<" + T.Symbol.TokLit + ">>\n"
 }
 
+//Returns a string representing the Transition in the graphviz DOT format.
 func (T *Transition) Dot() string {
 	str := strconv.Itoa(T.From) + " -> " + strconv.Itoa(T.To)
 	str += `[label="` + T.Symbol.TokLit + `"]`
 	return str
 }
 
+//The GotoTable.
 type GotoTable struct {
 	nt    ast.SymbolS
 	ntmap map[string]int
 	GTO   []GotoTableEntry
 }
 
+//Creates a new GotoTable.
 func NewGotoTable(numStates int, g *ast.Grammar, trans TransitionTable) *GotoTable {
 	tab := &GotoTable{
 		nt:    g.NonTerminals.Min(g.Prod[0].Head),
@@ -112,10 +121,12 @@ func NewGotoTable(numStates int, g *ast.Grammar, trans TransitionTable) *GotoTab
 	return tab
 }
 
+//Walks the goto table given a state and a next symbol and returns the nextState.
 func (this *GotoTable) NextState(FromState int, sym ast.Symbol) (nextState int) {
 	return this.GTO[FromState][this.ntmap[sym.String()]]
 }
 
+//Returns a list reachabilities.
 func (this *GotoTable) ReachableNodes() []bool {
 	res := make([]bool, len(this.GTO))
 	for _, e := range this.GTO {
@@ -126,6 +137,7 @@ func (this *GotoTable) ReachableNodes() []bool {
 	return res
 }
 
+//Returns a string representing the GoToTable.
 func (this *GotoTable) String() string {
 	str := "state," + SymbolsHeadingString(this.nt) + "\n"
 	for i, ge := range this.GTO {
@@ -134,6 +146,7 @@ func (this *GotoTable) String() string {
 	return str
 }
 
+//Returns a comma seperated list of symbols.
 func SymbolsHeadingString(symbols ast.SymbolS) string {
 	str := ""
 	for i, symbol := range symbols {
@@ -161,8 +174,10 @@ func (this GotoTableEntry) GotoEntryString(symbols ast.SymbolS) string {
 	return str
 }
 
+//The ActionTable.
 type ActionTable []ActionTableEntry
 
+//Converts the ItemSets into an ActionTable given the Grammar.
 func (this ItemSets) ActionTable(g *ast.Grammar) ActionTable {
 	actTab := make([]ActionTableEntry, len(this))
 	for i := range actTab {
@@ -197,6 +212,7 @@ func (this ItemSets) ActionTable(g *ast.Grammar) ActionTable {
 	return actTab
 }
 
+//Returns an Action Table Header given the nonTerminals.
 func ActionTableHeader(nonTerminals ast.SymbolS) string {
 	str := "State,"
 	for i, nt := range nonTerminals {
@@ -208,6 +224,7 @@ func ActionTableHeader(nonTerminals ast.SymbolS) string {
 	return str
 }
 
+//Returns a map of the NonTerminals.
 func NonTerminalsMap(nonTerminals ast.SymbolS) map[string]int {
 	res := make(map[string]int)
 	for i, s := range nonTerminals {
@@ -216,6 +233,7 @@ func NonTerminalsMap(nonTerminals ast.SymbolS) map[string]int {
 	return res
 }
 
+//Returns a map of the terminals.
 func symbolMap(terminals ast.SymbolS) map[string]int {
 	res := make(map[string]int)
 	for i, s := range terminals {
@@ -227,12 +245,12 @@ func symbolMap(terminals ast.SymbolS) map[string]int {
 // Non-Terminal -> Action
 type ActionTableEntry map[token.Type]parser.Action
 
+//Returns the Go Code String of the action.
 func GenGoForAction(a parser.Action) string {
 	return a.String()
 }
 
 // Generate action table and goto table Go code
-
 func GenGo(act ActionTable, gto *GotoTable, g *ast.Grammar) string {
 	goc := genProductionsTable(g)
 	goc += "\n"
@@ -243,6 +261,7 @@ func GenGo(act ActionTable, gto *GotoTable, g *ast.Grammar) string {
 	return goc
 }
 
+//Returns a string of go code for the ActionTable.
 func (this ActionTable) GenGo(tm *token.TokenMap) string {
 	res := "var ActionTable ActionTab = ActionTab {\n"
 	for i, ar := range this {
@@ -252,6 +271,7 @@ func (this ActionTable) GenGo(tm *token.TokenMap) string {
 	return res
 }
 
+//Returns a string of go code for the ActionTableEntry.
 func (this ActionTableEntry) GenGo(state int, tm *token.TokenMap) string {
 	res := fmt.Sprintf("\t// state %d\n\tActionRow{\n", state)
 	for tok, a := range this {
@@ -261,6 +281,7 @@ func (this ActionTableEntry) GenGo(state int, tm *token.TokenMap) string {
 	return res
 }
 
+//Returns a string of go code for the GoToTable.
 func (this GotoTable) GenGo() string {
 	res := "var GotoTable GotoTab = GotoTab{\n"
 	for i, gr := range this.GTO {
@@ -270,6 +291,7 @@ func (this GotoTable) GenGo() string {
 	return res
 }
 
+//Returns a string of go code for the GotoTableEntry.
 func (this GotoTableEntry) GenGo(state int, nt ast.SymbolS) string {
 	res := fmt.Sprintf("\t// state %d\n\tGotoRow{\n", state)
 	for i, g := range this {
@@ -279,6 +301,7 @@ func (this GotoTableEntry) GenGo(state int, nt ast.SymbolS) string {
 	return res
 }
 
+//Returns a string of go code for a GotoTableFunc.
 func GotoTableFunc(nextState int) string {
 	res := "func()State{return "
 	res += strconv.Itoa(nextState)

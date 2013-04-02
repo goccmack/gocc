@@ -15,17 +15,18 @@
 package token
 
 import (
-	// "fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
 )
 
+//The map of tokens.
 type TokenMap struct {
 	tokenMap  []string
 	stringMap map[string]Type
 }
 
+//Creates a new TokenMap with a $ and a ε.
 func NewMap() *TokenMap {
 	tm := &TokenMap{make([]string, 0, 10), make(map[string]Type)}
 	tm.AddToken("$")
@@ -33,6 +34,7 @@ func NewMap() *TokenMap {
 	return tm
 }
 
+//Adds a token to the TokenMap.
 func (this *TokenMap) AddToken(str string) {
 	if _, exists := this.stringMap[str]; exists {
 		return
@@ -41,6 +43,7 @@ func (this *TokenMap) AddToken(str string) {
 	this.tokenMap = append(this.tokenMap, str)
 }
 
+//Creates a new TokenMap from the contents of a file.
 func NewMapFromFile(file string) (*TokenMap, error) {
 	src, err := ioutil.ReadFile(file)
 	if err != nil {
@@ -49,6 +52,7 @@ func NewMapFromFile(file string) (*TokenMap, error) {
 	return NewMapFromString(string(src)), nil
 }
 
+//Creates a new TokenMap from a list of tokens.
 func NewMapFromStrings(input []string) *TokenMap {
 	tm := NewMap()
 	for _, s := range input {
@@ -57,11 +61,13 @@ func NewMapFromStrings(input []string) *TokenMap {
 	return tm
 }
 
+//Create a new TokenMap by splitting the input string around spaces into multiple tokens.
 func NewMapFromString(input string) *TokenMap {
 	tokens := strings.Fields(input)
 	return NewMapFromStrings(tokens)
 }
 
+//Returns the Type of a Token from the TokenMap.
 func (this *TokenMap) Type(key string) Type {
 	tok, ok := this.stringMap[key]
 	if !ok {
@@ -70,6 +76,7 @@ func (this *TokenMap) Type(key string) Type {
 	return tok
 }
 
+//Returns the Token given the Type.
 func (this *TokenMap) TokenString(typ Type) string {
 	tok := int(typ)
 	if tok < 0 || tok >= len(this.tokenMap) {
@@ -78,6 +85,7 @@ func (this *TokenMap) TokenString(typ Type) string {
 	return this.tokenMap[tok]
 }
 
+//Describes the TokenMap as a string.
 func (this *TokenMap) String() string {
 	res := ""
 	for str, tok := range this.stringMap {
@@ -86,10 +94,12 @@ func (this *TokenMap) String() string {
 	return res
 }
 
+//Returns all the tokens except the first one, which is the $.
 func (this *TokenMap) Strings() []string {
 	return this.tokenMap[1:]
 }
 
+//Tests whether two TokenMaps are equal.
 func (this *TokenMap) Equals(that *TokenMap) bool {
 	if this == nil || that == nil {
 		return false
@@ -109,6 +119,7 @@ func (this *TokenMap) Equals(that *TokenMap) bool {
 	return true
 }
 
+//Returns a list of Tokens from the TokenMap.
 func (this *TokenMap) Tokens() []*Token {
 	res := make([]*Token, 0, len(this.stringMap))
 	for typ, str := range this.tokenMap {
@@ -117,6 +128,7 @@ func (this *TokenMap) Tokens() []*Token {
 	return res
 }
 
+//Rewrites a file with all the tokens.
 func (this *TokenMap) WriteFile(file string) error {
 	out := ""
 	for i := 1; i < len(this.tokenMap); i++ {

@@ -12,6 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+//The lr1 package generates the tables for the lr1 grammar.
 package lr1
 
 import (
@@ -19,6 +20,7 @@ import (
 	"strconv"
 )
 
+//An LR1 Item.
 type Item struct {
 	ProdIdx   int
 	Pos       int
@@ -26,10 +28,12 @@ type Item struct {
 	Grammar   *ast.Grammar
 }
 
+//Creates a clone of the Item.
 func (this *Item) Clone() *Item {
 	return &Item{this.ProdIdx, this.Pos, this.NextToken, this.Grammar}
 }
 
+//Returns whether two Items are equal based on their ProdIdx, Pos and NextToken.
 func (this *Item) Equals(that *Item) bool {
 	if that == nil {
 		return false
@@ -42,6 +46,7 @@ func (this *Item) Equals(that *Item) bool {
 
 const DOT = "•"
 
+//Returns a string representing the Item.
 func (this *Item) String() string {
 	prod := this.Grammar.Prod[this.ProdIdx]
 	res := prod.Head.TokLit + " : "
@@ -63,12 +68,15 @@ func (this *Item) String() string {
 	return res
 }
 
+//A list of Items.
 type Items []*Item
 
+//Creates a new list of items.
 func NewItems() Items {
 	return make(Items, 0, 10)
 }
 
+//Adds an Item to the list of items if it is not already contained in the list.
 func (this Items) AddSetElement(i *Item) Items {
 	if this.Contains(i) {
 		return this
@@ -77,6 +85,7 @@ func (this Items) AddSetElement(i *Item) Items {
 	return append(this, i)
 }
 
+//Returns the union of the two lists of items.
 func (this Items) AddSet(that Items) Items {
 	res := this
 	for _, i := range that {
@@ -85,6 +94,7 @@ func (this Items) AddSet(that Items) Items {
 	return res
 }
 
+//Returns whether an Item is contained in the list of Items.
 func (this Items) Contains(i *Item) bool {
 	for _, i1 := range this {
 		if i1.Equals(i) {
@@ -94,6 +104,7 @@ func (this Items) Contains(i *Item) bool {
 	return false
 }
 
+//Returns a string representing the Items in the graphviz DOT format.
 func (this Items) Dot(id string) string {
 	res := id + "["
 	res += "label=\"" + id + "\\n"
@@ -108,6 +119,7 @@ func (this Items) Dot(id string) string {
 	return res
 }
 
+//Returns whether two lists of Items are equal.
 func (this Items) Equals(that Items) bool {
 	if that == nil || len(this) != len(that) {
 		return false
@@ -122,6 +134,7 @@ func (this Items) Equals(that Items) bool {
 	return true
 }
 
+//Returns a string representing the list of Items.
 func (this Items) String() string {
 	res := "{\n"
 	for _, item := range this {
@@ -164,6 +177,7 @@ func Closure(i Items, fs ast.FirstSets) (c Items) {
 	return
 }
 
+//Returns the first symbols of a grammar given symbols and the nextToken.
 func First(g *ast.Grammar, symbols ast.SymbolS, nextToken *ast.Symbol) ast.SymbolS {
 	return g.FirstS(append(symbols, nextToken))
 }
@@ -184,6 +198,7 @@ func Goto(I Items, X *ast.Symbol, fs ast.FirstSets) Items {
 	return itemS
 }
 
+//Returns the inital Item of a Grammar.
 func InitialItem(g *ast.Grammar) *Item {
 	return &Item{
 		ProdIdx:   0,
@@ -193,8 +208,10 @@ func InitialItem(g *ast.Grammar) *Item {
 	}
 }
 
+//A list of a list of Items.
 type ItemSets []Items
 
+//Returns whether the list of a list of items contains the list of items.
 func (this ItemSets) Contains(I Items) bool {
 	for _, i := range this {
 		if i.Equals(I) {
@@ -204,6 +221,7 @@ func (this ItemSets) Contains(I Items) bool {
 	return false
 }
 
+//Returns the index of the list of items.
 func (this ItemSets) GetIndex(I Items) int {
 	if I == nil || len(I) == 0 {
 		return -1
@@ -217,6 +235,7 @@ func (this ItemSets) GetIndex(I Items) int {
 	return -1
 }
 
+//Returns a string representing the list of the list of items.
 func (this ItemSets) String() string {
 	res := ""
 	for i, is := range this {

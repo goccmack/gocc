@@ -14,6 +14,7 @@
 
 package token
 
+//A list of strings representing the Gocc BNF tokens.
 var GoccStrings = []string{
 	"ε",
 	"id",

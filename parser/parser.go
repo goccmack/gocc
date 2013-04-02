@@ -24,6 +24,7 @@ import (
 	"strconv"
 )
 
+//Parser for gocc BNF source
 type Parser struct {
 	lex       *scanner.Scanner
 	token     *token.Token
@@ -32,10 +33,12 @@ type Parser struct {
 	gTokenMap *token.TokenMap
 }
 
+//Creates a New Parser for gocc BNF Source
 func NewParser(lex *scanner.Scanner, tokenMap *token.TokenMap) *Parser {
 	return &Parser{lex: lex, tokenMap: tokenMap, gTokenMap: token.NewMap()}
 }
 
+//Parses the gocc BNF Source and returns the Productions
 func (this *Parser) Parse() (ast.ProdS, *token.TokenMap) {
 	this.nextToken()
 	return this.Grammar(), this.gTokenMap

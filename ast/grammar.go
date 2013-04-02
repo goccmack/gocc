@@ -20,6 +20,7 @@ import (
 	"os"
 )
 
+//The Grammar.
 type Grammar struct {
 	Prod         ProdS
 	firstSets    FirstSets
@@ -29,6 +30,7 @@ type Grammar struct {
 	TokenMap     *token.TokenMap
 }
 
+//Creates an Augmented Grammar. Augmented with a start symbol.
 func NewAugmentedGrammar(prods ProdS, tm *token.TokenMap) (g *Grammar, err error) {
 	head1 := prods[0].Head.Clone()
 	head1.TokLit = "S!"
@@ -40,6 +42,7 @@ func NewAugmentedGrammar(prods ProdS, tm *token.TokenMap) (g *Grammar, err error
 	return
 }
 
+//Returns a list of Productions given the Symbol.
 func (this *Grammar) GetProductions(name *Symbol) (res []*Production) {
 	res = make([]*Production, 0, 10)
 	for _, prod := range this.Prod {
@@ -50,6 +53,7 @@ func (this *Grammar) GetProductions(name *Symbol) (res []*Production) {
 	return
 }
 
+//Returns a list of Unreachable and missing symbols.
 func (this *Grammar) CheckProductions() (unreachable, missing SymbolS) {
 	missing = make(SymbolS, 0, 2)
 	unreachable = make(SymbolS, 0, 2)
@@ -80,6 +84,7 @@ func (this *Grammar) CheckProductions() (unreachable, missing SymbolS) {
 	return
 }
 
+//Returns whether the Grammar contains a production.
 func (this *Grammar) Contains(production *Production) bool {
 	for i := 0; i < len(this.Prod); i++ {
 		if this.Prod[i].Equals(production) {
@@ -89,6 +94,7 @@ func (this *Grammar) Contains(production *Production) bool {
 	return false
 }
 
+//Returns whether the Grammar contains a Production name.
 func (this *Grammar) ContainsProdName(name *Symbol) bool {
 	for _, p := range this.Prod {
 		if p.Head.Equals(name) {
@@ -114,6 +120,7 @@ func (G *Grammar) generateSymbols() {
 
 }
 
+//Returns a string representing the Grammar.
 func (this *Grammar) String() string {
 	res := ""
 	for _, prod := range this.Prod {
@@ -122,6 +129,7 @@ func (this *Grammar) String() string {
 	return res
 }
 
+//Writes the Grammar in graphviz DOT format to the given filename.
 func (this *Grammar) DotToFile(filename string) bool {
 	success := true
 	file, err := os.Create(filename)
@@ -134,6 +142,7 @@ func (this *Grammar) DotToFile(filename string) bool {
 	return success
 }
 
+//Returns a string representing the Grammar in the graphviz DOT format.
 func (this *Grammar) Dot() string {
 	res := "digraph \"\" { \n"
 	for i, prod := range this.Prod {
@@ -143,6 +152,7 @@ func (this *Grammar) Dot() string {
 	return res
 }
 
+//Returns whether two Grammars are equal.
 func (this *Grammar) Equals(that *Grammar) bool {
 	if that == nil || len(this.Prod) != len(that.Prod) {
 		return false
@@ -156,12 +166,15 @@ func (this *Grammar) Equals(that *Grammar) bool {
 	return true
 }
 
+//The FirstSets.
 type FirstSets map[string]SymbolS
 
+//Creates new FirstSets.
 func NewFirstSets() FirstSets {
 	return make(FirstSets)
 }
 
+//Adds terminals with a production to the FirstSets.
 func (this FirstSets) AddSet(prodName *Symbol, terminals SymbolS) (symbolsAdded bool) {
 	for _, t := range terminals {
 		if this.AddToken(prodName, t) {
@@ -171,6 +184,7 @@ func (this FirstSets) AddSet(prodName *Symbol, terminals SymbolS) (symbolsAdded 
 	return
 }
 
+//Adds a terminal to a production in the FirstSets.
 func (this FirstSets) AddToken(prodName *Symbol, terminal *Symbol) (symbolAdded bool) {
 	idx := prodName.TokLit
 	set, ok := this[idx]
@@ -185,6 +199,7 @@ func (this FirstSets) AddToken(prodName *Symbol, terminal *Symbol) (symbolAdded 
 	return
 }
 
+//Returns a set.
 func (this FirstSets) GetSet(prodName *Symbol) SymbolS {
 	if set, ok := this[prodName.TokLit]; ok {
 		return set
@@ -192,6 +207,7 @@ func (this FirstSets) GetSet(prodName *Symbol) SymbolS {
 	return nil
 }
 
+//Returns a string representing the FirstSets.
 func (this FirstSets) String() string {
 	str := ""
 	for nt, set := range this {
@@ -203,6 +219,7 @@ func (this FirstSets) String() string {
 	return str
 }
 
+//Returns the FirstSets of the Grammar.
 func (this *Grammar) FirstSets() FirstSets {
 	if this.firstSets == nil {
 		this.firstSets = NewFirstSets()
@@ -231,6 +248,7 @@ func (this *Grammar) FirstSets() FirstSets {
 	return this.firstSets
 }
 
+//Returns the First Symbols given the Symbol.
 func (G *Grammar) First(sym *Symbol) SymbolS {
 	if sym.IsTerminal() {
 		return SymbolS{sym}
@@ -238,6 +256,7 @@ func (G *Grammar) First(sym *Symbol) SymbolS {
 	return G.FirstSets().GetSet(sym)
 }
 
+//Returns the First Symbols given the Symbols.
 func (this *Grammar) FirstS(symbols SymbolS) (first SymbolS) {
 	first = make(SymbolS, 0, 10)
 	fst := this.First(symbols[0])

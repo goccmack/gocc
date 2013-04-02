@@ -12,6 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+//the parser package helps with lr1 table generation.
 package parser
 
 import (

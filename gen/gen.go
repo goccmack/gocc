@@ -12,6 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+//The gen package writes the files and generates the code.
 package gen
 
 import (
@@ -21,6 +22,7 @@ import (
 	"strings"
 )
 
+//Generates and writes the parser, scanner and token packages, given the generated tables and tokenMap.
 func WriteFiles(debug bool, srcDir, pkgRoot, prjName string, tables string, tm *token.TokenMap, genScanner bool) (err error) {
 	pkgDir := path.Join(srcDir, pkgRoot)
 	parserDir := path.Join(pkgDir, prjName, "parser")

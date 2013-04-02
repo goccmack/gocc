@@ -18,6 +18,7 @@ import (
 	"strconv"
 )
 
+//Creates a string of the DFA transitions in the graphviz DOT format.
 func DFADot(trans []*Transition) string {
 	dot := "digraph{\n"
 
@@ -31,6 +32,7 @@ func DFADot(trans []*Transition) string {
 	return dot
 }
 
+//Used by the DFADot function to create a node from a number.
 func NodeLabel(idx int) string {
 	return "I" + strconv.Itoa(idx)
 }

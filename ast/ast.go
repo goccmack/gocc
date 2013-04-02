@@ -12,6 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+//Package ast has all the structures for the abstract syntax tree for the parsed gocc bnf.
 package ast
 
 import (
@@ -22,8 +23,10 @@ import (
 	"unicode"
 )
 
+//The list of productions.
 type ProdS []*Production
 
+//Creates a new list of productions.
 func NewProdS(head *Symbol, bodies BodyS) ProdS {
 	ps := make(ProdS, 0, len(bodies))
 	for _, bod := range bodies {
@@ -32,10 +35,12 @@ func NewProdS(head *Symbol, bodies BodyS) ProdS {
 	return ps
 }
 
+//Appends a list of productions to the list of productions.
 func (P ProdS) Append(prods ProdS) ProdS {
 	return append(P, prods...)
 }
 
+//Returns a string representing the productions.
 func (P ProdS) String() string {
 	res := ""
 	for i, p := range P {
@@ -47,15 +52,18 @@ func (P ProdS) String() string {
 	return res
 }
 
+//The Production.
 type Production struct {
 	Head *Symbol
 	Body *Body
 }
 
+//Creates a new Production.
 func NewProduction(head *Symbol, body *Body) *Production {
 	return &Production{Head: head, Body: body}
 }
 
+//Returns whether two productions are equal.
 func (this *Production) Equals(that *Production) bool {
 	if that == nil {
 		return false
@@ -64,10 +72,12 @@ func (this *Production) Equals(that *Production) bool {
 	return this.Head == that.Head && this.Body.Equals(that.Body)
 }
 
+//Returns a string representing a production.
 func (this *Production) String() string {
 	return this.Head.TokLit + " : " + this.Body.String() + " ;"
 }
 
+//Returns a graphviz DOT representation of the production.
 func (this *Production) Dot(i string) string {
 	production_node := "node_production_" + i
 	res := production_node + ";\n"
@@ -79,19 +89,23 @@ func (this *Production) Dot(i string) string {
 	return res
 }
 
+//The Production Body.
 type Body struct {
 	Symbols SymbolS
 	SDT     string
 }
 
+//Creates a new body.
 func NewBody(symbols SymbolS) *Body {
 	return &Body{Symbols: symbols}
 }
 
+//Creates a new body with a sdt rule.
 func NewBodySDT(symbols SymbolS, sdt string) *Body {
 	return &Body{Symbols: symbols, SDT: sdt}
 }
 
+//Returns whether two Bodies are equal.
 func (this *Body) Equals(that *Body) bool {
 	if this == nil || that == nil {
 		return false
@@ -101,6 +115,7 @@ func (this *Body) Equals(that *Body) bool {
 		this.SDT == that.SDT
 }
 
+//Returns a string representing the Body.
 func (B *Body) String() string {
 	res := B.Symbols.String()
 	if B.SDT != "" {
@@ -110,25 +125,31 @@ func (B *Body) String() string {
 	return res
 }
 
+//A list of Bodies.
 type BodyS []*Body
 
+//Creates a new list of Bodies.
 func NewBodyS(body *Body) BodyS {
 	b := make(BodyS, 0, 5)
 	return append(b, body)
 }
 
+//Appends a Body to the list of Bodies.
 func (B BodyS) Append(body *Body) BodyS {
 	return append(B, body)
 }
 
+//A list of Symbols.
 type SymbolS []*Symbol
 
+//Creates a new list of Symbols.
 func NewSymbolS(sym *Symbol) SymbolS {
 	res := make(SymbolS, 0, 5)
 	res = append(res, sym)
 	return res
 }
 
+//Returns the Union of two lists of Symbols.
 func (this SymbolS) AddSet(that SymbolS) SymbolS {
 	res := this
 	for _, s := range that {
@@ -137,6 +158,7 @@ func (this SymbolS) AddSet(that SymbolS) SymbolS {
 	return res
 }
 
+//Adds a Symbol to the list of Symbols if it is not already contained in the list.
 func (S SymbolS) AddSetElement(sym *Symbol) SymbolS {
 	if S.Contains(sym) {
 		return S
@@ -145,10 +167,12 @@ func (S SymbolS) AddSetElement(sym *Symbol) SymbolS {
 	return S.Append(sym)
 }
 
+//Appends a list of Symbols to the list Symbols.
 func (S SymbolS) Append(s ...*Symbol) SymbolS {
 	return append(S, s...)
 }
 
+//Returns whether a Symbol is contained in the list of Symbols.
 func (S SymbolS) Contains(sym *Symbol) bool {
 	for _, s := range S {
 		if s.Equals(sym) {
@@ -158,6 +182,7 @@ func (S SymbolS) Contains(sym *Symbol) bool {
 	return false
 }
 
+//Returns whether two lists of Symbols are equal.
 func (this SymbolS) Equals(that SymbolS) bool {
 	if len(this) != len(that) {
 		return false
@@ -172,6 +197,7 @@ func (this SymbolS) Equals(that SymbolS) bool {
 	return true
 }
 
+//Returns the list of Symbols without the Symbols in the given list.
 func (S SymbolS) Min(sym *Symbol) SymbolS {
 	if len(S) == 0 {
 		return SymbolS{}
@@ -186,6 +212,7 @@ func (S SymbolS) Min(sym *Symbol) SymbolS {
 	return res
 }
 
+//Returns a string representing the list of Symbols.
 func (S SymbolS) String() string {
 	res := ""
 	for i, s := range S {
@@ -201,6 +228,7 @@ func (S SymbolS) String() string {
 	return res
 }
 
+//Returns a list of strings, representing each symbols respectively.
 func (S SymbolS) Strings() []string {
 	res := make([]string, len(S))
 	for i, s := range S {
@@ -209,6 +237,7 @@ func (S SymbolS) Strings() []string {
 	return res
 }
 
+//The Symbol.
 type Symbol struct {
 	SymType    SymbolType
 	TokType    token.Type
@@ -216,6 +245,7 @@ type Symbol struct {
 	TokLit     string
 }
 
+//The SymbolType.
 type SymbolType int
 
 const (
@@ -234,6 +264,7 @@ var (
 	EPSILON_SYM = &Symbol{KEYWORD, 1, "ε", "ε"}
 )
 
+//Returns a string representing the SymbolType.
 func (this SymbolType) String() string {
 	switch this {
 	case ID:
@@ -252,6 +283,7 @@ func (this SymbolType) String() string {
 	return "ILLEGAL"
 }
 
+//Creates a new Symbol.
 func NewSymbol(symType SymbolType, tok *token.Token, tm *token.TokenMap) (sym *Symbol, err error) {
 	sym = new(Symbol)
 	switch symType {
@@ -282,10 +314,12 @@ func NewSymbol(symType SymbolType, tok *token.Token, tm *token.TokenMap) (sym *S
 	return
 }
 
+//Creates a Copy of the Symbol.
 func (S *Symbol) Clone() *Symbol {
 	return &Symbol{S.SymType, S.TokType, S.TokTypeStr, S.TokLit}
 }
 
+//Returns whether two Symbols are equal.
 func (this *Symbol) Equals(that *Symbol) bool {
 	if this == nil || that == nil {
 		return false
@@ -296,6 +330,7 @@ func (this *Symbol) Equals(that *Symbol) bool {
 		this.TokLit == that.TokLit
 }
 
+//Returns whether the Symbol is a Terminal.
 func (S *Symbol) IsTerminal() bool {
 	return S.SymType != ID || isTerminal(S.TokLit)
 }
@@ -308,6 +343,7 @@ func isTerminal(lit string) bool {
 	return true
 }
 
+//Returns a string representing the Symbol.
 func (S *Symbol) String() string {
 	res := "(" + S.SymType.String() + "(" + strconv.Itoa(int(S.SymType)) + ") ,"
 	res += S.TokTypeStr + "(" + strconv.Itoa(int(S.TokType)) + "),"
