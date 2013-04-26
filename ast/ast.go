@@ -127,7 +127,7 @@ func (B *Body) String() string {
 	if len(B.Symbols) == 0 {
 		return "ℇ"
 	}
-	
+
 	res := B.Symbols.String()
 	if B.SDT != "" {
 		res += " << " + B.SDT + " >>"

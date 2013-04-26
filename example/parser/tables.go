@@ -1,7 +1,8 @@
-
 package parser
 
-import ( "code.google.com/p/gocc/example/ast" )
+import (
+	"code.google.com/p/gocc/example/ast"
+)
 
 var ProductionsTable = ProdTab{
 	// [0]
@@ -123,15 +124,15 @@ var ProductionsTable = ProdTab{
 	},
 }
 
-var ActionTable ActionTab = ActionTab {
+var ActionTable ActionTab = ActionTab{
 	// state 0
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(4), // (
-			6: Shift(5), // true
-			7: Shift(6), // false
-			8: Shift(9), // int_lit
+			4:  Shift(4),  // (
+			6:  Shift(5),  // true
+			7:  Shift(6),  // false
+			8:  Shift(9),  // int_lit
 			11: Shift(10), // string_lit
 		},
 	},
@@ -170,10 +171,10 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(16), // (
-			6: Shift(17), // true
-			7: Shift(18), // false
-			8: Shift(21), // int_lit
+			4:  Shift(16), // (
+			6:  Shift(17), // true
+			7:  Shift(18), // false
+			8:  Shift(21), // int_lit
 			11: Shift(22), // string_lit
 		},
 	},
@@ -222,7 +223,7 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			9: Shift(23), // <
+			9:  Shift(23), // <
 			10: Shift(24), // >
 		},
 	},
@@ -239,10 +240,10 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(4), // (
-			6: Shift(5), // true
-			7: Shift(6), // false
-			8: Shift(9), // int_lit
+			4:  Shift(4),  // (
+			6:  Shift(5),  // true
+			7:  Shift(6),  // false
+			8:  Shift(9),  // int_lit
 			11: Shift(10), // string_lit
 		},
 	},
@@ -251,10 +252,10 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(4), // (
-			6: Shift(5), // true
-			7: Shift(6), // false
-			8: Shift(9), // int_lit
+			4:  Shift(4),  // (
+			6:  Shift(5),  // true
+			7:  Shift(6),  // false
+			8:  Shift(9),  // int_lit
 			11: Shift(10), // string_lit
 		},
 	},
@@ -293,10 +294,10 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(16), // (
-			6: Shift(17), // true
-			7: Shift(18), // false
-			8: Shift(21), // int_lit
+			4:  Shift(16), // (
+			6:  Shift(17), // true
+			7:  Shift(18), // false
+			8:  Shift(21), // int_lit
 			11: Shift(22), // string_lit
 		},
 	},
@@ -345,7 +346,7 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			9: Shift(33), // <
+			9:  Shift(33), // <
 			10: Shift(34), // >
 		},
 	},
@@ -415,10 +416,10 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(16), // (
-			6: Shift(17), // true
-			7: Shift(18), // false
-			8: Shift(21), // int_lit
+			4:  Shift(16), // (
+			6:  Shift(17), // true
+			7:  Shift(18), // false
+			8:  Shift(21), // int_lit
 			11: Shift(22), // string_lit
 		},
 	},
@@ -427,10 +428,10 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(16), // (
-			6: Shift(17), // true
-			7: Shift(18), // false
-			8: Shift(21), // int_lit
+			4:  Shift(16), // (
+			6:  Shift(17), // true
+			7:  Shift(18), // false
+			8:  Shift(21), // int_lit
 			11: Shift(22), // string_lit
 		},
 	},
@@ -577,182 +578,141 @@ var ActionTable ActionTab = ActionTab {
 			3: Reduce(12), // |
 		},
 	},
-
 }
 
 var GotoTable GotoTab = GotoTab{
 	// state 0
 	GotoRow{
-		"BoolExpr": State(1),
-		"BoolExpr1": State(2),
-		"Val": State(3),
-		"CompareExpr": State(7),
+		"BoolExpr":      State(1),
+		"BoolExpr1":     State(2),
+		"Val":           State(3),
+		"CompareExpr":   State(7),
 		"SubStringExpr": State(8),
 	},
 	// state 1
-	GotoRow{
-	},
+	GotoRow{},
 	// state 2
-	GotoRow{
-	},
+	GotoRow{},
 	// state 3
-	GotoRow{
-	},
+	GotoRow{},
 	// state 4
 	GotoRow{
-		"BoolExpr": State(13),
-		"BoolExpr1": State(14),
-		"Val": State(15),
-		"CompareExpr": State(19),
+		"BoolExpr":      State(13),
+		"BoolExpr1":     State(14),
+		"Val":           State(15),
+		"CompareExpr":   State(19),
 		"SubStringExpr": State(20),
 	},
 	// state 5
-	GotoRow{
-	},
+	GotoRow{},
 	// state 6
-	GotoRow{
-	},
+	GotoRow{},
 	// state 7
-	GotoRow{
-	},
+	GotoRow{},
 	// state 8
-	GotoRow{
-	},
+	GotoRow{},
 	// state 9
-	GotoRow{
-	},
+	GotoRow{},
 	// state 10
-	GotoRow{
-	},
+	GotoRow{},
 	// state 11
 	GotoRow{
-		"BoolExpr": State(26),
-		"BoolExpr1": State(27),
-		"Val": State(3),
-		"CompareExpr": State(7),
+		"BoolExpr":      State(26),
+		"BoolExpr1":     State(27),
+		"Val":           State(3),
+		"CompareExpr":   State(7),
 		"SubStringExpr": State(8),
 	},
 	// state 12
 	GotoRow{
-		"BoolExpr": State(26),
-		"BoolExpr1": State(28),
-		"Val": State(3),
-		"CompareExpr": State(7),
+		"BoolExpr":      State(26),
+		"BoolExpr1":     State(28),
+		"Val":           State(3),
+		"CompareExpr":   State(7),
 		"SubStringExpr": State(8),
 	},
 	// state 13
-	GotoRow{
-	},
+	GotoRow{},
 	// state 14
-	GotoRow{
-	},
+	GotoRow{},
 	// state 15
-	GotoRow{
-	},
+	GotoRow{},
 	// state 16
 	GotoRow{
-		"BoolExpr": State(32),
-		"BoolExpr1": State(14),
-		"Val": State(15),
-		"CompareExpr": State(19),
+		"BoolExpr":      State(32),
+		"BoolExpr1":     State(14),
+		"Val":           State(15),
+		"CompareExpr":   State(19),
 		"SubStringExpr": State(20),
 	},
 	// state 17
-	GotoRow{
-	},
+	GotoRow{},
 	// state 18
-	GotoRow{
-	},
+	GotoRow{},
 	// state 19
-	GotoRow{
-	},
+	GotoRow{},
 	// state 20
-	GotoRow{
-	},
+	GotoRow{},
 	// state 21
-	GotoRow{
-	},
+	GotoRow{},
 	// state 22
-	GotoRow{
-	},
+	GotoRow{},
 	// state 23
-	GotoRow{
-	},
+	GotoRow{},
 	// state 24
-	GotoRow{
-	},
+	GotoRow{},
 	// state 25
-	GotoRow{
-	},
+	GotoRow{},
 	// state 26
-	GotoRow{
-	},
+	GotoRow{},
 	// state 27
-	GotoRow{
-	},
+	GotoRow{},
 	// state 28
-	GotoRow{
-	},
+	GotoRow{},
 	// state 29
 	GotoRow{
-		"BoolExpr": State(39),
-		"BoolExpr1": State(40),
-		"Val": State(15),
-		"CompareExpr": State(19),
+		"BoolExpr":      State(39),
+		"BoolExpr1":     State(40),
+		"Val":           State(15),
+		"CompareExpr":   State(19),
 		"SubStringExpr": State(20),
 	},
 	// state 30
 	GotoRow{
-		"BoolExpr": State(39),
-		"BoolExpr1": State(41),
-		"Val": State(15),
-		"CompareExpr": State(19),
+		"BoolExpr":      State(39),
+		"BoolExpr1":     State(41),
+		"Val":           State(15),
+		"CompareExpr":   State(19),
 		"SubStringExpr": State(20),
 	},
 	// state 31
-	GotoRow{
-	},
+	GotoRow{},
 	// state 32
-	GotoRow{
-	},
+	GotoRow{},
 	// state 33
-	GotoRow{
-	},
+	GotoRow{},
 	// state 34
-	GotoRow{
-	},
+	GotoRow{},
 	// state 35
-	GotoRow{
-	},
+	GotoRow{},
 	// state 36
-	GotoRow{
-	},
+	GotoRow{},
 	// state 37
-	GotoRow{
-	},
+	GotoRow{},
 	// state 38
-	GotoRow{
-	},
+	GotoRow{},
 	// state 39
-	GotoRow{
-	},
+	GotoRow{},
 	// state 40
-	GotoRow{
-	},
+	GotoRow{},
 	// state 41
-	GotoRow{
-	},
+	GotoRow{},
 	// state 42
-	GotoRow{
-	},
+	GotoRow{},
 	// state 43
-	GotoRow{
-	},
+	GotoRow{},
 	// state 44
-	GotoRow{
-	},
+	GotoRow{},
 	// state 45
-	GotoRow{
-	},
+	GotoRow{},
 }
-

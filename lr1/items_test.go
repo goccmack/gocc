@@ -32,7 +32,7 @@ C : d ;`
 var (
 	aug        *ast.Grammar
 	item0      *Item
-	I0, I1, I2 ItemSet
+	I0, I1, I2 Items
 	C, C_Full  ItemSets
 )
 
@@ -42,7 +42,8 @@ func TestSetup(t *testing.T) {
 	srcBuffer := []byte(dragon_book_grammar_4_55_bnf)
 	scanner.Init(srcBuffer, tokenmap)
 	parser := parser.NewParser(scanner, tokenmap)
-	aug, err := ast.NewAugmentedGrammar(parser.Parse())
+	_, prods, tm := parser.Parse()
+	aug, err := ast.NewAugmentedGrammar(prods, tm)
 	if err != nil {
 		fmt.Println("Error creating aug:", err)
 	}
@@ -50,7 +51,7 @@ func TestSetup(t *testing.T) {
 	item0 = InitialItem(aug)
 	fmt.Println("Item0:", item0)
 
-	I0 = Closure(ItemSet{item0}, aug.FirstSets())
+	I0 = Closure(Items{item0}, aug.FirstSets())
 	fmt.Println("I0:", I0)
 
 	// I1 = Goto(I0, aug.GTokens.GetToken("S"), aug.FirstSets())
