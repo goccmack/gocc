@@ -227,18 +227,21 @@ func (this *Grammar) FirstSets() FirstSets {
 		for i, again := 1, true; again; i++ {
 			again = false
 			for _, prod := range this.Prod {
-				if prod.Body.Symbols[0].IsTerminal() {
+				switch {
+				case prod.Body == NULL_BODY:
+					if this.firstSets.AddToken(prod.Head, EPSILON_SYM) {
+						again = true
+					}
+				case prod.Body.Symbols[0].IsTerminal():
 					if this.firstSets.AddToken(prod.Head, prod.Body.Symbols[0]) {
 						again = true
 					}
-				} else {
-					for i, doNext := 0, true; i < len(prod.Body.Symbols) && doNext; i++ {
-						if this.firstSets.AddSet(prod.Head, this.firstSets.GetSet(prod.Body.Symbols[i])) {
+				default:
+					first := this.FirstS(prod.Body.Symbols)
+					if !first.Equals(this.firstSets.GetSet(prod.Head)) {
+						if this.firstSets.AddSet(prod.Head, first) {
 							again = true
 						}
-						doNext = this.firstSets.GetSet(prod.Body.Symbols[i]).
-							Contains(EPSILON_SYM)
-						doNext = false
 					}
 				}
 			}

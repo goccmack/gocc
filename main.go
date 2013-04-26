@@ -28,19 +28,17 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strconv"
 	"strings"
 )
 
 var (
-	allowUnreachable *bool
-	debug            *bool
-	dumpGrammar      *bool
-	dumpFirst        *bool
-	dumpSets         *bool
-	genScanner       *bool
-	srcFile          string
-	srcDir           string
-	pkg              string
+	allowUnreachable  *bool
+	autoSRConfResolve *bool
+	genScanner        *bool
+	srcFile           string
+	srcDir            string
+	pkg               string
 )
 
 func main() {
@@ -56,13 +54,8 @@ func main() {
 
 	scanner.Init(srcBuffer, tokenmap)
 	parser := parser.NewParser(scanner, tokenmap)
-	g, err := ast.NewAugmentedGrammar(parser.Parse())
-	if *dumpGrammar {
-		fmt.Println("Grammar:")
-		fmt.Println(g)
-		fmt.Println("g.TokenMap:")
-		fmt.Println(g.TokenMap)
-	}
+	initDecl, prods, tm := parser.Parse()
+	g, err := ast.NewAugmentedGrammar(prods, tm)
 	if err != nil {
 		error1("Error creating augmented grammar:", err)
 	}
@@ -74,25 +67,24 @@ func main() {
 	}
 	writeStateMachine(srcDir, g.FirstSets(), sets, trans)
 	writeFirstBodies(srcDir, g)
-	if *dumpFirst {
-		fmt.Println("\nFirstSets:")
-		fmt.Println(g.FirstSets())
-		fmt.Println()
-	}
-	if *dumpSets {
-		fmt.Println("Sets:\n" + sets.String())
-		fmt.Println("Transitions:\n" + trans.String())
-	}
 
 	gto := lr1.NewGotoTable(len(sets), g, trans)
-	act := sets.ActionTable(g)
+	act, srConflicts := sets.ActionTable(g, *autoSRConfResolve)
+	switch {
+	case *autoSRConfResolve && srConflicts > 0:
+		fmt.Println(srConflicts, "shift/reduce conflicts resolved")
+	case !*autoSRConfResolve && srConflicts > 0:
+		fmt.Fprintln(os.Stderr, "ABORTING: "+strconv.Itoa(srConflicts)+" shift/reduce conflicts")
+		os.Exit(1)
+	}
 
-	if err := gen.WriteFiles(*debug, srcDir, pkg, prjName(srcFile), lr1.GenGo(act, gto, g), g.TokenMap, *genScanner); err != nil {
+	if err := gen.WriteFiles(srcDir, pkg, prjName(pkg), lr1.GenGo(act, gto, g), initDecl, g.TokenMap, *genScanner); err != nil {
 		error1("Error generating files:", err)
 	}
 }
 
 func checkGrammar(g *ast.Grammar) {
+	checkFirstSets(g)
 	unreachable, missing := g.CheckProductions()
 	if len(unreachable) > 0 {
 		fmt.Println("Unreachable productions:")
@@ -109,20 +101,52 @@ func checkGrammar(g *ast.Grammar) {
 	}
 }
 
+func checkFirstSets(g *ast.Grammar) {
+	prods := ast.SymbolS{}
+	for _, p := range g.Prod {
+		prods = prods.AddSetElement(p.Head)
+	}
+	missingFirstSets := ast.SymbolS{}
+	for _, p := range prods {
+		if g.FirstSets().GetSet(p) == nil {
+			missingFirstSets = missingFirstSets.AddSetElement(p)
+		}
+	}
+	if len(missingFirstSets) > 0 {
+		fmt.Fprintln(os.Stderr, "Error - Missing first sets:")
+		for i, p := range missingFirstSets {
+			fmt.Fprintf(os.Stderr, "%d: %s\n", i, p.TokLit)
+		}	
+		os.Exit(1)
+	}
+}
+
 func getArgs() {
+	wd, err := os.Getwd()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Cannot get working directory. Error: ", err.Error())
+		os.Exit(1)
+	}
+
 	allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
-	debug = flag.Bool("d", false, "debug")
-	dumpGrammar = flag.Bool("g", false, "dump grammar")
-	dumpFirst = flag.Bool("f", false, "write first sets")
-	dumpSets = flag.Bool("s", false, "write item sets")
+	autoSRConfResolve = flag.Bool("SR", false, "automatically resolve shift/reduce conflicts")
 	genScanner = flag.Bool("scanner", false, "generate a scanner")
-	flag.StringVar(&srcDir, "o", "", "src output dir")
-	flag.StringVar(&pkg, "p", "", "package root")
+	flag.StringVar(&srcDir, "o", wd, "output dir.")
+	flag.StringVar(&pkg, "p", defaultPackage(srcDir), "package")
 	flag.Parse()
 	if len(flag.Args()) != 1 {
 		errorMsg("too few arguments")
 	}
 	srcFile = flag.Arg(0)
+}
+
+func defaultPackage(wd string) string {
+	srcPath := path.Join(os.Getenv("GOPATH"), "src")	
+	pkg := strings.Replace(wd, srcPath, "", -1)
+	if strings.HasPrefix(pkg, "/") {
+		pkg = pkg[1:]
+	}
+	return pkg
 }
 
 func usage() {
@@ -142,9 +166,9 @@ func error1(msg string, err error) {
 	os.Exit(1)
 }
 
-func prjName(bnfFile string) string {
-	_, file := path.Split(bnfFile)
-	return file[:strings.LastIndex(file, ".")]
+func prjName(pkg string) string {
+	_, file := path.Split(pkg)
+	return file
 }
 
 func writeFirstBodies(prjDir string, g *ast.Grammar) {

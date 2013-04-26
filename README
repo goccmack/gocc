@@ -1,1 +1,21 @@
 See example/README for an example of how to use gocc.
+
+2013-04-24:
+
+Gocc has been extended to automatically resolve shift / reduce conflicts and to support automatic error recovery in the parser.
+
+1. Shift / reduce conflicts are resolved according to the maximal munch rule (see Grune et al, Modern Compiler Design, Second Edition, Springer 2012). The parser always chooses shift over reduce, and in this way always matches the longest valid prefix.
+
+2. Gocc now supports automatic error recovery similar to the approach taken by yacc. Productions allowed to recover from error are marked in the grammar by an alternative containing the "error" literal. An error symbol is put on the stack, containing information about the recovered error, and parsing proceeds normally. The compiler writer must handle the error symbols among the valid language symbols returned by the parser.
+
+3. The output path and package handling have been cleaned up and gocc now derives sensible defaults based on $GOPATH and the working directory.
+
+4. The gocc input grammar now allows an optional initial SDT element which will be expanded at the top of parser/tables.go, below the package declaration. It can be used to declare imports or utility functions for tables.go.
+
+Grammar : [sdt_lit] Productions // The optional sdt_lit is for declarations in parser/table.go
+		;
+
+Productions	: Production					
+			| Production Productions			
+			;
+

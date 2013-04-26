@@ -21,8 +21,14 @@ import (
 )
 
 type (
-	ActionTab []ActionRow
-	ActionRow map[token.Type]Action
+	// ActionTab []ActionRow
+	// ActionRow map[token.Type]Action
+	ActionTab []*ActionRow
+	ActionRow struct {
+		CanRecover bool
+		Actions Actions
+	}
+	Actions map[token.Type]Action
 )
 
 type (
@@ -60,6 +66,6 @@ type (
 		ReduceFunc func([]Attrib) (Attrib, error)
 	}
 	Attrib interface {
-		String() string
+		// String() string
 	}
 )

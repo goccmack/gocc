@@ -1,7 +1,6 @@
 package token
 
 var EXAMPLETokens = NewMapFromStrings([]string{
-	"ε",
 	"id",
 	"&",
 	"|",

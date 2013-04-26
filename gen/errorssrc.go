@@ -12,18 +12,36 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-package token
+package gen
 
-//A list of strings representing the Gocc BNF tokens.
-var GoccStrings = []string{
-	"ε",
-	"error",
-	"id",
-	"char",
-	"string",
-	"sdt_lit",
-	":",
-	";",
-	"...",
-	"|",
+const errorsSrcHeader = `
+package errors
+
+`
+
+const errorsSrcBody = `
+type ErrorSymbol interface {
 }
+
+type Error struct {
+	Err	error
+	ErrorToken	*token.Token
+	ErrorPos	token.Position
+	ErrorSymbols	[]ErrorSymbol
+	ExpectedTokens	[]string
+}
+
+func (E *Error) String() string {
+	errmsg := "Got " + E.ErrorToken.String() + " @ " + E.ErrorPos.String()
+	if E.Err != nil {
+		errmsg += " " + E.Err.Error()
+	} else {
+		errmsg += ", expected one of: "
+		for _, t := range E.ExpectedTokens {
+			errmsg += t + " "
+		}
+	}
+	return errmsg
+}
+
+`

@@ -15,10 +15,10 @@
 package example
 
 import (
-	"code.google.com/p/gocc/example/example/ast"
-	"code.google.com/p/gocc/example/example/parser"
-	"code.google.com/p/gocc/example/example/scanner"
-	"code.google.com/p/gocc/example/example/token"
+	"code.google.com/p/gocc/example/ast"
+	"code.google.com/p/gocc/example/parser"
+	"code.google.com/p/gocc/example/scanner"
+	"code.google.com/p/gocc/example/token"
 	"testing"
 )
 

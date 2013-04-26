@@ -16,7 +16,7 @@ package lr1
 
 import (
 	"code.google.com/p/gocc/ast"
-	parser "code.google.com/p/gocc/parser2"
+	"code.google.com/p/gocc/lr1/parser"
 	"code.google.com/p/gocc/token"
 	"fmt"
 	"os"
@@ -28,6 +28,15 @@ type GotoTableEntry map[int]int
 
 //The TransitionTable.
 type TransitionTable []*Transition
+
+func (T TransitionTable) Goto(fromSet int, sym *ast.Symbol) (toSet int) {
+	for _, t := range T {
+		if t.From == fromSet && t.Symbol.Equals(sym) {
+			return t.To
+		}
+	}
+	return -1
+}
 
 //Returns a string representing the TransitionTable.
 func (T TransitionTable) String() string {
@@ -175,41 +184,56 @@ func (this GotoTableEntry) GotoEntryString(symbols ast.SymbolS) string {
 }
 
 //The ActionTable.
-type ActionTable []ActionTableEntry
+type ActionTable []*ActionTableEntry
 
 //Converts the ItemSets into an ActionTable given the Grammar.
-func (this ItemSets) ActionTable(g *ast.Grammar) ActionTable {
-	actTab := make([]ActionTableEntry, len(this))
+func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab ActionTable, srConflicts int) {
+	actTab = make([]*ActionTableEntry, len(this))
 	for i := range actTab {
-		actTab[i] = make(ActionTableEntry)
+		// actTab[i] = make(ActionTableEntry)
+		actTab[i] = &ActionTableEntry{
+			CanRecover: false,
+			Actions: make(parser.Actions),
+		}
 	}
 	for si, set := range this {
 		// fmt.Println("ActionTable: Set", si)
 		for _, item := range set {
-			// fmt.Println("table.ActionTable() i=", i)
+			if recoveryItem(item) {
+				actTab[si].CanRecover = true
+			}
 			prod := item.Grammar.Prod[item.ProdIdx]
+
 			if item.Pos >= len(prod.Body.Symbols) {
 				switch {
 				case item.Equals(&Item{0, 1, ast.EOF_SYMBOL, item.Grammar}):
-					actTab[si][item.NextToken.TokType] = parser.Accept(0)
+					actTab[si].Actions[item.NextToken.TokType] = parser.Accept(0)
 				case prod.Head.TokLit != item.Grammar.Prod[0].Head.TokLit:
-					actTab[si][item.NextToken.TokType] = parser.Reduce(item.ProdIdx)
+					actTab[si].Actions[item.NextToken.TokType] = parser.Reduce(item.ProdIdx)
 				}
 			} else if prod.Body.Symbols[item.Pos].IsTerminal() {
 				if nextState := this.GetIndex(Goto(set, prod.Body.Symbols[item.Pos], g.FirstSets())); nextState >= 0 {
 					action := parser.Shift(nextState)
-					if act, exists := actTab[si][prod.Body.Symbols[item.Pos].TokType]; exists && act != action {
-						fmt.Println("LR(1) conflict, I=", si, item, "sym=", prod.Body.Symbols[item.Pos])
-						fmt.Println("\t", act, "!=", action)
-						os.Exit(1)
-					} else {
-						actTab[si][prod.Body.Symbols[item.Pos].TokType] = action
+					if act, exists := actTab[si].Actions[prod.Body.Symbols[item.Pos].TokType]; exists && act != action {
+						srConflicts++
+						if !sr_auto_resolve {
+							fmt.Println("LR(1) conflict, I=", si, item, "sym=", prod.Body.Symbols[item.Pos])
+							fmt.Println("\t", act, "!=", action)
+						}
 					}
+					actTab[si].Actions[prod.Body.Symbols[item.Pos].TokType] = action
 				}
 			}
 		}
 	}
-	return actTab
+	return
+}
+
+func recoveryItem(i *Item) bool {
+	if i.Pos > 0 || i.Len() == 0 {
+		return false
+	}
+	return i.Symbol(0).SymType == ast.ERROR_LIT
 }
 
 //Returns an Action Table Header given the nonTerminals.
@@ -243,7 +267,7 @@ func symbolMap(terminals ast.SymbolS) map[string]int {
 }
 
 // Non-Terminal -> Action
-type ActionTableEntry map[token.Type]parser.Action
+type ActionTableEntry parser.ActionRow
 
 //Returns the Go Code String of the action.
 func GenGoForAction(a parser.Action) string {
@@ -273,11 +297,15 @@ func (this ActionTable) GenGo(tm *token.TokenMap) string {
 
 //Returns a string of go code for the ActionTableEntry.
 func (this ActionTableEntry) GenGo(state int, tm *token.TokenMap) string {
-	res := fmt.Sprintf("\t// state %d\n\tActionRow{\n", state)
-	for tok, a := range this {
-		res += fmt.Sprintf("%d: %s, // %s\n", int(tok), a, tm.TokenString(tok))
+	res := fmt.Sprintf("\t// state %d\n", state)
+	res += fmt.Sprintf("\t&ActionRow{\n")
+	res += fmt.Sprintf("\t\tCanRecover: %t,\n", this.CanRecover)
+	res += fmt.Sprintf("\t\tActions: Actions{\n")
+	for tok, a := range this.Actions {
+		res += fmt.Sprintf("\t\t\t%d: %s, // %s\n", int(tok), a, tm.TokenString(tok))
 	}
-	res += "\t},\n"
+	res += fmt.Sprintf("\t\t},\n")
+	res += fmt.Sprintf("\t},\n\n")
 	return res
 }
 
@@ -327,6 +355,8 @@ func genProductionsTableEntry(pidx int, p *ast.Production) string {
 	res += "\t\t" + "func(X []Attrib) (Attrib, error) {\n"
 	if p.Body.SDT != "" {
 		res += "\t\t\t" + "return " + p.Body.SDT + "\n"
+	} else if p.Body == ast.NULL_BODY {
+		res += "\t\t\t" + "return nil, nil" + "\n"
 	} else {
 		res += "\t\t\t" + "return X[0], nil" + "\n"
 	}

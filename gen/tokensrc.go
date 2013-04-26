@@ -145,7 +145,7 @@ type TokenMap struct {
 func NewMap() *TokenMap {
 	tm := &TokenMap{make([]string, 0, 10), make(map[string] Type)}
 	tm.AddToken("$")
-	tm.AddToken("ε")
+	// tm.AddToken("ε")
 	return tm
 }
 

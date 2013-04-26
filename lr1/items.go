@@ -22,7 +22,7 @@ import (
 
 //An LR1 Item.
 type Item struct {
-	ProdIdx   int
+	ProdIdx   int	// index in list of productions in Grammar.Prod
 	Pos       int
 	NextToken *ast.Symbol
 	Grammar   *ast.Grammar
@@ -44,19 +44,32 @@ func (this *Item) Equals(that *Item) bool {
 		this.NextToken.Equals(that.NextToken))
 }
 
+func (this *Item) Symbol(i int) *ast.Symbol {
+	return this.Grammar.Prod[this.ProdIdx].Body.Symbols[i]
+}
+
+// returns number of symbols in body of item
+func (this *Item) Len() int {
+	return len(this.Grammar.Prod[this.ProdIdx].Body.Symbols)
+}
+
 const DOT = "•"
 
 //Returns a string representing the Item.
 func (this *Item) String() string {
 	prod := this.Grammar.Prod[this.ProdIdx]
 	res := prod.Head.TokLit + " : "
-	for i, s := range prod.Body.Symbols {
-		if this.Pos == i {
-			res += DOT
-		}
-		res += s.TokLit
-		if i < len(prod.Body.Symbols)-1 {
-			res += " "
+	if prod.Body == ast.NULL_BODY {
+		res += "𝞊"
+	} else {
+		for i, s := range prod.Body.Symbols {
+			if this.Pos == i {
+				res += DOT
+			}
+			res += s.TokLit
+			if i < len(prod.Body.Symbols)-1 {
+				res += " "
+			}
 		}
 	}
 	if this.Pos == len(prod.Body.Symbols) {

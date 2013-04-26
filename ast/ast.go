@@ -95,6 +95,13 @@ type Body struct {
 	SDT     string
 }
 
+var NULL_BODY = &Body{Symbols: SymbolS{}}
+
+// Creates a null body for an ℇ-production
+func NullBody() *Body {
+	return &Body{}
+}
+
 //Creates a new body.
 func NewBody(symbols SymbolS) *Body {
 	return &Body{Symbols: symbols}
@@ -117,6 +124,10 @@ func (this *Body) Equals(that *Body) bool {
 
 //Returns a string representing the Body.
 func (B *Body) String() string {
+	if len(B.Symbols) == 0 {
+		return "ℇ"
+	}
+	
 	res := B.Symbols.String()
 	if B.SDT != "" {
 		res += " << " + B.SDT + " >>"
@@ -255,6 +266,7 @@ const (
 	CHAR_LIT
 	EOF
 	EPSILON_LIT
+	ERROR_LIT
 )
 
 var (
@@ -279,6 +291,8 @@ func (this SymbolType) String() string {
 		return "EOF"
 	case EPSILON_LIT:
 		return "EPSILON_LIT"
+	case ERROR_LIT:
+		return "ERROR_LIT"
 	}
 	return "ILLEGAL"
 }
@@ -303,6 +317,10 @@ func NewSymbol(symType SymbolType, tok *token.Token, tm *token.TokenMap) (sym *S
 		sym.SymType = CHAR_LIT
 		sym.TokLit = string(tok.Lit)
 		sym.TokTypeStr = "char_lit"
+	case ERROR_LIT:
+		sym.SymType = ERROR_LIT
+		sym.TokLit = string(tok.Lit)
+		sym.TokTypeStr = "error"
 	default:
 		err = errors.New("expected id/string/char")
 		sym.TokLit = string(tok.Lit)

@@ -32,7 +32,7 @@ C : d ;`
 var (
 	aug        *ast.Grammar
 	item0      *Item
-	I0, I1, I2 Items
+	I0, I1, I2 ItemSet
 	C, C_Full  ItemSets
 )
 
@@ -50,7 +50,7 @@ func TestSetup(t *testing.T) {
 	item0 = InitialItem(aug)
 	fmt.Println("Item0:", item0)
 
-	I0 = Closure(Items{item0}, aug.FirstSets())
+	I0 = Closure(ItemSet{item0}, aug.FirstSets())
 	fmt.Println("I0:", I0)
 
 	// I1 = Goto(I0, aug.GTokens.GetToken("S"), aug.FirstSets())
@@ -108,7 +108,7 @@ func TestSetup(t *testing.T) {
 // }
 //
 // func TestI0(t *testing.T) {
-// 	i0Control := Items {
+// 	i0Control := ItemSet {
 // 		&Item{0, 0, aug.GTokens.GetToken(gtoken.EOF_STR), aug},
 // 		&Item{1, 0, aug.GTokens.GetToken(gtoken.EOF_STR), aug},
 // 		&Item{2, 0, aug.GTokens.GetToken("c"), aug},

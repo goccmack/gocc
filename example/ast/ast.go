@@ -15,18 +15,17 @@
 package ast
 
 import (
-	"code.google.com/p/gocc/example/example/token"
+	"code.google.com/p/gocc/example/token"
 	"strconv"
 	"strings"
 )
 
-type Attrib interface {
-	String() string
-}
+type Attrib interface{}
 
 type Val interface {
 	Attrib
 	Eval() bool
+	String() string
 }
 
 type Op int

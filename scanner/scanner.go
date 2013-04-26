@@ -313,6 +313,9 @@ func (S *Scanner) scanIdentifier() token.Type {
 	for isLetter(S.ch) || isDigit(S.ch) {
 		S.next()
 	}
+	if string(S.src[pos:S.pos.Offset]) == "empty" {
+		return S.tokenMap.Type("ε")
+	}
 	if tok := S.tokenMap.Type(string(S.src[pos:S.pos.Offset])); tok != token.ILLEGAL {
 		return tok
 	}

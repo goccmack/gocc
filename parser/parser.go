@@ -39,9 +39,11 @@ func NewParser(lex *scanner.Scanner, tokenMap *token.TokenMap) *Parser {
 }
 
 //Parses the gocc BNF Source and returns the Productions
-func (this *Parser) Parse() (ast.ProdS, *token.TokenMap) {
+func (this *Parser) Parse() (initDecl string, prods ast.ProdS, tm *token.TokenMap) {
 	this.nextToken()
-	return this.Grammar(), this.gTokenMap
+	initDecl, prods = this.GrammarSpec()
+	tm = this.gTokenMap
+	return
 }
 
 func (this *Parser) error(msg string) {
@@ -74,9 +76,21 @@ func (this *Parser) nextToken() {
 	this.token, this.pos = this.lex.Scan()
 }
 
+// GrammarSpec : [sdt_lit] Grammar 
+// 		;
+func (P *Parser) GrammarSpec() (initDecl string, prods ast.ProdS) {
+	if P.la("sdt_lit") {
+		initDecl = string(P.token.SDTVal())
+		P.nextToken()
+	}
+	prods = P.Grammar()
+	return
+}
+
+
 //Grammar	: Production					<< ast.NewGrammar($0) >>
-//		    | Grammar Production			<< $0.Append($1) >>
-//		    ;				.
+//		   	| Grammar Production			<< $0.Append($1) >>
+//		 	;
 func (P *Parser) Grammar() ast.ProdS {
 	res := P.Production()
 
@@ -114,11 +128,29 @@ func (P *Parser) Alternatives() ast.BodyS {
 	return bodies
 }
 
-//Body	: Symbols						<< ast.NewBody($0) >>
-//		| Symbols sdt_lit				<< ast.NewBodyTrans($0, $1) >>
+//Body	: Symbols						
+//		| Symbols sdt_lit	
+//		| "error"			
+//		| "error" Symbols
+//		| "error" Symbols sdt_lit
+//		| ε	
+//		| empty							
 //		;
 func (P *Parser) Body() *ast.Body {
-	symbols := P.Symbols()
+	if P.la("ε") {
+		P.nextToken()
+		return ast.NULL_BODY
+	}
+
+	symbols := ast.SymbolS{}
+	if P.la("error") {
+		sym, _ := ast.NewSymbol(ast.ERROR_LIT, P.token, P.gTokenMap)
+		P.nextToken()
+		symbols = append(symbols, sym)
+	}
+	if P.isSymbol() {
+		symbols = append(symbols, P.Symbols()...)
+	}
 	if P.la("sdt_lit") {
 		sdt := P.token.SDTVal()
 		P.nextToken()
@@ -127,7 +159,7 @@ func (P *Parser) Body() *ast.Body {
 	return ast.NewBody(symbols)
 }
 
-//Symbols	: Symbol						<< ast.NewSymbols($0) >>
+//Symbols	: Symbol						<< ast.§s($0) >>
 //		: Symbol Symbols				<< $1.Append($0) >>
 //		;
 func (P *Parser) Symbols() ast.SymbolS {
@@ -151,7 +183,6 @@ func (P *Parser) isSymbol() bool {
 //Symbol	: id
 //		| string
 //		| char
-//		| ε
 //		;
 func (P *Parser) Symbol() *ast.Symbol {
 	sym, err := (*ast.Symbol)(nil), error(nil)

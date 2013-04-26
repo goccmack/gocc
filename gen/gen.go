@@ -23,14 +23,20 @@ import (
 )
 
 //Generates and writes the parser, scanner and token packages, given the generated tables and tokenMap.
-func WriteFiles(debug bool, srcDir, pkgRoot, prjName string, tables string, tm *token.TokenMap, genScanner bool) (err error) {
-	pkgDir := path.Join(srcDir, pkgRoot)
-	parserDir := path.Join(pkgDir, prjName, "parser")
-	scannerDir := path.Join(pkgDir, prjName, "scanner")
-	tokenDir := path.Join(pkgDir, prjName, "token")
-	tokenImport := `import "` + path.Join(pkgRoot, prjName, "token") + `"` + "\n\n"
+// func WriteFiles(debug bool, srcDir, pkg, prjName string, tables string, initDecl string, tm *token.TokenMap, genScanner bool) (err error) {
+func WriteFiles(srcDir, pkg, prjName string, tables string, initDecl string, tm *token.TokenMap, genScanner bool) (err error) {
+	errorsDir := path.Join(srcDir, "errors")
+	errorsImport := `import errs "` + path.Join(pkg, "errors") + `"` + "\n\n"
+	parserDir := path.Join(srcDir, "parser")
+	scannerDir := path.Join(srcDir, "scanner")
+	tokenDir := path.Join(srcDir, "token")
+	tokenImport := `import "` + path.Join(pkg, "token") + `"` + "\n\n"
 
-	if err = writeParser(parserDir, tokenImport, debug); err != nil {
+
+	if err = writeErrors(errorsDir, tokenImport); err != nil {
+		return
+	}
+	if err = writeParser(parserDir, errorsImport, tokenImport); err != nil {
 		return
 	}
 	if genScanner {
@@ -38,24 +44,23 @@ func WriteFiles(debug bool, srcDir, pkgRoot, prjName string, tables string, tm *
 			return
 		}
 	}
-	if err = writeFile(path.Join(pkgDir, prjName, "token", "token.go"), tokenSrc); err != nil {
+	if err = writeFile(path.Join(tokenDir, "token.go"), tokenSrc); err != nil {
 		return
 	}
-	if err = writeTables(parserDir, pkgRoot, prjName, tables); err != nil {
+	if err = writeTables(parserDir, initDecl, tables); err != nil {
 		return
 	}
 	return writeTokenFile(tokenDir, prjName, tm)
 }
 
-func writeParser(parserDir, tokenImport string, debug bool) error {
+func writeErrors(errorsDir, tokenImport string) error {
+	fpath := path.Join(errorsDir, "errors.go")
+	return writeFile(fpath, errorsSrcHeader, tokenImport, errorsSrcBody)
+}
+
+func writeParser(parserDir, errorsImport, tokenImport string) error {
 	fpath := path.Join(parserDir, "parser.go")
-	var body string
-	if debug {
-		body = debugParserSrcBody
-	} else {
-		body = parserSrcBody
-	}
-	return writeFile(fpath, parserSrcHdr, tokenImport, body)
+	return writeFile(fpath, parserSrcHdr, errorsImport, tokenImport, parserSrcBody)
 }
 
 func writeScanner(scannerDir, tokenImport string) error {
@@ -63,20 +68,19 @@ func writeScanner(scannerDir, tokenImport string) error {
 	return writeFile(fpath, scannerSrcHdr, tokenImport, scannerSrcBody)
 }
 
-func writeTables(parserDir, pkg, prjName, tablesSrc string) (err error) {
+func writeTables(parserDir, initDecl, tablesSrc string) (err error) {
 	fpath := path.Join(parserDir, "tables.go")
-	astImport := `import "` + path.Join(pkg, prjName, "ast") + "\"\n\n"
-	return writeFile(fpath, tableSrcHdr, astImport, tablesSrc)
+	return writeFile(fpath, tableSrcHdr, initDecl, "\n\n", tablesSrc)
 }
 
-func writeTokenFile(scannerDir, prjName string, tm *token.TokenMap) error {
+func writeTokenFile(tokenDir, prjName string, tm *token.TokenMap) error {
 	src := "package token\n\n"
 	src += "var " + strings.ToUpper(prjName) + "Tokens = NewMapFromStrings([]string{\n"
 	for _, s := range tm.Strings() {
 		src += "\t" + `"` + s + `"` + ",\n"
 	}
 	src += "})\n"
-	fpath := path.Join(scannerDir, prjName+"tokens.go")
+	fpath := path.Join(tokenDir, "tokens.go")
 	return writeFile(fpath, src)
 }
 
