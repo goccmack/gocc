@@ -116,7 +116,7 @@ func checkFirstSets(g *ast.Grammar) {
 		fmt.Fprintln(os.Stderr, "Error - Missing first sets:")
 		for i, p := range missingFirstSets {
 			fmt.Fprintf(os.Stderr, "%d: %s\n", i, p.TokLit)
-		}	
+		}
 		os.Exit(1)
 	}
 }
@@ -141,7 +141,7 @@ func getArgs() {
 }
 
 func defaultPackage(wd string) string {
-	srcPath := path.Join(os.Getenv("GOPATH"), "src")	
+	srcPath := path.Join(os.Getenv("GOPATH"), "src")
 	pkg := strings.Replace(wd, srcPath, "", -1)
 	if strings.HasPrefix(pkg, "/") {
 		pkg = pkg[1:]

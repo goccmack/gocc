@@ -1,87 +1,84 @@
-
 package parser
 
-import(
+import (
+	"errors"
 	"fmt"
 	"strconv"
-	"errors"
 )
 
 import errs "code.google.com/p/gocc/example/bools/errors"
 
 import "code.google.com/p/gocc/example/bools/token"
 
-
-type(
+type (
 	ActionTab []*ActionRow
 	ActionRow struct {
 		CanRecover bool
-		Actions Actions
+		Actions    Actions
 	}
 	Actions map[token.Type]Action
 )
 
 func (R *ActionRow) String() string {
-	s := fmt.Sprintf("CanRecover=%t\n", R.CanRecover) 
+	s := fmt.Sprintf("CanRecover=%t\n", R.CanRecover)
 	for t, a := range R.Actions {
 		s += strconv.Itoa(int(t)) + " : " + a.String() + "\n"
 	}
 	return s
 }
 
-type(
+type (
 	Accept int
-	Shift State
+	Shift  State
 	Reduce int
 
-	Action interface{
+	Action interface {
 		Act()
 		String() string
 	}
-
 )
 
-func (this Accept) Act(){}
-func (this Shift) Act(){}
-func (this Reduce) Act(){}
+func (this Accept) Act() {}
+func (this Shift) Act()  {}
+func (this Reduce) Act() {}
 
 func (this Accept) String() string { return "Accept(0)" }
-func (this Shift) String() string { return "Shift(" + strconv.Itoa(int(this)) + ")" }
+func (this Shift) String() string  { return "Shift(" + strconv.Itoa(int(this)) + ")" }
 func (this Reduce) String() string { return "Reduce(" + strconv.Itoa(int(this)) + ")" }
 
-type(
+type (
 	GotoTab []GotoRow
-	GotoRow	map[NT] State
-	State int
-	NT	string
+	GotoRow map[NT]State
+	State   int
+	NT      string
 )
 
 type (
-	ProdTab []ProdTabEntry
+	ProdTab      []ProdTabEntry
 	ProdTabEntry struct {
-		String		string
-		Head		NT
-		NumSymbols	int
-		ReduceFunc	func([]Attrib) (Attrib, error)
+		String     string
+		Head       NT
+		NumSymbols int
+		ReduceFunc func([]Attrib) (Attrib, error)
 	}
-	Attrib interface{
-//		String() string
+	Attrib interface {
+		//		String() string
 	}
 )
 
 // Stack
 
 type stack struct {
-	state []State
-	attrib	[]Attrib
+	state  []State
+	attrib []Attrib
 }
 
 const INITIAL_STACK_SIZE = 100
 
 func NewStack() *stack {
-	return &stack{ 	state: 	make([]State, 0, INITIAL_STACK_SIZE),
-					attrib: make([]Attrib, 0, INITIAL_STACK_SIZE),
-			}
+	return &stack{state: make([]State, 0, INITIAL_STACK_SIZE),
+		attrib: make([]Attrib, 0, INITIAL_STACK_SIZE),
+	}
 }
 
 func (this *stack) reset() {
@@ -94,8 +91,8 @@ func (this *stack) Push(s State, a Attrib) {
 	this.attrib = append(this.attrib, a)
 }
 
-func(this *stack) Top() State {
-	return this.state[len(this.state) - 1]
+func (this *stack) Top() State {
+	return this.state[len(this.state)-1]
 }
 
 func (this *stack) Peek(pos int) State {
@@ -107,13 +104,13 @@ func (this *stack) TopIndex() int {
 }
 
 func (this *stack) PopN(items int) []Attrib {
-	lo, hi := len(this.state) - items, len(this.state)
-	
-	attrib := this.attrib[lo: hi]
-	
+	lo, hi := len(this.state)-items, len(this.state)
+
+	attrib := this.attrib[lo:hi]
+
 	this.state = this.state[:lo]
 	this.attrib = this.attrib[:lo]
-	
+
 	return attrib
 }
 
@@ -135,13 +132,13 @@ func (S *stack) String() string {
 // Parser
 
 type Parser struct {
-	actTab ActionTab
-	gotoTab	GotoTab
-	prodTab	ProdTab
-	stack	*stack
-	nextToken	*token.Token
-	pos	token.Position
-	tokenMap *token.TokenMap
+	actTab    ActionTab
+	gotoTab   GotoTab
+	prodTab   ProdTab
+	stack     *stack
+	nextToken *token.Token
+	pos       token.Position
+	tokenMap  *token.TokenMap
 }
 
 type Scanner interface {
@@ -149,7 +146,7 @@ type Scanner interface {
 }
 
 func NewParser(act ActionTab, gto GotoTab, prod ProdTab, tm *token.TokenMap) *Parser {
-	p := &Parser{actTab: act, gotoTab: gto, prodTab: prod, stack:NewStack(), tokenMap:tm}
+	p := &Parser{actTab: act, gotoTab: gto, prodTab: prod, stack: NewStack(), tokenMap: tm}
 	p.stack.Push(0, nil) //TODO: which attribute should be pushed here?
 	return p
 }
@@ -165,16 +162,15 @@ func Acc() {
 
 func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib *errs.Error) {
 	errorAttrib = &errs.Error{
-		Err: err,
-		ErrorToken: P.nextToken,
-		ErrorPos: P.pos,
-		ErrorSymbols: P.popNonRecoveryStates(),
+		Err:            err,
+		ErrorToken:     P.nextToken,
+		ErrorPos:       P.pos,
+		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
-	for t, _ := range P.actTab[P.stack.Top()].Actions {
+	for t := range P.actTab[P.stack.Top()].Actions {
 		errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, P.tokenMap.TokenString(t))
 	}
-
 
 	action, ok := P.actTab[P.stack.Top()].Actions[P.tokenMap.Type("error")]
 	if !ok {
@@ -213,7 +209,6 @@ func (P *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
 	}
 	return
 }
-
 
 func (P *Parser) newError(err error) error {
 	errmsg := "Error: " + P.TokString(P.nextToken) + " @ " + P.pos.String()

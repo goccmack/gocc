@@ -22,7 +22,7 @@ import (
 
 //An LR1 Item.
 type Item struct {
-	ProdIdx   int	// index in list of productions in Grammar.Prod
+	ProdIdx   int // index in list of productions in Grammar.Prod
 	Pos       int
 	NextToken *ast.Symbol
 	Grammar   *ast.Grammar

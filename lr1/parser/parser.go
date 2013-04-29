@@ -26,7 +26,7 @@ type (
 	ActionTab []*ActionRow
 	ActionRow struct {
 		CanRecover bool
-		Actions Actions
+		Actions    Actions
 	}
 	Actions map[token.Type]Action
 )

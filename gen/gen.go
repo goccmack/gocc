@@ -32,7 +32,6 @@ func WriteFiles(srcDir, pkg, prjName string, tables string, initDecl string, tm 
 	tokenDir := path.Join(srcDir, "token")
 	tokenImport := `import "` + path.Join(pkg, "token") + `"` + "\n\n"
 
-
 	if err = writeErrors(errorsDir, tokenImport); err != nil {
 		return
 	}

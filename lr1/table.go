@@ -193,7 +193,7 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 		// actTab[i] = make(ActionTableEntry)
 		actTab[i] = &ActionTableEntry{
 			CanRecover: false,
-			Actions: make(parser.Actions),
+			Actions:    make(parser.Actions),
 		}
 	}
 	for si, set := range this {

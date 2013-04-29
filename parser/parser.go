@@ -76,7 +76,7 @@ func (this *Parser) nextToken() {
 	this.token, this.pos = this.lex.Scan()
 }
 
-// GrammarSpec : [sdt_lit] Grammar 
+// GrammarSpec : [sdt_lit] Grammar
 // 		;
 func (P *Parser) GrammarSpec() (initDecl string, prods ast.ProdS) {
 	if P.la("sdt_lit") {
@@ -86,7 +86,6 @@ func (P *Parser) GrammarSpec() (initDecl string, prods ast.ProdS) {
 	prods = P.Grammar()
 	return
 }
-
 
 //Grammar	: Production					<< ast.NewGrammar($0) >>
 //		   	| Grammar Production			<< $0.Append($1) >>
@@ -128,13 +127,13 @@ func (P *Parser) Alternatives() ast.BodyS {
 	return bodies
 }
 
-//Body	: Symbols						
-//		| Symbols sdt_lit	
-//		| "error"			
+//Body	: Symbols
+//		| Symbols sdt_lit
+//		| "error"
 //		| "error" Symbols
 //		| "error" Symbols sdt_lit
-//		| ε	
-//		| empty							
+//		| ε
+//		| empty
 //		;
 func (P *Parser) Body() *ast.Body {
 	if P.la("ε") {
