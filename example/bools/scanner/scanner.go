@@ -15,7 +15,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 )
-import "code.google.com/p/gocc/example/token"
+import "code.google.com/p/gocc/example/bools/token"
 
 
 // A Scanner holds the scanner's internal state while processing

@@ -1,6 +1,6 @@
 package token
 
-var EXAMPLETokens = NewMapFromStrings([]string{
+var BOOLSTokens = NewMapFromStrings([]string{
 	"id",
 	"&",
 	"|",

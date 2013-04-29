@@ -15,17 +15,17 @@
 package example
 
 import (
-	"code.google.com/p/gocc/example/ast"
-	"code.google.com/p/gocc/example/parser"
-	"code.google.com/p/gocc/example/scanner"
-	"code.google.com/p/gocc/example/token"
+	"code.google.com/p/gocc/example/bools/ast"
+	"code.google.com/p/gocc/example/bools/parser"
+	"code.google.com/p/gocc/example/bools/scanner"
+	"code.google.com/p/gocc/example/bools/token"
 	"testing"
 )
 
 func testEval(t *testing.T, exampleStr string, output bool) {
 	lex := &scanner.Scanner{}
-	lex.Init([]byte(exampleStr), token.EXAMPLETokens)
-	p := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.EXAMPLETokens)
+	lex.Init([]byte(exampleStr), token.BOOLSTokens)
+	p := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.BOOLSTokens)
 	st, err := p.Parse(lex)
 	if err != nil {
 		panic(err)

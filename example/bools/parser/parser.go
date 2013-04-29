@@ -7,9 +7,9 @@ import(
 	"errors"
 )
 
-import errs "code.google.com/p/gocc/example/errors"
+import errs "code.google.com/p/gocc/example/bools/errors"
 
-import "code.google.com/p/gocc/example/token"
+import "code.google.com/p/gocc/example/bools/token"
 
 
 type(

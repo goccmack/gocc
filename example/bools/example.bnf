@@ -12,7 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-<<import ( "code.google.com/p/gocc/example/ast" )>>
+<<import ( "code.google.com/p/gocc/example/bools/ast" )>>
 
 BoolExpr
 	:	BoolExpr1													<< $0, nil >>

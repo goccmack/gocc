@@ -1,0 +1,427 @@
+% Copyright 2012 Vastech SA (PTY) LTD
+% 
+%    Licensed under the Apache License, Version 2.0 (the "License");
+%    you may not use this file except in compliance with the License.
+%    You may obtain a copy of the License at
+% 
+%        http://www.apache.org/licenses/LICENSE-2.0
+% 
+%    Unless required by applicable law or agreed to in writing, software
+%    distributed under the License is distributed on an "AS IS" BASIS,
+%    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+%    See the License for the specific language governing permissions and
+%    limitations under the License.
+
+
+\documentclass[12pt]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.jpg, .pdf}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{pdfpages}
+\usepackage[bookmarksnumbered,bookmarksopen,bookmarksopenlevel=2,pdffitwindow]{hyperref}
+
+\begin{document}
+\begin{center}
+	{\Huge Learn You a gocc for Great Good} \\
+	{\large or \\
+	How to save the world by using compiler theory \\
+	\vspace{1cm}
+	2013-04-24}\\
+	\vspace{1cm}
+	\includegraphics[scale=.1]{gocc}
+\end{center}
+\tableofcontents
+
+\newcommand{\TBD}{\textcolor{red}{TBD}}
+\newcommand{\TBDx}[1]{\textcolor{red}{TBD:} #1}
+\newcommand{\Go}{{\em go}\ }
+\newcommand{\Code}[1]{{\bf #1} } 
+
+\section{Introduction}
+	gocc is an LR(1) parser generator with automatic shift/reduce conflict resolution (see section~\ref{sec:sr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify symantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
+
+	gocc has been successfully used to develop a query language compiler; a configuration/control language for a distributed system; as well as a parser for protocol messages specified in ABNF~\cite{ABNF}. It is currently used in the development of an ASN.1 compiler.
+
+	gocc was designed to be easy to use and experience has shown that its users require very little background knowledge of language and compiler theory to apply it to simple language applications, such as syntax directed translation. An appreciation of mathematical formalism is usually enough and this guide is intended to provide sufficient information for such users, provided they understand:
+	\begin{itemize}
+		\item How to use context free grammars;
+		\item How to separate lexical, syntactic and symantic analysis.
+	\end{itemize}
+
+	More complex applications, such as compiled languages and advanced protocol message parsing require more background, especially:
+	\begin{itemize}
+		\item The relationship between languages, grammars and automata;
+		\item The relationship between regular and context free grammars;
+		\item The equivalence of finite state automata with regular grammars; and of push down automata with context free grammars;
+		\item The meaning and limits of top down/predictive parsing, bottom up parsing and deterministic parsing;
+		\item The implications of language ambiguity and shift/reduce conflicts;
+		\item The implications of grammars that generate languages outside the class of context free languages;
+		\item Compiler design.
+	\end{itemize}
+
+	The author  considers the {\em Dragon Book}~\cite{Dragon Book} still the best reference for these topics. The reader is also directed to \cite{Compiler Design} for a modern treatment of compiler design, as well as \cite{Parsing} for a comprehensive treatment of the parsing techniques used in gocc.
+
+	gocc was conceived out of need in the year after Google released the \Go language. At the time there was no other parser generator available, which could generate parsers in the \Go language. The author set out to create a parser generator for the set of all deterministically parseable languages, which implied the LR(1) technique. Although there are now alternatives to gocc availble to \Go programmers we offer gocc to the community in the hope that someone may find it useful and as a token of thanks to Google for the gift of \Go.
+
+\section{Definition of terms}
+	\begin{longtable}{ll}
+		\bf AST & Abstract syntax tree\\
+		\bf SDT	& Syntax Directed Translation Scheme \\
+	\end{longtable}
+
+\section{Prerequisites} \TBD
+	\begin{enumerate}
+		\item Setup up \Code{go}
+		\item Set \Code{go} build environment for the example
+		\item Get \Code{gocc}
+	\end{enumerate}
+
+\section{How to create and use a parser with gocc}
+	Figure~\ref{fig:hl design} shows the high-level design of a user application, which uses a parser generated with gocc.
+	\begin{itemize}
+		\item The user creates a target grammar conforming the the gocc BNF standard (see section~\ref{sec:target grammar}).
+
+		\item gocc reads the target grammar and generates the components shown in heavy outline in fig~\ref{fig:hl design}, i.e.: the scanner, parser, token and error packages. 
+
+		{\em Note:} the scanner is an optionally generated component (see section~\ref{sec:commandline}).
+
+		\item The user creates a user application, which creates the scanner and parser objects. 
+
+		\item The user also creates a package called by the compiler to execute semantic actions for each recognised production of the target grammar. The methods of the symantic package provided by the user correspond to the method calls specified in teh SDT statements in the target grammar.
+
+		\item The user application initialises a scanner object with the input text. Then it calls the parse method of the parser.
+
+		\item Once created, the scanner and parser objects may be used repeatedly for successive inputs. For each input the scanner must be initialised with the next input text and the parser's \Code{Parse(...)} method called with a reference to the scanner.	
+
+		\item The parser reads a stream of tokens (lexical elements) from the sanner (lexer) by repeatedly calling the scanner interface method, \Code{scanner.Scan()}. 
+
+		\begin{verbatim}
+			type Scanner interface {
+			    Scan() (*token.Token, token.Position)
+			}
+		\end{verbatim}
+
+		Each call to \Code{scanner.Scan} returns two values: a pointer to token.Token and token.Position. The former contains information of the last token scanned end the latter its position in the input text.
+
+		\item The scanner reads a stream of input characters and recognizes the tokens specified in the target grammar. After reaching the end of input it returns the end of intput token to every call to \Code{scanner.Scan()}.
+
+		\item Whenever the parser recognises the complete body of a production of the target grammar, it calls the function specified in the SDT element associated with that production. The parsed symbols of the recognised production are passed as parameters to the SDT function (see section~\ref{sec:target grammar}). The result of the SDT call is placed on the parser's stack as an attribute of the recogonised language symbol.
+
+		\item When the parser recognises the complete start production of the grammer it calls its associated SDT element. The result of the SDT call is returned to the user application as type \Code{interface\{\}} together with a \Code{nil} error value.
+
+		\item If the parser encounters an error in the input it may perform automatic error recovery (see section~\ref{sec:error recovery}). If the error is recoverable the parser places all the parsed language symbols associated with the error (completed productions as well as tokens) in a symbol of type \Code{*error.Error} and places this symbol on the parser stack. The parser then discards input tokens until it encounters an input token which may validly follow the recovered production and parsing continues normally. When error recovery is specified the user application must handle the error symbols which it may receive as attributes in calls to SDT elements, or which may be returned as a top-level result of the parse to the calling application.
+
+		\item If the parser encounters an irrecoverable error it returns a \Code{nil} error value together with an {\em indeterminate} parse result.
+	\end{itemize}
+
+	\begin{figure}
+		\includegraphics[scale=1]{"hl_design"}
+		\caption{High-level design}
+		\label{fig:hl design}
+	\end{figure}
+
+\section{Example}
+	The source code of the following example can be found at \TBD. The grammar implements the simple desktop calculator described in~\cite{Dragon Book}. The generated code is both a parser and an interpreter for the calculator.
+
+	The following files are provided by the user:
+	\begin{verbatim}
+		> ls -R calc/
+		calc.bnf	calc_test.go	
+	\end{verbatim}
+
+	\begin{description}
+		\item[calc.bnf] contains the grammar for this example.
+
+		\item[calc\_test.go] will be used to execute the generated code. It represents the user application.
+
+	\end{description}
+
+	\subsection{Step 1: generate code}
+		To generate code we run gocc from the directory containing \verb|calc.bnf| with the following command:
+
+		\begin{verbatim}
+			> gocc -scanner calc.bnf
+		\end{verbatim}
+
+		gocc is invoked with the option, \verb|-scanner| to generate a default scanner for the project. See section~\ref{sec:scanner} for more about the scanner.
+
+		After running gocc we see that the directory structure contains the following files:
+
+		\begin{verbatim}
+			> ls -R calc/
+			calc.bnf		errors			scanner			sm_first_bodies.txt	sm_transitions.dot
+			calc_test.go		parser			sm_first.txt		sm_sets.txt		token
+
+			calc//errors:
+			errors.go
+
+			calc//parser:
+			parser.go	tables.go
+
+			calc//scanner:
+			scanner.go
+
+			calc//token:
+			token.go	tokens.go
+		\end{verbatim}
+
+		The generated files are:
+		\begin{description}
+			\item[sm\_*.txt] Files containing information about the table generation process. They are useful for debugging.
+
+			\item[errors/errors.go] Declares \verb|type error|, which is used during automatic recovery from errors in the input. See section~\ref{sec:error recovery} for more details.
+
+			\item[parser/parser.go, parser/tables.go] contain the parser for the target language with the interpreter code embedded.
+
+			\item[token/token.go, token/tokens.go] contain the declaration of the tokens of the grammar.
+		\end{description}
+
+	\subsection{The example grammar}
+		\begin{verbatim}
+			<< import "calc/token" >>
+
+			Calc : Expr              
+			;
+
+			Expr :
+			      Expr "+" Term      << $0.(int64) + $2.(int64), nil >>
+			    | Term			
+			;
+
+			Term :
+			      Term "*" Factor    << $0.(int64) * $2.(int64), nil >>
+			    | Factor			
+			;
+
+			Factor :
+			      "(" Expr ")"       << $1, nil >>
+			    | int_lit            << $0.(*token.Token).IntValue() >>
+			;
+		\end{verbatim}
+
+		The BNF of the example starts with an optional initial SDT. It declares the imported package \verb|calc/token|, which will be used in SDT statements of some productions of the grammar. 
+
+		The text of the initial SDT is expanded at the start of the \verb|parser.tables.go|.
+
+		Every production alternative of the grammar has either an implicit or explicit SDT, which translates to a function with the signature:
+
+		\begin{verbatim}
+			func ([]parser.Attrib)(parser.Attrib, error)
+		\end{verbatim}
+
+		where \verb|parser.Attrib| is of type \verb|interface{}|.
+
+		When the whole body of a production alternative has been recognised, the parser calls the associated SDT function with the attributes of the recognised language symbols of that body. If the SDT function returns a non-nil error the parser stops and returns the error to the calling user application. If the SDT function returns a nil error the parser replaces the recognised language symbols of the production on its stack with the attribute returned by the SDT function.
+
+		Any expression in a production SDT must return \verb|(parser.Attrib, nil)|. The expression may refer to the attributes of the language symbols of the recognised production body, $P : x_0 .. x_n$ as $\$0 .. \$n$.
+
+		An implicit SDT function is of the form:
+
+		\begin{verbatim}
+			func(X []parser.Attrib) (parser.Attrib, error) {
+			    return X[0], nil
+			}
+		\end{verbatim}
+
+		Therefore the implicit (omitted) SDT is equivalent to the explicit SDT, \verb|<< $0, nil >>|.
+
+
+		The first production of the grammar, \verb|Calc|,  is the start production. The body of \verb|Calc| contains only one non-terminal: \verb|Expr|, which is used recursively in the grammar. It has an implicit SDT which returns the attribute of \verb|Expr|.
+
+		The first alternative of \verb|Expr| returns the sum of the attributes of \verb|Expr| and \verb|Term| after casting them to \verb|int64|. The second alternative returns the attribute of \verb|Term|.
+
+		The first alternative of \verb|Term| returns the product of \verb|Term| and \verb|Factor| after casting them to \verb|int64|. The second term returns the attribute of \verb|Factor|.
+
+		The first alternative of \verb|Factor| simply returns the attribute of the parenthesised \verb|Expr|. The second alternative returns the value of a numeric token.
+
+		In the second alternative of \verb|Factor| we use a method on the input token, which returns 
+		\verb|(int64, error)|. Therefore the types of all numbers are \verb|int64|.
+
+	\subsection{The test program}
+		The root folder of the \Code{Calc} example contains \Code{calc\_test.go}, which has the following test program. In addition to testing the code it shows how to initialise and use the generated scanner and parser/interpreter.
+
+		\begin{verbatim}
+			package main
+
+			import(
+			    "fmt"
+			    "testing"
+			    "calc/scanner"
+			    "calc/parser"
+			    "calc/token"
+			)
+
+			type TI struct{
+			    src string
+			    expect int64
+			}
+
+			var testData = []*TI{
+			    &TI{"1 + 1", 2},
+			    &TI{"1 * 1", 1},
+			    &TI{"1 + 2 * 3", 7},
+			}
+
+			func Test1(t *testing.T) {
+			    s := &scanner.Scanner{}
+			    p := parser.NewParser(parser.ActionTable, parser.GotoTable, 
+			                          parser.ProductionsTable, token.CALCTokens)
+			    pass := true
+			    for _, ts := range testData {
+			        s.Init([]byte(ts.src), token.CALCTokens)
+			        sum, err := p.Parse(s)
+			        if err != nil {
+			            pass = false
+			            t.Log(err.Error())
+			        }
+			        if sum != ts.expect {
+			            pass = false
+			            t.Log(fmt.Sprintf("Error: %s = %d. Got %d\n", ts.src, sum, ts.expect ))
+			        }
+			    }
+			    if !pass {
+			    t.Fail()
+			    }
+			}
+
+		\end{verbatim}
+
+	\subsection{Step 2: running \Code{go test}}
+		From the root folder of the \Code{Calc} example, execute the following command:
+
+		\begin{verbatim}
+			> go test -v .
+		\end{verbatim}
+
+		which generates the following output:
+
+		\begin{verbatim}
+			warning: building out-of-date packages:
+			    calc/token
+			    calc/errors
+			    calc/parser
+			    calc/scanner
+			installing these packages with 'go test -i .' will speed future tests.
+
+			=== RUN Test1
+			--- PASS: Test1 (0.00 seconds)
+			PASS
+			ok  	calc	0.015s		
+		\end{verbatim}
+
+		{\em Congratulations!} You have executed your first gocc-generated code.
+
+\section{Commandline syntax}\label{sec:commandline}
+	\TBD
+
+\section{What about a scanner?}\label{sec:scanner}
+	\TBD
+
+\section{Handling shift/reduce conflicts} \label{sec:sr conflicts}
+\TBD
+
+\section{Parse error recovery} \label{sec:error recovery}
+\TBD
+
+\appendix
+\section{gocc target grammar}
+	A gocc target grammar is written in UTF-8. See section~\ref{sec:lexical elements} for a definition of the lexical elements of a gocc target grammar. 
+
+	\begin{verbatim}
+	Grammar : [sdt_lit] Productions 
+	        ;
+
+	Productions : Production					
+	            | Production Productions			
+	            ;
+
+	Production : id ":" Alternatives		
+	           ;
+
+	Alternatives : Body					
+	             | Body "|" Alternatives	
+	             ; 
+
+	Body : Symbols					
+	     | Symbols sdt_lit			
+	     | "error"
+	     | "error" Symbols
+	     | "error" Symbols sdt_lit
+	     | "empty"
+	     ;
+
+	Symbols	: Symbol					
+	        | Symbol Symbols			
+	        ;
+
+	Symbol : id							
+	       | string						
+	       | char	
+	       ;
+	\end{verbatim}
+
+\section{Lexical elements} \label{sec:lexical elements}
+	The basic unit of lexical elements is the UTF-8 character.
+
+	gocc has the following tokens:
+
+	\begin{description}
+		\item[id] An id starts with a Unicode letter and is followed by any sequence of unicode letter or '\_'
+
+		\item[string] Strings can be both types of \Go string literal: interpreted strings (e.g.: \verb|"Hello World"|) or raw strings (\verb|`Hello World`|).
+
+		\item[char] Can be any of:
+
+			\begin{itemize}
+				\item A simple character declaration, e.g.: 'a';
+				\item An octal character literal, e.g.: '\textbackslash 141';
+				\item A hexadecimal character literal, e.g.: '\textbackslash x61';
+				\item A unicode literal, e.g.: '\textbackslash u61' or '\textbackslash U0061';
+				\item Or an escaped character, such as '\textbackslash n'.
+			\end{itemize}
+
+			See the \Go specification~\cite{gospec} for details.
+
+		\item[sdt\_lit] An SDT literal is enclosed in double angle brackets, e.g.: 
+			\begin{verbatim}
+				<< ast.AddFoo($0, $1) >>
+			\end{verbatim}
+	\end{description}
+
+	\TBDx{Comments}
+		
+
+\nocite{Parsing, Compiler Design, Dragon Book, ABNF}
+\begin{thebibliography}{99}
+	\bibitem{Parsing}
+	Dick Grune and Ceriel J.H. Jacobs.
+	\newblock {\em Parsing Techniques. A Practical Guide. Second Edition}.
+	\newblock Monographs in Computer Science, Springer, 2008
+	
+	\bibitem{Compiler Design}
+	Dick Grune, Kees van Reeuwijk, Henri E. Bal, Ceriel J.H. Jacobs and Koen Langendoen.
+	\newblock {\em Modern Compiler Design. Second Edition}.
+	\newblock Springer 2012
+
+	\bibitem{Dragon Book}
+	Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman.
+	\newblock {\em Compilers. Principles, Techniques, \& Tools. Second Edition}.
+	\newblock Addison Wesley, 2007
+
+	\bibitem{ABNF}
+	D. Crocker, Ed.
+	\newblock{\em Augmented BNF for Syntax Specifications: ABNF}
+	\newblock RFC 5234, January 2008
+
+	\bibitem{gospec}
+	{\em The Go Language Specification}
+	\newblock \url{http://golang.org/ref/spec}
+
+	
+\end{thebibliography}
+
+
+\end{document}

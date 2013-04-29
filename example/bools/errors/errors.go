@@ -1,7 +1,7 @@
 
 package errors
 
-import "code.google.com/p/gocc/example/token"
+import "code.google.com/p/gocc/example/bools/token"
 
 
 type ErrorSymbol interface {

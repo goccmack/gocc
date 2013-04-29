@@ -15,7 +15,7 @@
 package ast
 
 import (
-	"code.google.com/p/gocc/example/token"
+	"code.google.com/p/gocc/example/bools/token"
 	"strconv"
 	"strings"
 )
