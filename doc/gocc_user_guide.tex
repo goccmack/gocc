@@ -37,8 +37,9 @@
 
 \newcommand{\TBD}{\textcolor{red}{TBD}}
 \newcommand{\TBDx}[1]{\textcolor{red}{TBD:} #1}
-\newcommand{\Go}{{\em go}\ }
+\newcommand{\Go}{{\em Go}\ }
 \newcommand{\Code}[1]{{\bf #1} } 
+\newcommand{\gocc}{{\em gocc}\ }
 
 \section{Introduction}
 	gocc is an LR(1) parser generator with automatic shift/reduce conflict resolution (see section~\ref{sec:sr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify symantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
@@ -72,12 +73,25 @@
 		\bf SDT	& Syntax Directed Translation Scheme \\
 	\end{longtable}
 
-\section{Prerequisites} \TBD
+\section{Getting started}
 	\begin{enumerate}
-		\item Setup up \Code{go}
-		\item Set \Code{go} build environment for the example
-		\item Get \Code{gocc}
+		\item Download and install \Go from \url{http:golang.org}.
+
+		\item Set your \Code{GOPATH} environment variable. See \url{http://golang.org/doc/code.html}.
+
+		\item Install \gocc:
+			\begin{enumerate}
+				\item In your command line run: \Code{go get code.google.com/p/gocc/} (go get will git clone gocc into GOPATH/src/code.google.com/p/gocc and run go install)
+
+					or 
+
+				\item Alternatively clone the source: \url{https://code.google.com/p/gocc/source/checkout}. Followed by:
+				\verb|go install code.google.com/p/gocc|.
+			\end{enumerate}
+
 	\end{enumerate}
+
+	Test your installation by running \verb|make test| from \verb|$GOPATH/src/code.google.com/p/gocc|.
 
 \section{How to create and use a parser with gocc}
 	Figure~\ref{fig:hl design} shows the high-level design of a user application, which uses a parser generated with gocc.
@@ -124,7 +138,11 @@
 	\end{figure}
 
 \section{Example}
-	The source code of the following example can be found at \TBD. The grammar implements the simple desktop calculator described in~\cite{Dragon Book}. The generated code is both a parser and an interpreter for the calculator.
+	The source code of the following example can be found at 
+
+	\verb|$GOPATH/src/code.google.com/p/gocc/example/calc| 
+
+	The grammar implements the simple desktop calculator described in~\cite{Dragon Book}. The generated code is both a parser and an interpreter for the calculator.
 
 	The following files are provided by the user:
 	\begin{verbatim}
@@ -247,11 +265,11 @@
 			package main
 
 			import(
+			    "code.google.com/p/gocc/example/calc/parser"
+			    "code.google.com/p/gocc/example/calc/scanner"
+			    "code.google.com/p/gocc/example/calc/token"
 			    "fmt"
 			    "testing"
-			    "calc/scanner"
-			    "calc/parser"
-			    "calc/token"
 			)
 
 			type TI struct{
@@ -300,25 +318,52 @@
 
 		\begin{verbatim}
 			warning: building out-of-date packages:
-			    calc/token
-			    calc/errors
-			    calc/parser
-			    calc/scanner
-			installing these packages with 'go test -i .' will speed future tests.
+			    code.google.com/p/gocc/example/calc/token
+			    code.google.com/p/gocc/example/calc/errors
+			    code.google.com/p/gocc/example/calc/parser
+			    code.google.com/p/gocc/example/calc/scanner
+			installing these packages with 'go test -i' will speed future tests.
 
 			=== RUN Test1
 			--- PASS: Test1 (0.00 seconds)
 			PASS
-			ok  	calc	0.015s		
-		\end{verbatim}
+			ok  	code.google.com/p/gocc/example/calc	0.106s		\end{verbatim}
 
 		{\em Congratulations!} You have executed your first gocc-generated code.
 
 \section{Commandline syntax}\label{sec:commandline}
-	\TBD
+	\begin{verbatim}
+		gocc is an LR(1) parser generator.
+
+		Usage:
+		    gocc [options] bnf_file
+
+		gocc reads the BNF target grammar from bnf_file and generates a parser 
+		(and optionally a scanner) for the grammar.
+
+		Options:
+		    -SR         Automatically resolve shift / reduce conflicts.
+		                default: off
+
+		    -o          Output directory.
+		                default: working directory (current directory)
+		                Run gocc without arguments to see default.
+
+		    -p          package of the parser application.
+		                default: working directory without prefix: $GOPATH/src/
+		                Run gocc without arguments to see default.
+
+		    -scanner    Generate a scanner
+		                default: false
+
+		    -u          allow unreachable productions 
+		                (only recommended during debugging of grammar)
+	\end{verbatim}
 
 \section{What about a scanner?}\label{sec:scanner}
-	\TBD
+	Currently gocc generates (optionally) only a very simple scanner, intended to be extended as required by the user.
+
+	A lexer generator, based on the target grammar, is planned for the near future.
 
 \section{Handling shift/reduce conflicts} \label{sec:sr conflicts}
 \TBD
@@ -391,7 +436,11 @@
 			\end{verbatim}
 	\end{description}
 
-	\TBDx{Comments}
+	\gocc supports both types of \Go comments:
+	\begin{enumerate}
+		\item Line comments start with the sequence \verb|//| and stop at the end of the line.
+		\item General commengs start with the sequence \verb|/*| and continue through the sequence \verb|*/|.
+	\end{enumerate}
 		
 
 \nocite{Parsing, Compiler Design, Dragon Book, ABNF}

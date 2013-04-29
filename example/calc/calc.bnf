@@ -1,0 +1,18 @@
+<< import "code.google.com/p/gocc/example/calc/token" >>
+
+Calc : Expr;
+
+Expr :
+		Expr "+" Term	<< $0.(int64) + $2.(int64), nil >>
+	|	Term			
+;
+
+Term :
+		Term "*" Factor	<< $0.(int64) * $2.(int64), nil >>
+	|	Factor			
+;
+
+Factor :
+		"(" Expr ")"	<< $1, nil >>
+	|	int_lit			<< $0.(*token.Token).IntValue() >>
+;
