@@ -14,6 +14,7 @@
 
 
 \documentclass[12pt]{article}
+\usepackage{amsmath}
 \usepackage[margin=2cm]{geometry}
 \usepackage[parfill]{parskip}
 \usepackage[pdftex]{graphicx}
@@ -63,7 +64,7 @@
 		\item Compiler design.
 	\end{itemize}
 
-	The author  considers the {\em Dragon Book}~\cite{Dragon Book} still the best reference for these topics. The reader is also directed to \cite{Compiler Design} for a modern treatment of compiler design, as well as \cite{Parsing} for a comprehensive treatment of the parsing techniques used in gocc.
+	The author  considers the {\em Dragon Book}~\cite{Dragon Book} still the best reference for these topics. The reader is also directed to \cite{Modern Compiler Design} for a modern treatment of compiler design, as well as \cite{Parsing} for a comprehensive treatment of the parsing techniques used in gocc.
 
 	gocc was conceived out of need in the year after Google released the \Go language. At the time there was no other parser generator available, which could generate parsers in the \Go language. The author set out to create a parser generator for the set of all deterministically parseable languages, which implied the LR(1) technique. Although there are now alternatives to gocc availble to \Go programmers we offer gocc to the community in the hope that someone may find it useful and as a token of thanks to Google for the gift of \Go.
 
@@ -342,7 +343,7 @@
 		(and optionally a scanner) for the grammar.
 
 		Options:
-		    -SR         Automatically resolve shift / reduce conflicts.
+		    -a          Automatically resolve LR(1) conflicts.
 		                default: off
 
 		    -o          Output directory.
@@ -365,7 +366,81 @@
 
 	A lexer generator, based on the target grammar, is planned for the near future.
 
-\section{Handling shift/reduce conflicts} \label{sec:sr conflicts}
+\section{Handling LR(1) conflicts} \label{sec:lr conflicts}
+	If a target grammer is outside the class of LR(1) grammars it cannot be parsed deterministically with one symbol lookahead. This condition manifests as LR(1) conflicts, of which there are two types:
+
+	\begin{description}
+		\item[Shift/Reduce conflict:] The parser has recognised a valid production body on the stack, and can reduce it to the corresponding production. 
+
+		However, the same symbols are also a valid prefix of the body of another, longer production. The parser could continue to shift the input symbols and attempt to recognise the longer production.
+
+		\gocc uses the {\em maximal-munch rule} (see~\cite{Modern Compiler Design}) to resolve this conflict by always choosing shift over reduce. The longest valid production will therefore always be recognised.
+
+		\item[Reduce/Reduce conflict:] The parser has recognised a valid sequence of symbols, which can be reduced to more than one production.
+
+		\gocc will always reduce the production that was declared first in the grammar.
+	\end{description}
+
+\section{Example: reduce/reduce conflict handling} \label{sec:example sr}
+	The source code of the following example can be found at
+
+	\verb|code.google.com/p/gocc/example/reducereduce|
+
+	\begin{verbatim}
+	RR : A | B ;
+
+	B : a ;
+
+	A : a | A a ;
+
+	\end{verbatim}
+
+	When we run \gocc on \verb|code.google.com/p/gocc/example/reducereduce/rr.bnf| we discover a reduce/reduce conflict:
+
+	\begin{verbatim}
+		> gocc rr.bnf
+		LR(1) conflict, state=4, Reduce(B) / Reduce(A)
+		ABORTING: 0 shift/reduce, 1 reduce/reduce conflicts
+	\end{verbatim}
+
+	\gocc does not generate code because the default for automatic LR(1) conflict resolution is \verb|off|. From the output we see that \gocc could reduce either of production \verb|B| or \verb|A| in state \verb|4|.
+
+	\gocc generates a number of informational files, and at this point we turn to 
+
+	\verb|code.google.com/p/gocc/example/reducereduce/sm_sets.txt|
+
+	to analyse the conflict.
+
+	\verb|sm_set.txt| contains the LR(1) sets, which will be translated into states of the parser. Each state contains a set of {\em LR(1)  items}, which specifies what the parser expects in that state. 
+
+	An LR(1) item is a production alternative with the position of the parser marked by a $\bullet$, and the next symbol expected after this production body, in double angle brackets. Alternatives of a production are in  separate items. For example: 
+
+	$A : a\bullet <<\$>>$
+
+	indicates that the compiler has recognised the production alternative, \verb|A : a| and  next expects to see the end of input character, \verb|$|.
+
+	Getting back our R/R conflict, \verb|S4|  in \verb|sm_states.txt| represents state 4 and contains the following items:
+
+	\[
+		\begin{array}{ll}
+			S4 \{ \\
+			    & A : a\bullet  <<\$>> \\
+			    & B : a\bullet  <<\$>> \\
+			    & A : a\bullet  <<a>> \\
+			\} \\
+		\end{array}
+	\]
+
+	We see that the bodies of all items in S4 are the same and that the parser has completely recognised them. Two items reduce to production \verb|A| and one to production \verb|B|. This is the reduce/reduce conflict: \verb|A| vs \verb|B|.
+
+	When \gocc is run with the \verb|-a| option it will automatically resolve this conflict by reducing production \verb|B|, because it is declared in \verb|rr.bnf| before \verb|A|:
+
+	\begin{verbatim}
+		> gocc -a rr.bnf
+		Resolved 0 shift/reduce, 1 reduce/reduce conflicts
+	\end{verbatim}
+
+\section{Example: Shift/reduce conflict handling}
 \TBD
 
 \section{Parse error recovery} \label{sec:error recovery}
@@ -439,20 +514,20 @@
 	\gocc supports both types of \Go comments:
 	\begin{enumerate}
 		\item Line comments start with the sequence \verb|//| and stop at the end of the line.
-		\item General commengs start with the sequence \verb|/*| and continue through the sequence \verb|*/|.
+		\item General comments start with the sequence \verb|/*| and continue through the sequence \verb|*/|.
 	\end{enumerate}
 		
 
-\nocite{Parsing, Compiler Design, Dragon Book, ABNF}
+\nocite{Parsing, Modern Compiler Design, Dragon Book, ABNF}
 \begin{thebibliography}{99}
 	\bibitem{Parsing}
 	Dick Grune and Ceriel J.H. Jacobs.
 	\newblock {\em Parsing Techniques. A Practical Guide. Second Edition}.
 	\newblock Monographs in Computer Science, Springer, 2008
 	
-	\bibitem{Compiler Design}
+	\bibitem{Modern Compiler Design}
 	Dick Grune, Kees van Reeuwijk, Henri E. Bal, Ceriel J.H. Jacobs and Koen Langendoen.
-	\newblock {\em Modern Compiler Design. Second Edition}.
+	\newblock {\em Modern Modern Compiler Design. Second Edition}.
 	\newblock Springer 2012
 
 	\bibitem{Dragon Book}

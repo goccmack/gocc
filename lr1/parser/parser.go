@@ -21,8 +21,6 @@ import (
 )
 
 type (
-	// ActionTab []ActionRow
-	// ActionRow map[token.Type]Action
 	ActionTab []*ActionRow
 	ActionRow struct {
 		CanRecover bool

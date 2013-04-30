@@ -28,13 +28,12 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"strconv"
 	"strings"
 )
 
 var (
 	allowUnreachable  *bool
-	autoSRConfResolve *bool
+	autoLRConfResolve *bool
 	genScanner        *bool
 	srcFile           string
 	srcDir            string
@@ -69,12 +68,12 @@ func main() {
 	writeFirstBodies(srcDir, g)
 
 	gto := lr1.NewGotoTable(len(sets), g, trans)
-	act, srConflicts := sets.ActionTable(g, *autoSRConfResolve)
+	act, srConflicts, rrConflicts := sets.ActionTable(g, *autoLRConfResolve)
 	switch {
-	case *autoSRConfResolve && srConflicts > 0:
-		fmt.Println(srConflicts, "shift/reduce conflicts resolved")
-	case !*autoSRConfResolve && srConflicts > 0:
-		fmt.Fprintln(os.Stderr, "ABORTING: "+strconv.Itoa(srConflicts)+" shift/reduce conflicts")
+	case *autoLRConfResolve && (srConflicts > 0 || rrConflicts > 0):
+		fmt.Fprintf(os.Stdout, "Resolved %d shift/reduce, %d reduce/reduce conflicts\n", srConflicts, rrConflicts)
+	case !*autoLRConfResolve && (srConflicts > 0 || rrConflicts > 0):
+		fmt.Fprintf(os.Stderr, "ABORTING: %d shift/reduce, %d reduce/reduce conflicts\n", srConflicts, rrConflicts)
 		os.Exit(1)
 	}
 
@@ -129,7 +128,7 @@ func getArgs() {
 	}
 
 	allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
-	autoSRConfResolve = flag.Bool("SR", false, "automatically resolve shift/reduce conflicts")
+	autoLRConfResolve = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
 	genScanner = flag.Bool("scanner", false, "generate a scanner")
 	flag.StringVar(&srcDir, "o", wd, "output dir.")
 	flag.StringVar(&pkg, "p", defaultPackage(srcDir), "package")
