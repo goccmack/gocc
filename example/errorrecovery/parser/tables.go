@@ -55,8 +55,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: true,
 		Actions: Actions{
-			1: Shift(3), // id
 			2: Shift(4), // error
+			1: Shift(3), // id
 		},
 	},
 
@@ -64,8 +64,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: true,
 		Actions: Actions{
-			2: Shift(4),  // error
 			0: Accept(0), // $
+			2: Shift(4),  // error
 			1: Shift(3),  // id
 		},
 	},
@@ -75,8 +75,8 @@ var ActionTable ActionTab = ActionTab{
 		CanRecover: false,
 		Actions: Actions{
 			0: Reduce(1), // $
-			2: Reduce(1), // error
 			1: Reduce(1), // id
+			2: Reduce(1), // error
 		},
 	},
 
@@ -84,9 +84,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
+			2: Reduce(3), // error
 			1: Reduce(3), // id
 			0: Reduce(3), // $
-			2: Reduce(3), // error
 		},
 	},
 
@@ -95,8 +95,8 @@ var ActionTable ActionTab = ActionTab{
 		CanRecover: false,
 		Actions: Actions{
 			1: Reduce(4), // id
-			2: Reduce(4), // error
 			0: Reduce(4), // $
+			2: Reduce(4), // error
 		},
 	},
 
@@ -104,8 +104,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			0: Reduce(2), // $
 			2: Reduce(2), // error
+			0: Reduce(2), // $
 			1: Reduce(2), // id
 		},
 	},

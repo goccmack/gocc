@@ -54,8 +54,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			0: Accept(0), // $
 			1: Shift(3),  // id
+			0: Accept(0), // $
 		},
 	},
 
@@ -90,8 +90,8 @@ var ActionTable ActionTab = ActionTab{
 var GotoTable GotoTab = GotoTab{
 	// state 0
 	GotoRow{
-		"Stmt":     State(2),
 		"StmtList": State(1),
+		"Stmt":     State(2),
 	},
 	// state 1
 	GotoRow{
