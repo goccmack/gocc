@@ -18,11 +18,10 @@ func TestPass(t *testing.T) {
 }
 
 func TestFail(t *testing.T) {
-	sml, err := test([]byte("a b ; d e f"))
-	if err != nil {
-		t.Fatal(err.Error())
+	_, err := test([]byte("a b ; d e f"))
+	if err == nil {
+		t.Fatal("expected parse error")
 	}
-	t.Log(sml)
 }
 
 func test(src []byte) (astree ast.StmtList, err error) {
