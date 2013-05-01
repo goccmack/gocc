@@ -41,6 +41,7 @@
 \newcommand{\Go}{{\em Go}\ }
 \newcommand{\Code}[1]{{\bf #1} } 
 \newcommand{\gocc}{{\em gocc}\ }
+\newcommand{\Clang}{{\em C} language}
 
 \section{Introduction}
 	gocc is an LR(1) parser generator with automatic shift/reduce conflict resolution (see section~\ref{sec:sr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify symantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
@@ -138,7 +139,7 @@
 		\label{fig:hl design}
 	\end{figure}
 
-\section{Example}
+\section{First example}
 	The source code of the following example can be found at 
 
 	\verb|$GOPATH/src/code.google.com/p/gocc/example/calc| 
@@ -162,10 +163,10 @@
 		To generate code we run gocc from the directory containing \verb|calc.bnf| with the following command:
 
 		\begin{verbatim}
-			> gocc -scanner calc.bnf
+			> gocc -s calc.bnf
 		\end{verbatim}
 
-		gocc is invoked with the option, \verb|-scanner| to generate a default scanner for the project. See section~\ref{sec:scanner} for more about the scanner.
+		gocc is invoked with the option, \verb|-s| to generate a default scanner for the project. See section~\ref{sec:scanner} for more about the scanner.
 
 		After running gocc we see that the directory structure contains the following files:
 
@@ -354,7 +355,7 @@
 		                default: working directory without prefix: $GOPATH/src/
 		                Run gocc without arguments to see default.
 
-		    -scanner    Generate a scanner
+		    -s          Generate a scanner
 		                default: false
 
 		    -u          allow unreachable productions 
@@ -381,10 +382,10 @@
 		\gocc will always reduce the production that was declared first in the grammar.
 	\end{description}
 
-\section{Example: reduce/reduce conflict handling} \label{sec:example sr}
+\section{Example: reduce/reduce conflict handling} \label{sec:example rr}
 	The source code of the following example can be found at
 
-	\verb|code.google.com/p/gocc/example/reducereduce|
+	\verb|$GOPATH/src/code.google.com/p/gocc/example/reducereduce|
 
 	\begin{verbatim}
 	RR : A | B ;
@@ -395,7 +396,7 @@
 
 	\end{verbatim}
 
-	When we run \gocc on \verb|code.google.com/p/gocc/example/reducereduce/rr.bnf| we discover a reduce/reduce conflict:
+	When we run \gocc on \verb|$GOPATH/src/code.google.com/p/gocc/example/reducereduce/rr.bnf| we discover a reduce/reduce conflict:
 
 	\begin{verbatim}
 		> gocc rr.bnf
@@ -407,7 +408,7 @@
 
 	\gocc generates a number of informational files, and at this point we turn to 
 
-	\verb|code.google.com/p/gocc/example/reducereduce/sm_sets.txt|
+	\verb|$GOPATH/src/code.google.com/p/gocc/example/reducereduce/sm_sets.txt|
 
 	to analyse the conflict.
 
@@ -440,11 +441,228 @@
 		Resolved 0 shift/reduce, 1 reduce/reduce conflicts
 	\end{verbatim}
 
-\section{Example: Shift/reduce conflict handling}
-\TBD
+\section{Example: Shift/reduce conflict handling} \label{sec:example sr}
+	The source code of the following example can be found at
 
-\section{Parse error recovery} \label{sec:error recovery}
-\TBD
+	\verb|$GOPATH/src/code.google.com/p/gocc/example/shiftreduce|
+
+	It is the classic example of the dangling else in the \Clang:
+
+	\begin{verbatim}
+		Stmt :
+		        if expr then Stmt
+		    |   if expr then Stmt else Stmt
+		;
+	\end{verbatim}
+
+	When we run \gocc on \verb|$GOPATH/src/code.google.com/p/gocc/example/shiftreduce/sr.bnf| we discover a shift/reduce conflict:
+
+	\begin{verbatim}
+		> gocc sr.bnf
+		LR(1) conflict, state=11, Reduce(Stmt) / Shift(12)
+		ABORTING: 1 shift/reduce, 0 reduce/reduce conflicts
+	\end{verbatim}
+
+	The problem is in the last two items of state 11, where the next symbol is \verb|else| and the parser can both shift and reduce:
+
+	\[
+		\begin{array}{ll}
+			S11 \{ \\
+			  & Stmt : if\ expr\ then\ Stmt\bullet\ <<\$>> \\
+			  & Stmt : if\ expr\ then\ Stmt\ \bullet else\ Stmt\ <<\$>> \\
+			  & Stmt : if\ expr\ then\ Stmt \bullet\ <<else>> \\
+			  & Stmt : if\ expr\ then\ Stmt\ \bullet else\ Stmt\ <<else>> \\
+			\} \\
+		\end{array}
+	\]
+
+	When automatic LR(1) conflict resolution is selected by the \verb|-a| option, \gocc resolves this conflict in the same way as 
+	\
+
+	specified in the \Clang\ specification: by shifting and parsing the longest valid production ({\em maximal-munch}). This means recognising the \verb|else|-statement as part of the first \verb|if|.
+
+\section{Example: Using an AST} \label{sec:example ast}
+	The following example illustrates the use of a code from a user-provided package in the SDT. It produces a simple abstract syntax tree (AST) for list of simple statements. 
+
+	The code for the example can be found at
+
+	\verb|$GOPATH/src/code.google.com/p/gocc/example/astx|
+
+	The grammar is \verb|ast.bnf|:
+
+	\begin{verbatim}
+		<< import "code.google.com/p/gocc/example/astx/ast" >>
+
+		StmtList : 
+		      Stmt             << ast.NewStmtList($0) >>
+		    | StmtList Stmt    << ast.AppendStmt($0, $1) >>
+		;
+
+		Stmt : 
+		      id               << ast.NewStmt($0) >>
+		;
+	\end{verbatim}
+
+	At the top of the grammar is an SDT containing an import statement for the user-provided package, 
+	\verb|code.google.com/p/gocc/example/astx/ast|.
+
+	The production SDTs will use functions from the package, \verb|ast|.
+
+	The start production, \verb"StmtList" returns a tuple: \verb|(ast.StmtList, error)|, as we can see from the code of functions 
+	\verb|NewStmtList| and \verb|AppendStmt| in 
+
+	\verb|$GOPATH/src/code.google.com/p/gocc/example/astx/ast.go|:
+
+	\begin{verbatim}
+		package ast
+
+		import(
+		    "code.google.com/p/gocc/example/astx/token"
+		)
+
+		type (
+		    StmtList	[]Stmt
+		    Stmt 	string
+		)
+
+		func NewStmtList(stmt interface{}) (StmtList, error) {
+		    return StmtList{stmt.(Stmt)}, nil
+		}
+
+		func AppendStmt(stmtList, stmt interface{}) (StmtList, error) {
+		    return append(stmtList.(StmtList), stmt.(Stmt)), nil
+		}	
+
+		func NewStmt(stmtList interface{}) (Stmt, error) {
+		    return Stmt(stmtList.(*token.Token).Lit), nil
+		}
+	\end{verbatim}
+
+	Note the following:
+
+	\begin{itemize}
+		\item The attributes of the language symbols in the production are passed to the SDT function calls as paramters, referred to as $\$0, \$1, ...$
+
+		\item The type of the parameters passed to the functions in the SDTs is \verb|interface{}| and must be type asserted by the called function to the expected type.
+
+		\item The parser will return the result of a successful parse, a \verb"StmtList" to the calling application as type \verb"interface{}". The calling application must type assert the returned value to the expected type.
+	\end{itemize}
+
+	If we run 
+
+	\verb"go test -v ." 
+
+	from the directory 
+
+	\verb|$GOPATH/src/code.google.com/p/gocc/example/astx/| 
+
+	we get the following ouput:
+
+	\begin{verbatim}
+		> go test -v .
+		warning: building out-of-date packages:
+		        code.google.com/p/gocc/example/astx/token
+		        code.google.com/p/gocc/example/astx/ast
+		        code.google.com/p/gocc/example/astx/errors
+		        code.google.com/p/gocc/example/astx/parser
+		        code.google.com/p/gocc/example/astx/scanner
+		installing these packages with 'go test -i .' will speed future tests.
+
+		=== RUN TestPass
+		input: a b c d e f
+		output: [a b c d e f]
+		--- PASS: TestPass (0.00 seconds)
+		=== RUN TestFail
+		input: a b ; d e f
+		--- FAIL: TestFail (0.00 seconds)
+		ast_test.go:23: 	Error: illegal -1(-1) ; @ 1:5, expected one of: id $
+		        FAIL
+		exit status 1
+		FAIL	code.google.com/p/gocc/example/astx	0.015s	\end{verbatim}
+
+	The first test, \verb"TestPass", has a valid input string, \verb|"a b c d e f"|; and parses successfully; and returns the expected StmtList, \verb|[a b c d e f]|.
+
+	The input to the second test, \verb|TestFail|, contains an invalid identifier, \verb|;|. The parser returns an error, indicating that it encountered an invalid token when it expect a token of type \verb|id| or the end of input.
+
+\section{Example: Parser error recovery} \label{sec:error recovery}
+	Without error recovery a \gocc parser terminates when it reaches the first error in the input. Sometimes it is convenient to attempt to continue the parse and this can be achieved in \gocc by specifying in the grammar which productions can recover from errors in the input. 
+
+	When the \gocc reserved word, \verb|error|, is the first symbol in a production alternative, it indicates that that production can recover from input errors.
+
+	We modify the AST example to illustrate error recovery. See:
+
+	\verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/er.bnf|:
+
+	\begin{verbatim}
+		<< import "code.google.com/p/gocc/example/errorrecovery/ast" >>
+
+		StmtList : 
+		      Stmt             << ast.NewStmtList($0) >>
+		    | StmtList Stmt    << ast.AppendStmt($0, $1) >>
+		;
+
+		Stmt : 
+		      id               << ast.NewStmt($0) >>
+		    | error
+		;
+	\end{verbatim}
+
+	The production, \verb|Stmt|, now has an alternative: \verb"| error"
+
+	This indicates to \gocc that input errors can be handles in production \verb|Stmt|.
+
+	From the directory, 
+
+	\verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/|, 
+
+	run \verb|go test| as follows:
+
+	\begin{verbatim}
+		> go test -v .
+		warning: building out-of-date packages:
+		        code.google.com/p/gocc/example/errorrecovery/token
+		        code.google.com/p/gocc/example/errorrecovery/ast
+		        code.google.com/p/gocc/example/errorrecovery/errors
+		        code.google.com/p/gocc/example/errorrecovery/parser
+		        code.google.com/p/gocc/example/errorrecovery/scanner
+		installing these packages with 'go test -i .' will speed future tests.
+
+		=== RUN TestFail
+		input: a b ; d e f
+		parser.firstRecoveryState: State 3
+		parser.firstRecoveryState: State 1, canRecover, true
+		output: [
+		    a
+		    error:
+		        Err: nil
+		        ErrorToken: ";"(-1)
+		        ErrorPos: 1:5
+		        ErrorSymbols: ["b"(1)]
+		        ExpectedTokens: [error $ id]
+		    d
+		    e
+		    f
+		]
+		--- PASS: TestFail (0.00 seconds)
+		PASS		ok      code.google.com/p/gocc/example/errorrecovery	0.015s
+	\end{verbatim}
+
+	The test case can be found in \\
+	\verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/er_test.go|. \\
+	It calls the parser with input string, \verb|"a b ; d e f"|, which contains an invalid token, \verb|;|.
+
+	From the \verb|go test| output we see that the parser successfully recovered from the input error and returned a \verb|StmtList| containing an error symbol between \verb|[a| and \verb|d, e, f]|. The \verb|id|, \verb|b|, was lost in the error recovery. The errored token was \verb|;| (invalid token) when the parser expected one of \verb|error, $| (end of input) or \verb|id|.
+
+	The parser returned an error value of \verb|nil|, because it successfully recovered from the error.
+
+	{\bf Note:} \\
+	\begin{enumerate}
+		\item When error recovery is allowed the user's code must expect errors and handle the appropriately in the code called by the production SDTS, as well as by the code handling the results returned by the parser.
+
+		\item The parser will still return a non-\verb|nil| error value if it encounters an irrecoverable error.
+	\end{enumerate}
+
+	See \verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/errors/error.go| for the definition of errors.Error.
 
 \appendix
 \section{gocc target grammar}
