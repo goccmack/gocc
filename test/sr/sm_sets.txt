@@ -1,0 +1,91 @@
+S0 {
+  S! : •Stmt «$»
+  Stmt : •if id then Stmt «$»
+  Stmt : •if id then Stmt else Stmt «$»
+  Stmt : •id «$»
+}
+S1 {
+  S! : Stmt• «$»
+}
+S2 {
+  Stmt : if •id then Stmt «$»
+  Stmt : if •id then Stmt else Stmt «$»
+}
+S3 {
+  Stmt : id• «$»
+}
+S4 {
+  Stmt : if id •then Stmt «$»
+  Stmt : if id •then Stmt else Stmt «$»
+}
+S5 {
+  Stmt : if id then •Stmt «$»
+  Stmt : if id then •Stmt else Stmt «$»
+  Stmt : •if id then Stmt «$»
+  Stmt : •if id then Stmt else Stmt «$»
+  Stmt : •id «$»
+  Stmt : •if id then Stmt «else»
+  Stmt : •if id then Stmt else Stmt «else»
+  Stmt : •id «else»
+}
+S6 {
+  Stmt : if id then Stmt• «$»
+  Stmt : if id then Stmt •else Stmt «$»
+}
+S7 {
+  Stmt : if •id then Stmt «$»
+  Stmt : if •id then Stmt else Stmt «$»
+  Stmt : if •id then Stmt «else»
+  Stmt : if •id then Stmt else Stmt «else»
+}
+S8 {
+  Stmt : id• «$»
+  Stmt : id• «else»
+}
+S9 {
+  Stmt : if id then Stmt else •Stmt «$»
+  Stmt : •if id then Stmt «$»
+  Stmt : •if id then Stmt else Stmt «$»
+  Stmt : •id «$»
+}
+S10 {
+  Stmt : if id •then Stmt «$»
+  Stmt : if id •then Stmt else Stmt «$»
+  Stmt : if id •then Stmt «else»
+  Stmt : if id •then Stmt else Stmt «else»
+}
+S11 {
+  Stmt : if id then Stmt else Stmt• «$»
+}
+S12 {
+  Stmt : if id then •Stmt «$»
+  Stmt : if id then •Stmt else Stmt «$»
+  Stmt : if id then •Stmt «else»
+  Stmt : if id then •Stmt else Stmt «else»
+  Stmt : •if id then Stmt «$»
+  Stmt : •if id then Stmt else Stmt «$»
+  Stmt : •id «$»
+  Stmt : •if id then Stmt «else»
+  Stmt : •if id then Stmt else Stmt «else»
+  Stmt : •id «else»
+}
+S13 {
+  Stmt : if id then Stmt• «$»
+  Stmt : if id then Stmt •else Stmt «$»
+  Stmt : if id then Stmt• «else»
+  Stmt : if id then Stmt •else Stmt «else»
+}
+S14 {
+  Stmt : if id then Stmt else •Stmt «$»
+  Stmt : if id then Stmt else •Stmt «else»
+  Stmt : •if id then Stmt «$»
+  Stmt : •if id then Stmt else Stmt «$»
+  Stmt : •id «$»
+  Stmt : •if id then Stmt «else»
+  Stmt : •if id then Stmt else Stmt «else»
+  Stmt : •id «else»
+}
+S15 {
+  Stmt : if id then Stmt else Stmt• «$»
+  Stmt : if id then Stmt else Stmt• «else»
+}

@@ -1,0 +1,20 @@
+if id then Stmt else Stmt
+	if
+else Stmt
+	else
+then Stmt
+	then
+then Stmt else Stmt
+	then
+id then Stmt
+	id
+id then Stmt else Stmt
+	id
+Stmt else Stmt
+	if id
+if id then Stmt
+	if
+id
+	id
+Stmt
+	if id
