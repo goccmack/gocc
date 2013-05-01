@@ -129,7 +129,7 @@ func getArgs() {
 
 	allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	autoLRConfResolve = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
-	genScanner = flag.Bool("scanner", false, "generate a scanner")
+	genScanner = flag.Bool("s", false, "generate a scanner")
 	flag.StringVar(&srcDir, "o", wd, "output dir.")
 	flag.StringVar(&pkg, "p", defaultPackage(srcDir), "package")
 	flag.Parse()
