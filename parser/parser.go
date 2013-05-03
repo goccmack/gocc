@@ -21,6 +21,7 @@ import (
 	"code.google.com/p/gocc/token"
 	"errors"
 	"fmt"
+	"os"
 	"strconv"
 )
 
@@ -47,7 +48,8 @@ func (this *Parser) Parse() (initDecl string, prods ast.ProdS, tm *token.TokenMa
 }
 
 func (this *Parser) error(msg string) {
-	panic(fmt.Sprintf("Error at %v %v", this.pos, msg))
+	fmt.Fprintf(os.Stderr, "Error at %v %v\n", this.pos, msg)
+	os.Exit(1)
 }
 
 func (this *Parser) expect(exp string, errMsg string) {

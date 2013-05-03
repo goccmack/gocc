@@ -87,5 +87,5 @@ type (
 		NumSymbols int
 		ReduceFunc func([]Attrib) (Attrib, error)
 	}
-	Attrib interface {}
+	Attrib interface{}
 )

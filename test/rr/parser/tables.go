@@ -1,7 +1,4 @@
-
 package parser
-
-
 
 var ProductionsTable = ProdTab{
 	// [0]
@@ -69,7 +66,7 @@ var ProductionsTable = ProdTab{
 	},
 }
 
-var ActionTable ActionTab = ActionTab {
+var ActionTable ActionTab = ActionTab{
 	// state 0
 	&ActionRow{
 		CanRecover: false,
@@ -92,7 +89,7 @@ var ActionTable ActionTab = ActionTab {
 		CanRecover: false,
 		Actions: Actions{
 			0: Reduce(1), // $
-			2: Shift(6), // a
+			2: Shift(6),  // a
 		},
 	},
 
@@ -130,33 +127,25 @@ var ActionTable ActionTab = ActionTab {
 			0: Reduce(5), // $
 		},
 	},
-
 }
 
 var GotoTable GotoTab = GotoTab{
 	// state 0
 	GotoRow{
-		"B": State(3),
-		"A": State(2),
+		"B":  State(3),
+		"A":  State(2),
 		"RR": State(1),
 	},
 	// state 1
-	GotoRow{
-	},
+	GotoRow{},
 	// state 2
-	GotoRow{
-	},
+	GotoRow{},
 	// state 3
-	GotoRow{
-	},
+	GotoRow{},
 	// state 4
-	GotoRow{
-	},
+	GotoRow{},
 	// state 5
-	GotoRow{
-	},
+	GotoRow{},
 	// state 6
-	GotoRow{
-	},
+	GotoRow{},
 }
-

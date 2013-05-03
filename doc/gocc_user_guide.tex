@@ -44,7 +44,7 @@
 \newcommand{\Clang}{{\em C} language}
 
 \section{Introduction}
-	gocc is an LR(1) parser generator with automatic shift/reduce conflict resolution (see section~\ref{sec:sr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify symantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
+	gocc is an LR(1) parser generator with automatic LR(1) conflict resolution (see section~\ref{sec:lr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify symantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
 
 	gocc has been successfully used to develop a query language compiler; a configuration/control language for a distributed system; as well as a parser for protocol messages specified in ABNF~\cite{ABNF}. It is currently used in the development of an ASN.1 compiler.
 
@@ -117,7 +117,7 @@
 \section{How to create and use a parser with gocc}
 	Figure~\ref{fig:hl design} shows the high-level design of a user application, which uses a parser generated with gocc.
 	\begin{itemize}
-		\item The user creates a target grammar conforming the the gocc BNF standard (see section~\ref{sec:target grammar}).
+		\item The user creates a target grammar conforming the the gocc BNF standard (see appendix~\ref{sec:gocc bnf}).
 
 		\item gocc reads the target grammar and generates the components shown in heavy outline in fig~\ref{fig:hl design}, i.e.: the scanner, parser, token and error packages. 
 
@@ -125,7 +125,7 @@
 
 		\item The user creates a user application, which creates the scanner and parser objects. 
 
-		\item The user also creates a package called by the compiler to execute semantic actions for each recognised production of the target grammar. The methods of the symantic package provided by the user correspond to the method calls specified in teh SDT statements in the target grammar.
+		\item The user also creates a package called by the compiler to execute semantic actions for each recognised production of the target grammar. The methods of the symantic package provided by the user correspond to the method calls specified in the SDT statements in the target grammar.
 
 		\item The user application initialises a scanner object with the input text. Then it calls the parse method of the parser.
 
@@ -687,7 +687,7 @@
 	See \verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/errors/error.go| for the definition of errors.Error.
 
 \appendix
-\section{gocc target grammar}
+\section{gocc target grammar}\label{sec:gocc bnf}
 	A gocc target grammar is written in UTF-8. See section~\ref{sec:lexical elements} for a definition of the lexical elements of a gocc target grammar. 
 
 	\begin{verbatim}
@@ -724,6 +724,8 @@
 	\end{verbatim}
 
 \section{Lexical elements} \label{sec:lexical elements}
+	\TBDx{Expand this appendix.}
+	
 	The basic unit of lexical elements is the UTF-8 character.
 
 	gocc has the following tokens:

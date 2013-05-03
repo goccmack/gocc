@@ -17,8 +17,8 @@ package lr1
 import "code.google.com/p/gocc/lr1/parser"
 
 type (
-	Conflict struct{
-		State int
+	Conflict struct {
+		State  int
 		A1, A2 parser.Action
 	}
 

@@ -233,7 +233,7 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 }
 
 // return resolved action, new S/R conflict count, new R/R conflict count
-func resolveConflict(pi1, pi2 parser.Action, autoresolve bool, state int, g *ast.Grammar) (parser.Action) {
+func resolveConflict(pi1, pi2 parser.Action, autoresolve bool, state int, g *ast.Grammar) parser.Action {
 	// Always choose shift over reduce
 	if _, ok := pi1.(parser.Shift); ok {
 		return pi1 // pi2 is reduce. Choose shift

@@ -14,12 +14,12 @@
 
 package rr
 
-import(
-	"testing"
+import (
 	"code.google.com/p/gocc/test/rr/parser"
 	"code.google.com/p/gocc/test/rr/scanner"
 	"code.google.com/p/gocc/test/rr/token"
 	"fmt"
+	"testing"
 )
 
 func parse(src string) (ast string, err error) {
@@ -49,11 +49,11 @@ type TD struct {
 }
 
 var testData = []TD{
-	TD{"a", "B "},
-	TD{"a a", "A1 "},
-	TD{"a a a", "A1 "},
-	TD{"c a", "A1 "},
-	TD{"c a a a a", "A1 "},
+	{"a", "B "},
+	{"a a", "A1 "},
+	{"a a a", "A1 "},
+	{"c a", "A1 "},
+	{"c a a a a", "A1 "},
 }
 
 func Test(t *testing.T) {

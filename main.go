@@ -36,7 +36,7 @@ var (
 	allowUnreachable  *bool
 	autoLRConfResolve *bool
 	genScanner        *bool
-	verbose			*bool
+	verbose           *bool
 	srcFile           string
 	srcDir            string
 	pkg               string
