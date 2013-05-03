@@ -36,6 +36,7 @@ type (
 
 	Action interface {
 		Act()
+		Equal(Action) bool
 		String() string
 	}
 )
@@ -43,6 +44,29 @@ type (
 func (this Accept) Act() {}
 func (this Shift) Act()  {}
 func (this Reduce) Act() {}
+
+func (this Accept) Equal(that Action) bool {
+	if _, ok := that.(Accept); ok {
+		return true
+	}
+	return false
+}
+
+func (this Reduce) Equal(that Action) bool {
+	that1, ok := that.(Reduce)
+	if !ok {
+		return false
+	}
+	return this == that1
+}
+
+func (this Shift) Equal(that Action) bool {
+	that1, ok := that.(Shift)
+	if !ok {
+		return false
+	}
+	return this == that1
+}
 
 func (this Accept) String() string { return "Accept(0)" }
 func (this Shift) String() string  { return "Shift(" + strconv.Itoa(int(this)) + ")" }
@@ -63,7 +87,5 @@ type (
 		NumSymbols int
 		ReduceFunc func([]Attrib) (Attrib, error)
 	}
-	Attrib interface {
-		// String() string
-	}
+	Attrib interface {}
 )

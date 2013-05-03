@@ -187,7 +187,7 @@ func (this GotoTableEntry) GotoEntryString(symbols ast.SymbolS) string {
 type ActionTable []*ActionTableEntry
 
 //Converts the ItemSets into an ActionTable given the Grammar.
-func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab ActionTable, srConflicts, rrConflicts int) {
+func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab ActionTable, lr1Conflicts ConflictSet) {
 	actTab = make([]*ActionTableEntry, len(this))
 	for i := range actTab {
 		// actTab[i] = make(ActionTableEntry)
@@ -196,6 +196,7 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 			Actions:    make(parser.Actions),
 		}
 	}
+	lr1Conflicts = ConflictSet{}
 	for si, set := range this {
 		// fmt.Println("ActionTable: Set", si)
 		for _, item := range set {
@@ -211,7 +212,8 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 				case prod.Head.TokLit != item.Grammar.Prod[0].Head.TokLit:
 					action := parser.Action(parser.Reduce(item.ProdIdx))
 					if act, exists := actTab[si].Actions[item.NextToken.TokType]; exists && act != action {
-						action, srConflicts, rrConflicts = resolveConflict(action, act, sr_auto_resolve, si, g, srConflicts, rrConflicts)
+						lr1Conflicts = lr1Conflicts.Add(&Conflict{si, action, act})
+						action = resolveConflict(action, act, sr_auto_resolve, si, g)
 					}
 					actTab[si].Actions[item.NextToken.TokType] = action
 				}
@@ -219,7 +221,8 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 				if nextState := this.GetIndex(Goto(set, prod.Body.Symbols[item.Pos], g.FirstSets())); nextState >= 0 {
 					action := parser.Action(parser.Shift(nextState))
 					if act, exists := actTab[si].Actions[prod.Body.Symbols[item.Pos].TokType]; exists && act != action {
-						action, srConflicts, rrConflicts = resolveConflict(action, act, sr_auto_resolve, si, g, srConflicts, rrConflicts)
+						lr1Conflicts = lr1Conflicts.Add(&Conflict{si, action, act})
+						action = resolveConflict(action, act, sr_auto_resolve, si, g)
 					}
 					actTab[si].Actions[prod.Body.Symbols[item.Pos].TokType] = action
 				}
@@ -230,34 +233,22 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 }
 
 // return resolved action, new S/R conflict count, new R/R conflict count
-func resolveConflict(pi1, pi2 parser.Action, autoresolve bool, state int, g *ast.Grammar, src, rrc int) (parser.Action, int, int) {
-	if !autoresolve {
-		fmt.Fprintf(os.Stderr, "LR(1) conflict, state=%d, %s / %s\n", state, actionString(pi1, g), actionString(pi2, g))
-	}
-
+func resolveConflict(pi1, pi2 parser.Action, autoresolve bool, state int, g *ast.Grammar) (parser.Action) {
 	// Always choose shift over reduce
 	if _, ok := pi1.(parser.Shift); ok {
-		return pi1, src + 1, rrc // pi2 is reduce. Choose shift
+		return pi1 // pi2 is reduce. Choose shift
 	}
 	r1 := pi1.(parser.Reduce)
 	if _, ok := pi2.(parser.Shift); ok {
-		return pi2, src + 1, rrc
+		return pi2
 	}
 
 	// Reduce/Reduce: choose first production declared in grammar
 	r2 := pi2.(parser.Reduce)
 	if r1 < r2 {
-		return r1, src, rrc + 1
+		return r1
 	}
-	return r2, src, rrc + 1
-}
-
-func actionString(a parser.Action, g *ast.Grammar) string {
-	if act, ok := a.(parser.Shift); ok {
-		return fmt.Sprintf("Shift(%d)", act)
-	}
-	act := a.(parser.Reduce)
-	return fmt.Sprintf("Reduce(%s)", g.Prod[act].Head.TokLit)
+	return r2
 }
 
 func recoveryItem(i *Item) bool {

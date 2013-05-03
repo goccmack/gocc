@@ -69,6 +69,25 @@
 
 	gocc was conceived out of need in the year after Google released the \Go language. At the time there was no other parser generator available, which could generate parsers in the \Go language. The author set out to create a parser generator for the set of all deterministically parseable languages, which implied the LR(1) technique. Although there are now alternatives to gocc availble to \Go programmers we offer gocc to the community in the hope that someone may find it useful and as a token of thanks to Google for the gift of \Go.
 
+\section{Copyright}
+	\begin{verbatim}
+		Copyright 2012 Vastech SA (PTY) LTD
+		
+		    Licensed under the Apache License, Version 2.0 (the "License");
+		    you may not use this file except in compliance with the License.
+		    You may obtain a copy of the License at
+		    
+		        http://www.apache.org/licenses/LICENSE-2.0
+		    
+		    Unless required by applicable law or agreed to in writing, software
+		    distributed under the License is distributed on an "AS IS" BASIS,
+		    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+		    See the License for the specific language governing permissions and
+		    limitations under the License.
+	\end{verbatim}
+
+
+
 \section{Definition of terms}
 	\begin{longtable}{ll}
 		\bf AST & Abstract syntax tree\\
@@ -360,6 +379,9 @@
 
 		    -u          allow unreachable productions 
 		                (only recommended during debugging of grammar)
+
+		    -v          verbose
+		                Shows list of LR(1) conflicts.
 	\end{verbatim}
 
 \section{What about a scanner?}\label{sec:scanner}
@@ -399,9 +421,9 @@
 	When we run \gocc on \verb|$GOPATH/src/code.google.com/p/gocc/example/reducereduce/rr.bnf| we discover a reduce/reduce conflict:
 
 	\begin{verbatim}
-		> gocc rr.bnf
-		LR(1) conflict, state=4, Reduce(B) / Reduce(A)
-		ABORTING: 0 shift/reduce, 1 reduce/reduce conflicts
+		> gocc -v rr.bnf
+		LR(1) conflict: S4 Reduce:3(B) / Reduce:4(A)
+		ABORTING: 1 LR(1) conflicts
 	\end{verbatim}
 
 	\gocc does not generate code because the default for automatic LR(1) conflict resolution is \verb|off|. From the output we see that \gocc could reduce either of production \verb|B| or \verb|A| in state \verb|4|.
@@ -458,9 +480,9 @@
 	When we run \gocc on \verb|$GOPATH/src/code.google.com/p/gocc/example/shiftreduce/sr.bnf| we discover a shift/reduce conflict:
 
 	\begin{verbatim}
-		> gocc sr.bnf
-		LR(1) conflict, state=11, Reduce(Stmt) / Shift(12)
-		ABORTING: 1 shift/reduce, 0 reduce/reduce conflicts
+		> gocc -v sr.bnf
+		LR(1) conflict: S11 Shift:12 / Reduce:1(Stmt)
+		ABORTING: 1 LR(1) conflicts
 	\end{verbatim}
 
 	The problem is in the last two items of state 11, where the next symbol is \verb|else| and the parser can both shift and reduce:

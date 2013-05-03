@@ -20,6 +20,7 @@ import (
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/gen"
 	"code.google.com/p/gocc/lr1"
+	parserDefs "code.google.com/p/gocc/lr1/parser"
 	"code.google.com/p/gocc/parser"
 	"code.google.com/p/gocc/scanner"
 	"code.google.com/p/gocc/token"
@@ -35,6 +36,7 @@ var (
 	allowUnreachable  *bool
 	autoLRConfResolve *bool
 	genScanner        *bool
+	verbose			*bool
 	srcFile           string
 	srcDir            string
 	pkg               string
@@ -68,12 +70,15 @@ func main() {
 	writeFirstBodies(srcDir, g)
 
 	gto := lr1.NewGotoTable(len(sets), g, trans)
-	act, srConflicts, rrConflicts := sets.ActionTable(g, *autoLRConfResolve)
+	act, lr1Conflicts := sets.ActionTable(g, *autoLRConfResolve)
+	if *verbose {
+		printConflicts(lr1Conflicts, g)
+	}
 	switch {
-	case *autoLRConfResolve && (srConflicts > 0 || rrConflicts > 0):
-		fmt.Fprintf(os.Stdout, "Resolved %d shift/reduce, %d reduce/reduce conflicts\n", srConflicts, rrConflicts)
-	case !*autoLRConfResolve && (srConflicts > 0 || rrConflicts > 0):
-		fmt.Fprintf(os.Stderr, "ABORTING: %d shift/reduce, %d reduce/reduce conflicts\n", srConflicts, rrConflicts)
+	case *autoLRConfResolve && len(lr1Conflicts) > 0:
+		fmt.Fprintf(os.Stdout, "Resolved %d LR(1) conflicts\n", len(lr1Conflicts))
+	case !*autoLRConfResolve && len(lr1Conflicts) > 0:
+		fmt.Fprintf(os.Stderr, "ABORTING: %d LR(1) conflicts\n", len(lr1Conflicts))
 		os.Exit(1)
 	}
 
@@ -130,6 +135,7 @@ func getArgs() {
 	allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	autoLRConfResolve = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
 	genScanner = flag.Bool("s", false, "generate a scanner")
+	verbose = flag.Bool("v", false, "verbose")
 	flag.StringVar(&srcDir, "o", wd, "output dir.")
 	flag.StringVar(&pkg, "p", defaultPackage(srcDir), "package")
 	flag.Parse()
@@ -168,6 +174,33 @@ func error1(msg string, err error) {
 func prjName(pkg string) string {
 	_, file := path.Split(pkg)
 	return file
+}
+
+func printConflicts(conflicts lr1.ConflictSet, g *ast.Grammar) {
+	for _, c := range conflicts {
+		fmt.Fprintf(os.Stderr, "LR(1) conflict: %s\n", conflictString(c, g))
+	}
+}
+
+func conflictString(c *lr1.Conflict, g *ast.Grammar) (res string) {
+	if _, ok := c.A1.(parserDefs.Reduce); ok {
+		if _, ok := c.A2.(parserDefs.Reduce); ok {
+			res = fmt.Sprintf("S%d %s / %s", c.State, actionString(c.A1, g), actionString(c.A2, g))
+		} else {
+			res = fmt.Sprintf("S%d %s / %s", c.State, actionString(c.A2, g), actionString(c.A1, g))
+		}
+	} else {
+		res = fmt.Sprintf("S%d %s / %s", c.State, actionString(c.A1, g), actionString(c.A2, g))
+	}
+	return
+}
+
+func actionString(a parserDefs.Action, g *ast.Grammar) string {
+	if act, ok := a.(parserDefs.Shift); ok {
+		return fmt.Sprintf("Shift:%d", int(act))
+	}
+	act := a.(parserDefs.Reduce)
+	return fmt.Sprintf("Reduce:%d(%s)", act, g.Prod[act].Head.TokLit)
 }
 
 func writeFirstBodies(prjDir string, g *ast.Grammar) {

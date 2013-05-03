@@ -12,11 +12,15 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-<< import "code.google.com/p/gocc/test/sr/ast" >>
 
-Stmt :
-		if id then Stmt					<< ast.NewIf($1, $3), nil >>
-	|	if id then Stmt else Stmt		<< ast.NewIfElse($1, $3, $5), nil >>
-	|	id								<< ast.NewIdStmt($0), nil >>
+RR : A | B ;
+
+B : 
+	a 			<< `B `, nil >>
 ;
 
+A : 
+		a 		<< `A0 `, nil >>
+	|	A a 	<< `A1 `, nil >>
+	|	c		<< `A2 `, nil >>
+;
