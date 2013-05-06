@@ -16,8 +16,10 @@
 package lr1
 
 import (
+	"bytes"
 	"code.google.com/p/gocc/ast"
 	"strconv"
+	// "fmt"
 )
 
 //An LR1 Item.
@@ -56,35 +58,61 @@ func (this *Item) Len() int {
 const DOT = "•"
 
 //Returns a string representing the Item.
-func (this *Item) String() string {
+// func (this *Item) String() string {
+// 	prod := this.Grammar.Prod[this.ProdIdx]
+// 	res := prod.Head.TokLit + " : "
+// 	if prod.Body == ast.NULL_BODY {
+// 		res += "𝞊"
+// 	} else {
+// 		for i, s := range prod.Body.Symbols {
+// 			if this.Pos == i {
+// 				res += DOT
+// 			}
+// 			res += s.TokLit
+// 			if i < len(prod.Body.Symbols)-1 {
+// 				res += " "
+// 			}
+// 		}
+// 	}
+// 	if this.Pos == len(prod.Body.Symbols) {
+// 		res += DOT
+// 	}
+// 	res += " «"
+// 	res += this.NextToken.TokLit
+// 	res += "»"
+// 	return res
+// }
+
+// !!!!! Optimised
+func (this *Item) WriteString(buf bytes.Buffer) {
 	prod := this.Grammar.Prod[this.ProdIdx]
-	res := prod.Head.TokLit + " : "
+	buf.WriteString(prod.Head.TokLit)
+	buf.WriteString(" : ")
 	if prod.Body == ast.NULL_BODY {
-		res += "𝞊"
+		buf.WriteString("𝞊")
 	} else {
 		for i, s := range prod.Body.Symbols {
 			if this.Pos == i {
-				res += DOT
+				buf.WriteString(DOT)
 			}
-			res += s.TokLit
+			buf.WriteString(s.TokLit)
 			if i < len(prod.Body.Symbols)-1 {
-				res += " "
+				buf.WriteString(" ")
 			}
 		}
 	}
 	if this.Pos == len(prod.Body.Symbols) {
-		res += DOT
+		buf.WriteString(DOT)
 	}
-	res += " «"
-	res += this.NextToken.TokLit
-	res += "»"
-	return res
+	buf.WriteString(" «")
+	buf.WriteString(this.NextToken.TokLit)
+	buf.WriteString("»")
 }
 
-//A list of Items.
+//A set of Items.
 type Items []*Item
 
-//Creates a new list of items.
+//Creates a set of items.
 func NewItems() Items {
 	return make(Items, 0, 10)
 }
@@ -118,19 +146,19 @@ func (this Items) Contains(i *Item) bool {
 }
 
 //Returns a string representing the Items in the graphviz DOT format.
-func (this Items) Dot(id string) string {
-	res := id + "["
-	res += "label=\"" + id + "\\n"
-	for i, item := range this {
-		res += item.String()
-		if i < len(this)-1 {
-			res += "\\n"
-		}
-	}
-	res += "\""
-	res += "]\n"
-	return res
-}
+// func (this Items) Dot(id string) string {
+// 	res := id + "["
+// 	res += "label=\"" + id + "\\n"
+// 	for i, item := range this {
+// 		res += item.String()
+// 		if i < len(this)-1 {
+// 			res += "\\n"
+// 		}
+// 	}
+// 	res += "\""
+// 	res += "]\n"
+// 	return res
+// }
 
 //Returns whether two lists of Items are equal.
 func (this Items) Equals(that Items) bool {
@@ -148,18 +176,31 @@ func (this Items) Equals(that Items) bool {
 }
 
 //Returns a string representing the list of Items.
-func (this Items) String() string {
-	res := "{\n"
+// func (this Items) String() string {
+// 	res := "{\n"
+// 	for _, item := range this {
+// 		res += "  "
+// 		res += item.String()
+// 		res += "\n"
+// 	}
+// 	res += "}"
+// 	return res
+// }
+// !!!!!Optimise 
+func (this Items) WriteString(buf bytes.Buffer) {
+	buf.WriteString("{\n")
 	for _, item := range this {
-		res += "  "
-		res += item.String()
-		res += "\n"
+		buf.WriteString("  ")
+		item.WriteString(buf)
+		buf.WriteString("\n")
 	}
-	res += "}"
-	return res
+	buf.WriteString("}")
 }
 
 // Dragon book, 2nd ed, section 4.7.2, p261
+/*
+!!!! Optimise: Don't range over all items every pass?
+*/
 func Closure(i Items, fs ast.FirstSets) (c Items) {
 	if len(i) == 0 {
 		return NewItems()
@@ -250,12 +291,18 @@ func (this ItemSets) GetIndex(I Items) int {
 
 //Returns a string representing the list of the list of items.
 func (this ItemSets) String() string {
-	res := ""
+	var buf bytes.Buffer
 	for i, is := range this {
-		res += "S" + strconv.Itoa(i) + " "
-		res += is.String() + "\n"
+		// !!! Optimise
+		// res += "S" + strconv.Itoa(i) + " "
+		// res += is.String() + "\n"
+
+		buf.WriteString("S")
+		buf.WriteString(strconv.Itoa(i))
+		is.WriteString(buf)
+		buf.WriteString("\n")
 	}
-	return res
+	return buf.String()
 }
 
 // g is a BNF grammar. Items returns the sets of Items of the grammar g.

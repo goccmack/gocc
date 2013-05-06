@@ -29,21 +29,38 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"runtime/pprof"
 	"strings"
+	"time"
 )
 
 var (
 	allowUnreachable  *bool
 	autoLRConfResolve *bool
+	profile           *bool
 	genScanner        *bool
+	help              *bool
 	verbose           *bool
 	srcFile           string
-	srcDir            string
+	outDir            string
 	pkg               string
 )
 
 func main() {
 	getArgs()
+
+	if *help {
+		usage()
+	}
+
+	if *verbose {
+		printParams()
+	}
+
+	if *profile {
+		startProfiler()
+		defer pprof.StopCPUProfile()
+	}
 
 	tokenmap := token.NewMapFromStrings(token.GoccStrings)
 	scanner := &scanner.Scanner{}
@@ -62,15 +79,25 @@ func main() {
 	}
 	checkGrammar(g)
 
+	fmt.Println("Get item sets")
 	sets, trans := lr1.GetItemSets(g)
+
+	fmt.Println("main:trans.Check()")
 	if !trans.Check() {
 		error1("transition table not same", nil)
 	}
-	writeStateMachine(srcDir, g.FirstSets(), sets, trans)
-	writeFirstBodies(srcDir, g)
 
+	writeStateMachine(outDir, g.FirstSets(), sets, trans)
+
+	writeFirstBodies(outDir, g)
+
+	fmt.Println("Generate GOTO table")
 	gto := lr1.NewGotoTable(len(sets), g, trans)
-	act, lr1Conflicts := sets.ActionTable(g, *autoLRConfResolve)
+	// act, lr1Conflicts := sets.ActionTable(trans, *autoLRConfResolve)
+
+	fmt.Println("Generate Action table")
+	// act, lr1Conflicts := sets.ActionTable(g, *autoLRConfResolve)
+	act, lr1Conflicts := sets.ActionTable(trans, *autoLRConfResolve)
 	if *verbose {
 		printConflicts(lr1Conflicts, g)
 	}
@@ -82,7 +109,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := gen.WriteFiles(srcDir, pkg, prjName(pkg), lr1.GenGo(act, gto, g), initDecl, g.TokenMap, *genScanner); err != nil {
+	fmt.Println("Generate code")
+	if err := gen.WriteFiles(outDir, pkg, prjName(pkg), lr1.GenGo(act, gto, g), initDecl, g.TokenMap, *genScanner); err != nil {
 		error1("Error generating files:", err)
 	}
 }
@@ -135,9 +163,11 @@ func getArgs() {
 	allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	autoLRConfResolve = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
 	genScanner = flag.Bool("s", false, "generate a scanner")
+	help = flag.Bool("h", false, "help")
 	verbose = flag.Bool("v", false, "verbose")
-	flag.StringVar(&srcDir, "o", wd, "output dir.")
-	flag.StringVar(&pkg, "p", defaultPackage(srcDir), "package")
+	profile = flag.Bool("prof", false, "write profile to file")
+	flag.StringVar(&outDir, "o", wd, "output dir.")
+	flag.StringVar(&pkg, "p", defaultPackage(outDir), "package")
 	flag.Parse()
 	if len(flag.Args()) != 1 {
 		errorMsg("too few arguments")
@@ -195,12 +225,35 @@ func conflictString(c *lr1.Conflict, g *ast.Grammar) (res string) {
 	return
 }
 
+func printParams() {
+	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *autoLRConfResolve)
+	fmt.Printf("    output directory              = %s\n", outDir)
+	fmt.Printf("    package                       = %s\n", pkg)
+	fmt.Printf("    generate a scanner            = %t\n", *genScanner)
+	fmt.Printf("    allow unreachable productions = %t\n", *allowUnreachable)
+	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *autoLRConfResolve)
+	fmt.Printf("    verbose                       = %t\n", *verbose)
+}
+
+func printTime(from time.Time, msg string) {
+	fmt.Printf("%s: elapsed time%s\n", msg, time.Since(from))
+}
+
 func actionString(a parserDefs.Action, g *ast.Grammar) string {
 	if act, ok := a.(parserDefs.Shift); ok {
 		return fmt.Sprintf("Shift:%d", int(act))
 	}
 	act := a.(parserDefs.Reduce)
 	return fmt.Sprintf("Reduce:%d(%s)", act, g.Prod[act].Head.TokLit)
+}
+
+func startProfiler() {
+	f, err := os.Create("cpu.prof")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
+		os.Exit(1)
+	}
+	pprof.StartCPUProfile(f)
 }
 
 func writeFirstBodies(prjDir string, g *ast.Grammar) {

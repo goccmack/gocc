@@ -47,10 +47,24 @@ func (T TransitionTable) String() string {
 	return res
 }
 
+// func (T TransitionTable) Check() bool {
+// 	for _, t1 := range T {
+// 		for _, t2 := range T {
+// 			if t1.From == t2.From && t1.Symbol.Equals(t2.Symbol) && t1.To != t2.To {
+// 				return false
+// 			}
+// 		}
+// 	}
+// 	return true
+// }
+
 //Do a simple validity check.
+// !!! Optimised !!!
 func (T TransitionTable) Check() bool {
-	for _, t1 := range T {
-		for _, t2 := range T {
+	for i := 0; i < len(T)-1; i++ {
+		t1 := T[i]
+		for j := i + 1; j < len(T); j++ {
+			t2 := T[j]
 			if t1.From == t2.From && t1.Symbol.Equals(t2.Symbol) && t1.To != t2.To {
 				return false
 			}
@@ -71,7 +85,7 @@ func (T TransitionTable) Dot() string {
 
 //The Transition.
 type Transition struct {
-	From, To int
+	From, To int // State
 	Symbol   *ast.Symbol
 }
 
@@ -96,6 +110,7 @@ type GotoTable struct {
 
 //Creates a new GotoTable.
 func NewGotoTable(numStates int, g *ast.Grammar, trans TransitionTable) *GotoTable {
+	// ?? Optimise: use Symbol.TokLit instead of Symbol.String() ??
 	tab := &GotoTable{
 		nt:    g.NonTerminals.Min(g.Prod[0].Head),
 		ntmap: make(map[string]int),
@@ -187,7 +202,9 @@ func (this GotoTableEntry) GotoEntryString(symbols ast.SymbolS) string {
 type ActionTable []*ActionTableEntry
 
 //Converts the ItemSets into an ActionTable given the Grammar.
-func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab ActionTable, lr1Conflicts ConflictSet) {
+func (this ItemSets) ActionTable(transTab TransitionTable, sr_auto_resolve bool) (actTab ActionTable, lr1Conflicts ConflictSet) {
+	// func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab ActionTable, lr1Conflicts ConflictSet) {
+	// fmt.Println("lr1/table.ActionTable()")
 	actTab = make([]*ActionTableEntry, len(this))
 	for i := range actTab {
 		// actTab[i] = make(ActionTableEntry)
@@ -198,7 +215,7 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 	}
 	lr1Conflicts = ConflictSet{}
 	for si, set := range this {
-		// fmt.Println("ActionTable: Set", si)
+		// fmt.Printf("\tS%d\n", si)
 		for _, item := range set {
 			if recoveryItem(item) {
 				actTab[si].CanRecover = true
@@ -213,16 +230,18 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 					action := parser.Action(parser.Reduce(item.ProdIdx))
 					if act, exists := actTab[si].Actions[item.NextToken.TokType]; exists && act != action {
 						lr1Conflicts = lr1Conflicts.Add(&Conflict{si, action, act})
-						action = resolveConflict(action, act, sr_auto_resolve, si, g)
+						action = resolveConflict(action, act, sr_auto_resolve, si)
 					}
 					actTab[si].Actions[item.NextToken.TokType] = action
 				}
 			} else if prod.Body.Symbols[item.Pos].IsTerminal() {
-				if nextState := this.GetIndex(Goto(set, prod.Body.Symbols[item.Pos], g.FirstSets())); nextState >= 0 {
+				//Optimise: ?? use transitionTable.Goto instead of Goto here?
+				if nextState := transTab.Goto(si, prod.Body.Symbols[item.Pos]); nextState >= 0 {
+					// if nextState := this.GetIndex(Goto(set, prod.Body.Symbols[item.Pos], g.FirstSets())); nextState >= 0 {
 					action := parser.Action(parser.Shift(nextState))
 					if act, exists := actTab[si].Actions[prod.Body.Symbols[item.Pos].TokType]; exists && act != action {
 						lr1Conflicts = lr1Conflicts.Add(&Conflict{si, action, act})
-						action = resolveConflict(action, act, sr_auto_resolve, si, g)
+						action = resolveConflict(action, act, sr_auto_resolve, si)
 					}
 					actTab[si].Actions[prod.Body.Symbols[item.Pos].TokType] = action
 				}
@@ -232,8 +251,8 @@ func (this ItemSets) ActionTable(g *ast.Grammar, sr_auto_resolve bool) (actTab A
 	return
 }
 
-// return resolved action, new S/R conflict count, new R/R conflict count
-func resolveConflict(pi1, pi2 parser.Action, autoresolve bool, state int, g *ast.Grammar) parser.Action {
+// return resolved action
+func resolveConflict(pi1, pi2 parser.Action, autoresolve bool, state int) parser.Action {
 	// Always choose shift over reduce
 	if _, ok := pi1.(parser.Shift); ok {
 		return pi1 // pi2 is reduce. Choose shift
