@@ -499,6 +499,8 @@ scanAgain:
 			tok = S.tokenMap.Type(";")
 		case '+':
 			tok = S.tokenMap.Type("+")
+		case '*':
+			tok = S.tokenMap.Type("*")
 		case '[':
 			tok = S.tokenMap.Type("[")
 		case ']':

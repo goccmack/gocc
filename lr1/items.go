@@ -84,7 +84,7 @@ const DOT = "•"
 // }
 
 // !!!!! Optimised
-func (this *Item) WriteString(buf bytes.Buffer) {
+func (this *Item) WriteString(buf *bytes.Buffer) {
 	prod := this.Grammar.Prod[this.ProdIdx]
 	buf.WriteString(prod.Head.TokLit)
 	buf.WriteString(" : ")
@@ -187,7 +187,7 @@ func (this Items) Equals(that Items) bool {
 // 	return res
 // }
 // !!!!!Optimise 
-func (this Items) WriteString(buf bytes.Buffer) {
+func (this Items) WriteString(buf *bytes.Buffer) {
 	buf.WriteString("{\n")
 	for _, item := range this {
 		buf.WriteString("  ")
@@ -206,25 +206,30 @@ func Closure(i Items, fs ast.FirstSets) (c Items) {
 		return NewItems()
 	}
 	c = NewItems().AddSet(i)
+	included := -1
 	for again := true; again; {
 		again = false
-		for _, i := range c {
-			// fmt.Println("items.Closure, i -", i)
-			prod := i.Grammar.Prod[i.ProdIdx]
-			if i.Pos >= len(prod.Body.Symbols) || prod.Body.Symbols[i.Pos].IsTerminal() {
-				continue
-			}
-			for pi, p := range i.Grammar.Prod {
-				if p.Head.Equals(prod.Body.Symbols[i.Pos]) {
-					first := First(i.Grammar, prod.Body.Symbols[i.Pos+1:], i.NextToken)
-					for _, t := range first {
-						// Why won't the if compile with the simple statement?
-						item := &Item{pi, 0, t, i.Grammar}
-						if !c.Contains(item) {
-							c, again = c.AddSetElement(item), true
+		for idx, i := range c {
+			if idx > included {
+				// fmt.Println("items.Closure, i -", i)
+				prod := i.Grammar.Prod[i.ProdIdx]
+				if i.Pos >= len(prod.Body.Symbols) || prod.Body.Symbols[i.Pos].IsTerminal() {
+					continue
+				}
+				for pi, p := range i.Grammar.Prod {
+					if p.Head.Equals(prod.Body.Symbols[i.Pos]) {
+						first := First(i.Grammar, prod.Body.Symbols[i.Pos+1:], i.NextToken)
+						for _, t := range first {
+							// Why won't the if compile with the simple statement?
+							item := &Item{pi, 0, t, i.Grammar}
+							if !c.Contains(item) {
+								c, again = c.AddSetElement(item), true
+							}
 						}
 					}
 				}
+
+				included = idx
 			}
 		}
 	}
@@ -299,7 +304,7 @@ func (this ItemSets) String() string {
 
 		buf.WriteString("S")
 		buf.WriteString(strconv.Itoa(i))
-		is.WriteString(buf)
+		is.WriteString(&buf)
 		buf.WriteString("\n")
 	}
 	return buf.String()

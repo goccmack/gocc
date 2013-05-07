@@ -42,9 +42,34 @@ func (this Accept) Act() {}
 func (this Shift) Act()  {}
 func (this Reduce) Act() {}
 
+func (this Accept) Equal(that Action) bool {
+	if _, ok := that.(Accept); ok {
+		return true
+	}
+	return false
+}
+
+func (this Reduce) Equal(that Action) bool {
+	that1, ok := that.(Reduce)
+	if !ok {
+		return false
+	}
+	return this == that1
+}
+
+func (this Shift) Equal(that Action) bool {
+	that1, ok := that.(Shift)
+	if !ok {
+		return false
+	}
+	return this == that1
+}
+
 func (this Accept) String() string { return "Accept(0)" }
-func (this Shift) String() string  { return "Shift(" + strconv.Itoa(int(this)) + ")" }
-func (this Reduce) String() string { return "Reduce(" + strconv.Itoa(int(this)) + ")" }
+func (this Shift) String() string  { return fmt.Sprintf("Shift:%d", this) }
+func (this Reduce) String() string {
+	return fmt.Sprintf("Reduce:%d(%s)", this, ProductionsTable[this].String)
+}
 
 type (
 	GotoTab []GotoRow
@@ -249,6 +274,7 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				panic("Error recover led to invalid action")
 			}
 		}
+		// fmt.Printf("S%d %s %s\n", this.stack.Top(), this.nextToken, action)
 		switch act := action.(type) {
 		case Accept:
 			res = this.stack.PopN(1)[0]

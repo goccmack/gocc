@@ -141,8 +141,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			5: Reduce(2), // else
 			0: Reduce(2), // $
+			5: Reduce(2), // else
 		},
 	},
 }

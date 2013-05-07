@@ -54,8 +54,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			1: Shift(3),  // id
 			0: Accept(0), // $
+			1: Shift(3),  // id
 		},
 	},
 
@@ -63,8 +63,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			1: Reduce(1), // id
 			0: Reduce(1), // $
+			1: Reduce(1), // id
 		},
 	},
 
@@ -81,8 +81,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			1: Reduce(2), // id
 			0: Reduce(2), // $
+			1: Reduce(2), // id
 		},
 	},
 }

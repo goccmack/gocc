@@ -1,16 +1,18 @@
+
 package errors
 
 import "code.google.com/p/gocc/test/sr/token"
+
 
 type ErrorSymbol interface {
 }
 
 type Error struct {
-	Err            error
-	ErrorToken     *token.Token
-	ErrorPos       token.Position
-	ErrorSymbols   []ErrorSymbol
-	ExpectedTokens []string
+	Err	error
+	ErrorToken	*token.Token
+	ErrorPos	token.Position
+	ErrorSymbols	[]ErrorSymbol
+	ExpectedTokens	[]string
 }
 
 func (E *Error) String() string {
@@ -25,3 +27,4 @@ func (E *Error) String() string {
 	}
 	return errmsg
 }
+

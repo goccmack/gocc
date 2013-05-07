@@ -78,8 +78,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Shift(5),  // a
 			0: Reduce(1), // $
+			2: Shift(5),  // a
 		},
 	},
 
@@ -104,8 +104,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			0: Reduce(5), // $
 			2: Reduce(5), // a
+			0: Reduce(5), // $
 		},
 	},
 }
@@ -114,8 +114,8 @@ var GotoTable GotoTab = GotoTab{
 	// state 0
 	GotoRow{
 		"B":  State(3),
-		"RR": State(1),
 		"A":  State(2),
+		"RR": State(1),
 	},
 	// state 1
 	GotoRow{},

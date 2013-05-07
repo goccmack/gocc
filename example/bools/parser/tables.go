@@ -129,10 +129,10 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			11: Shift(10), // string_lit
-			8:  Shift(9),  // int_lit
 			7:  Shift(6),  // false
+			11: Shift(10), // string_lit
 			4:  Shift(4),  // (
+			8:  Shift(9),  // int_lit
 			6:  Shift(5),  // true
 		},
 	},
@@ -141,9 +141,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			3: Shift(12), // |
-			0: Accept(0), // $
 			2: Shift(11), // &
+			0: Accept(0), // $
+			3: Shift(12), // |
 		},
 	},
 
@@ -161,8 +161,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			0: Reduce(2), // $
 			2: Reduce(2), // &
+			0: Reduce(2), // $
 			3: Reduce(2), // |
 		},
 	},
@@ -171,11 +171,11 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
+			8:  Shift(21), // int_lit
 			4:  Shift(16), // (
 			6:  Shift(17), // true
-			7:  Shift(18), // false
-			8:  Shift(21), // int_lit
 			11: Shift(22), // string_lit
+			7:  Shift(18), // false
 		},
 	},
 
@@ -193,9 +193,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			0: Reduce(7), // $
-			3: Reduce(7), // |
 			2: Reduce(7), // &
+			3: Reduce(7), // |
+			0: Reduce(7), // $
 		},
 	},
 
@@ -203,8 +203,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Reduce(8), // &
 			3: Reduce(8), // |
+			2: Reduce(8), // &
 			0: Reduce(8), // $
 		},
 	},
@@ -213,9 +213,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
+			0: Reduce(9), // $
 			2: Reduce(9), // &
 			3: Reduce(9), // |
-			0: Reduce(9), // $
 		},
 	},
 
@@ -240,10 +240,10 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			8:  Shift(9),  // int_lit
-			11: Shift(10), // string_lit
-			6:  Shift(5),  // true
 			4:  Shift(4),  // (
+			6:  Shift(5),  // true
+			11: Shift(10), // string_lit
+			8:  Shift(9),  // int_lit
 			7:  Shift(6),  // false
 		},
 	},
@@ -252,11 +252,11 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			8:  Shift(9),  // int_lit
 			6:  Shift(5),  // true
-			7:  Shift(6),  // false
-			4:  Shift(4),  // (
 			11: Shift(10), // string_lit
+			4:  Shift(4),  // (
+			7:  Shift(6),  // false
+			8:  Shift(9),  // int_lit
 		},
 	},
 
@@ -295,9 +295,9 @@ var ActionTable ActionTab = ActionTab{
 		CanRecover: false,
 		Actions: Actions{
 			7:  Shift(18), // false
-			6:  Shift(17), // true
-			11: Shift(22), // string_lit
 			8:  Shift(21), // int_lit
+			11: Shift(22), // string_lit
+			6:  Shift(17), // true
 			4:  Shift(16), // (
 		},
 	},
@@ -306,9 +306,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			3: Reduce(6), // |
 			5: Reduce(6), // )
 			2: Reduce(6), // &
+			3: Reduce(6), // |
 		},
 	},
 
@@ -316,9 +316,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			3: Reduce(7), // |
 			2: Reduce(7), // &
 			5: Reduce(7), // )
+			3: Reduce(7), // |
 		},
 	},
 
@@ -326,8 +326,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			5: Reduce(8), // )
 			3: Reduce(8), // |
+			5: Reduce(8), // )
 			2: Reduce(8), // &
 		},
 	},
@@ -336,9 +336,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Reduce(9), // &
 			5: Reduce(9), // )
 			3: Reduce(9), // |
+			2: Reduce(9), // &
 		},
 	},
 
@@ -346,8 +346,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			9:  Shift(33), // <
 			10: Shift(34), // >
+			9:  Shift(33), // <
 		},
 	},
 
@@ -396,9 +396,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Reduce(1), // &
-			3: Reduce(1), // |
 			0: Reduce(3), // $
+			3: Reduce(1), // |
+			2: Reduce(1), // &
 		},
 	},
 
@@ -416,11 +416,11 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
+			7:  Shift(18), // false
+			11: Shift(22), // string_lit
+			4:  Shift(16), // (
 			6:  Shift(17), // true
 			8:  Shift(21), // int_lit
-			4:  Shift(16), // (
-			11: Shift(22), // string_lit
-			7:  Shift(18), // false
 		},
 	},
 
@@ -428,11 +428,11 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
+			8:  Shift(21), // int_lit
 			11: Shift(22), // string_lit
+			4:  Shift(16), // (
 			6:  Shift(17), // true
 			7:  Shift(18), // false
-			4:  Shift(16), // (
-			8:  Shift(21), // int_lit
 		},
 	},
 
@@ -440,9 +440,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
+			0: Reduce(5), // $
 			2: Reduce(5), // &
 			3: Reduce(5), // |
-			0: Reduce(5), // $
 		},
 	},
 
@@ -450,9 +450,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
+			2: Shift(29), // &
 			5: Shift(42), // )
 			3: Shift(30), // |
-			2: Shift(29), // &
 		},
 	},
 
@@ -485,8 +485,8 @@ var ActionTable ActionTab = ActionTab{
 		CanRecover: false,
 		Actions: Actions{
 			2: Reduce(10), // &
-			3: Reduce(10), // |
 			0: Reduce(10), // $
+			3: Reduce(10), // |
 		},
 	},
 
@@ -494,9 +494,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Reduce(11), // &
 			0: Reduce(11), // $
 			3: Reduce(11), // |
+			2: Reduce(11), // &
 		},
 	},
 
@@ -504,9 +504,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			0: Reduce(12), // $
 			2: Reduce(12), // &
 			3: Reduce(12), // |
+			0: Reduce(12), // $
 		},
 	},
 
@@ -523,9 +523,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Reduce(1), // &
 			3: Reduce(1), // |
 			5: Reduce(3), // )
+			2: Reduce(1), // &
 		},
 	},
 
@@ -543,9 +543,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			3: Reduce(5), // |
-			5: Reduce(5), // )
 			2: Reduce(5), // &
+			5: Reduce(5), // )
+			3: Reduce(5), // |
 		},
 	},
 
@@ -564,8 +564,8 @@ var ActionTable ActionTab = ActionTab{
 		CanRecover: false,
 		Actions: Actions{
 			3: Reduce(11), // |
-			5: Reduce(11), // )
 			2: Reduce(11), // &
+			5: Reduce(11), // )
 		},
 	},
 
@@ -573,9 +573,9 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Reduce(12), // &
 			3: Reduce(12), // |
 			5: Reduce(12), // )
+			2: Reduce(12), // &
 		},
 	},
 }
@@ -583,11 +583,11 @@ var ActionTable ActionTab = ActionTab{
 var GotoTable GotoTab = GotoTab{
 	// state 0
 	GotoRow{
-		"BoolExpr":      State(1),
 		"Val":           State(3),
 		"SubStringExpr": State(8),
-		"BoolExpr1":     State(2),
 		"CompareExpr":   State(7),
+		"BoolExpr":      State(1),
+		"BoolExpr1":     State(2),
 	},
 	// state 1
 	GotoRow{},
@@ -597,10 +597,10 @@ var GotoTable GotoTab = GotoTab{
 	GotoRow{},
 	// state 4
 	GotoRow{
-		"BoolExpr":      State(13),
 		"Val":           State(15),
-		"SubStringExpr": State(20),
 		"CompareExpr":   State(19),
+		"BoolExpr":      State(13),
+		"SubStringExpr": State(20),
 		"BoolExpr1":     State(14),
 	},
 	// state 5
@@ -617,19 +617,19 @@ var GotoTable GotoTab = GotoTab{
 	GotoRow{},
 	// state 11
 	GotoRow{
-		"BoolExpr":      State(26),
-		"SubStringExpr": State(8),
-		"Val":           State(3),
 		"BoolExpr1":     State(27),
+		"Val":           State(3),
+		"SubStringExpr": State(8),
 		"CompareExpr":   State(7),
+		"BoolExpr":      State(26),
 	},
 	// state 12
 	GotoRow{
-		"CompareExpr":   State(7),
-		"BoolExpr1":     State(28),
-		"BoolExpr":      State(26),
-		"Val":           State(3),
 		"SubStringExpr": State(8),
+		"CompareExpr":   State(7),
+		"BoolExpr":      State(26),
+		"BoolExpr1":     State(28),
+		"Val":           State(3),
 	},
 	// state 13
 	GotoRow{},
@@ -640,10 +640,10 @@ var GotoTable GotoTab = GotoTab{
 	// state 16
 	GotoRow{
 		"Val":           State(15),
-		"SubStringExpr": State(20),
 		"BoolExpr1":     State(14),
-		"BoolExpr":      State(32),
 		"CompareExpr":   State(19),
+		"SubStringExpr": State(20),
+		"BoolExpr":      State(32),
 	},
 	// state 17
 	GotoRow{},
@@ -672,17 +672,17 @@ var GotoTable GotoTab = GotoTab{
 	// state 29
 	GotoRow{
 		"BoolExpr1":     State(40),
-		"Val":           State(15),
 		"SubStringExpr": State(20),
 		"CompareExpr":   State(19),
 		"BoolExpr":      State(39),
+		"Val":           State(15),
 	},
 	// state 30
 	GotoRow{
-		"BoolExpr":      State(39),
-		"CompareExpr":   State(19),
 		"SubStringExpr": State(20),
 		"BoolExpr1":     State(41),
+		"CompareExpr":   State(19),
+		"BoolExpr":      State(39),
 		"Val":           State(15),
 	},
 	// state 31

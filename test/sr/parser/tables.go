@@ -1,3 +1,4 @@
+
 package parser
 
 import "code.google.com/p/gocc/test/sr/ast"
@@ -41,7 +42,7 @@ var ProductionsTable = ProdTab{
 	},
 }
 
-var ActionTable ActionTab = ActionTab{
+var ActionTable ActionTab = ActionTab {
 	// state 0
 	&ActionRow{
 		CanRecover: false,
@@ -87,8 +88,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			1: Shift(8), // id
 			2: Shift(7), // if
+			1: Shift(8), // id
 		},
 	},
 
@@ -97,7 +98,7 @@ var ActionTable ActionTab = ActionTab{
 		CanRecover: false,
 		Actions: Actions{
 			0: Reduce(1), // $
-			4: Shift(9),  // else
+			4: Shift(9), // else
 		},
 	},
 
@@ -113,8 +114,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			0: Reduce(3), // $
 			4: Reduce(3), // else
+			0: Reduce(3), // $
 		},
 	},
 
@@ -156,8 +157,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			4: Shift(14), // else
 			0: Reduce(1), // $
+			4: Shift(14), // else
 		},
 	},
 
@@ -165,8 +166,8 @@ var ActionTable ActionTab = ActionTab{
 	&ActionRow{
 		CanRecover: false,
 		Actions: Actions{
-			2: Shift(7), // if
 			1: Shift(8), // id
+			2: Shift(7), // if
 		},
 	},
 
@@ -178,6 +179,7 @@ var ActionTable ActionTab = ActionTab{
 			0: Reduce(2), // $
 		},
 	},
+
 }
 
 var GotoTable GotoTab = GotoTab{
@@ -186,41 +188,53 @@ var GotoTable GotoTab = GotoTab{
 		"Stmt": State(1),
 	},
 	// state 1
-	GotoRow{},
+	GotoRow{
+	},
 	// state 2
-	GotoRow{},
+	GotoRow{
+	},
 	// state 3
-	GotoRow{},
+	GotoRow{
+	},
 	// state 4
-	GotoRow{},
+	GotoRow{
+	},
 	// state 5
 	GotoRow{
 		"Stmt": State(6),
 	},
 	// state 6
-	GotoRow{},
+	GotoRow{
+	},
 	// state 7
-	GotoRow{},
+	GotoRow{
+	},
 	// state 8
-	GotoRow{},
+	GotoRow{
+	},
 	// state 9
 	GotoRow{
 		"Stmt": State(11),
 	},
 	// state 10
-	GotoRow{},
+	GotoRow{
+	},
 	// state 11
-	GotoRow{},
+	GotoRow{
+	},
 	// state 12
 	GotoRow{
 		"Stmt": State(13),
 	},
 	// state 13
-	GotoRow{},
+	GotoRow{
+	},
 	// state 14
 	GotoRow{
 		"Stmt": State(15),
 	},
 	// state 15
-	GotoRow{},
+	GotoRow{
+	},
 }
+

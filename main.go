@@ -29,7 +29,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"runtime/pprof"
+	// "runtime/pprof"
 	"strings"
 	"time"
 )
@@ -57,10 +57,10 @@ func main() {
 		printParams()
 	}
 
-	if *profile {
-		startProfiler()
-		defer pprof.StopCPUProfile()
-	}
+	// if *profile {
+	// 	startProfiler()
+	// 	defer pprof.StopCPUProfile()
+	// }
 
 	tokenmap := token.NewMapFromStrings(token.GoccStrings)
 	scanner := &scanner.Scanner{}
@@ -79,10 +79,8 @@ func main() {
 	}
 	checkGrammar(g)
 
-	fmt.Println("Get item sets")
 	sets, trans := lr1.GetItemSets(g)
 
-	fmt.Println("main:trans.Check()")
 	if !trans.Check() {
 		error1("transition table not same", nil)
 	}
@@ -91,12 +89,8 @@ func main() {
 
 	writeFirstBodies(outDir, g)
 
-	fmt.Println("Generate GOTO table")
 	gto := lr1.NewGotoTable(len(sets), g, trans)
-	// act, lr1Conflicts := sets.ActionTable(trans, *autoLRConfResolve)
 
-	fmt.Println("Generate Action table")
-	// act, lr1Conflicts := sets.ActionTable(g, *autoLRConfResolve)
 	act, lr1Conflicts := sets.ActionTable(trans, *autoLRConfResolve)
 	if *verbose {
 		printConflicts(lr1Conflicts, g)
@@ -109,7 +103,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("Generate code")
 	if err := gen.WriteFiles(outDir, pkg, prjName(pkg), lr1.GenGo(act, gto, g), initDecl, g.TokenMap, *genScanner); err != nil {
 		error1("Error generating files:", err)
 	}
@@ -247,14 +240,14 @@ func actionString(a parserDefs.Action, g *ast.Grammar) string {
 	return fmt.Sprintf("Reduce:%d(%s)", act, g.Prod[act].Head.TokLit)
 }
 
-func startProfiler() {
-	f, err := os.Create("cpu.prof")
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
-		os.Exit(1)
-	}
-	pprof.StartCPUProfile(f)
-}
+// func startProfiler() {
+// 	f, err := os.Create("cpu.prof")
+// 	if err != nil {
+// 		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
+// 		os.Exit(1)
+// 	}
+// 	pprof.StartCPUProfile(f)
+// }
 
 func writeFirstBodies(prjDir string, g *ast.Grammar) {
 	first := make(map[string]string)
