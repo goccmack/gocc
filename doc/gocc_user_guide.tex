@@ -44,21 +44,21 @@
 \newcommand{\Clang}{{\em C} language}
 
 \section{Introduction}
-	gocc is an LR(1) parser generator with automatic LR(1) conflict resolution (see section~\ref{sec:lr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify symantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
+	gocc is an LR(1) parser generator with automatic LR(1) conflict resolution (see section~\ref{sec:lr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify semantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
 
 	gocc has been successfully used to develop a query language compiler; a configuration/control language for a distributed system; as well as a parser for protocol messages specified in ABNF~\cite{ABNF}. It is currently used in the development of an ASN.1 compiler.
 
 	gocc was designed to be easy to use and experience has shown that its users require very little background knowledge of language and compiler theory to apply it to simple language applications, such as syntax directed translation. An appreciation of mathematical formalism is usually enough and this guide is intended to provide sufficient information for such users, provided they understand:
 	\begin{itemize}
 		\item How to use context free grammars;
-		\item How to separate lexical, syntactic and symantic analysis.
+		\item How to separate lexical, syntactic and semantic analysis.
 	\end{itemize}
 
 	More complex applications, such as compiled languages and advanced protocol message parsing require more background, especially:
 	\begin{itemize}
 		\item The relationship between languages, grammars and automata;
 		\item The relationship between regular and context free grammars;
-		\item The equivalence of finite state automata with regular grammars; and of push down automata with context free grammars;
+		\item The equivalence of finite state automata with regular grammars; and of pushdown automata with context free grammars;
 		\item The meaning and limits of top down/predictive parsing, bottom up parsing and deterministic parsing;
 		\item The implications of language ambiguity and shift/reduce conflicts;
 		\item The implications of grammars that generate languages outside the class of context free languages;
@@ -67,7 +67,7 @@
 
 	The author  considers the {\em Dragon Book}~\cite{Dragon Book} still the best reference for these topics. The reader is also directed to \cite{Modern Compiler Design} for a modern treatment of compiler design, as well as \cite{Parsing} for a comprehensive treatment of the parsing techniques used in gocc.
 
-	gocc was conceived out of need in the year after Google released the \Go language. At the time there was no other parser generator available, which could generate parsers in the \Go language. The author set out to create a parser generator for the set of all deterministically parseable languages, which implied the LR(1) technique. Although there are now alternatives to gocc availble to \Go programmers we offer gocc to the community in the hope that someone may find it useful and as a token of thanks to Google for the gift of \Go.
+	gocc was conceived out of need in the year after Google released the \Go language. At the time there was no other parser generator available, which could generate parsers in the \Go language. The author set out to create a parser generator for the set of all deterministically parseable languages, which implied the LR(1) technique. Although there are now alternatives to gocc available to \Go programmers we offer gocc to the community in the hope that someone may find it useful and as a token of thanks to Google for the gift of \Go.
 
 \section{Copyright}
 	\begin{verbatim}
@@ -96,7 +96,7 @@
 
 \section{Getting started}
 	\begin{enumerate}
-		\item Download and install \Go from \url{http:golang.org}.
+		\item Download and install \Go from \url{http://golang.org}.
 
 		\item Set your \Code{GOPATH} environment variable. See \url{http://golang.org/doc/code.html}.
 
@@ -106,7 +106,7 @@
 
 					or 
 
-				\item Alternatively clone the source: \url{https://code.google.com/p/gocc/source/checkout}. Followed by:
+				\item Alternatively clone the repository: \url{https://code.google.com/p/gocc/source/checkout}. Followed by:
 				\verb|go install code.google.com/p/gocc|.
 			\end{enumerate}
 
@@ -117,7 +117,7 @@
 \section{How to create and use a parser with gocc}
 	Figure~\ref{fig:hl design} shows the high-level design of a user application, which uses a parser generated with gocc.
 	\begin{itemize}
-		\item The user creates a target grammar conforming the the gocc BNF standard (see appendix~\ref{sec:gocc bnf}).
+		\item The user creates a target grammar conforming to the gocc BNF standard (see appendix~\ref{sec:gocc bnf}).
 
 		\item gocc reads the target grammar and generates the components shown in heavy outline in fig~\ref{fig:hl design}, i.e.: the scanner, parser, token and error packages. 
 
@@ -125,13 +125,13 @@
 
 		\item The user creates a user application, which creates the scanner and parser objects. 
 
-		\item The user also creates a package called by the compiler to execute semantic actions for each recognised production of the target grammar. The methods of the symantic package provided by the user correspond to the method calls specified in the SDT statements in the target grammar.
+		\item The user also creates a package called by the compiler to execute semantic actions for each recognised production of the target grammar. The methods of the semantic package provided by the user correspond to the method calls specified in the SDT statements in the target grammar.
 
-		\item The user application initialises a scanner object with the input text. Then it calls the parse method of the parser.
+		\item The user application initialises a scanner object with the input text. Then it calls the \Code{Parse(...)} method of the parser.
 
 		\item Once created, the scanner and parser objects may be used repeatedly for successive inputs. For each input the scanner must be initialised with the next input text and the parser's \Code{Parse(...)} method called with a reference to the scanner.	
 
-		\item The parser reads a stream of tokens (lexical elements) from the sanner (lexer) by repeatedly calling the scanner interface method, \Code{scanner.Scan()}. 
+		\item The parser reads a stream of tokens (lexical elements) from the scanner (lexer) by repeatedly calling the scanner interface method, \Code{scanner.Scan()}. 
 
 		\begin{verbatim}
 			type Scanner interface {
@@ -139,11 +139,11 @@
 			}
 		\end{verbatim}
 
-		Each call to \Code{scanner.Scan} returns two values: a pointer to token.Token and token.Position. The former contains information of the last token scanned end the latter its position in the input text.
+		Each call to \Code{scanner.Scan} returns two values: a pointer to token.Token and token.Position. The former contains information of the last token scanned and the latter its position in the input text.
 
-		\item The scanner reads a stream of input characters and recognizes the tokens specified in the target grammar. After reaching the end of input it returns the end of intput token to every call to \Code{scanner.Scan()}.
+		\item The scanner reads a stream of input characters and recognizes the tokens specified in the target grammar. After reaching the end of input it returns the end of input token to every call to \Code{scanner.Scan()}.
 
-		\item Whenever the parser recognises the complete body of a production of the target grammar, it calls the function specified in the SDT element associated with that production. The parsed symbols of the recognised production are passed as parameters to the SDT function (see section~\ref{sec:target grammar}). The result of the SDT call is placed on the parser's stack as an attribute of the recogonised language symbol.
+		\item Whenever the parser recognises the complete body of a production of the target grammar, it calls the function specified in the SDT element associated with that production. The parsed symbols of the recognised production are passed as parameters to the SDT function (see section~\ref{sec:target grammar}). The result of the SDT call is placed on the parser's stack as an attribute of the recognised language symbol.
 
 		\item When the parser recognises the complete start production of the grammer it calls its associated SDT element. The result of the SDT call is returned to the user application as type \Code{interface\{\}} together with a \Code{nil} error value.
 
@@ -185,25 +185,25 @@
 			> gocc -s calc.bnf
 		\end{verbatim}
 
-		gocc is invoked with the option, \verb|-s| to generate a default scanner for the project. See section~\ref{sec:scanner} for more about the scanner.
+		gocc is invoked with the option, \verb|-s|, to generate a default scanner for the project. See section~\ref{sec:scanner} for more about the scanner.
 
-		After running gocc we see that the directory structure contains the following files:
+		After running gocc we see that the directory structure now contains the following files:
 
 		\begin{verbatim}
 			> ls -R calc/
 			calc.bnf		errors			scanner			sm_first_bodies.txt	sm_transitions.dot
 			calc_test.go		parser			sm_first.txt		sm_sets.txt		token
 
-			calc//errors:
+			calc/errors:
 			errors.go
 
-			calc//parser:
+			calc/parser:
 			parser.go	tables.go
 
-			calc//scanner:
+			calc/scanner:
 			scanner.go
 
-			calc//token:
+			calc/token:
 			token.go	tokens.go
 		\end{verbatim}
 
@@ -211,7 +211,7 @@
 		\begin{description}
 			\item[sm\_*.txt] Files containing information about the table generation process. They are useful for debugging.
 
-			\item[errors/errors.go] Declares \verb|type error|, which is used during automatic recovery from errors in the input. See section~\ref{sec:error recovery} for more details.
+			\item[errors/errors.go] Declares \verb|type Error|, which is used during automatic recovery from errors in the input. See section~\ref{sec:error recovery} for more details.
 
 			\item[parser/parser.go, parser/tables.go] contain the parser for the target language with the interpreter code embedded.
 
@@ -243,7 +243,7 @@
 
 		The BNF of the example starts with an optional initial SDT. It declares the imported package \verb|calc/token|, which will be used in SDT statements of some productions of the grammar. 
 
-		The text of the initial SDT is expanded at the start of the \verb|parser.tables.go|.
+		The text of the initial SDT is expanded at the start of the \verb|parser/tables.go|.
 
 		Every production alternative of the grammar has either an implicit or explicit SDT, which translates to a function with the signature:
 
@@ -255,7 +255,7 @@
 
 		When the whole body of a production alternative has been recognised, the parser calls the associated SDT function with the attributes of the recognised language symbols of that body. If the SDT function returns a non-nil error the parser stops and returns the error to the calling user application. If the SDT function returns a nil error the parser replaces the recognised language symbols of the production on its stack with the attribute returned by the SDT function.
 
-		Any expression in a production SDT must return \verb|(parser.Attrib, nil)|. The expression may refer to the attributes of the language symbols of the recognised production body, $P : x_0 .. x_n$ as $\$0 .. \$n$.
+		Any expression in a production's SDT must return \verb|(parser.Attrib, nil)|. The expression may refer to the attributes of the language symbols of the recognised production body, $P : x_0 .. x_n$ as $\$0 .. \$n$.
 
 		An implicit SDT function is of the form:
 
@@ -385,7 +385,7 @@
 	\end{verbatim}
 
 \section{What about a scanner?}\label{sec:scanner}
-	Currently gocc generates (optionally) only a very simple scanner, intended to be extended as required by the user.
+	Currently gocc (optionally) generates a very simple scanner, intended to be extended as required by the user.
 
 	A lexer generator, based on the target grammar, is planned for the near future.
 
@@ -434,7 +434,7 @@
 
 	to analyse the conflict.
 
-	\verb|sm_set.txt| contains the LR(1) sets, which will be translated into states of the parser. Each state contains a set of {\em LR(1)  items}, which specifies what the parser expects in that state. 
+	\verb|sm_set.txt| contains the LR(1) sets, which will be translated into the states of the parser. Each state contains a set of {\em LR(1)  items}, which specifies what the parser expects in that state. 
 
 	An LR(1) item is a production alternative with the position of the parser marked by a $\bullet$, and the next symbol expected after this production body, in double angle brackets. Alternatives of a production are in  separate items. For example: 
 
@@ -442,7 +442,7 @@
 
 	indicates that the compiler has recognised the production alternative, \verb|A : a| and  next expects to see the end of input character, \verb|$|.
 
-	Getting back our R/R conflict, \verb|S4|  in \verb|sm_states.txt| represents state 4 and contains the following items:
+	Getting back to our R/R conflict, \verb|S4|  in \verb|sm_states.txt| represents state 4 and contains the following items:
 
 	\[
 		\begin{array}{ll}
@@ -498,19 +498,16 @@
 		\end{array}
 	\]
 
-	When automatic LR(1) conflict resolution is selected by the \verb|-a| option, \gocc resolves this conflict in the same way as 
-	\
-
-	specified in the \Clang\ specification: by shifting and parsing the longest valid production ({\em maximal-munch}). This means recognising the \verb|else|-statement as part of the second \verb|if|.
+	When automatic LR(1) conflict resolution is selected by the \verb|-a| option, \gocc resolves this conflict in the same way as specified in the \Clang\ specification: by shifting and parsing the longest valid production ({\em maximal-munch}). This means recognising the \verb|else|-statement as part of the second \verb|if|.
 
 \section{Example: Using an AST} \label{sec:example ast}
-	The following example illustrates the use of a code from a user-provided package in the SDT. It produces a simple abstract syntax tree (AST) for list of simple statements. 
+	The following example illustrates the use of user-provided SDT rules to produce a simple abstract syntax tree (AST) for a list of simple statements. 
 
 	The code for the example can be found at
 
 	\verb|$GOPATH/src/code.google.com/p/gocc/example/astx|
 
-	The grammar is \verb|ast.bnf|:
+	The grammar is in \verb|ast.bnf|:
 
 	\begin{verbatim}
 		<< import "code.google.com/p/gocc/example/astx/ast" >>
@@ -563,11 +560,11 @@
 	Note the following:
 
 	\begin{itemize}
-		\item The attributes of the language symbols in the production are passed to the SDT function calls as paramters, referred to as $\$0, \$1, ...$
+		\item The attributes of the language symbols in the production are passed to the SDT function calls as parameters, referred to as $\$0, \$1, ...$
 
 		\item The type of the parameters passed to the functions in the SDTs is \verb|interface{}| and must be type asserted by the called function to the expected type.
 
-		\item The parser will return the result of a successful parse, a \verb"StmtList" to the calling application as type \verb"interface{}". The calling application must type assert the returned value to the expected type.
+		\item The parser will return the result of a successful parse, a \verb"StmtList", to the calling application as type \verb"interface{}". The calling application must type assert the returned value to the expected type.
 	\end{itemize}
 
 	If we run 
@@ -673,7 +670,7 @@
 	\verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/er_test.go|. \\
 	It calls the parser with input string, \verb|"a b ; d e f"|, which contains an invalid token, \verb|;|.
 
-	From the \verb|go test| output we see that the parser successfully recovered from the input error and returned a \verb|StmtList| containing an error symbol between \verb|[a| and \verb|d, e, f]|. The \verb|id|, \verb|b|, was lost in the error recovery. The errored token was \verb|;| (invalid token) when the parser expected one of \verb|error, $| (end of input) or \verb|id|.
+	From the \verb|go test| output we see that the parser successfully recovered from the input error and returned a \verb|StmtList| containing an error symbol between \verb|[a| and \verb|d, e, f]|. The \verb|id|, \verb|b|, was lost in the error recovery. \TBDx{Explain exactly why the 'b' was lost.} The errored token was \verb|;| (invalid token) when the parser expected one of \verb|error, $| (end of input) or \verb|id|.
 
 	The parser returned an error value of \verb|nil|, because it successfully recovered from the error.
 
