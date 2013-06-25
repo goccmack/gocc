@@ -16,17 +16,16 @@
 package parser
 
 import (
-	"code.google.com/p/gocc/token"
 	"strconv"
 )
 
 type (
-	ActionTab []*ActionRow
-	ActionRow struct {
-		CanRecover bool
-		Actions    Actions
-	}
-	Actions map[token.Type]Action
+	// ActionTab []*ActionRow
+	// ActionRow struct {
+	// 	CanRecover bool
+	// 	Actions    Actions
+	// }
+	// Actions map[token.Type]Action
 )
 
 type (
@@ -72,12 +71,12 @@ func (this Accept) String() string { return "Accept(0)" }
 func (this Shift) String() string  { return "Shift(" + strconv.Itoa(int(this)) + ")" }
 func (this Reduce) String() string { return "Reduce(" + strconv.Itoa(int(this)) + ")" }
 
-type (
-	GotoTab []GotoRow
-	GotoRow map[NT]State
-	State   int
-	NT      string
-)
+// type (
+// 	GotoTab []GotoRow
+// 	GotoRow map[NT]State
+// 	State   int
+// 	NT      string
+// )
 
 type (
 	ProdTab      []ProdTabEntry

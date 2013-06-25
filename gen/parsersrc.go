@@ -29,14 +29,14 @@ const parserSrcBody = `
 type(
 	ActionTab []*ActionRow
 	ActionRow struct {
-		CanRecover bool
+		canRecover bool
 		Actions Actions
 	}
 	Actions map[token.Type]Action
 )
 
 func (R *ActionRow) String() string {
-	s := fmt.Sprintf("CanRecover=%t\n", R.CanRecover) 
+	s := fmt.Sprintf("canRecover=%t\n", R.canRecover) 
 	for t, a := range R.Actions {
 		s += strconv.Itoa(int(t)) + " : " + a.String() + "\n"
 	}
@@ -102,7 +102,6 @@ type (
 		ReduceFunc	func([]Attrib) (Attrib, error)
 	}
 	Attrib interface{
-//		String() string
 	}
 )
 
@@ -243,10 +242,10 @@ func (P *Parser) popNonRecoveryStates() (removedAttribs []errs.ErrorSymbol) {
 
 // recoveryState points to the highest state on the stack, which can recover
 func (P *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
-	recoveryState, canRecover = P.stack.TopIndex(), P.actTab[P.stack.Top()].CanRecover
+	recoveryState, canRecover = P.stack.TopIndex(), P.actTab[P.stack.Top()].canRecover
 	for recoveryState > 0 && !canRecover {
 		recoveryState--
-		canRecover = P.actTab[P.stack.Peek(recoveryState)].CanRecover
+		canRecover = P.actTab[P.stack.Peek(recoveryState)].canRecover
 	}
 	return
 }

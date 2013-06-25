@@ -67,6 +67,10 @@ func NewMapFromString(input string) *TokenMap {
 	return NewMapFromStrings(tokens)
 }
 
+func (this *TokenMap) Len() int {
+	return len(this.tokenMap)
+}
+
 //Returns the Type of a Token from the TokenMap.
 func (this *TokenMap) Type(key string) Type {
 	tok, ok := this.stringMap[key]

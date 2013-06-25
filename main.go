@@ -18,6 +18,7 @@ package main
 
 import (
 	"code.google.com/p/gocc/ast"
+	"code.google.com/p/gocc/config"
 	"code.google.com/p/gocc/gen"
 	"code.google.com/p/gocc/lr1"
 	parserDefs "code.google.com/p/gocc/lr1/parser"
@@ -30,31 +31,37 @@ import (
 	"os"
 	"path"
 	// "runtime/pprof"
-	"strings"
 	"time"
 )
 
-var (
-	allowUnreachable  *bool
-	autoLRConfResolve *bool
-	profile           *bool
-	genScanner        *bool
-	help              *bool
-	verbose           *bool
-	srcFile           string
-	outDir            string
-	pkg               string
-)
+// var (
+// 	allowUnreachable  *bool
+// 	autoLRConfResolve *bool
+// 	profile           *bool
+// 	genScanner        *bool
+// 	help              *bool
+// 	verbose           *bool
+// 	srcFile           string
+// 	outDir            string
+// 	pkg               string
+// )
+
+var cfg config.Config
 
 func main() {
-	getArgs()
+	if cfg1, err := config.New(); err != nil {
+		fmt.Printf("Error reading configuration: %s\n", err)
+		usage()
+	} else {
+		cfg = cfg1
+	}
 
-	if *help {
+	if cfg.Help() {
 		usage()
 	}
 
-	if *verbose {
-		printParams()
+	if cfg.Verbose() {
+		cfg.PrintParams()
 	}
 
 	// if *profile {
@@ -64,7 +71,7 @@ func main() {
 
 	tokenmap := token.NewMapFromStrings(token.GoccStrings)
 	scanner := &scanner.Scanner{}
-	srcBuffer, err := ioutil.ReadFile(srcFile)
+	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -85,26 +92,28 @@ func main() {
 		error1("transition table not same", nil)
 	}
 
-	writeStateMachine(outDir, g.FirstSets(), sets, trans)
+	writeStateMachine(cfg.OutDir(), g.FirstSets(), sets, trans)
 
-	writeFirstBodies(outDir, g)
+	writeFirstBodies(cfg.OutDir(), g)
 
 	gto := lr1.NewGotoTable(len(sets), g, trans)
 
-	act, lr1Conflicts := sets.ActionTable(trans, *autoLRConfResolve)
-	if *verbose {
+	act, lr1Conflicts := sets.ActionTable(trans, cfg.AutoLRConfResolve())
+	if cfg.Verbose() {
 		printConflicts(lr1Conflicts, g)
 	}
 	switch {
-	case *autoLRConfResolve && len(lr1Conflicts) > 0:
+	case cfg.AutoLRConfResolve() && len(lr1Conflicts) > 0:
 		fmt.Fprintf(os.Stdout, "Resolved %d LR(1) conflicts\n", len(lr1Conflicts))
-	case !*autoLRConfResolve && len(lr1Conflicts) > 0:
+	case !cfg.AutoLRConfResolve() && len(lr1Conflicts) > 0:
 		fmt.Fprintf(os.Stderr, "ABORTING: %d LR(1) conflicts\n", len(lr1Conflicts))
 		os.Exit(1)
 	}
 
-	if err := gen.WriteFiles(outDir, pkg, prjName(pkg), lr1.GenGo(act, gto, g), initDecl, g.TokenMap, *genScanner); err != nil {
-		error1("Error generating files:", err)
+	if err := 
+		gen.WriteFiles(cfg, lr1.GenGo(act, gto, g), initDecl, g.TokenMap, act, gto, g); 
+		err != nil {
+			error1("Error generating files:", err)
 	}
 }
 
@@ -121,7 +130,7 @@ func checkGrammar(g *ast.Grammar) {
 		fmt.Println("Missing productions:", missing)
 		fmt.Println()
 	}
-	if len(missing) > 0 || len(unreachable) > 0 && !*allowUnreachable {
+	if len(missing) > 0 || len(unreachable) > 0 && !cfg.AllowUnreachable() {
 		error1("Errors in grammar", nil)
 	}
 }
@@ -146,40 +155,31 @@ func checkFirstSets(g *ast.Grammar) {
 	}
 }
 
-func getArgs() {
-	wd, err := os.Getwd()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "Cannot get working directory. Error: ", err.Error())
-		os.Exit(1)
-	}
+// func getArgs() {
+// 	wd, err := os.Getwd()
+// 	if err != nil {
+// 		fmt.Fprintln(os.Stderr, "Cannot get working directory. Error: ", err.Error())
+// 		os.Exit(1)
+// 	}
 
-	allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
-	autoLRConfResolve = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
-	genScanner = flag.Bool("s", false, "generate a scanner")
-	help = flag.Bool("h", false, "help")
-	verbose = flag.Bool("v", false, "verbose")
-	profile = flag.Bool("prof", false, "write profile to file")
-	flag.StringVar(&outDir, "o", wd, "output dir.")
-	flag.StringVar(&pkg, "p", defaultPackage(outDir), "package")
-	flag.Parse()
-	if len(flag.Args()) != 1 {
-		errorMsg("too few arguments")
-	}
-	srcFile = flag.Arg(0)
-}
-
-func defaultPackage(wd string) string {
-	srcPath := path.Join(os.Getenv("GOPATH"), "src")
-	pkg := strings.Replace(wd, srcPath, "", -1)
-	if strings.HasPrefix(pkg, "/") {
-		pkg = pkg[1:]
-	}
-	return pkg
-}
+// 	allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
+// 	autoLRConfResolve = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
+// 	genScanner = flag.Bool("s", false, "generate a scanner")
+// 	help = flag.Bool("h", false, "help")
+// 	verbose = flag.Bool("v", false, "verbose")
+// 	profile = flag.Bool("prof", false, "write profile to file")
+// 	flag.StringVar(&outDir, "o", wd, "output dir.")
+// 	flag.StringVar(&pkg, "p", defaultPackage(outDir), "package")
+// 	flag.Parse()
+// 	if len(flag.Args()) != 1 {
+// 		errorMsg("too few arguments")
+// 	}
+// 	srcFile = flag.Arg(0)
+// }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: gocc flags bnf_file")
-	fmt.Fprintf(os.Stderr, "   - bnf_file: contains the BNF grammar")
+	fmt.Fprintf(os.Stderr, "usage: gocc flags bnf_file\n")
+	fmt.Fprintf(os.Stderr, "   - bnf_file: contains the BNF grammar\n")
 	flag.PrintDefaults()
 	os.Exit(1)
 }
@@ -192,11 +192,6 @@ func errorMsg(msg string) {
 func error1(msg string, err error) {
 	fmt.Println(msg, err)
 	os.Exit(1)
-}
-
-func prjName(pkg string) string {
-	_, file := path.Split(pkg)
-	return file
 }
 
 func printConflicts(conflicts lr1.ConflictSet, g *ast.Grammar) {
@@ -216,16 +211,6 @@ func conflictString(c *lr1.Conflict, g *ast.Grammar) (res string) {
 		res = fmt.Sprintf("S%d %s / %s", c.State, actionString(c.A1, g), actionString(c.A2, g))
 	}
 	return
-}
-
-func printParams() {
-	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *autoLRConfResolve)
-	fmt.Printf("    output directory              = %s\n", outDir)
-	fmt.Printf("    package                       = %s\n", pkg)
-	fmt.Printf("    generate a scanner            = %t\n", *genScanner)
-	fmt.Printf("    allow unreachable productions = %t\n", *allowUnreachable)
-	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *autoLRConfResolve)
-	fmt.Printf("    verbose                       = %t\n", *verbose)
 }
 
 func printTime(from time.Time, msg string) {

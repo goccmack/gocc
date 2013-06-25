@@ -23,7 +23,7 @@ import (
 	"strconv"
 )
 
-// Grammar symbol index -> ItemSet index
+// Grammar symbol (NT) index -> ItemSet index
 type GotoTableEntry map[int]int
 
 //The TransitionTable.
@@ -47,19 +47,7 @@ func (T TransitionTable) String() string {
 	return res
 }
 
-// func (T TransitionTable) Check() bool {
-// 	for _, t1 := range T {
-// 		for _, t2 := range T {
-// 			if t1.From == t2.From && t1.Symbol.Equals(t2.Symbol) && t1.To != t2.To {
-// 				return false
-// 			}
-// 		}
-// 	}
-// 	return true
-// }
-
 //Do a simple validity check.
-// !!! Optimised !!!
 func (T TransitionTable) Check() bool {
 	for i := 0; i < len(T)-1; i++ {
 		t1 := T[i]
@@ -103,8 +91,8 @@ func (T *Transition) Dot() string {
 
 //The GotoTable.
 type GotoTable struct {
-	nt    ast.SymbolS
-	ntmap map[string]int
+	NT    ast.SymbolS
+	NTMap map[string]int
 	GTO   []GotoTableEntry
 }
 
@@ -112,12 +100,12 @@ type GotoTable struct {
 func NewGotoTable(numStates int, g *ast.Grammar, trans TransitionTable) *GotoTable {
 	// ?? Optimise: use Symbol.TokLit instead of Symbol.String() ??
 	tab := &GotoTable{
-		nt:    g.NonTerminals.Min(g.Prod[0].Head),
-		ntmap: make(map[string]int),
+		NT:    g.NonTerminals.Min(g.Prod[0].Head),
+		NTMap: make(map[string]int),
 		GTO:   make([]GotoTableEntry, numStates),
 	}
-	for i, sym := range tab.nt {
-		tab.ntmap[sym.String()] = i
+	for i, sym := range tab.NT {
+		tab.NTMap[sym.String()] = i
 	}
 	for i := range tab.GTO {
 		tab.GTO[i] = make(map[int]int)
@@ -126,7 +114,7 @@ func NewGotoTable(numStates int, g *ast.Grammar, trans TransitionTable) *GotoTab
 		if t.Symbol.IsTerminal() {
 			continue
 		}
-		symIdx := tab.ntmap[t.Symbol.String()]
+		symIdx := tab.NTMap[t.Symbol.String()]
 		switch to, exists := tab.GTO[t.From][symIdx]; {
 		case !exists:
 			tab.GTO[t.From][symIdx] = t.To
@@ -147,7 +135,7 @@ func NewGotoTable(numStates int, g *ast.Grammar, trans TransitionTable) *GotoTab
 
 //Walks the goto table given a state and a next symbol and returns the nextState.
 func (this *GotoTable) NextState(FromState int, sym ast.Symbol) (nextState int) {
-	return this.GTO[FromState][this.ntmap[sym.String()]]
+	return this.GTO[FromState][this.NTMap[sym.String()]]
 }
 
 //Returns a list reachabilities.
@@ -163,9 +151,9 @@ func (this *GotoTable) ReachableNodes() []bool {
 
 //Returns a string representing the GoToTable.
 func (this *GotoTable) String() string {
-	str := "state," + SymbolsHeadingString(this.nt) + "\n"
+	str := "state," + SymbolsHeadingString(this.NT) + "\n"
 	for i, ge := range this.GTO {
-		str += strconv.Itoa(i) + "," + ge.GotoEntryString(this.nt) + "\n"
+		str += strconv.Itoa(i) + "," + ge.GotoEntryString(this.NT) + "\n"
 	}
 	return str
 }
@@ -210,7 +198,7 @@ func (this ItemSets) ActionTable(transTab TransitionTable, sr_auto_resolve bool)
 		// actTab[i] = make(ActionTableEntry)
 		actTab[i] = &ActionTableEntry{
 			CanRecover: false,
-			Actions:    make(parser.Actions),
+			Actions:    make(parser.ActionsC),
 		}
 	}
 	lr1Conflicts = ConflictSet{}
@@ -308,7 +296,7 @@ func symbolMap(terminals ast.SymbolS) map[string]int {
 }
 
 // Non-Terminal -> Action
-type ActionTableEntry parser.ActionRow
+type ActionTableEntry parser.ActionRowC
 
 //Returns the Go Code String of the action.
 func GenGoForAction(a parser.Action) string {
@@ -340,7 +328,7 @@ func (this ActionTable) GenGo(tm *token.TokenMap) string {
 func (this ActionTableEntry) GenGo(state int, tm *token.TokenMap) string {
 	res := fmt.Sprintf("\t// state %d\n", state)
 	res += fmt.Sprintf("\t&ActionRow{\n")
-	res += fmt.Sprintf("\t\tCanRecover: %t,\n", this.CanRecover)
+	res += fmt.Sprintf("\t\tcanRecover: %t,\n", this.CanRecover)
 	res += fmt.Sprintf("\t\tActions: Actions{\n")
 	for tok, a := range this.Actions {
 		res += fmt.Sprintf("\t\t\t%d: %s, // %s\n", int(tok), a, tm.TokenString(tok))
@@ -354,7 +342,7 @@ func (this ActionTableEntry) GenGo(state int, tm *token.TokenMap) string {
 func (this GotoTable) GenGo() string {
 	res := "var GotoTable GotoTab = GotoTab{\n"
 	for i, gr := range this.GTO {
-		res += gr.GenGo(i, this.nt)
+		res += gr.GenGo(i, this.NT)
 	}
 	res += "}\n"
 	return res

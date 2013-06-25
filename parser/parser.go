@@ -31,7 +31,7 @@ type Parser struct {
 	token     *token.Token
 	pos       token.Position
 	tokenMap  *token.TokenMap
-	gTokenMap *token.TokenMap
+	gTokenMap *token.TokenMap 	// Tokenmap of the target grammar, G
 }
 
 //Creates a New Parser for gocc BNF Source
@@ -195,7 +195,7 @@ func (P *Parser) Symbol() *ast.Symbol {
 		sym, err = ast.NewSymbol(ast.STRING_LIT, P.token, P.gTokenMap)
 	case P.tokenMap.Type("char"):
 		sym, err = ast.NewSymbol(ast.CHAR_LIT, P.token, P.gTokenMap)
-	case P.tokenMap.Type("ε"):
+	case P.tokenMap.Type("ε"): //TODO: should this option still be here?
 		sym = ast.EPSILON_SYM
 	default:
 		err = errors.New("Cannot parse Symbol:" + P.token.String())

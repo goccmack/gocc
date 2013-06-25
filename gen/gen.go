@@ -16,7 +16,13 @@
 package gen
 
 import (
+	"code.google.com/p/gocc/ast"
+	"code.google.com/p/gocc/config"
+	"code.google.com/p/gocc/lr1"
+	"code.google.com/p/gocc/lr1/gen/gocode"
 	"code.google.com/p/gocc/token"
+	"bytes"
+	"fmt"
 	"os"
 	"path"
 	"strings"
@@ -24,66 +30,80 @@ import (
 
 //Generates and writes the parser, scanner and token packages, given the generated tables and tokenMap.
 // func WriteFiles(debug bool, srcDir, pkg, prjName string, tables string, initDecl string, tm *token.TokenMap, genScanner bool) (err error) {
-func WriteFiles(srcDir, pkg, prjName string, tables string, initDecl string, tm *token.TokenMap, genScanner bool) (err error) {
-	errorsDir := path.Join(srcDir, "errors")
-	errorsImport := `import errs "` + path.Join(pkg, "errors") + `"` + "\n\n"
-	parserDir := path.Join(srcDir, "parser")
-	scannerDir := path.Join(srcDir, "scanner")
-	tokenDir := path.Join(srcDir, "token")
-	tokenImport := `import "` + path.Join(pkg, "token") + `"` + "\n\n"
+func WriteFiles(cfg config.Config, tables string, initDecl string, tm *token.TokenMap, actTab lr1.ActionTable, gotoTab *lr1.GotoTable, g *ast.Grammar) (err error) {
+	errorsImport := `import errs "` + path.Join(cfg.Package(), "errors") + `"` + "\n\n"
+	tokenImport := `import "` + path.Join(cfg.Package(), "token") + `"` + "\n\n"
 
-	if err = writeErrors(errorsDir, tokenImport); err != nil {
+	if err = writeErrors(cfg, tokenImport); err != nil {
 		return
 	}
-	if err = writeParser(parserDir, errorsImport, tokenImport); err != nil {
+	if err = writeParser(cfg, errorsImport, tokenImport); err != nil {
 		return
 	}
-	if genScanner {
-		if err = writeScanner(scannerDir, tokenImport); err != nil {
+	if cfg.GenScanner() {
+		if err = writeScanner(cfg, tokenImport); err != nil {
 			return
 		}
 	}
-	if err = writeFile(path.Join(tokenDir, "token.go"), tokenSrc); err != nil {
+	if err = writeFileString(path.Join(cfg.TokenDir(), "token.go"), tokenSrc); err != nil {
 		return
 	}
-	if err = writeTables(parserDir, initDecl, tables); err != nil {
+	if err = writeTables(cfg, initDecl, tables); err != nil {
 		return
 	}
-	return writeTokenFile(tokenDir, prjName, tm)
+	if err = writeUTables(cfg, initDecl, actTab, gotoTab, tm, g); err != nil {
+		return
+	}
+	return writeTokenFile(cfg, cfg.ProjectName(), tm)
 }
 
-func writeErrors(errorsDir, tokenImport string) error {
-	fpath := path.Join(errorsDir, "errors.go")
-	return writeFile(fpath, errorsSrcHeader, tokenImport, errorsSrcBody)
+func writeErrors(cfg config.Config, tokenImport string) error {
+	fpath := path.Join(cfg.ErrorsDir(), "errors.go")
+	return writeFileString(fpath, errorsSrcHeader, tokenImport, errorsSrcBody)
 }
 
-func writeParser(parserDir, errorsImport, tokenImport string) error {
-	fpath := path.Join(parserDir, "parser.go")
-	return writeFile(fpath, parserSrcHdr, errorsImport, tokenImport, parserSrcBody)
+func writeParser(cfg config.Config, errorsImport, tokenImport string) error {
+	fpath := path.Join(cfg.ParserDir(), "parser.go")
+	if err := writeFileString(fpath, parserSrcHdr, errorsImport, tokenImport, parserSrcBody); err != nil {
+		return err
+	}
+	fpath = path.Join(cfg.ParserDir(), "parser_ut.go")
+	return writeFileString(fpath, gocode.ParserUTHdrSrc, errorsImport, tokenImport, gocode.ParserUTBodySrc)
 }
 
-func writeScanner(scannerDir, tokenImport string) error {
-	fpath := path.Join(scannerDir, "scanner.go")
-	return writeFile(fpath, scannerSrcHdr, tokenImport, scannerSrcBody)
+func writeScanner(cfg config.Config, tokenImport string) error {
+	fpath := path.Join(cfg.ScannerDir(), "scanner.go")
+	return writeFileString(fpath, scannerSrcHdr, tokenImport, scannerSrcBody)
 }
 
-func writeTables(parserDir, initDecl, tablesSrc string) (err error) {
-	fpath := path.Join(parserDir, "tables.go")
-	return writeFile(fpath, tableSrcHdr, initDecl, "\n\n", tablesSrc)
+func writeTables(cfg config.Config, initDecl, tablesSrc string) (err error) {
+	fpath := path.Join(cfg.ParserDir(), "tables.go")
+	return writeFileString(fpath, tableSrcHdr, initDecl, "\n\n", tablesSrc)
 }
 
-func writeTokenFile(tokenDir, prjName string, tm *token.TokenMap) error {
+func writeUTables(cfg config.Config, initDecl string, actTab lr1.ActionTable, gto *lr1.GotoTable, tm *token.TokenMap, g *ast.Grammar) (err error) {
+	fpath := path.Join(cfg.ParserDir(), "tables_uncompressed.go")
+	buf := new(bytes.Buffer)
+	fmt.Fprintf(buf, "package parser\n\n")
+	fmt.Fprintf(buf, "%s\n\n", initDecl)
+	gocode.NewActTableGenerator(actTab, cfg).GenUncompressed(buf, tm)
+	gocode.NewUGotoTable(gto, cfg).GenUncompressed(buf)
+	gocode.NewUProdsTable(g).GenUncompressed(buf)
+	return writeFile(fpath, buf.Bytes())
+}
+
+func writeTokenFile(cfg config.Config, prjName string, tm *token.TokenMap) error {
 	src := "package token\n\n"
 	src += "var " + strings.ToUpper(prjName) + "Tokens = NewMapFromStrings([]string{\n"
 	for _, s := range tm.Strings() {
 		src += "\t" + `"` + s + `"` + ",\n"
 	}
 	src += "})\n"
-	fpath := path.Join(tokenDir, "tokens.go")
-	return writeFile(fpath, src)
+	fpath := path.Join(cfg.TokenDir(), "tokens.go")
+	return writeFileString(fpath, src)
 }
 
-func writeFile(fpath string, src ...string) (err error) {
+func writeFileString(fpath string, src ...string) (err error) {
 	os.Remove(fpath)
 	dir, _ := path.Split(fpath)
 	if err = os.MkdirAll(dir, 0777); err != nil {
@@ -95,6 +115,26 @@ func writeFile(fpath string, src ...string) (err error) {
 	}
 	for _, s := range src {
 		if _, err = file.Write([]byte(s)); err != nil {
+			file.Close()
+			return
+		}
+	}
+	err = file.Close()
+	return
+}
+
+func writeFile(fpath string, src ...[]byte) (err error) {
+	os.Remove(fpath)
+	dir, _ := path.Split(fpath)
+	if err = os.MkdirAll(dir, 0777); err != nil {
+		return
+	}
+	file, err := os.Create(fpath)
+	if err != nil {
+		return err
+	}
+	for _, s := range src {
+		if _, err = file.Write(s); err != nil {
 			file.Close()
 			return
 		}
