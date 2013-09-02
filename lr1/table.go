@@ -223,7 +223,7 @@ func (this ItemSets) ActionTable(transTab TransitionTable, sr_auto_resolve bool)
 					actTab[si].Actions[item.NextToken.TokType] = action
 				}
 			} else if prod.Body.Symbols[item.Pos].IsTerminal() {
-				//Optimise: ?? use transitionTable.Goto instead of Goto here?
+				//TODO: Optimise: ?? use transitionTable.Goto instead of Goto here?
 				if nextState := transTab.Goto(si, prod.Body.Symbols[item.Pos]); nextState >= 0 {
 					// if nextState := this.GetIndex(Goto(set, prod.Body.Symbols[item.Pos], g.FirstSets())); nextState >= 0 {
 					action := parser.Action(parser.Shift(nextState))
