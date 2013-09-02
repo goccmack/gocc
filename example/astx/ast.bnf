@@ -1,3 +1,17 @@
+/* Lexical elements */
+
+_letter : 'a'-'z' | 'A'-'Z' ;
+
+_digit : '0'-'9' ;
+
+_idchar : _letter | _digit | '_' ;
+
+id : (_letter | '_') {_idchar} ;
+
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+
+/* Syntax elements */
+
 << import "code.google.com/p/gocc/example/astx/ast" >>
 
 StmtList : 

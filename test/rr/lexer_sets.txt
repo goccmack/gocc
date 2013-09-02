@@ -1,0 +1,40 @@
+Item sets:
+S0{
+	a : • 'a'
+	c : • 'c'
+	!whitespace : ' ' | '\t' | '\n' | • '\r'
+	!whitespace : ' ' | '\t' | • '\n' | '\r'
+	!whitespace : ' ' | • '\t' | '\n' | '\r'
+	!whitespace : • ' ' | '\t' | '\n' | '\r'
+}
+Transitions:
+	['\t','\t'] -> S1
+	['\n','\n'] -> S1
+	['\r','\r'] -> S1
+	[' ',' '] -> S1
+	['a','a'] -> S2
+	['c','c'] -> S3
+Action: nil
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['a','a'], ['c','c']}
+
+S1{
+	!whitespace : (' ' | '\t' | '\n' | '\r') •
+}
+Transitions:
+Action: Ignore("!whitespace")
+Symbols classes: {}
+
+S2{
+	a : 'a' •
+}
+Transitions:
+Action: Accept("a")
+Symbols classes: {}
+
+S3{
+	c : 'c' •
+}
+Transitions:
+Action: Accept("c")
+Symbols classes: {}
+

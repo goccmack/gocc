@@ -2,16 +2,14 @@ package sr
 
 import (
 	"code.google.com/p/gocc/test/sr/ast"
+	"code.google.com/p/gocc/test/sr/lexer"
 	"code.google.com/p/gocc/test/sr/parser"
-	"code.google.com/p/gocc/test/sr/scanner"
-	"code.google.com/p/gocc/test/sr/token"
 	"testing"
 )
 
 func parse(src string) (stmt ast.Stmt, err error) {
-	lex := &scanner.Scanner{}
-	lex.Init([]byte(src), token.SRTokens)
-	p := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.SRTokens)
+	lex := lexer.NewLexer([]byte(src))
+	p := parser.NewParser()
 	if res, err := p.Parse(lex); err == nil {
 		stmt = res.(ast.Stmt)
 	}

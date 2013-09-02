@@ -12,15 +12,23 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+/* Lexical elements */
+a : 'a' ;
+
+c : 'c' ;
+
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+
+/* Syntax elements */
 
 RR : A | B ;
 
 B : 
-	a 			<< `B `, nil >>
+	a 			<< "B ", nil >>
 ;
 
 A : 
-		a 		<< `A0 `, nil >>
-	|	A a 	<< `A1 `, nil >>
-	|	c		<< `A2 `, nil >>
+		a 		<< "A0 ", nil >>
+	|	A a 	<< "A1 ", nil >>
+	|	c		<< "A2 ", nil >>
 ;

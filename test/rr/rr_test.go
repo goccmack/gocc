@@ -15,18 +15,16 @@
 package rr
 
 import (
+	"code.google.com/p/gocc/test/rr/lexer"
 	"code.google.com/p/gocc/test/rr/parser"
-	"code.google.com/p/gocc/test/rr/scanner"
-	"code.google.com/p/gocc/test/rr/token"
 	"fmt"
 	"testing"
 )
 
 func parse(src string) (ast string, err error) {
-	s := &scanner.Scanner{}
-	s.Init([]byte(src), token.RRTokens)
-	p := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.RRTokens)
-	res, err := p.Parse(s)
+	l := lexer.NewLexer([]byte(src))
+	p := parser.NewParser()
+	res, err := p.Parse(l)
 	if err == nil {
 		ast = res.(string)
 	}

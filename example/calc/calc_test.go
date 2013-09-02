@@ -1,9 +1,8 @@
 package calc
 
 import (
+	"code.google.com/p/gocc/example/calc/lexer"
 	"code.google.com/p/gocc/example/calc/parser"
-	"code.google.com/p/gocc/example/calc/scanner"
-	"code.google.com/p/gocc/example/calc/token"
 	"fmt"
 	"testing"
 )
@@ -20,11 +19,10 @@ var testData = []*TI{
 }
 
 func Test1(t *testing.T) {
-	s := &scanner.Scanner{}
-	p := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.CALCTokens)
+	p := parser.NewParser()
 	pass := true
 	for _, ts := range testData {
-		s.Init([]byte(ts.src), token.CALCTokens)
+		s := lexer.NewLexer([]byte(ts.src))
 		sum, err := p.Parse(s)
 		if err != nil {
 			pass = false

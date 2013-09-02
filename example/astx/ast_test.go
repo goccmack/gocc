@@ -2,9 +2,8 @@ package astx
 
 import (
 	"code.google.com/p/gocc/example/astx/ast"
+	"code.google.com/p/gocc/example/astx/lexer"
 	"code.google.com/p/gocc/example/astx/parser"
-	"code.google.com/p/gocc/example/astx/scanner"
-	"code.google.com/p/gocc/example/astx/token"
 	"fmt"
 	"testing"
 )
@@ -26,9 +25,8 @@ func TestFail(t *testing.T) {
 
 func test(src []byte) (astree ast.StmtList, err error) {
 	fmt.Printf("input: %s\n", src)
-	s := &scanner.Scanner{}
-	s.Init([]byte(src), token.ASTXTokens)
-	p := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.ASTXTokens)
+	s := lexer.NewLexer(src)
+	p := parser.NewParser()
 	a, err := p.Parse(s)
 	if err == nil {
 		astree = a.(ast.StmtList)

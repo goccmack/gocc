@@ -1,0 +1,72 @@
+S0{
+	S' : •StmtList «$»
+	StmtList : •Stmt «$»
+	StmtList : •StmtList Stmt «$»
+	Stmt : •id «$»
+	Stmt : •error «$»
+	StmtList : •Stmt «id»
+	StmtList : •Stmt «error»
+	StmtList : •StmtList Stmt «id»
+	StmtList : •StmtList Stmt «error»
+	Stmt : •id «id»
+	Stmt : •error «id»
+	Stmt : •id «error»
+	Stmt : •error «error»
+}
+Transitions:
+	StmtList -> 1
+	Stmt -> 2
+	id -> 3
+	error -> 4
+
+
+S1{
+	S' : StmtList• «$»
+	StmtList : StmtList •Stmt «$»
+	StmtList : StmtList •Stmt «id»
+	StmtList : StmtList •Stmt «error»
+	Stmt : •id «$»
+	Stmt : •error «$»
+	Stmt : •id «id»
+	Stmt : •error «id»
+	Stmt : •id «error»
+	Stmt : •error «error»
+}
+Transitions:
+	Stmt -> 5
+	id -> 3
+	error -> 4
+
+
+S2{
+	StmtList : Stmt• «$»
+	StmtList : Stmt• «id»
+	StmtList : Stmt• «error»
+}
+Transitions:
+
+
+S3{
+	Stmt : id• «$»
+	Stmt : id• «id»
+	Stmt : id• «error»
+}
+Transitions:
+
+
+S4{
+	Stmt : error• «$»
+	Stmt : error• «id»
+	Stmt : error• «error»
+}
+Transitions:
+
+
+S5{
+	StmtList : StmtList Stmt• «$»
+	StmtList : StmtList Stmt• «id»
+	StmtList : StmtList Stmt• «error»
+}
+Transitions:
+
+

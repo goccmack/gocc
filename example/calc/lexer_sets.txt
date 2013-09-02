@@ -1,0 +1,69 @@
+Item sets:
+S0{
+	int64 : •  '1'-'9' { '0'-'9'}
+	!whitespace : ' ' | '\t' | '\n' | • '\r'
+	!whitespace : ' ' | '\t' | • '\n' | '\r'
+	!whitespace : ' ' | • '\t' | '\n' | '\r'
+	!whitespace : • ' ' | '\t' | '\n' | '\r'
+	+ : • '+'
+	* : • '*'
+	( : • '('
+	) : • ')'
+}
+Transitions:
+	['\t','\t'] -> S1
+	['\n','\n'] -> S1
+	['\r','\r'] -> S1
+	[' ',' '] -> S1
+	['(','('] -> S2
+	[')',')'] -> S3
+	['*','*'] -> S4
+	['+','+'] -> S5
+	['1','9'] -> S6
+Action: nil
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['(','('], [')',')'], ['*','*'], ['+','+'], ['1','9']}
+
+S1{
+	!whitespace : (' ' | '\t' | '\n' | '\r') •
+}
+Transitions:
+Action: Ignore("!whitespace")
+Symbols classes: {}
+
+S2{
+	( : '(' •
+}
+Transitions:
+Action: Accept("(")
+Symbols classes: {}
+
+S3{
+	) : ')' •
+}
+Transitions:
+Action: Accept(")")
+Symbols classes: {}
+
+S4{
+	* : '*' •
+}
+Transitions:
+Action: Accept("*")
+Symbols classes: {}
+
+S5{
+	+ : '+' •
+}
+Transitions:
+Action: Accept("+")
+Symbols classes: {}
+
+S6{
+	int64 :  '1'-'9' { '0'-'9'} •
+	int64 :  '1'-'9' {•  '0'-'9'}
+}
+Transitions:
+	['0','9'] -> S6
+Action: Accept("int64")
+Symbols classes: {['0','9']}
+

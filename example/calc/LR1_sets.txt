@@ -1,0 +1,314 @@
+S0{
+	S' : •Calc «$»
+	Calc : •Expr «$»
+	Expr : •Expr + Term «$»
+	Expr : •Term «$»
+	Expr : •Expr + Term «+»
+	Expr : •Term «+»
+	Term : •Term * Factor «$»
+	Term : •Factor «$»
+	Term : •Term * Factor «+»
+	Term : •Factor «+»
+	Term : •Term * Factor «*»
+	Term : •Factor «*»
+	Factor : •( Expr ) «$»
+	Factor : •int64 «$»
+	Factor : •( Expr ) «+»
+	Factor : •int64 «+»
+	Factor : •( Expr ) «*»
+	Factor : •int64 «*»
+}
+Transitions:
+	Calc -> 1
+	Expr -> 2
+	Term -> 3
+	Factor -> 4
+	( -> 5
+	int64 -> 6
+
+
+S1{
+	S' : Calc• «$»
+}
+Transitions:
+
+
+S2{
+	Calc : Expr• «$»
+	Expr : Expr •+ Term «$»
+	Expr : Expr •+ Term «+»
+}
+Transitions:
+	+ -> 7
+
+
+S3{
+	Expr : Term• «$»
+	Expr : Term• «+»
+	Term : Term •* Factor «$»
+	Term : Term •* Factor «+»
+	Term : Term •* Factor «*»
+}
+Transitions:
+	* -> 8
+
+
+S4{
+	Term : Factor• «$»
+	Term : Factor• «+»
+	Term : Factor• «*»
+}
+Transitions:
+
+
+S5{
+	Factor : ( •Expr ) «$»
+	Factor : ( •Expr ) «+»
+	Factor : ( •Expr ) «*»
+	Expr : •Expr + Term «)»
+	Expr : •Term «)»
+	Expr : •Expr + Term «+»
+	Expr : •Term «+»
+	Term : •Term * Factor «)»
+	Term : •Factor «)»
+	Term : •Term * Factor «+»
+	Term : •Factor «+»
+	Term : •Term * Factor «*»
+	Term : •Factor «*»
+	Factor : •( Expr ) «)»
+	Factor : •int64 «)»
+	Factor : •( Expr ) «+»
+	Factor : •int64 «+»
+	Factor : •( Expr ) «*»
+	Factor : •int64 «*»
+}
+Transitions:
+	Expr -> 9
+	Term -> 10
+	Factor -> 11
+	( -> 12
+	int64 -> 13
+
+
+S6{
+	Factor : int64• «$»
+	Factor : int64• «+»
+	Factor : int64• «*»
+}
+Transitions:
+
+
+S7{
+	Expr : Expr + •Term «$»
+	Expr : Expr + •Term «+»
+	Term : •Term * Factor «$»
+	Term : •Factor «$»
+	Term : •Term * Factor «+»
+	Term : •Factor «+»
+	Term : •Term * Factor «*»
+	Term : •Factor «*»
+	Factor : •( Expr ) «$»
+	Factor : •int64 «$»
+	Factor : •( Expr ) «+»
+	Factor : •int64 «+»
+	Factor : •( Expr ) «*»
+	Factor : •int64 «*»
+}
+Transitions:
+	Term -> 14
+	Factor -> 4
+	( -> 5
+	int64 -> 6
+
+
+S8{
+	Term : Term * •Factor «$»
+	Term : Term * •Factor «+»
+	Term : Term * •Factor «*»
+	Factor : •( Expr ) «$»
+	Factor : •int64 «$»
+	Factor : •( Expr ) «+»
+	Factor : •int64 «+»
+	Factor : •( Expr ) «*»
+	Factor : •int64 «*»
+}
+Transitions:
+	Factor -> 15
+	( -> 5
+	int64 -> 6
+
+
+S9{
+	Factor : ( Expr •) «$»
+	Factor : ( Expr •) «+»
+	Factor : ( Expr •) «*»
+	Expr : Expr •+ Term «)»
+	Expr : Expr •+ Term «+»
+}
+Transitions:
+	+ -> 16
+	) -> 17
+
+
+S10{
+	Expr : Term• «)»
+	Expr : Term• «+»
+	Term : Term •* Factor «)»
+	Term : Term •* Factor «+»
+	Term : Term •* Factor «*»
+}
+Transitions:
+	* -> 18
+
+
+S11{
+	Term : Factor• «)»
+	Term : Factor• «+»
+	Term : Factor• «*»
+}
+Transitions:
+
+
+S12{
+	Factor : ( •Expr ) «)»
+	Factor : ( •Expr ) «+»
+	Factor : ( •Expr ) «*»
+	Expr : •Expr + Term «)»
+	Expr : •Term «)»
+	Expr : •Expr + Term «+»
+	Expr : •Term «+»
+	Term : •Term * Factor «)»
+	Term : •Factor «)»
+	Term : •Term * Factor «+»
+	Term : •Factor «+»
+	Term : •Term * Factor «*»
+	Term : •Factor «*»
+	Factor : •( Expr ) «)»
+	Factor : •int64 «)»
+	Factor : •( Expr ) «+»
+	Factor : •int64 «+»
+	Factor : •( Expr ) «*»
+	Factor : •int64 «*»
+}
+Transitions:
+	Expr -> 19
+	Term -> 10
+	Factor -> 11
+	( -> 12
+	int64 -> 13
+
+
+S13{
+	Factor : int64• «)»
+	Factor : int64• «+»
+	Factor : int64• «*»
+}
+Transitions:
+
+
+S14{
+	Expr : Expr + Term• «$»
+	Expr : Expr + Term• «+»
+	Term : Term •* Factor «$»
+	Term : Term •* Factor «+»
+	Term : Term •* Factor «*»
+}
+Transitions:
+	* -> 8
+
+
+S15{
+	Term : Term * Factor• «$»
+	Term : Term * Factor• «+»
+	Term : Term * Factor• «*»
+}
+Transitions:
+
+
+S16{
+	Expr : Expr + •Term «)»
+	Expr : Expr + •Term «+»
+	Term : •Term * Factor «)»
+	Term : •Factor «)»
+	Term : •Term * Factor «+»
+	Term : •Factor «+»
+	Term : •Term * Factor «*»
+	Term : •Factor «*»
+	Factor : •( Expr ) «)»
+	Factor : •int64 «)»
+	Factor : •( Expr ) «+»
+	Factor : •int64 «+»
+	Factor : •( Expr ) «*»
+	Factor : •int64 «*»
+}
+Transitions:
+	Term -> 20
+	Factor -> 11
+	( -> 12
+	int64 -> 13
+
+
+S17{
+	Factor : ( Expr )• «$»
+	Factor : ( Expr )• «+»
+	Factor : ( Expr )• «*»
+}
+Transitions:
+
+
+S18{
+	Term : Term * •Factor «)»
+	Term : Term * •Factor «+»
+	Term : Term * •Factor «*»
+	Factor : •( Expr ) «)»
+	Factor : •int64 «)»
+	Factor : •( Expr ) «+»
+	Factor : •int64 «+»
+	Factor : •( Expr ) «*»
+	Factor : •int64 «*»
+}
+Transitions:
+	Factor -> 21
+	( -> 12
+	int64 -> 13
+
+
+S19{
+	Factor : ( Expr •) «)»
+	Factor : ( Expr •) «+»
+	Factor : ( Expr •) «*»
+	Expr : Expr •+ Term «)»
+	Expr : Expr •+ Term «+»
+}
+Transitions:
+	+ -> 16
+	) -> 22
+
+
+S20{
+	Expr : Expr + Term• «)»
+	Expr : Expr + Term• «+»
+	Term : Term •* Factor «)»
+	Term : Term •* Factor «+»
+	Term : Term •* Factor «*»
+}
+Transitions:
+	* -> 18
+
+
+S21{
+	Term : Term * Factor• «)»
+	Term : Term * Factor• «+»
+	Term : Term * Factor• «*»
+}
+Transitions:
+
+
+S22{
+	Factor : ( Expr )• «)»
+	Factor : ( Expr )• «+»
+	Factor : ( Expr )• «*»
+}
+Transitions:
+
+

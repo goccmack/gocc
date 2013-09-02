@@ -1,6 +1,20 @@
+//Copyright 2013 Vastech SA (PTY) LTD
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
 package config
 
-import(
+import (
 	"errors"
 	"flag"
 	"fmt"
@@ -9,15 +23,18 @@ import(
 	"strings"
 )
 
-type Config interface{
+type Config interface {
 	Help() bool
 	Verbose() bool
 	AllowUnreachable() bool
-	AutoLRConfResolve() bool
+	AutoResolveLRConf() bool
 	GenScanner() bool
 	Profile() bool
 	SourceFile() string
 	OutDir() string
+
+	DebugLexer() bool
+	DebugParser() bool
 
 	ErrorsDir() string
 	ParserDir() string
@@ -34,7 +51,9 @@ type ConfigRecord struct {
 	workingDir string
 
 	allowUnreachable  *bool
-	autoLRConfResolve *bool
+	autoResolveLRConf *bool
+	debugLexer        *bool
+	debugParser       *bool
 	profile           *bool
 	genScanner        *bool
 	help              *bool
@@ -42,21 +61,20 @@ type ConfigRecord struct {
 	srcFile           string
 	outDir            string
 	pkg               string
-
-
 }
 
 func New() (Config, error) {
 	wd, err := os.Getwd()
 	if err != nil {
 		return nil, err
-	} 
+	}
 
 	cfg := &ConfigRecord{
 		workingDir: wd,
 	}
 
-	if err :=  cfg.getFlags(); err != nil {
+	if err := cfg.getFlags(); err != nil {
+		cfg.PrintParams()
 		return nil, err
 	}
 
@@ -75,8 +93,16 @@ func (this *ConfigRecord) AllowUnreachable() bool {
 	return *this.allowUnreachable
 }
 
-func (this *ConfigRecord) AutoLRConfResolve() bool {
-	return *this.autoLRConfResolve
+func (this *ConfigRecord) AutoResolveLRConf() bool {
+	return *this.autoResolveLRConf
+}
+
+func (this *ConfigRecord) DebugLexer() bool {
+	return *this.debugLexer
+}
+
+func (this *ConfigRecord) DebugParser() bool {
+	return *this.debugParser
 }
 
 func (this *ConfigRecord) GenScanner() bool {
@@ -121,22 +147,25 @@ func (this *ConfigRecord) ProjectName() string {
 }
 
 func (this *ConfigRecord) PrintParams() {
-	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoLRConfResolve)
+	fmt.Printf("    debug lexer                   = %t\n", *this.debugLexer)
+	fmt.Printf("    debug parser                  = %t\n", *this.debugParser)
+	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
 	fmt.Printf("    output directory              = %s\n", this.outDir)
 	fmt.Printf("    package                       = %s\n", this.pkg)
 	fmt.Printf("    generate a scanner            = %t\n", *this.genScanner)
 	fmt.Printf("    help                          = %t\n", *this.help)
 	fmt.Printf("    allow unreachable productions = %t\n", *this.allowUnreachable)
-	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoLRConfResolve)
+	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
 	fmt.Printf("    verbose                       = %t\n", *this.verbose)
 }
-
 
 /*** Utility routines ***/
 
 func (this *ConfigRecord) getFlags() error {
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
-	this.autoLRConfResolve = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
+	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
+	this.debugLexer = flag.Bool("debug_lexer", false, "enable debug logging in lexer")
+	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
 	this.genScanner = flag.Bool("s", false, "generate a scanner")
 	this.help = flag.Bool("h", false, "help")
 	this.verbose = flag.Bool("v", false, "verbose")
@@ -144,6 +173,11 @@ func (this *ConfigRecord) getFlags() error {
 	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
 	flag.Parse()
+
+	this.outDir = getOutDir(this.outDir, this.workingDir)
+	if this.outDir != this.workingDir {
+		this.pkg = defaultPackage(this.outDir)
+	}
 
 	if len(flag.Args()) != 1 && !*this.help {
 		return errors.New("Too few arguments")
@@ -154,6 +188,13 @@ func (this *ConfigRecord) getFlags() error {
 	return nil
 }
 
+func getOutDir(outDirSpec, wd string) string {
+	if strings.HasPrefix(outDirSpec, wd) {
+		return outDirSpec
+	}
+	return path.Join(wd, outDirSpec)
+}
+
 func defaultPackage(wd string) string {
 	srcPath := path.Join(os.Getenv("GOPATH"), "src")
 	pkg := strings.Replace(wd, srcPath, "", -1)
@@ -162,4 +203,3 @@ func defaultPackage(wd string) string {
 	}
 	return pkg
 }
-

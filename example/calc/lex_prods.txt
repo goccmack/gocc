@@ -1,0 +1,5 @@
+LexPart.ProdMap:
+	0: int64 : '1'-'9' {'0'-'9'}
+	1: !whitespace : ' ' | '\t' | '\n' | '\r'
+LexPart.TokDefs:
+	int64
