@@ -50,7 +50,7 @@ func getActionTableData(prods ast.SyntaxProdList, itemSets *items.ItemSets,
 	}
 	conflicts = make(map[int]items.RowConflicts)
 	row, cnflcts := "", items.RowConflicts{}
-	for i, _ := range actTab.Rows {
+	for i := range actTab.Rows {
 		if row, cnflcts = genActionRow(prods, itemSets.Set(i), symbols); len(cnflcts) > 0 {
 			conflicts[i] = cnflcts
 		}

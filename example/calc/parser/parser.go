@@ -82,7 +82,6 @@ func (S *stack) String() string {
 type Parser struct {
 	stack     *stack
 	nextToken *token.Token
-	tokLit    []byte
 	pos       int
 }
 
@@ -105,7 +104,6 @@ func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 	errorAttrib = &parseError.Error{
 		Err:            err,
 		ErrorToken:     P.nextToken,
-		ErrorLit:       P.tokLit,
 		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}

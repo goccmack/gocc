@@ -192,7 +192,7 @@ func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
-	for t, _ := range P.actTab[P.stack.Top()].Actions {
+	for t := range P.actTab[P.stack.Top()].Actions {
 		errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, P.tokenMap.TokenString(t))
 	}
 

@@ -86,7 +86,6 @@ func main() {
 
 	var tokenMap *outToken.TokenMap
 
-	io.WriteFileString(path.Join(cfg.OutDir(), "lex_prods.txt"), g.LexPart.String())
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
 	lexSets := lexItems.GetItemSets(g.LexPart)
@@ -111,8 +110,9 @@ func main() {
 }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: gocc flags bnf_file\n")
-	fmt.Fprintf(os.Stderr, "   - bnf_file: contains the BNF grammar\n")
+	fmt.Fprintf(os.Stderr, "usage: gocc flags bnf_file\n\n")
+	fmt.Fprintf(os.Stderr, "  bnf_file: contains the BNF grammar\n\n")
+	fmt.Fprintf(os.Stderr, "Flags:\n")
 	flag.PrintDefaults()
 	os.Exit(1)
 }

@@ -26,23 +26,23 @@ c : '5' 'a' ;
 `
 
 var testItemSets1Data = []*itemSetTestData{
-	&itemSetTestData{
+	{
 		CharRange: CharRange{'0', '3'},
 		itemSet:   []string{"a :  '0'-'6' • '0'"},
 	},
-	&itemSetTestData{
+	{
 		CharRange: CharRange{'4', '4'},
 		itemSet:   []string{"a :  '0'-'6' • '0'", "b :  '4'-'9' • '9'"},
 	},
-	&itemSetTestData{
+	{
 		CharRange: CharRange{'5', '5'},
 		itemSet:   []string{"a :  '0'-'6' • '0'", "b :  '4'-'9' • '9'", "c : '5' • 'a'"},
 	},
-	&itemSetTestData{
+	{
 		CharRange: CharRange{'6', '6'},
 		itemSet:   []string{"a :  '0'-'6' • '0'", "b :  '4'-'9' • '9'"},
 	},
-	&itemSetTestData{
+	{
 		CharRange: CharRange{'7', '9'},
 		itemSet:   []string{"b :  '4'-'9' • '9'"},
 	},

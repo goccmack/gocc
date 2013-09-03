@@ -77,7 +77,7 @@ func stringList(symbols []ast.SyntaxSymbol) []string {
 }
 
 func (this *FirstSets) AddSet(prodName string, terminals SymbolSet) (symbolsAdded bool) {
-	for symbol, _ := range terminals {
+	for symbol := range terminals {
 		if this.AddToken(prodName, symbol) {
 			symbolsAdded = true
 		}

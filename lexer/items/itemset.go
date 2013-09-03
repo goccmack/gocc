@@ -118,11 +118,11 @@ func (this *ItemSet) getSymbolClasses() {
 
 func (this *ItemSet) newTransitions() {
 	this.Transitions = make([]int, this.SymbolClasses.Size())
-	for i, _ := range this.Transitions {
+	for i := range this.Transitions {
 		this.Transitions[i] = -1
 	}
 	this.ImportTransitions = make([]int, len(this.Symbols.ImportIdList))
-	for i, _ := range this.ImportTransitions {
+	for i := range this.ImportTransitions {
 		this.ImportTransitions[i] = -1
 	}
 }

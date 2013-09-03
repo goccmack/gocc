@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"code.google.com/p/gocc/example/calc/token"
+	"code.google.com/p/gocc/example/mail/token"
 	"fmt"
 )
 
@@ -26,27 +26,55 @@ var ActTab = ActionTable{
 		Ignore: "!whitespace",
 	},
 	ActionRow{ // S2
-		Accept: 9,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S3
-		Accept: 10,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S4
-		Accept: 7,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S5
-		Accept: 5,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S6
-		Accept: 11,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S7
-		Accept: 11,
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S8
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S9
+		Accept: 2,
+		Ignore: "",
+	},
+	ActionRow{ // S10
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S11
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S12
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S13
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S14
+		Accept: 2,
 		Ignore: "",
 	},
 }

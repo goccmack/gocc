@@ -105,7 +105,7 @@ func (this *LexPart) ProdIndex(id string) LexProdIndex {
 
 func (this *LexPart) TokenIds() []string {
 	tids := make([]string, 0, len(this.TokDefs))
-	for tid, _ := range this.TokDefs {
+	for tid := range this.TokDefs {
 		tids = append(tids, tid)
 	}
 	return tids

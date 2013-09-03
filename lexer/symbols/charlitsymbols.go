@@ -43,7 +43,7 @@ func (this CharLitSymbols) List() []*ast.LexCharLit {
 
 func (this CharLitSymbols) StringList() []string {
 	symbols := make([]string, 0, len(this))
-	for key, _ := range this {
+	for key := range this {
 		symbols = append(symbols, key)
 	}
 	return symbols

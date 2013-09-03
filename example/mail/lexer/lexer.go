@@ -3,17 +3,17 @@ package lexer
 import (
 
 	// "fmt"
-	// "code.google.com/p/gocc/example/calc/util"
+	// "code.google.com/p/gocc/example/mail/util"
 
-	"code.google.com/p/gocc/example/calc/token"
+	"code.google.com/p/gocc/example/mail/token"
 	"io/ioutil"
 	"unicode/utf8"
 )
 
 const (
 	NoState    = -1
-	NumStates  = 8
-	NumSymbols = 11
+	NumStates  = 15
+	NumSymbols = 32
 )
 
 type Lexer struct {
@@ -128,16 +128,37 @@ func (this *Lexer) Reset() {
 
 /*
 Lexer symbols:
-0: '+'
-1: '*'
-2: '('
-3: ')'
-4: ' '
-5: '\t'
-6: '\n'
-7: '\r'
-8: '1'-'9'
-9: '0'-'9'
-10: .
+0: '@'
+1: ' '
+2: '#'
+3: '='
+4: '~'
+5: '.'
+6: '*'
+7: '/'
+8: '?'
+9: '|'
+10: '\r'
+11: '!'
+12: '}'
+13: '$'
+14: '%'
+15: '&'
+16: '^'
+17: '`'
+18: '{'
+19: '\t'
+20: '''
+21: '-'
+22: '"'
+23: '+'
+24: '\'
+25: '\n'
+26: '_'
+27: 'A'-'Z'
+28: 'a'-'z'
+29: '0'-'9'
+30: \u0100-\U0010ffff
+31: .
 
 */

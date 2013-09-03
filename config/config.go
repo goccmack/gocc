@@ -28,7 +28,6 @@ type Config interface {
 	Verbose() bool
 	AllowUnreachable() bool
 	AutoResolveLRConf() bool
-	GenScanner() bool
 	Profile() bool
 	SourceFile() string
 	OutDir() string
@@ -55,7 +54,6 @@ type ConfigRecord struct {
 	debugLexer        *bool
 	debugParser       *bool
 	profile           *bool
-	genScanner        *bool
 	help              *bool
 	verbose           *bool
 	srcFile           string
@@ -105,10 +103,6 @@ func (this *ConfigRecord) DebugParser() bool {
 	return *this.debugParser
 }
 
-func (this *ConfigRecord) GenScanner() bool {
-	return *this.genScanner
-}
-
 func (this *ConfigRecord) Profile() bool {
 	return *this.profile
 }
@@ -152,7 +146,6 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
 	fmt.Printf("    output directory              = %s\n", this.outDir)
 	fmt.Printf("    package                       = %s\n", this.pkg)
-	fmt.Printf("    generate a scanner            = %t\n", *this.genScanner)
 	fmt.Printf("    help                          = %t\n", *this.help)
 	fmt.Printf("    allow unreachable productions = %t\n", *this.allowUnreachable)
 	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
@@ -166,7 +159,6 @@ func (this *ConfigRecord) getFlags() error {
 	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
 	this.debugLexer = flag.Bool("debug_lexer", false, "enable debug logging in lexer")
 	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
-	this.genScanner = flag.Bool("s", false, "generate a scanner")
 	this.help = flag.Bool("h", false, "help")
 	this.verbose = flag.Bool("v", false, "verbose")
 	this.profile = flag.Bool("prof", false, "write profile to file")

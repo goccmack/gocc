@@ -1,6 +1,6 @@
 Item sets:
 S0{
-	int64 : •  '1'-'9' { '0'-'9'}
+	int64 : •  '1'-'9' {_digit}
 	!whitespace : ' ' | '\t' | '\n' | • '\r'
 	!whitespace : ' ' | '\t' | • '\n' | '\r'
 	!whitespace : ' ' | • '\t' | '\n' | '\r'
@@ -59,11 +59,23 @@ Action: Accept("+")
 Symbols classes: {}
 
 S6{
-	int64 :  '1'-'9' { '0'-'9'} •
-	int64 :  '1'-'9' {•  '0'-'9'}
+	int64 :  '1'-'9' {_digit} •
+	int64 :  '1'-'9' {• _digit}
+	_digit : •  '0'-'9'
 }
 Transitions:
-	['0','9'] -> S6
+	['0','9'] -> S7
+Action: Accept("int64")
+Symbols classes: {['0','9']}
+
+S7{
+	_digit :  '0'-'9' •
+	int64 :  '1'-'9' {_digit} •
+	int64 :  '1'-'9' {• _digit}
+	_digit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S7
 Action: Accept("int64")
 Symbols classes: {['0','9']}
 

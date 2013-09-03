@@ -27,7 +27,7 @@ func LitToRune(lit []byte) rune {
 	if lit[1] == '\\' {
 		return escapeCharVal(lit)
 	}
-	r, size := utf8.DecodeRune(lit[1:len(lit)])
+	r, size := utf8.DecodeRune(lit[1:])
 	if size != len(lit)-2 {
 		panic(fmt.Sprintf("Error decoding rune. Lit: %s, rune: %d, size%d\n", lit, r, size))
 	}

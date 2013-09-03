@@ -25,22 +25,6 @@ LexicalPart	: LexProductions 								<< ast.NewLexPart(nil, nil, $0) >>
 			;
 
 
-// LexicalPart	: FileHeader LexImportSection LexProductions 	<< ast.NewLexPart($0, $1, $2) >>
-// 			| FileHeader 				  LexProductions 	<< ast.NewLexPart($0, nil, $1) >>
-// 			| 			 LexImportSection LexProductions 	<< ast.NewLexPart(nil, $0, $1) >>
-// 			| LexProductions 								<< ast.NewLexPart(nil, nil, $0) >>
-// 			;
-// 
-// LexImportSection 	: "import" "(" LexImports ")"			<< $2, nil >>
-// 					;
-// 
-// LexImports	: LexImport 									<< ast.NewLexImports($0) >>
-// 			| LexImports LexImport 							<< ast.AddLexImport($0, $1) >>
-// 			;
-// 
-// LexImport 	: regDefId string_lit							<< ast.NewLexImport($0, $1) >>
-// 			;
-
 LexProductions	: LexProduction 							<< ast.NewLexProductions($0) >>
 				| LexProductions LexProduction 				<< ast.AppendLexProduction($0, $1) >>
 				;

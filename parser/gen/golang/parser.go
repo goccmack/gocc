@@ -241,7 +241,7 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				return nil, this.newError(nil)
 			}
 			if action = actionTab[this.stack.top()].actions[this.nextToken.Type]; action == nil {
-				panic("Error recover led to invalid action")
+				panic("Error recovery led to invalid action")
 			}
 		}
 		{{if .Debug}}

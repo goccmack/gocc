@@ -134,7 +134,7 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 				for pi, prod := range this.Prods {
 					if prod.Id == i.ExpectedSymbol {
 						first := first1(this.FS, i.Body[i.Pos+1:], i.FollowingSymbol)
-						for t, _ := range first {
+						for t := range first {
 							if item := NewItem(pi, prod, 0, t); !c.Contain(item) {
 								c.AddItem(item)
 								again = true
@@ -169,7 +169,7 @@ func (this *ItemSet) Equal(that *ItemSet) bool {
 	if that == nil || len(this.Items) != len(that.Items) {
 		return false
 	}
-	for k, _ := range this.imap {
+	for k := range this.imap {
 		if _, contain := that.imap[k]; !contain {
 			return false
 		}

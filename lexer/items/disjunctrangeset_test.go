@@ -27,11 +27,11 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets0(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	data := []CharRange{
-		CharRange{'A', 'F'},
-		CharRange{'G', 'L'},
-		CharRange{'M', 'R'},
-		CharRange{'S', 'X'},
-		CharRange{'Y', 'Z'},
+		{'A', 'F'},
+		{'G', 'L'},
+		{'M', 'R'},
+		{'S', 'X'},
+		{'Y', 'Z'},
 	}
 
 	for _, i := range []int{2, 1, 0, 4, 3} {
@@ -67,8 +67,8 @@ ABCDEF 		 MNOPQR
 func TestDisjunctSets1(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	data := []CharRange{
-		CharRange{'A', 'F'},
-		CharRange{'M', 'R'},
+		{'A', 'F'},
+		{'M', 'R'},
 	}
 	set.addRange(data[1], data[0])
 	rng := set.List()
@@ -90,13 +90,13 @@ ABCDEF 		 MNOPQR
 func TestDisjunctSets2(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'M', 'R'},
-		CharRange{'A', 'O'},
+		{'M', 'R'},
+		{'A', 'O'},
 	}
 	check := []CharRange{
-		CharRange{'A', 'L'},
-		CharRange{'M', 'O'},
-		CharRange{'P', 'R'},
+		{'A', 'L'},
+		{'M', 'O'},
+		{'P', 'R'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -118,12 +118,12 @@ ABCDEF 		GHIJKL
 func TestDisjunctSets3(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'A', 'F'},
+		{'G', 'L'},
+		{'A', 'F'},
 	}
 	check := []CharRange{
-		CharRange{'A', 'F'},
-		CharRange{'G', 'L'},
+		{'A', 'F'},
+		{'G', 'L'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -145,13 +145,13 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets4(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'A', 'R'},
+		{'G', 'L'},
+		{'A', 'R'},
 	}
 	check := []CharRange{
-		CharRange{'A', 'F'},
-		CharRange{'G', 'L'},
-		CharRange{'M', 'R'},
+		{'A', 'F'},
+		{'G', 'L'},
+		{'M', 'R'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -173,12 +173,12 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets5(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'G', 'I'},
+		{'G', 'L'},
+		{'G', 'I'},
 	}
 	check := []CharRange{
-		CharRange{'G', 'I'},
-		CharRange{'J', 'L'},
+		{'G', 'I'},
+		{'J', 'L'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -200,11 +200,11 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets6(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'G', 'L'},
+		{'G', 'L'},
+		{'G', 'L'},
 	}
 	check := []CharRange{
-		CharRange{'G', 'L'},
+		{'G', 'L'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -226,12 +226,12 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets7(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'G', 'O'},
+		{'G', 'L'},
+		{'G', 'O'},
 	}
 	check := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'M', 'O'},
+		{'G', 'L'},
+		{'M', 'O'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -253,12 +253,12 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets8(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'S', 'X'},
+		{'G', 'L'},
+		{'S', 'X'},
 	}
 	check := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'S', 'X'},
+		{'G', 'L'},
+		{'S', 'X'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -280,13 +280,13 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets9(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'R'},
-		CharRange{'J', 'O'},
+		{'G', 'R'},
+		{'J', 'O'},
 	}
 	check := []CharRange{
-		CharRange{'G', 'I'},
-		CharRange{'J', 'O'},
-		CharRange{'P', 'R'},
+		{'G', 'I'},
+		{'J', 'O'},
+		{'P', 'R'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -308,12 +308,12 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets10(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'R'},
-		CharRange{'M', 'R'},
+		{'G', 'R'},
+		{'M', 'R'},
 	}
 	check := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'M', 'R'},
+		{'G', 'L'},
+		{'M', 'R'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -335,13 +335,13 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 func TestDisjunctSets11(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'G', 'L'},
-		CharRange{'J', 'R'},
+		{'G', 'L'},
+		{'J', 'R'},
 	}
 	check := []CharRange{
-		CharRange{'G', 'I'},
-		CharRange{'J', 'L'},
-		CharRange{'M', 'R'},
+		{'G', 'I'},
+		{'J', 'L'},
+		{'M', 'R'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
@@ -363,16 +363,16 @@ ABC DEF GHI JKL MNO PQR STUVWX YZ
 func TestDisjunctSets12(t *testing.T) {
 	set := NewDisjunctRangeSet()
 	input := []CharRange{
-		CharRange{'D', 'F'},
-		CharRange{'J', 'L'},
-		CharRange{'A', 'O'},
+		{'D', 'F'},
+		{'J', 'L'},
+		{'A', 'O'},
 	}
 	check := []CharRange{
-		CharRange{'A', 'C'},
-		CharRange{'D', 'F'},
-		CharRange{'G', 'I'},
-		CharRange{'J', 'L'},
-		CharRange{'M', 'O'},
+		{'A', 'C'},
+		{'D', 'F'},
+		{'G', 'I'},
+		{'J', 'L'},
+		{'M', 'O'},
 	}
 	set.addRange(input...)
 	ranges := set.List()
