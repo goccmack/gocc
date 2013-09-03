@@ -1,38 +1,35 @@
-
 package parser
 
-import(
-	"strconv"
+import (
 	"errors"
+	"strconv"
 )
 
 import errs "code.google.com/p/gocc/frontend/errors"
 
 import "code.google.com/p/gocc/frontend/token"
 
-
- 
 // ParserUTab
 
 type ParserUTab struct {
-	actTab *ActionTabU
+	actTab     *ActionTabU
 	canRecover *CanRecover
-	gotoTab	*GotoTabU
-	prodTab	*ProdTabU
-	stack	*stack
-	nextToken	*token.Token
-	pos	token.Position
-	tokenMap *token.TokenMap
+	gotoTab    *GotoTabU
+	prodTab    *ProdTabU
+	stack      *stack
+	nextToken  *token.Token
+	pos        token.Position
+	tokenMap   *token.TokenMap
 }
 
 func NewParserUTab(tm *token.TokenMap) *ParserUTab {
 	p := &ParserUTab{
-		actTab: getActionTableUncompressed(), 
-		canRecover: getCanRecoverTableUncompressed(), 
-		gotoTab: getGotoTableUncompressed(), 
-		prodTab: getProductionsTableUncompressed(), 
-		stack:NewStack(), 
-		tokenMap:tm,
+		actTab:     getActionTableUncompressed(),
+		canRecover: getCanRecoverTableUncompressed(),
+		gotoTab:    getGotoTableUncompressed(),
+		prodTab:    getProductionsTableUncompressed(),
+		stack:      NewStack(),
+		tokenMap:   tm,
 	}
 	p.stack.Push(0, nil) //TODO: which attribute should be pushed here?
 	return p
@@ -45,10 +42,10 @@ func (P *ParserUTab) Reset() {
 
 func (P *ParserUTab) Error(err error, scanner Scanner) (recovered bool, errorAttrib *errs.Error) {
 	errorAttrib = &errs.Error{
-		Err: err,
-		ErrorToken: P.nextToken,
-		ErrorPos: P.pos,
-		ErrorSymbols: P.popNonRecoveryStates(),
+		Err:            err,
+		ErrorToken:     P.nextToken,
+		ErrorPos:       P.pos,
+		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
 	for t, act := range P.actTab[P.stack.Top()] {
@@ -56,8 +53,6 @@ func (P *ParserUTab) Error(err error, scanner Scanner) (recovered bool, errorAtt
 			errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, P.tokenMap.TokenString(token.Type(t)))
 		}
 	}
-
-
 
 	action := P.actTab[P.stack.Top()][P.tokenMap.Type("error")]
 	if action == nil {
@@ -94,7 +89,6 @@ func (P *ParserUTab) firstRecoveryState() (recoveryState int, canRecover bool) {
 	}
 	return
 }
-
 
 func (P *ParserUTab) newError(err error) error {
 	errmsg := "Error: " + P.TokString(P.nextToken) + " @ " + P.pos.String()

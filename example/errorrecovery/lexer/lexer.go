@@ -1,27 +1,26 @@
-
 package lexer
 
 import (
-	
+
 	// "fmt"
 	// "code.google.com/p/gocc/example/errorrecovery/util"
-	
+
+	"code.google.com/p/gocc/example/errorrecovery/token"
 	"io/ioutil"
 	"unicode/utf8"
-	"code.google.com/p/gocc/example/errorrecovery/token"
 )
 
-const(
-	NoState = -1
-	NumStates = 7
+const (
+	NoState    = -1
+	NumStates  = 7
 	NumSymbols = 9
-) 
+)
 
 type Lexer struct {
-	src             []byte
-	pos             int
-	line            int
-	column          int
+	src    []byte
+	pos    int
+	line   int
+	column int
 }
 
 func NewLexer(src []byte) *Lexer {
@@ -43,9 +42,9 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-	
+
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-	
+
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -56,9 +55,9 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-	
+
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-	
+
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
@@ -82,13 +81,11 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			nextState = TransTab[state](rune1)
 		}
 
-	
 		// fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
 		// fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", this.pos, size, start, end)
 		// if nextState != -1 {
 		// 	fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		// }
-	
 
 		state = nextState
 

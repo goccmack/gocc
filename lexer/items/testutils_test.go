@@ -15,11 +15,11 @@
 package items
 
 import (
-	"fmt"
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/frontend/parser"
 	"code.google.com/p/gocc/frontend/scanner"
 	"code.google.com/p/gocc/frontend/token"
+	"fmt"
 	"testing"
 )
 

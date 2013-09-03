@@ -16,8 +16,8 @@ package items
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/ast"
+	"fmt"
 )
 
 type itemPos struct {

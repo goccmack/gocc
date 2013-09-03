@@ -4,6 +4,7 @@ Lexer generation problem: the symbol range of imported function may overlap with
 	Do: remove imports
 
 Symantic checking
+	Check that user does not use reserved words for ids
 
 Add error recovery to gocc2
 

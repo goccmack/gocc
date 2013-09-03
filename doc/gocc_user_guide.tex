@@ -44,6 +44,8 @@
 \newcommand{\Clang}{{\em C} language}
 
 \section{Introduction}
+	gocc is a compiler kit which generates lexers and parsers from a common EBNF file. It can also be used to generate finite state automata, for example: see the mail address example (section~\ref{sec:example mail}).
+
 	gocc is an LR(1) parser generator with automatic LR(1) conflict resolution (see section~\ref{sec:lr conflicts}) and automatic parser error recovery (see section~\ref{sec:error recovery}). It has a simple syntax directed translation scheme (SDT) embedded in the input grammar, which is used to specify semantic actions; or, for simple applications, to specify a direct implementation of syntax directed translation within the grammar.
 
 	gocc has been successfully used to develop a query language compiler; a configuration/control language for a distributed system; as well as a parser for protocol messages specified in ABNF~\cite{ABNF}. It is currently used in the development of an ASN.1 compiler.
@@ -283,48 +285,223 @@
 		The root folder of the \Code{Calc} example contains \Code{calc\_test.go}, which has the following test program. In addition to testing the code it shows how to initialise and use the generated scanner and parser/interpreter.
 
 		\begin{verbatim}
-			package main
+/*** Lexical items ***/
 
-			import(
-			    "code.google.com/p/gocc/example/calc/parser"
-			    "code.google.com/p/gocc/example/calc/scanner"
-			    "code.google.com/p/gocc/example/calc/token"
-			    "fmt"
-			    "testing"
-			)
+/* Token definitions */
 
-			type TI struct{
-			    src string
-			    expect int64
-			}
+tokId : 
+    _tokId 
+    ;
 
-			var testData = []*TI{
-			    &TI{"1 + 1", 2},
-			    &TI{"1 * 1", 1},
-			    &TI{"1 + 2 * 3", 7},
-			}
+regDefId
+    : '_' {_id_char} 
+    ;
 
-			func Test1(t *testing.T) {
-			    s := &scanner.Scanner{}
-			    p := parser.NewParser(parser.ActionTable, parser.GotoTable, 
-			                          parser.ProductionsTable, token.CALCTokens)
-			    pass := true
-			    for _, ts := range testData {
-			        s.Init([]byte(ts.src), token.CALCTokens)
-			        sum, err := p.Parse(s)
-			        if err != nil {
-			            pass = false
-			            t.Log(err.Error())
-			        }
-			        if sum != ts.expect {
-			            pass = false
-			            t.Log(fmt.Sprintf("Error: %s = %d. Got %d\n", ts.src, sum, ts.expect ))
-			        }
-			    }
-			    if !pass {
-			    t.Fail()
-			    }
-			}
+prodId 
+    : _upcase {_id_char} 
+    ;
+
+string_lit 
+    : _raw_string 
+    | _interpreted_string 
+    ;
+
+ignoredTokId 
+    : '!' _tokId 
+    ;
+
+/* Ignored tokens */
+
+!comment 
+    : _lineComment | _blockComment 
+    ;
+
+!whitespace 
+    : ' ' | '\t' | '\n' | '\r' 
+    ;
+
+/* Regular definitions */
+
+_upcase
+    : 'A'-'Z' 
+    ;
+
+_lowcase 
+    : 'a'-'z' 
+    ;
+
+_digit 
+    : '0'-'9' 
+    ;
+
+_hex_digit 
+    : '0' - '9' 
+    | 'A' - 'F' 
+    | 'a' - 'f'
+    ;
+
+_octal_digit 
+    : '0' - '7' 
+    ;
+
+char_lit
+    : '\'' (_unicode_value | _byte_value) '\'' 
+    ;
+
+_unicode_value 
+    : . 
+    | _little_u_value 
+    | _big_u_value 
+    | _escaped_char 
+    ;
+
+_byte_value       
+    : _octal_byte_value 
+    | _hex_byte_value 
+    ;
+
+_octal_byte_value 
+    : '\\' _octal_digit _octal_digit _octal_digit 
+    ;
+
+_hex_byte_value   
+    : '\\' 'x' _hex_digit _hex_digit 
+    ;
+
+_little_u_value   
+    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+
+_big_u_value
+    : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
+               _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+
+_escaped_char
+    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
+    ;
+
+_id_char
+    : _upcase 
+    | _lowcase 
+    | '_' 
+    | _digit 
+    ;
+
+_tokId 
+    : _lowcase {_id_char} 
+    ;
+
+_raw_string 
+    : '`' {.} '`' 
+    ;
+
+_interpreted_string 
+    : '"' { _unicode_value | _byte_value } '"' 
+    ;
+
+action_lit    
+    : '<' '<' . {.} '>' '>' 
+    ;
+
+_lineComment 
+    : '/' '/' {.} '\n' 
+    ;
+
+_blockComment 
+    : '/' '*' {. | '*'} '*' '/' 
+    ;
+
+
+/*** Syntactic items ***/
+
+<< import "gocc3/ast" >>
+
+Grammar 
+    : LexicalPart SyntaxPart
+    | LexicalPart
+    | SyntaxPart
+    ;
+
+LexicalPart    
+    : LexProductions
+    ;
+
+LexProductions    
+    : LexProduction
+    | LexProductions LexProduction
+    ;
+
+LexProduction 
+    : tokId ":" LexPattern ";"
+    | regDefId ":" LexPattern ";"
+    | ignoredTokId ":" LexPattern ";"
+    ;
+
+LexPattern     
+    : LexAlt
+    | LexPattern "|" LexAlt
+    ;
+
+LexAlt     
+    : LexTerm
+    | LexAlt LexTerm
+    ;
+
+LexTerm 
+    : "."
+    | char_lit
+    | char_lit "-" char_lit
+    | regDefId
+    | "[" LexPattern "]"
+    | "{" LexPattern "}"
+    | "(" LexPattern ")"
+    ;
+
+SyntaxPart
+    : FileHeader SyntaxProdList
+    | SyntaxProdList
+    ;
+
+SyntaxProdList
+    : SyntaxProduction
+    | SyntaxProdList SyntaxProduction
+    ;
+
+SyntaxProduction    
+    : prodId ":" Alternatives ";"
+    ;
+            
+Alternatives    
+    :    SyntaxBody
+    |    Alternatives "|" SyntaxBody
+    ;
+
+SyntaxBody
+    : Symbols
+    | Symbols action_lit
+    | "error"
+    | "error" Symbols
+    | "error" Symbols action_lit
+    | "empty"
+    ;
+        
+Symbols    
+    : Symbol
+    | Symbols Symbol
+    ;
+        
+Symbol
+    : prodId
+    | tokId
+    | string_lit
+    ;
+
+// Shared productions
+
+FileHeader
+    : action_lit
+    ;
 
 		\end{verbatim}
 
@@ -384,10 +561,8 @@
 		                Shows list of LR(1) conflicts.
 	\end{verbatim}
 
-\section{What about a scanner?}\label{sec:scanner}
-	Currently gocc (optionally) generates a very simple scanner, intended to be extended as required by the user.
-
-	A lexer generator, based on the target grammar, is planned for the near future.
+\section{Example: parsing simple mail addresses} \label{sec:example mail}
+\TBD
 
 \section{Handling LR(1) conflicts} \label{sec:lr conflicts}
 	If a target grammer is outside the class of LR(1) grammars it cannot be parsed deterministically with one symbol lookahead. This condition manifests as LR(1) conflicts, of which there are two types:
@@ -688,37 +863,223 @@
 	A gocc target grammar is written in UTF-8. See section~\ref{sec:lexical elements} for a definition of the lexical elements of a gocc target grammar. 
 
 	\begin{verbatim}
-	Grammar : [sdt_lit] Productions 
-	        ;
+/*** Lexical items ***/
 
-	Productions : Production					
-	            | Production Productions			
-	            ;
+/* Token definitions */
 
-	Production : id ":" Alternatives		
-	           ;
+tokId : 
+    _tokId 
+    ;
 
-	Alternatives : Body					
-	             | Body "|" Alternatives	
-	             ; 
+regDefId
+    : '_' {_id_char} 
+    ;
 
-	Body : Symbols					
-	     | Symbols sdt_lit			
-	     | "error"
-	     | "error" Symbols
-	     | "error" Symbols sdt_lit
-	     | "empty"
-	     ;
+prodId 
+    : _upcase {_id_char} 
+    ;
 
-	Symbols	: Symbol					
-	        | Symbol Symbols			
-	        ;
+string_lit 
+    : _raw_string 
+    | _interpreted_string 
+    ;
 
-	Symbol : id							
-	       | string						
-	       | char	
-	       ;
-	\end{verbatim}
+ignoredTokId 
+    : '!' _tokId 
+    ;
+
+/* Ignored tokens */
+
+!comment 
+    : _lineComment | _blockComment 
+    ;
+
+!whitespace 
+    : ' ' | '\t' | '\n' | '\r' 
+    ;
+
+/* Regular definitions */
+
+_upcase
+    : 'A'-'Z' 
+    ;
+
+_lowcase 
+    : 'a'-'z' 
+    ;
+
+_digit 
+    : '0'-'9' 
+    ;
+
+_hex_digit 
+    : '0' - '9' 
+    | 'A' - 'F' 
+    | 'a' - 'f'
+    ;
+
+_octal_digit 
+    : '0' - '7' 
+    ;
+
+char_lit
+    : '\'' (_unicode_value | _byte_value) '\'' 
+    ;
+
+_unicode_value 
+    : . 
+    | _little_u_value 
+    | _big_u_value 
+    | _escaped_char 
+    ;
+
+_byte_value       
+    : _octal_byte_value 
+    | _hex_byte_value 
+    ;
+
+_octal_byte_value 
+    : '\\' _octal_digit _octal_digit _octal_digit 
+    ;
+
+_hex_byte_value   
+    : '\\' 'x' _hex_digit _hex_digit 
+    ;
+
+_little_u_value   
+    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+
+_big_u_value
+    : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
+               _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+
+_escaped_char
+    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
+    ;
+
+_id_char
+    : _upcase 
+    | _lowcase 
+    | '_' 
+    | _digit 
+    ;
+
+_tokId 
+    : _lowcase {_id_char} 
+    ;
+
+_raw_string 
+    : '`' {.} '`' 
+    ;
+
+_interpreted_string 
+    : '"' { _unicode_value | _byte_value } '"' 
+    ;
+
+action_lit    
+    : '<' '<' . {.} '>' '>' 
+    ;
+
+_lineComment 
+    : '/' '/' {.} '\n' 
+    ;
+
+_blockComment 
+    : '/' '*' {. | '*'} '*' '/' 
+    ;
+
+
+/*** Syntactic items ***/
+
+Grammar 
+    : LexicalPart SyntaxPart
+    | LexicalPart
+    | SyntaxPart
+    ;
+
+LexicalPart    
+    : LexProductions
+    ;
+
+LexProductions    
+    : LexProduction
+    | LexProductions LexProduction
+    ;
+
+LexProduction 
+    : tokId ":" LexPattern ";"
+    | regDefId ":" LexPattern ";"
+    | ignoredTokId ":" LexPattern ";"
+    ;
+
+LexPattern     
+    : LexAlt
+    | LexPattern "|" LexAlt
+    ;
+
+LexAlt     
+    : LexTerm
+    | LexAlt LexTerm
+    ;
+
+LexTerm 
+    : "."
+    | char_lit
+    | char_lit "-" char_lit
+    | regDefId
+    | "[" LexPattern "]"
+    | "{" LexPattern "}"
+    | "(" LexPattern ")"
+    ;
+
+SyntaxPart
+    : FileHeader SyntaxProdList
+    | SyntaxProdList
+    ;
+
+SyntaxProdList
+    : SyntaxProduction
+    | SyntaxProdList SyntaxProduction
+    ;
+
+SyntaxProduction    
+    : prodId ":" Alternatives ";"
+    ;
+            
+Alternatives    
+    : SyntaxBody
+    | Alternatives "|" SyntaxBody
+    ;
+
+SyntaxBody
+    : Symbols
+    | Symbols action_lit
+    | "error"
+    | "error" Symbols
+    | "error" Symbols action_lit
+    | "empty"
+    ;
+        
+Symbols    
+    : Symbol
+    | Symbols Symbol
+    ;
+        
+Symbol
+    : prodId
+    | tokId
+    | string_lit
+    ;
+
+// Shared productions
+
+FileHeader
+    : action_lit
+    ;
+
+\end{verbatim}
 
 \section{Lexical elements} \label{sec:lexical elements}
 	\TBDx{Expand this appendix.}

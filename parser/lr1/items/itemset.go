@@ -16,11 +16,11 @@ package items
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/parser/first"
 	"code.google.com/p/gocc/parser/lr1/action"
 	"code.google.com/p/gocc/parser/symbols"
+	"fmt"
 )
 
 type ItemSet struct {

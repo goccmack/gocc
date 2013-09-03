@@ -16,11 +16,11 @@ package items
 
 import (
 	"bytes"
-	"errors"
-	"fmt"
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/lexer/symbols"
 	"code.google.com/p/gocc/util"
+	"errors"
+	"fmt"
 	"io"
 )
 

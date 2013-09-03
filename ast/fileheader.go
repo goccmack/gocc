@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"fmt"
 	"code.google.com/p/gocc/frontend/token"
+	"fmt"
 )
 
 type FileHeader struct {

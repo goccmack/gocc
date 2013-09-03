@@ -16,10 +16,10 @@ package items
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/parser/first"
 	"code.google.com/p/gocc/parser/symbols"
+	"fmt"
 )
 
 //A list of a list of Items.

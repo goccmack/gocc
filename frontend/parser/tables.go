@@ -1,4 +1,3 @@
-
 package parser
 
 import "code.google.com/p/gocc/ast"
@@ -366,15 +365,15 @@ var ProductionsTable = ProdTab{
 	},
 }
 
-var ActionTable ActionTab = ActionTab {
+var ActionTable ActionTab = ActionTab{
 	// state 0
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
 			18: Shift(13), // g_sdt_lit
-			2: Shift(6), // tokId
-			5: Shift(7), // regDefId
-			6: Shift(8), // ignoredTokId
+			2:  Shift(6),  // tokId
+			5:  Shift(7),  // regDefId
+			6:  Shift(8),  // ignoredTokId
 			17: Shift(12), // prodId
 		},
 	},
@@ -391,7 +390,7 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			0: Reduce(2), // $
+			0:  Reduce(2), // $
 			18: Shift(13), // g_sdt_lit
 			17: Shift(12), // prodId
 		},
@@ -411,10 +410,10 @@ var ActionTable ActionTab = ActionTab {
 		Actions: Actions{
 			18: Reduce(4), // g_sdt_lit
 			17: Reduce(4), // prodId
-			0: Reduce(4), // $
-			2: Shift(6), // tokId
-			5: Shift(7), // regDefId
-			6: Shift(8), // ignoredTokId
+			0:  Reduce(4), // $
+			2:  Shift(6),  // tokId
+			5:  Shift(7),  // regDefId
+			6:  Shift(8),  // ignoredTokId
 		},
 	},
 
@@ -424,10 +423,10 @@ var ActionTable ActionTab = ActionTab {
 		Actions: Actions{
 			18: Reduce(5), // g_sdt_lit
 			17: Reduce(5), // prodId
-			0: Reduce(5), // $
-			2: Reduce(5), // tokId
-			5: Reduce(5), // regDefId
-			6: Reduce(5), // ignoredTokId
+			0:  Reduce(5), // $
+			2:  Reduce(5), // tokId
+			5:  Reduce(5), // regDefId
+			6:  Reduce(5), // ignoredTokId
 		},
 	},
 
@@ -467,8 +466,8 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			0: Reduce(22), // $
-			17: Shift(12), // prodId
+			0:  Reduce(22), // $
+			17: Shift(12),  // prodId
 		},
 	},
 
@@ -476,7 +475,7 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			0: Reduce(23), // $
+			0:  Reduce(23), // $
 			17: Reduce(23), // prodId
 		},
 	},
@@ -511,10 +510,10 @@ var ActionTable ActionTab = ActionTab {
 		Actions: Actions{
 			18: Reduce(6), // g_sdt_lit
 			17: Reduce(6), // prodId
-			0: Reduce(6), // $
-			2: Reduce(6), // tokId
-			5: Reduce(6), // regDefId
-			6: Reduce(6), // ignoredTokId
+			0:  Reduce(6), // $
+			2:  Reduce(6), // tokId
+			5:  Reduce(6), // regDefId
+			6:  Reduce(6), // ignoredTokId
 		},
 	},
 
@@ -522,9 +521,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(26), // .
-			9: Shift(27), // char_lit
-			5: Shift(23), // regDefId
+			8:  Shift(26), // .
+			9:  Shift(27), // char_lit
+			5:  Shift(23), // regDefId
 			11: Shift(28), // [
 			13: Shift(29), // {
 			15: Shift(30), // (
@@ -535,9 +534,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(26), // .
-			9: Shift(27), // char_lit
-			5: Shift(23), // regDefId
+			8:  Shift(26), // .
+			9:  Shift(27), // char_lit
+			5:  Shift(23), // regDefId
 			11: Shift(28), // [
 			13: Shift(29), // {
 			15: Shift(30), // (
@@ -548,9 +547,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(26), // .
-			9: Shift(27), // char_lit
-			5: Shift(23), // regDefId
+			8:  Shift(26), // .
+			9:  Shift(27), // char_lit
+			5:  Shift(23), // regDefId
 			11: Shift(28), // [
 			13: Shift(29), // {
 			15: Shift(30), // (
@@ -561,8 +560,8 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			0: Reduce(21), // $
-			17: Shift(12), // prodId
+			0:  Reduce(21), // $
+			17: Shift(12),  // prodId
 		},
 	},
 
@@ -570,7 +569,7 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			0: Reduce(24), // $
+			0:  Reduce(24), // $
 			17: Reduce(24), // prodId
 		},
 	},
@@ -582,7 +581,7 @@ var ActionTable ActionTab = ActionTab {
 			19: Shift(38), // error
 			20: Shift(39), // empty
 			17: Shift(34), // prodId
-			2: Shift(33), // tokId
+			2:  Shift(33), // tokId
 			21: Shift(41), // string_lit
 		},
 	},
@@ -600,14 +599,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(17), // ;
-			8: Reduce(17), // .
-			9: Reduce(17), // char_lit
-			5: Reduce(17), // regDefId
+			4:  Reduce(17), // ;
+			8:  Reduce(17), // .
+			9:  Reduce(17), // char_lit
+			5:  Reduce(17), // regDefId
 			11: Reduce(17), // [
 			13: Reduce(17), // {
 			15: Reduce(17), // (
-			7: Reduce(17), // |
+			7:  Reduce(17), // |
 		},
 	},
 
@@ -615,14 +614,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(10), // ;
-			7: Reduce(10), // |
-			8: Shift(26), // .
-			9: Shift(27), // char_lit
-			5: Shift(23), // regDefId
-			11: Shift(28), // [
-			13: Shift(29), // {
-			15: Shift(30), // (
+			4:  Reduce(10), // ;
+			7:  Reduce(10), // |
+			8:  Shift(26),  // .
+			9:  Shift(27),  // char_lit
+			5:  Shift(23),  // regDefId
+			11: Shift(28),  // [
+			13: Shift(29),  // {
+			15: Shift(30),  // (
 		},
 	},
 
@@ -630,14 +629,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(12), // ;
-			8: Reduce(12), // .
-			9: Reduce(12), // char_lit
-			5: Reduce(12), // regDefId
+			4:  Reduce(12), // ;
+			8:  Reduce(12), // .
+			9:  Reduce(12), // char_lit
+			5:  Reduce(12), // regDefId
 			11: Reduce(12), // [
 			13: Reduce(12), // {
 			15: Reduce(12), // (
-			7: Reduce(12), // |
+			7:  Reduce(12), // |
 		},
 	},
 
@@ -645,14 +644,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(14), // ;
-			8: Reduce(14), // .
-			9: Reduce(14), // char_lit
-			5: Reduce(14), // regDefId
+			4:  Reduce(14), // ;
+			8:  Reduce(14), // .
+			9:  Reduce(14), // char_lit
+			5:  Reduce(14), // regDefId
 			11: Reduce(14), // [
 			13: Reduce(14), // {
 			15: Reduce(14), // (
-			7: Reduce(14), // |
+			7:  Reduce(14), // |
 		},
 	},
 
@@ -660,15 +659,15 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			10: Shift(45), // -
-			9: Reduce(15), // char_lit
-			5: Reduce(15), // regDefId
+			10: Shift(45),  // -
+			9:  Reduce(15), // char_lit
+			5:  Reduce(15), // regDefId
 			13: Reduce(15), // {
 			15: Reduce(15), // (
-			4: Reduce(15), // ;
-			8: Reduce(15), // .
+			4:  Reduce(15), // ;
+			8:  Reduce(15), // .
 			11: Reduce(15), // [
-			7: Reduce(15), // |
+			7:  Reduce(15), // |
 		},
 	},
 
@@ -676,9 +675,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(50), // .
-			9: Shift(51), // char_lit
-			5: Shift(47), // regDefId
+			8:  Shift(50), // .
+			9:  Shift(51), // char_lit
+			5:  Shift(47), // regDefId
 			11: Shift(52), // [
 			13: Shift(53), // {
 			15: Shift(54), // (
@@ -689,9 +688,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(59), // .
-			9: Shift(60), // char_lit
-			5: Shift(56), // regDefId
+			8:  Shift(59), // .
+			9:  Shift(60), // char_lit
+			5:  Shift(56), // regDefId
 			11: Shift(61), // [
 			13: Shift(62), // {
 			15: Shift(63), // (
@@ -702,9 +701,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(68), // .
-			9: Shift(69), // char_lit
-			5: Shift(65), // regDefId
+			8:  Shift(68), // .
+			9:  Shift(69), // char_lit
+			5:  Shift(65), // regDefId
 			11: Shift(70), // [
 			13: Shift(71), // {
 			15: Shift(72), // (
@@ -733,12 +732,12 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(37), // ;
+			4:  Reduce(37), // ;
 			18: Reduce(37), // g_sdt_lit
 			17: Reduce(37), // prodId
-			2: Reduce(37), // tokId
+			2:  Reduce(37), // tokId
 			21: Reduce(37), // string_lit
-			7: Reduce(37), // |
+			7:  Reduce(37), // |
 		},
 	},
 
@@ -746,12 +745,12 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(36), // ;
+			4:  Reduce(36), // ;
 			18: Reduce(36), // g_sdt_lit
 			17: Reduce(36), // prodId
-			2: Reduce(36), // tokId
+			2:  Reduce(36), // tokId
 			21: Reduce(36), // string_lit
-			7: Reduce(36), // |
+			7:  Reduce(36), // |
 		},
 	},
 
@@ -777,12 +776,12 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(28), // ;
-			18: Shift(77), // g_sdt_lit
-			7: Reduce(28), // |
-			17: Shift(34), // prodId
-			2: Shift(33), // tokId
-			21: Shift(41), // string_lit
+			4:  Reduce(28), // ;
+			18: Shift(77),  // g_sdt_lit
+			7:  Reduce(28), // |
+			17: Shift(34),  // prodId
+			2:  Shift(33),  // tokId
+			21: Shift(41),  // string_lit
 		},
 	},
 
@@ -790,11 +789,11 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(30), // ;
-			7: Reduce(30), // |
-			17: Shift(34), // prodId
-			2: Shift(33), // tokId
-			21: Shift(41), // string_lit
+			4:  Reduce(30), // ;
+			7:  Reduce(30), // |
+			17: Shift(34),  // prodId
+			2:  Shift(33),  // tokId
+			21: Shift(41),  // string_lit
 		},
 	},
 
@@ -811,12 +810,12 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(34), // ;
+			4:  Reduce(34), // ;
 			18: Reduce(34), // g_sdt_lit
 			17: Reduce(34), // prodId
-			2: Reduce(34), // tokId
+			2:  Reduce(34), // tokId
 			21: Reduce(34), // string_lit
-			7: Reduce(34), // |
+			7:  Reduce(34), // |
 		},
 	},
 
@@ -824,12 +823,12 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(38), // ;
+			4:  Reduce(38), // ;
 			18: Reduce(38), // g_sdt_lit
 			17: Reduce(38), // prodId
-			2: Reduce(38), // tokId
+			2:  Reduce(38), // tokId
 			21: Reduce(38), // string_lit
-			7: Reduce(38), // |
+			7:  Reduce(38), // |
 		},
 	},
 
@@ -839,10 +838,10 @@ var ActionTable ActionTab = ActionTab {
 		Actions: Actions{
 			18: Reduce(7), // g_sdt_lit
 			17: Reduce(7), // prodId
-			0: Reduce(7), // $
-			2: Reduce(7), // tokId
-			5: Reduce(7), // regDefId
-			6: Reduce(7), // ignoredTokId
+			0:  Reduce(7), // $
+			2:  Reduce(7), // tokId
+			5:  Reduce(7), // regDefId
+			6:  Reduce(7), // ignoredTokId
 		},
 	},
 
@@ -850,9 +849,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(26), // .
-			9: Shift(27), // char_lit
-			5: Shift(23), // regDefId
+			8:  Shift(26), // .
+			9:  Shift(27), // char_lit
+			5:  Shift(23), // regDefId
 			11: Shift(28), // [
 			13: Shift(29), // {
 			15: Shift(30), // (
@@ -863,14 +862,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(13), // ;
-			8: Reduce(13), // .
-			9: Reduce(13), // char_lit
-			5: Reduce(13), // regDefId
+			4:  Reduce(13), // ;
+			8:  Reduce(13), // .
+			9:  Reduce(13), // char_lit
+			5:  Reduce(13), // regDefId
 			11: Reduce(13), // [
 			13: Reduce(13), // {
 			15: Reduce(13), // (
-			7: Reduce(13), // |
+			7:  Reduce(13), // |
 		},
 	},
 
@@ -887,7 +886,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Shift(83), // ]
-			7: Shift(82), // |
+			7:  Shift(82), // |
 		},
 	},
 
@@ -896,13 +895,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(17), // ]
-			8: Reduce(17), // .
-			9: Reduce(17), // char_lit
-			5: Reduce(17), // regDefId
+			8:  Reduce(17), // .
+			9:  Reduce(17), // char_lit
+			5:  Reduce(17), // regDefId
 			11: Reduce(17), // [
 			13: Reduce(17), // {
 			15: Reduce(17), // (
-			7: Reduce(17), // |
+			7:  Reduce(17), // |
 		},
 	},
 
@@ -911,13 +910,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(10), // ]
-			7: Reduce(10), // |
-			8: Shift(50), // .
-			9: Shift(51), // char_lit
-			5: Shift(47), // regDefId
-			11: Shift(52), // [
-			13: Shift(53), // {
-			15: Shift(54), // (
+			7:  Reduce(10), // |
+			8:  Shift(50),  // .
+			9:  Shift(51),  // char_lit
+			5:  Shift(47),  // regDefId
+			11: Shift(52),  // [
+			13: Shift(53),  // {
+			15: Shift(54),  // (
 		},
 	},
 
@@ -926,13 +925,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(12), // ]
-			8: Reduce(12), // .
-			9: Reduce(12), // char_lit
-			5: Reduce(12), // regDefId
+			8:  Reduce(12), // .
+			9:  Reduce(12), // char_lit
+			5:  Reduce(12), // regDefId
 			11: Reduce(12), // [
 			13: Reduce(12), // {
 			15: Reduce(12), // (
-			7: Reduce(12), // |
+			7:  Reduce(12), // |
 		},
 	},
 
@@ -941,13 +940,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(14), // ]
-			8: Reduce(14), // .
-			9: Reduce(14), // char_lit
-			5: Reduce(14), // regDefId
+			8:  Reduce(14), // .
+			9:  Reduce(14), // char_lit
+			5:  Reduce(14), // regDefId
 			11: Reduce(14), // [
 			13: Reduce(14), // {
 			15: Reduce(14), // (
-			7: Reduce(14), // |
+			7:  Reduce(14), // |
 		},
 	},
 
@@ -956,14 +955,14 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(15), // ]
-			10: Shift(85), // -
+			10: Shift(85),  // -
 			15: Reduce(15), // (
-			8: Reduce(15), // .
-			9: Reduce(15), // char_lit
-			5: Reduce(15), // regDefId
+			8:  Reduce(15), // .
+			9:  Reduce(15), // char_lit
+			5:  Reduce(15), // regDefId
 			11: Reduce(15), // [
 			13: Reduce(15), // {
-			7: Reduce(15), // |
+			7:  Reduce(15), // |
 		},
 	},
 
@@ -971,9 +970,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(50), // .
-			9: Shift(51), // char_lit
-			5: Shift(47), // regDefId
+			8:  Shift(50), // .
+			9:  Shift(51), // char_lit
+			5:  Shift(47), // regDefId
 			11: Shift(52), // [
 			13: Shift(53), // {
 			15: Shift(54), // (
@@ -984,9 +983,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(59), // .
-			9: Shift(60), // char_lit
-			5: Shift(56), // regDefId
+			8:  Shift(59), // .
+			9:  Shift(60), // char_lit
+			5:  Shift(56), // regDefId
 			11: Shift(61), // [
 			13: Shift(62), // {
 			15: Shift(63), // (
@@ -997,9 +996,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(68), // .
-			9: Shift(69), // char_lit
-			5: Shift(65), // regDefId
+			8:  Shift(68), // .
+			9:  Shift(69), // char_lit
+			5:  Shift(65), // regDefId
 			11: Shift(70), // [
 			13: Shift(71), // {
 			15: Shift(72), // (
@@ -1011,7 +1010,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Shift(90), // }
-			7: Shift(89), // |
+			7:  Shift(89), // |
 		},
 	},
 
@@ -1020,13 +1019,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(17), // }
-			8: Reduce(17), // .
-			9: Reduce(17), // char_lit
-			5: Reduce(17), // regDefId
+			8:  Reduce(17), // .
+			9:  Reduce(17), // char_lit
+			5:  Reduce(17), // regDefId
 			11: Reduce(17), // [
 			13: Reduce(17), // {
 			15: Reduce(17), // (
-			7: Reduce(17), // |
+			7:  Reduce(17), // |
 		},
 	},
 
@@ -1035,13 +1034,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(10), // }
-			7: Reduce(10), // |
-			8: Shift(59), // .
-			9: Shift(60), // char_lit
-			5: Shift(56), // regDefId
-			11: Shift(61), // [
-			13: Shift(62), // {
-			15: Shift(63), // (
+			7:  Reduce(10), // |
+			8:  Shift(59),  // .
+			9:  Shift(60),  // char_lit
+			5:  Shift(56),  // regDefId
+			11: Shift(61),  // [
+			13: Shift(62),  // {
+			15: Shift(63),  // (
 		},
 	},
 
@@ -1050,13 +1049,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(12), // }
-			8: Reduce(12), // .
-			9: Reduce(12), // char_lit
-			5: Reduce(12), // regDefId
+			8:  Reduce(12), // .
+			9:  Reduce(12), // char_lit
+			5:  Reduce(12), // regDefId
 			11: Reduce(12), // [
 			13: Reduce(12), // {
 			15: Reduce(12), // (
-			7: Reduce(12), // |
+			7:  Reduce(12), // |
 		},
 	},
 
@@ -1065,13 +1064,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(14), // }
-			8: Reduce(14), // .
-			9: Reduce(14), // char_lit
-			5: Reduce(14), // regDefId
+			8:  Reduce(14), // .
+			9:  Reduce(14), // char_lit
+			5:  Reduce(14), // regDefId
 			11: Reduce(14), // [
 			13: Reduce(14), // {
 			15: Reduce(14), // (
-			7: Reduce(14), // |
+			7:  Reduce(14), // |
 		},
 	},
 
@@ -1080,14 +1079,14 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(15), // }
-			9: Reduce(15), // char_lit
+			9:  Reduce(15), // char_lit
 			11: Reduce(15), // [
 			15: Reduce(15), // (
-			10: Shift(92), // -
-			8: Reduce(15), // .
-			5: Reduce(15), // regDefId
+			10: Shift(92),  // -
+			8:  Reduce(15), // .
+			5:  Reduce(15), // regDefId
 			13: Reduce(15), // {
-			7: Reduce(15), // |
+			7:  Reduce(15), // |
 		},
 	},
 
@@ -1095,9 +1094,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(50), // .
-			9: Shift(51), // char_lit
-			5: Shift(47), // regDefId
+			8:  Shift(50), // .
+			9:  Shift(51), // char_lit
+			5:  Shift(47), // regDefId
 			11: Shift(52), // [
 			13: Shift(53), // {
 			15: Shift(54), // (
@@ -1108,9 +1107,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(59), // .
-			9: Shift(60), // char_lit
-			5: Shift(56), // regDefId
+			8:  Shift(59), // .
+			9:  Shift(60), // char_lit
+			5:  Shift(56), // regDefId
 			11: Shift(61), // [
 			13: Shift(62), // {
 			15: Shift(63), // (
@@ -1121,9 +1120,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(68), // .
-			9: Shift(69), // char_lit
-			5: Shift(65), // regDefId
+			8:  Shift(68), // .
+			9:  Shift(69), // char_lit
+			5:  Shift(65), // regDefId
 			11: Shift(70), // [
 			13: Shift(71), // {
 			15: Shift(72), // (
@@ -1135,7 +1134,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Shift(97), // )
-			7: Shift(96), // |
+			7:  Shift(96), // |
 		},
 	},
 
@@ -1144,13 +1143,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(17), // )
-			8: Reduce(17), // .
-			9: Reduce(17), // char_lit
-			5: Reduce(17), // regDefId
+			8:  Reduce(17), // .
+			9:  Reduce(17), // char_lit
+			5:  Reduce(17), // regDefId
 			11: Reduce(17), // [
 			13: Reduce(17), // {
 			15: Reduce(17), // (
-			7: Reduce(17), // |
+			7:  Reduce(17), // |
 		},
 	},
 
@@ -1159,13 +1158,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(10), // )
-			7: Reduce(10), // |
-			8: Shift(68), // .
-			9: Shift(69), // char_lit
-			5: Shift(65), // regDefId
-			11: Shift(70), // [
-			13: Shift(71), // {
-			15: Shift(72), // (
+			7:  Reduce(10), // |
+			8:  Shift(68),  // .
+			9:  Shift(69),  // char_lit
+			5:  Shift(65),  // regDefId
+			11: Shift(70),  // [
+			13: Shift(71),  // {
+			15: Shift(72),  // (
 		},
 	},
 
@@ -1174,13 +1173,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(12), // )
-			8: Reduce(12), // .
-			9: Reduce(12), // char_lit
-			5: Reduce(12), // regDefId
+			8:  Reduce(12), // .
+			9:  Reduce(12), // char_lit
+			5:  Reduce(12), // regDefId
 			11: Reduce(12), // [
 			13: Reduce(12), // {
 			15: Reduce(12), // (
-			7: Reduce(12), // |
+			7:  Reduce(12), // |
 		},
 	},
 
@@ -1189,13 +1188,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(14), // )
-			8: Reduce(14), // .
-			9: Reduce(14), // char_lit
-			5: Reduce(14), // regDefId
+			8:  Reduce(14), // .
+			9:  Reduce(14), // char_lit
+			5:  Reduce(14), // regDefId
 			11: Reduce(14), // [
 			13: Reduce(14), // {
 			15: Reduce(14), // (
-			7: Reduce(14), // |
+			7:  Reduce(14), // |
 		},
 	},
 
@@ -1203,14 +1202,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Reduce(15), // .
-			9: Reduce(15), // char_lit
-			5: Reduce(15), // regDefId
+			8:  Reduce(15), // .
+			9:  Reduce(15), // char_lit
+			5:  Reduce(15), // regDefId
 			11: Reduce(15), // [
 			13: Reduce(15), // {
-			7: Reduce(15), // |
+			7:  Reduce(15), // |
 			16: Reduce(15), // )
-			10: Shift(99), // -
+			10: Shift(99),  // -
 			15: Reduce(15), // (
 		},
 	},
@@ -1219,9 +1218,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(50), // .
-			9: Shift(51), // char_lit
-			5: Shift(47), // regDefId
+			8:  Shift(50), // .
+			9:  Shift(51), // char_lit
+			5:  Shift(47), // regDefId
 			11: Shift(52), // [
 			13: Shift(53), // {
 			15: Shift(54), // (
@@ -1232,9 +1231,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(59), // .
-			9: Shift(60), // char_lit
-			5: Shift(56), // regDefId
+			8:  Shift(59), // .
+			9:  Shift(60), // char_lit
+			5:  Shift(56), // regDefId
 			11: Shift(61), // [
 			13: Shift(62), // {
 			15: Shift(63), // (
@@ -1245,9 +1244,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(68), // .
-			9: Shift(69), // char_lit
-			5: Shift(65), // regDefId
+			8:  Shift(68), // .
+			9:  Shift(69), // char_lit
+			5:  Shift(65), // regDefId
 			11: Shift(70), // [
 			13: Shift(71), // {
 			15: Shift(72), // (
@@ -1260,10 +1259,10 @@ var ActionTable ActionTab = ActionTab {
 		Actions: Actions{
 			18: Reduce(8), // g_sdt_lit
 			17: Reduce(8), // prodId
-			0: Reduce(8), // $
-			2: Reduce(8), // tokId
-			5: Reduce(8), // regDefId
-			6: Reduce(8), // ignoredTokId
+			0:  Reduce(8), // $
+			2:  Reduce(8), // tokId
+			5:  Reduce(8), // regDefId
+			6:  Reduce(8), // ignoredTokId
 		},
 	},
 
@@ -1273,10 +1272,10 @@ var ActionTable ActionTab = ActionTab {
 		Actions: Actions{
 			18: Reduce(9), // g_sdt_lit
 			17: Reduce(9), // prodId
-			0: Reduce(9), // $
-			2: Reduce(9), // tokId
-			5: Reduce(9), // regDefId
-			6: Reduce(9), // ignoredTokId
+			0:  Reduce(9), // $
+			2:  Reduce(9), // tokId
+			5:  Reduce(9), // regDefId
+			6:  Reduce(9), // ignoredTokId
 		},
 	},
 
@@ -1284,7 +1283,7 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			0: Reduce(25), // $
+			0:  Reduce(25), // $
 			17: Reduce(25), // prodId
 		},
 	},
@@ -1296,7 +1295,7 @@ var ActionTable ActionTab = ActionTab {
 			19: Shift(38), // error
 			20: Shift(39), // empty
 			17: Shift(34), // prodId
-			2: Shift(33), // tokId
+			2:  Shift(33), // tokId
 			21: Shift(41), // string_lit
 		},
 	},
@@ -1314,12 +1313,12 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(35), // ;
+			4:  Reduce(35), // ;
 			18: Reduce(35), // g_sdt_lit
 			17: Reduce(35), // prodId
-			2: Reduce(35), // tokId
+			2:  Reduce(35), // tokId
 			21: Reduce(35), // string_lit
-			7: Reduce(35), // |
+			7:  Reduce(35), // |
 		},
 	},
 
@@ -1327,12 +1326,12 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(31), // ;
+			4:  Reduce(31), // ;
 			18: Shift(104), // g_sdt_lit
-			7: Reduce(31), // |
-			17: Shift(34), // prodId
-			2: Shift(33), // tokId
-			21: Shift(41), // string_lit
+			7:  Reduce(31), // |
+			17: Shift(34),  // prodId
+			2:  Shift(33),  // tokId
+			21: Shift(41),  // string_lit
 		},
 	},
 
@@ -1340,14 +1339,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(11), // ;
-			7: Reduce(11), // |
-			8: Shift(26), // .
-			9: Shift(27), // char_lit
-			5: Shift(23), // regDefId
-			11: Shift(28), // [
-			13: Shift(29), // {
-			15: Shift(30), // (
+			4:  Reduce(11), // ;
+			7:  Reduce(11), // |
+			8:  Shift(26),  // .
+			9:  Shift(27),  // char_lit
+			5:  Shift(23),  // regDefId
+			11: Shift(28),  // [
+			13: Shift(29),  // {
+			15: Shift(30),  // (
 		},
 	},
 
@@ -1355,14 +1354,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(16), // ;
-			8: Reduce(16), // .
-			9: Reduce(16), // char_lit
-			5: Reduce(16), // regDefId
+			4:  Reduce(16), // ;
+			8:  Reduce(16), // .
+			9:  Reduce(16), // char_lit
+			5:  Reduce(16), // regDefId
 			11: Reduce(16), // [
 			13: Reduce(16), // {
 			15: Reduce(16), // (
-			7: Reduce(16), // |
+			7:  Reduce(16), // |
 		},
 	},
 
@@ -1370,9 +1369,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(50), // .
-			9: Shift(51), // char_lit
-			5: Shift(47), // regDefId
+			8:  Shift(50), // .
+			9:  Shift(51), // char_lit
+			5:  Shift(47), // regDefId
 			11: Shift(52), // [
 			13: Shift(53), // {
 			15: Shift(54), // (
@@ -1383,14 +1382,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(18), // ;
-			8: Reduce(18), // .
-			9: Reduce(18), // char_lit
-			5: Reduce(18), // regDefId
+			4:  Reduce(18), // ;
+			8:  Reduce(18), // .
+			9:  Reduce(18), // char_lit
+			5:  Reduce(18), // regDefId
 			11: Reduce(18), // [
 			13: Reduce(18), // {
 			15: Reduce(18), // (
-			7: Reduce(18), // |
+			7:  Reduce(18), // |
 		},
 	},
 
@@ -1399,13 +1398,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(13), // ]
-			8: Reduce(13), // .
-			9: Reduce(13), // char_lit
-			5: Reduce(13), // regDefId
+			8:  Reduce(13), // .
+			9:  Reduce(13), // char_lit
+			5:  Reduce(13), // regDefId
 			11: Reduce(13), // [
 			13: Reduce(13), // {
 			15: Reduce(13), // (
-			7: Reduce(13), // |
+			7:  Reduce(13), // |
 		},
 	},
 
@@ -1422,7 +1421,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Shift(107), // ]
-			7: Shift(82), // |
+			7:  Shift(82),  // |
 		},
 	},
 
@@ -1431,7 +1430,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Shift(108), // }
-			7: Shift(89), // |
+			7:  Shift(89),  // |
 		},
 	},
 
@@ -1440,7 +1439,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Shift(109), // )
-			7: Shift(96), // |
+			7:  Shift(96),  // |
 		},
 	},
 
@@ -1448,9 +1447,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(59), // .
-			9: Shift(60), // char_lit
-			5: Shift(56), // regDefId
+			8:  Shift(59), // .
+			9:  Shift(60), // char_lit
+			5:  Shift(56), // regDefId
 			11: Shift(61), // [
 			13: Shift(62), // {
 			15: Shift(63), // (
@@ -1461,14 +1460,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(19), // ;
-			8: Reduce(19), // .
-			9: Reduce(19), // char_lit
-			5: Reduce(19), // regDefId
+			4:  Reduce(19), // ;
+			8:  Reduce(19), // .
+			9:  Reduce(19), // char_lit
+			5:  Reduce(19), // regDefId
 			11: Reduce(19), // [
 			13: Reduce(19), // {
 			15: Reduce(19), // (
-			7: Reduce(19), // |
+			7:  Reduce(19), // |
 		},
 	},
 
@@ -1477,13 +1476,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(13), // }
-			8: Reduce(13), // .
-			9: Reduce(13), // char_lit
-			5: Reduce(13), // regDefId
+			8:  Reduce(13), // .
+			9:  Reduce(13), // char_lit
+			5:  Reduce(13), // regDefId
 			11: Reduce(13), // [
 			13: Reduce(13), // {
 			15: Reduce(13), // (
-			7: Reduce(13), // |
+			7:  Reduce(13), // |
 		},
 	},
 
@@ -1500,7 +1499,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Shift(112), // ]
-			7: Shift(82), // |
+			7:  Shift(82),  // |
 		},
 	},
 
@@ -1509,7 +1508,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Shift(113), // }
-			7: Shift(89), // |
+			7:  Shift(89),  // |
 		},
 	},
 
@@ -1518,7 +1517,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Shift(114), // )
-			7: Shift(96), // |
+			7:  Shift(96),  // |
 		},
 	},
 
@@ -1526,9 +1525,9 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			8: Shift(68), // .
-			9: Shift(69), // char_lit
-			5: Shift(65), // regDefId
+			8:  Shift(68), // .
+			9:  Shift(69), // char_lit
+			5:  Shift(65), // regDefId
 			11: Shift(70), // [
 			13: Shift(71), // {
 			15: Shift(72), // (
@@ -1539,14 +1538,14 @@ var ActionTable ActionTab = ActionTab {
 	&ActionRow{
 		canRecover: false,
 		Actions: Actions{
-			4: Reduce(20), // ;
-			8: Reduce(20), // .
-			9: Reduce(20), // char_lit
-			5: Reduce(20), // regDefId
+			4:  Reduce(20), // ;
+			8:  Reduce(20), // .
+			9:  Reduce(20), // char_lit
+			5:  Reduce(20), // regDefId
 			11: Reduce(20), // [
 			13: Reduce(20), // {
 			15: Reduce(20), // (
-			7: Reduce(20), // |
+			7:  Reduce(20), // |
 		},
 	},
 
@@ -1555,13 +1554,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(13), // )
-			8: Reduce(13), // .
-			9: Reduce(13), // char_lit
-			5: Reduce(13), // regDefId
+			8:  Reduce(13), // .
+			9:  Reduce(13), // char_lit
+			5:  Reduce(13), // regDefId
 			11: Reduce(13), // [
 			13: Reduce(13), // {
 			15: Reduce(13), // (
-			7: Reduce(13), // |
+			7:  Reduce(13), // |
 		},
 	},
 
@@ -1578,7 +1577,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Shift(117), // ]
-			7: Shift(82), // |
+			7:  Shift(82),  // |
 		},
 	},
 
@@ -1587,7 +1586,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Shift(118), // }
-			7: Shift(89), // |
+			7:  Shift(89),  // |
 		},
 	},
 
@@ -1596,7 +1595,7 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Shift(119), // )
-			7: Shift(96), // |
+			7:  Shift(96),  // |
 		},
 	},
 
@@ -1623,13 +1622,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(11), // ]
-			7: Reduce(11), // |
-			8: Shift(50), // .
-			9: Shift(51), // char_lit
-			5: Shift(47), // regDefId
-			11: Shift(52), // [
-			13: Shift(53), // {
-			15: Shift(54), // (
+			7:  Reduce(11), // |
+			8:  Shift(50),  // .
+			9:  Shift(51),  // char_lit
+			5:  Shift(47),  // regDefId
+			11: Shift(52),  // [
+			13: Shift(53),  // {
+			15: Shift(54),  // (
 		},
 	},
 
@@ -1638,13 +1637,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(16), // ]
-			8: Reduce(16), // .
-			9: Reduce(16), // char_lit
-			5: Reduce(16), // regDefId
+			8:  Reduce(16), // .
+			9:  Reduce(16), // char_lit
+			5:  Reduce(16), // regDefId
 			11: Reduce(16), // [
 			13: Reduce(16), // {
 			15: Reduce(16), // (
-			7: Reduce(16), // |
+			7:  Reduce(16), // |
 		},
 	},
 
@@ -1653,13 +1652,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(18), // ]
-			8: Reduce(18), // .
-			9: Reduce(18), // char_lit
-			5: Reduce(18), // regDefId
+			8:  Reduce(18), // .
+			9:  Reduce(18), // char_lit
+			5:  Reduce(18), // regDefId
 			11: Reduce(18), // [
 			13: Reduce(18), // {
 			15: Reduce(18), // (
-			7: Reduce(18), // |
+			7:  Reduce(18), // |
 		},
 	},
 
@@ -1668,13 +1667,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(19), // ]
-			8: Reduce(19), // .
-			9: Reduce(19), // char_lit
-			5: Reduce(19), // regDefId
+			8:  Reduce(19), // .
+			9:  Reduce(19), // char_lit
+			5:  Reduce(19), // regDefId
 			11: Reduce(19), // [
 			13: Reduce(19), // {
 			15: Reduce(19), // (
-			7: Reduce(19), // |
+			7:  Reduce(19), // |
 		},
 	},
 
@@ -1683,13 +1682,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			12: Reduce(20), // ]
-			8: Reduce(20), // .
-			9: Reduce(20), // char_lit
-			5: Reduce(20), // regDefId
+			8:  Reduce(20), // .
+			9:  Reduce(20), // char_lit
+			5:  Reduce(20), // regDefId
 			11: Reduce(20), // [
 			13: Reduce(20), // {
 			15: Reduce(20), // (
-			7: Reduce(20), // |
+			7:  Reduce(20), // |
 		},
 	},
 
@@ -1698,13 +1697,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(11), // }
-			7: Reduce(11), // |
-			8: Shift(59), // .
-			9: Shift(60), // char_lit
-			5: Shift(56), // regDefId
-			11: Shift(61), // [
-			13: Shift(62), // {
-			15: Shift(63), // (
+			7:  Reduce(11), // |
+			8:  Shift(59),  // .
+			9:  Shift(60),  // char_lit
+			5:  Shift(56),  // regDefId
+			11: Shift(61),  // [
+			13: Shift(62),  // {
+			15: Shift(63),  // (
 		},
 	},
 
@@ -1713,13 +1712,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(16), // }
-			8: Reduce(16), // .
-			9: Reduce(16), // char_lit
-			5: Reduce(16), // regDefId
+			8:  Reduce(16), // .
+			9:  Reduce(16), // char_lit
+			5:  Reduce(16), // regDefId
 			11: Reduce(16), // [
 			13: Reduce(16), // {
 			15: Reduce(16), // (
-			7: Reduce(16), // |
+			7:  Reduce(16), // |
 		},
 	},
 
@@ -1728,13 +1727,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(18), // }
-			8: Reduce(18), // .
-			9: Reduce(18), // char_lit
-			5: Reduce(18), // regDefId
+			8:  Reduce(18), // .
+			9:  Reduce(18), // char_lit
+			5:  Reduce(18), // regDefId
 			11: Reduce(18), // [
 			13: Reduce(18), // {
 			15: Reduce(18), // (
-			7: Reduce(18), // |
+			7:  Reduce(18), // |
 		},
 	},
 
@@ -1743,13 +1742,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(19), // }
-			8: Reduce(19), // .
-			9: Reduce(19), // char_lit
-			5: Reduce(19), // regDefId
+			8:  Reduce(19), // .
+			9:  Reduce(19), // char_lit
+			5:  Reduce(19), // regDefId
 			11: Reduce(19), // [
 			13: Reduce(19), // {
 			15: Reduce(19), // (
-			7: Reduce(19), // |
+			7:  Reduce(19), // |
 		},
 	},
 
@@ -1758,13 +1757,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			14: Reduce(20), // }
-			8: Reduce(20), // .
-			9: Reduce(20), // char_lit
-			5: Reduce(20), // regDefId
+			8:  Reduce(20), // .
+			9:  Reduce(20), // char_lit
+			5:  Reduce(20), // regDefId
 			11: Reduce(20), // [
 			13: Reduce(20), // {
 			15: Reduce(20), // (
-			7: Reduce(20), // |
+			7:  Reduce(20), // |
 		},
 	},
 
@@ -1773,13 +1772,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(11), // )
-			7: Reduce(11), // |
-			8: Shift(68), // .
-			9: Shift(69), // char_lit
-			5: Shift(65), // regDefId
-			11: Shift(70), // [
-			13: Shift(71), // {
-			15: Shift(72), // (
+			7:  Reduce(11), // |
+			8:  Shift(68),  // .
+			9:  Shift(69),  // char_lit
+			5:  Shift(65),  // regDefId
+			11: Shift(70),  // [
+			13: Shift(71),  // {
+			15: Shift(72),  // (
 		},
 	},
 
@@ -1788,13 +1787,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(16), // )
-			8: Reduce(16), // .
-			9: Reduce(16), // char_lit
-			5: Reduce(16), // regDefId
+			8:  Reduce(16), // .
+			9:  Reduce(16), // char_lit
+			5:  Reduce(16), // regDefId
 			11: Reduce(16), // [
 			13: Reduce(16), // {
 			15: Reduce(16), // (
-			7: Reduce(16), // |
+			7:  Reduce(16), // |
 		},
 	},
 
@@ -1803,13 +1802,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(18), // )
-			8: Reduce(18), // .
-			9: Reduce(18), // char_lit
-			5: Reduce(18), // regDefId
+			8:  Reduce(18), // .
+			9:  Reduce(18), // char_lit
+			5:  Reduce(18), // regDefId
 			11: Reduce(18), // [
 			13: Reduce(18), // {
 			15: Reduce(18), // (
-			7: Reduce(18), // |
+			7:  Reduce(18), // |
 		},
 	},
 
@@ -1818,13 +1817,13 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(19), // )
-			8: Reduce(19), // .
-			9: Reduce(19), // char_lit
-			5: Reduce(19), // regDefId
+			8:  Reduce(19), // .
+			9:  Reduce(19), // char_lit
+			5:  Reduce(19), // regDefId
 			11: Reduce(19), // [
 			13: Reduce(19), // {
 			15: Reduce(19), // (
-			7: Reduce(19), // |
+			7:  Reduce(19), // |
 		},
 	},
 
@@ -1833,62 +1832,55 @@ var ActionTable ActionTab = ActionTab {
 		canRecover: false,
 		Actions: Actions{
 			16: Reduce(20), // )
-			8: Reduce(20), // .
-			9: Reduce(20), // char_lit
-			5: Reduce(20), // regDefId
+			8:  Reduce(20), // .
+			9:  Reduce(20), // char_lit
+			5:  Reduce(20), // regDefId
 			11: Reduce(20), // [
 			13: Reduce(20), // {
 			15: Reduce(20), // (
-			7: Reduce(20), // |
+			7:  Reduce(20), // |
 		},
 	},
-
 }
 
 var GotoTable GotoTab = GotoTab{
 	// state 0
 	GotoRow{
-		"Grammar": State(1),
-		"LexicalPart": State(2),
-		"SyntaxPart": State(3),
-		"LexProductions": State(4),
-		"LexProduction": State(5),
-		"FileHeader": State(9),
-		"SyntaxProdList": State(10),
+		"Grammar":          State(1),
+		"LexicalPart":      State(2),
+		"SyntaxPart":       State(3),
+		"LexProductions":   State(4),
+		"LexProduction":    State(5),
+		"FileHeader":       State(9),
+		"SyntaxProdList":   State(10),
 		"SyntaxProduction": State(11),
 	},
 	// state 1
-	GotoRow{
-	},
+	GotoRow{},
 	// state 2
 	GotoRow{
-		"SyntaxPart": State(14),
-		"FileHeader": State(9),
-		"SyntaxProdList": State(10),
+		"SyntaxPart":       State(14),
+		"FileHeader":       State(9),
+		"SyntaxProdList":   State(10),
 		"SyntaxProduction": State(11),
 	},
 	// state 3
-	GotoRow{
-	},
+	GotoRow{},
 	// state 4
 	GotoRow{
 		"LexProduction": State(15),
 	},
 	// state 5
-	GotoRow{
-	},
+	GotoRow{},
 	// state 6
-	GotoRow{
-	},
+	GotoRow{},
 	// state 7
-	GotoRow{
-	},
+	GotoRow{},
 	// state 8
-	GotoRow{
-	},
+	GotoRow{},
 	// state 9
 	GotoRow{
-		"SyntaxProdList": State(19),
+		"SyntaxProdList":   State(19),
 		"SyntaxProduction": State(11),
 	},
 	// state 10
@@ -1896,107 +1888,90 @@ var GotoTable GotoTab = GotoTab{
 		"SyntaxProduction": State(20),
 	},
 	// state 11
-	GotoRow{
-	},
+	GotoRow{},
 	// state 12
-	GotoRow{
-	},
+	GotoRow{},
 	// state 13
-	GotoRow{
-	},
+	GotoRow{},
 	// state 14
-	GotoRow{
-	},
+	GotoRow{},
 	// state 15
-	GotoRow{
-	},
+	GotoRow{},
 	// state 16
 	GotoRow{
 		"LexPattern": State(22),
-		"LexAlt": State(24),
-		"LexTerm": State(25),
+		"LexAlt":     State(24),
+		"LexTerm":    State(25),
 	},
 	// state 17
 	GotoRow{
 		"LexPattern": State(31),
-		"LexAlt": State(24),
-		"LexTerm": State(25),
+		"LexAlt":     State(24),
+		"LexTerm":    State(25),
 	},
 	// state 18
 	GotoRow{
 		"LexPattern": State(32),
-		"LexAlt": State(24),
-		"LexTerm": State(25),
+		"LexAlt":     State(24),
+		"LexTerm":    State(25),
 	},
 	// state 19
 	GotoRow{
 		"SyntaxProduction": State(20),
 	},
 	// state 20
-	GotoRow{
-	},
+	GotoRow{},
 	// state 21
 	GotoRow{
 		"Alternatives": State(35),
-		"SyntaxBody": State(36),
-		"Symbols": State(37),
-		"Symbol": State(40),
+		"SyntaxBody":   State(36),
+		"Symbols":      State(37),
+		"Symbol":       State(40),
 	},
 	// state 22
-	GotoRow{
-	},
+	GotoRow{},
 	// state 23
-	GotoRow{
-	},
+	GotoRow{},
 	// state 24
 	GotoRow{
 		"LexTerm": State(44),
 	},
 	// state 25
-	GotoRow{
-	},
+	GotoRow{},
 	// state 26
-	GotoRow{
-	},
+	GotoRow{},
 	// state 27
-	GotoRow{
-	},
+	GotoRow{},
 	// state 28
 	GotoRow{
 		"LexPattern": State(46),
-		"LexAlt": State(48),
-		"LexTerm": State(49),
+		"LexAlt":     State(48),
+		"LexTerm":    State(49),
 	},
 	// state 29
 	GotoRow{
 		"LexPattern": State(55),
-		"LexAlt": State(57),
-		"LexTerm": State(58),
+		"LexAlt":     State(57),
+		"LexTerm":    State(58),
 	},
 	// state 30
 	GotoRow{
 		"LexPattern": State(64),
-		"LexAlt": State(66),
-		"LexTerm": State(67),
+		"LexAlt":     State(66),
+		"LexTerm":    State(67),
 	},
 	// state 31
-	GotoRow{
-	},
+	GotoRow{},
 	// state 32
-	GotoRow{
-	},
+	GotoRow{},
 	// state 33
-	GotoRow{
-	},
+	GotoRow{},
 	// state 34
-	GotoRow{
-	},
+	GotoRow{},
 	// state 35
-	GotoRow{
-	},
+	GotoRow{},
 	// state 36
-	GotoRow{
-	},
+	GotoRow{},
 	// state 37
 	GotoRow{
 		"Symbol": State(78),
@@ -2004,163 +1979,137 @@ var GotoTable GotoTab = GotoTab{
 	// state 38
 	GotoRow{
 		"Symbols": State(79),
-		"Symbol": State(40),
+		"Symbol":  State(40),
 	},
 	// state 39
-	GotoRow{
-	},
+	GotoRow{},
 	// state 40
-	GotoRow{
-	},
+	GotoRow{},
 	// state 41
-	GotoRow{
-	},
+	GotoRow{},
 	// state 42
-	GotoRow{
-	},
+	GotoRow{},
 	// state 43
 	GotoRow{
-		"LexAlt": State(80),
+		"LexAlt":  State(80),
 		"LexTerm": State(25),
 	},
 	// state 44
-	GotoRow{
-	},
+	GotoRow{},
 	// state 45
-	GotoRow{
-	},
+	GotoRow{},
 	// state 46
-	GotoRow{
-	},
+	GotoRow{},
 	// state 47
-	GotoRow{
-	},
+	GotoRow{},
 	// state 48
 	GotoRow{
 		"LexTerm": State(84),
 	},
 	// state 49
-	GotoRow{
-	},
+	GotoRow{},
 	// state 50
-	GotoRow{
-	},
+	GotoRow{},
 	// state 51
-	GotoRow{
-	},
+	GotoRow{},
 	// state 52
 	GotoRow{
 		"LexPattern": State(86),
-		"LexAlt": State(48),
-		"LexTerm": State(49),
+		"LexAlt":     State(48),
+		"LexTerm":    State(49),
 	},
 	// state 53
 	GotoRow{
 		"LexPattern": State(87),
-		"LexAlt": State(57),
-		"LexTerm": State(58),
+		"LexAlt":     State(57),
+		"LexTerm":    State(58),
 	},
 	// state 54
 	GotoRow{
 		"LexPattern": State(88),
-		"LexAlt": State(66),
-		"LexTerm": State(67),
+		"LexAlt":     State(66),
+		"LexTerm":    State(67),
 	},
 	// state 55
-	GotoRow{
-	},
+	GotoRow{},
 	// state 56
-	GotoRow{
-	},
+	GotoRow{},
 	// state 57
 	GotoRow{
 		"LexTerm": State(91),
 	},
 	// state 58
-	GotoRow{
-	},
+	GotoRow{},
 	// state 59
-	GotoRow{
-	},
+	GotoRow{},
 	// state 60
-	GotoRow{
-	},
+	GotoRow{},
 	// state 61
 	GotoRow{
 		"LexPattern": State(93),
-		"LexAlt": State(48),
-		"LexTerm": State(49),
+		"LexAlt":     State(48),
+		"LexTerm":    State(49),
 	},
 	// state 62
 	GotoRow{
 		"LexPattern": State(94),
-		"LexAlt": State(57),
-		"LexTerm": State(58),
+		"LexAlt":     State(57),
+		"LexTerm":    State(58),
 	},
 	// state 63
 	GotoRow{
 		"LexPattern": State(95),
-		"LexAlt": State(66),
-		"LexTerm": State(67),
+		"LexAlt":     State(66),
+		"LexTerm":    State(67),
 	},
 	// state 64
-	GotoRow{
-	},
+	GotoRow{},
 	// state 65
-	GotoRow{
-	},
+	GotoRow{},
 	// state 66
 	GotoRow{
 		"LexTerm": State(98),
 	},
 	// state 67
-	GotoRow{
-	},
+	GotoRow{},
 	// state 68
-	GotoRow{
-	},
+	GotoRow{},
 	// state 69
-	GotoRow{
-	},
+	GotoRow{},
 	// state 70
 	GotoRow{
 		"LexPattern": State(100),
-		"LexAlt": State(48),
-		"LexTerm": State(49),
+		"LexAlt":     State(48),
+		"LexTerm":    State(49),
 	},
 	// state 71
 	GotoRow{
 		"LexPattern": State(101),
-		"LexAlt": State(57),
-		"LexTerm": State(58),
+		"LexAlt":     State(57),
+		"LexTerm":    State(58),
 	},
 	// state 72
 	GotoRow{
 		"LexPattern": State(102),
-		"LexAlt": State(66),
-		"LexTerm": State(67),
+		"LexAlt":     State(66),
+		"LexTerm":    State(67),
 	},
 	// state 73
-	GotoRow{
-	},
+	GotoRow{},
 	// state 74
-	GotoRow{
-	},
+	GotoRow{},
 	// state 75
-	GotoRow{
-	},
+	GotoRow{},
 	// state 76
 	GotoRow{
 		"SyntaxBody": State(103),
-		"Symbols": State(37),
-		"Symbol": State(40),
+		"Symbols":    State(37),
+		"Symbol":     State(40),
 	},
 	// state 77
-	GotoRow{
-	},
+	GotoRow{},
 	// state 78
-	GotoRow{
-	},
+	GotoRow{},
 	// state 79
 	GotoRow{
 		"Symbol": State(78),
@@ -2170,130 +2119,96 @@ var GotoTable GotoTab = GotoTab{
 		"LexTerm": State(44),
 	},
 	// state 81
-	GotoRow{
-	},
+	GotoRow{},
 	// state 82
 	GotoRow{
-		"LexAlt": State(105),
+		"LexAlt":  State(105),
 		"LexTerm": State(49),
 	},
 	// state 83
-	GotoRow{
-	},
+	GotoRow{},
 	// state 84
-	GotoRow{
-	},
+	GotoRow{},
 	// state 85
-	GotoRow{
-	},
+	GotoRow{},
 	// state 86
-	GotoRow{
-	},
+	GotoRow{},
 	// state 87
-	GotoRow{
-	},
+	GotoRow{},
 	// state 88
-	GotoRow{
-	},
+	GotoRow{},
 	// state 89
 	GotoRow{
-		"LexAlt": State(110),
+		"LexAlt":  State(110),
 		"LexTerm": State(58),
 	},
 	// state 90
-	GotoRow{
-	},
+	GotoRow{},
 	// state 91
-	GotoRow{
-	},
+	GotoRow{},
 	// state 92
-	GotoRow{
-	},
+	GotoRow{},
 	// state 93
-	GotoRow{
-	},
+	GotoRow{},
 	// state 94
-	GotoRow{
-	},
+	GotoRow{},
 	// state 95
-	GotoRow{
-	},
+	GotoRow{},
 	// state 96
 	GotoRow{
-		"LexAlt": State(115),
+		"LexAlt":  State(115),
 		"LexTerm": State(67),
 	},
 	// state 97
-	GotoRow{
-	},
+	GotoRow{},
 	// state 98
-	GotoRow{
-	},
+	GotoRow{},
 	// state 99
-	GotoRow{
-	},
+	GotoRow{},
 	// state 100
-	GotoRow{
-	},
+	GotoRow{},
 	// state 101
-	GotoRow{
-	},
+	GotoRow{},
 	// state 102
-	GotoRow{
-	},
+	GotoRow{},
 	// state 103
-	GotoRow{
-	},
+	GotoRow{},
 	// state 104
-	GotoRow{
-	},
+	GotoRow{},
 	// state 105
 	GotoRow{
 		"LexTerm": State(84),
 	},
 	// state 106
-	GotoRow{
-	},
+	GotoRow{},
 	// state 107
-	GotoRow{
-	},
+	GotoRow{},
 	// state 108
-	GotoRow{
-	},
+	GotoRow{},
 	// state 109
-	GotoRow{
-	},
+	GotoRow{},
 	// state 110
 	GotoRow{
 		"LexTerm": State(91),
 	},
 	// state 111
-	GotoRow{
-	},
+	GotoRow{},
 	// state 112
-	GotoRow{
-	},
+	GotoRow{},
 	// state 113
-	GotoRow{
-	},
+	GotoRow{},
 	// state 114
-	GotoRow{
-	},
+	GotoRow{},
 	// state 115
 	GotoRow{
 		"LexTerm": State(98),
 	},
 	// state 116
-	GotoRow{
-	},
+	GotoRow{},
 	// state 117
-	GotoRow{
-	},
+	GotoRow{},
 	// state 118
-	GotoRow{
-	},
+	GotoRow{},
 	// state 119
-	GotoRow{
-	},
+	GotoRow{},
 }
-

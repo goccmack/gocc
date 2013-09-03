@@ -16,9 +16,9 @@ package items
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/parser/lr1/action"
+	"fmt"
 )
 
 //An LR1 Item.

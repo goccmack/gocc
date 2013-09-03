@@ -16,8 +16,8 @@ package ast
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/frontend/token"
+	"fmt"
 )
 
 type LexTokDef struct {

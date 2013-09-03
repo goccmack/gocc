@@ -16,12 +16,12 @@ package golang
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/io"
 	"code.google.com/p/gocc/parser/lr1/items"
 	"code.google.com/p/gocc/parser/symbols"
 	"code.google.com/p/gocc/token"
+	"fmt"
 	"path"
 	"text/template"
 )

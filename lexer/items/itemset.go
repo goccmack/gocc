@@ -16,9 +16,9 @@ package items
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/lexer/symbols"
+	"fmt"
 )
 
 /*

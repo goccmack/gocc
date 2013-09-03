@@ -1,8 +1,8 @@
 package scanner
 
 import (
-	"fmt"
 	"code.google.com/p/gocc/frontend/token"
+	"fmt"
 	"testing"
 )
 
