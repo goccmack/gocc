@@ -20,6 +20,7 @@
 \usepackage[pdftex]{graphicx}
 \DeclareGraphicsExtensions{.jpg, .pdf}
 \usepackage{longtable}
+\usepackage{fancyvrb}
 \usepackage{pdflscape}
 \usepackage{pdfpages}
 \usepackage[bookmarksnumbered,bookmarksopen,bookmarksopenlevel=2,pdffitwindow]{hyperref}
@@ -216,7 +217,7 @@
 			token.go
 
 			./util:
-			rune.go
+			litconv.go	rune.go
 		\end{verbatim}
 
 		The generated files are:
@@ -232,6 +233,8 @@
 			\item[parser/] Contains the files generated for the parser. The interpreter code is embedded withing \verb|parser/productionstable.go|.
 
 			\item[token/token.go] Contains the declaration of the tokens of the grammar.
+
+			\item[util/litconv.go] Contains functions to convert a token literal to a value, e.g.: int64 or rune.
 
 			\item[util/rune.go] Contains func() RuneToString, which is used by debug code in the lexer.
 		\end{description}
@@ -252,14 +255,9 @@
 
 			<< 
 			import(
-			    "strconv" 
 			    "code.google.com/p/gocc/example/calc/token"
+			    "code.google.com/p/gocc/example/calc/util"
 			)
-
-			func intValue(tok interface{}) (int64, error) {
-			    return strconv.ParseInt(string(tok.(*token.Token).Lit), 10, 64)
-			}
-
 			>>
 
 			Calc : Expr;
@@ -276,7 +274,7 @@
 
 			Factor 
 			    : "(" Expr ")"            << $1, nil >>
-			    | int64                   << intValue($0) >>
+			    | int64                   << util.IntValue($0.(*token.Token).Lit) >>
 			    ;
 
 		\end{verbatim}
@@ -302,17 +300,18 @@
 		The syntax part consists of:
 
 		\begin{enumerate}
-			\item An optional file header section, which is textually included in the generated parser file, \verb|parser/productionstable.go|. The file header allows the user to specify imports, declarations and functions, which are required by the action routines in the syntax part. In the calc example the file header contains two import declarations, as well as a function, \verb|intValue|.
+			\item An optional file header section, which is textually included in the generated parser file, \verb|parser/productionstable.go|. The file header allows the user to specify imports, declarations and functions, which are required by the action routines in the syntax part. In the calc example the file header contains two import declarations.
 
 			\item The syntax start symbol, \verb|Calc|, is the highest level syntax production of the BNF. The parser will try to match the input source with a valid derivation of the start symbol. All syntax production identifiers start with an upper case letter in the range, \verb|'A'-'Z'|.
 
 			\item Each alternative of a production may optionally have an action expression. E.g.:
 
 			\begin{verbatim}
-				Factor : int64                 << intValue($0) >>
+				Factor : int64                 << util.IntValue($0.(*token.Token).Lit) >>
 			\end{verbatim}
 
-			has an action expression, \verb|<< intValue($0) >>|, which contains a call to the function declared in the file header. Action expresssions must always return a value of type, \verb|(interface{}, error)|. If the returned error parameter is \verb|nil|, the \verb|interface{}| parameter is placed on the parser stack as the attribute of the recognised production.
+			has an action expression, \verb|<< util.IntValue($0.(*token.Token).Lit) >>|, which contains a call to the function, IntValue, in the generted file util/litconv.go. Attribute \verb|$0|, associated with the symbol \verb|int64| in the body of the produciton, is type asserted to \verb|*token.Token|, of which the field \verb|Lit| is passed as parameter to the function.
+			Action expresssions must always return a value of type, \verb|(interface{}, error)|. If the returned error parameter is \verb|nil|, the \verb|interface{}| parameter is placed on the parser stack as the attribute of the recognised production.
 
 			\item Each recognised term in a production has an associated attribute. For example: the production alternative:
 
@@ -856,57 +855,62 @@
 	See \verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/errors/error.go| for the definition of errors.Error.
 
 \section{gocc syntax}\label{sec:gocc syntax}
-	A gocc source code is UTF-8 encoded Unicode text.
+	A gocc source file contains UTF-8 encoded Unicode text.
 
 	c-style block and line comments are allowed in the source code. All comments are suppressed by the lexer.
+	In the following BNF \Code{!comment} means that \Code{comment} is a token, which is recognised and suppressed by the lexer -- it is not seen by the parser.
 
-	\begin{verbatim}
-	!comment : _lineComment | _blockComment ;
-	_lineComment : '/' '/' {.} '\n' ;
-	_blockComment : '/' '*' {. | '*'} '*' '/' ;
-	\end{verbatim}
+	\begin{Verbatim}[frame=single]
+!comment : _lineComment | _blockComment ;
 
-	gocc source code consists of a sequence of token separated by white space. The white space characters are:
+_lineComment : '/' '/' {.} '\n' ;
 
-	\begin{tabular}{cl}
-		\bf Character & \bf Unicode value \\
+_blockComment : '/' '*' {. | '*'} '*' '/' ;
+	\end{Verbatim}
+
+	gocc source code consists of a sequence of tokens separated by white space. The white space characters are:
+
+	\begin{tabular}{ccc}
+		\bf Character & \bf Unicode value & \bf go char literal\\
 		\hline
-		space	& 0x20 \\
-		horizontal tab & 0x09 \\
-		newline & 0x0a \\
-		carriage return & 0x0d \\
+		space	& 0x20 & \verb|' '| \\
+		horizontal tab & 0x09 & \verb|'\t'| \\
+		newline & 0x0a & \verb|'\n'| \\
+		carriage return & 0x0d & \verb|'\r'| \\
 	\end{tabular}
 
-	\begin{verbatim}
-		!whitespace : ' ' | '\t' | '\n' | '\r' ;
-	\end{verbatim}
+	White space is suppressed by the lexer.
+
+	\begin{Verbatim}[frame=single]
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+	\end{Verbatim}
 
 
 
 	A gocc source file must contain at least one of a lexical part or a syntax part.
 
-\begin{verbatim}
+	\begin{Verbatim}[frame=single]
 Grammar 
     : LexicalPart SyntaxPart
     | LexicalPart
     | SyntaxPart
     ;
-\end{verbatim}
+\end{Verbatim}
 
 The lexical part is a sequence of lexical productions.
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 LexicalPart    
     : LexProductions
     ;
-\end{verbatim}
+\end{Verbatim}
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 LexProductions    
     : LexProduction
     | LexProductions LexProduction
     ;
-\end{verbatim}
+\end{Verbatim}
 
 Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lowercase character in the range 'a'-'z', regular definition identifiers start with '\_' and ignored token identifiers start with '!'. 
 
@@ -916,18 +920,18 @@ Token definitions define the tokens that are recognised by the lexer and passed 
 
 Ignored token definitions define tokens that are recognised by the lexer but suppressed so that the parser never sees them. Comments and the white space separating tokens are examples of ignored tokens.
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 LexProduction 
     : tokId ":" LexPattern ";"         // token definition
     | regDefId ":" LexPattern ";"      // regular definition
     | ignoredTokId ":" LexPattern ";"  // ignored token defition
     ;
+\end{Verbatim}
 
+Token identifiers start with a lowercase letter in the range 'a'-'z'.
+
+\begin{Verbatim}[frame=single]
 tokId : _tokId ;
-
-regDefId : '_' {_id_char} ;
-
-ignoredTokId : '!' _tokId ;
 
 _tokId : _lowcase {_id_char} ;
 
@@ -938,26 +942,47 @@ _id_char : _upcase | _lowcase | '_' | _digit ;
 _upcase : 'A'-'Z' ;
 
 _digit : '0'-'9' ;
-\end{verbatim}
+\end{Verbatim}
 
+Regular definition identifiers start with \verb|'_'|.
 
+\begin{Verbatim}[frame=single]
+regDefId : '_' {_id_char} ;
+\end{Verbatim}
 
+Ignored token identifiers start with \verb|'!'|
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
+ignoredTokId : '!' _tokId ;
+\end{Verbatim}
+
+A lexical pattern is one or more alternatives, each consisting of a sequence of terms. 
+
+\begin{Verbatim}[frame=single]
 LexPattern     
     : LexAlt
     | LexPattern "|" LexAlt
     ;
-\end{verbatim}
 
-\begin{verbatim}
 LexAlt     
     : LexTerm
     | LexAlt LexTerm
     ;
-\end{verbatim}
+\end{Verbatim}
 
-\begin{verbatim}
+A lexical term can be one of:
+
+\begin{longtable}{lp{12cm}}
+	\verb|.| & Match any UTF-8 rune. This match is only applied after all more specific terms have been matched. \\
+	\verb|char_lit| & A specific character literal, e.g.: 'a'. \\
+	\verb|char_lit "-" char_lit| & An inclusive range, e.g.: 'a'-'z' \\
+	\verb|regDefId| & the identifier of a regular definition production in the BNF \\
+	\verb|"[" LexPattern "]"| & An optional lexical pattern \\
+	\verb|"{" LexPattern "}"| & Zero or more instances of a lexical pattern \\
+	\verb|"(" LexPattern ")"| & A grouped lexical pattern, e.g.: \verb|('a' | 'b')| \\
+\end{longtable}
+
+\begin{Verbatim}[frame=single]
 LexTerm 
     : "."
     | char_lit
@@ -967,36 +992,112 @@ LexTerm
     | "{" LexPattern "}"
     | "(" LexPattern ")"
     ;
-\end{verbatim}
+\end{Verbatim}
 
-\begin{verbatim}
+Character literals are specified as a valid unicode or byte value, enclosed in single qoutes:
+
+\begin{Verbatim}[frame=single]
+char_lit
+    : '\'' (_unicode_value | _byte_value) '\'' 
+    ;
+\end{Verbatim}
+
+A unicode character may be specified as a character literal (e.g.: \verb'a'), a unicode value or an escaped character.
+
+\begin{Verbatim}[frame=single]
+_unicode_value 
+    : .                   // Any UTF-8 character literal
+    | _little_u_value 
+    | _big_u_value 
+    | _escaped_char 
+    ;
+
+_byte_value       
+    : _octal_byte_value 
+    | _hex_byte_value 
+    ;
+
+_little_u_value   
+    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+
+_big_u_value
+    : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
+               _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+
+_escaped_char
+    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
+    ;
+
+_octal_byte_value 
+    : '\\' _octal_digit _octal_digit _octal_digit 
+    ;
+
+_hex_byte_value   
+    : '\\' 'x' _hex_digit _hex_digit 
+    ;
+
+_octal_digit 
+    : '0' - '7' 
+    ;
+
+_hex_digit 
+    : '0' - '9' 
+    | 'A' - 'F' 
+    | 'a' - 'f'
+    ;
+\end{Verbatim}
+
+The syntax part may start with an optional file header, followed by a sequence of syntax productions. The file header is textually included in the generated parser file, \verb|productiontable.go|, and is used to declare imports, constants, types and functions required by the action expressions of the productions.
+
+\begin{Verbatim}[frame=single]
 SyntaxPart
     : FileHeader SyntaxProdList
     | SyntaxProdList
     ;
-\end{verbatim}
 
-\begin{verbatim}
+FileHeader
+    : action_lit
+    ;
+
 SyntaxProdList
     : SyntaxProduction
     | SyntaxProdList SyntaxProduction
     ;
-\end{verbatim}
+\end{Verbatim}
 
-\begin{verbatim}
+Syntax productions define a context free language and may be mutually and self recursive. Left recursion is preferable to right recursion in LR grammar productions, as this leads to less stack activity during parsing. A syntax production starts with an identifier, followed by ":" and one or more alternative bodies, which are separated by "|".
+
+Syntax  production identifiers start with an uppercase character in the range 'A'-'Z'.
+
+\begin{Verbatim}[frame=single]
 SyntaxProduction    
     : prodId ":" Alternatives ";"
     ;
-\end{verbatim}
 
-\begin{verbatim}
+prodId 
+    : _upcase {_id_char} 
+    ;
+
 Alternatives    
     : SyntaxBody
     | Alternatives "|" SyntaxBody
     ;
-\end{verbatim}
+\end{Verbatim}
+
+A syntax body is a sequence of syntax symbols, optionally followed by an action literal. If a syntax body starts with the keyword, \verb|error|, it indicates that the parser may accepts an error in the input of the production and continue parsing if it is able to recover from the error.
+
+A syntax body may also be empty, indicated by the reserved word, \verb|emtpy|. This allows you to write productions with optional elements, such as:
 
 \begin{verbatim}
+A : B "c";
+B : "b" ;
+\end{verbatim}
+
+This grammar will match strings, \verb|b c| or \verb|c|.
+
+\begin{Verbatim}[frame=single]
 SyntaxBody
     : Symbols
     | Symbols action_lit
@@ -1005,141 +1106,53 @@ SyntaxBody
     | "error" Symbols action_lit
     | "empty"
     ;
-\end{verbatim}
 
-\begin{verbatim}
 Symbols    
     : Symbol
     | Symbols Symbol
     ;
-\end{verbatim}
+\end{Verbatim}
 
-\begin{verbatim}
+An action literal is any string of characters enclosed in "<<" ">>". The contents of the action literal is invoke as an expression when the associated production body has been recognised by the parser. The action expression must return a tuple of type \verb| (interface{}, error)|. If the second parameter is not \verb|nil| the parser terminates and returns the error to its caller. If the second parameter is \verb|nil| the parser associates first parameter with the recognise syntax production as its attribute.
+
+\begin{Verbatim}[frame=single]
+action_lit    
+    : '<' '<' . {.} '>' '>' 
+    ;
+\end{Verbatim}
+
+gocc recognises the following terminal syntax symbols:
+
+\begin{longtable}{ll}
+	\verb|prodId| & The identifier of a syntax production defined in the grammar. \\
+	\verb|tokId| & The identifier of lexical production defined in the gramamr. \\
+	\verb|string_lit| & A string literal value, e.g.: \verb|"a string"| \\
+\end{longtable}
+
+\begin{Verbatim}[frame=single]
 Symbol
     : prodId
     | tokId
     | string_lit
     ;
-\end{verbatim}
+\end{Verbatim}
 
-\begin{verbatim}
-// Shared productions
-\end{verbatim}
+A string literal can be any valid go raw string (e.g.: \verb|`a raw string`|) or interpreted string (e.g.: \verb|"an interpreted string"|).
 
-\begin{verbatim}
-FileHeader
-    : action_lit
-    ;
-\end{verbatim}
-
-\section{gocc lexical definitions}\label{sec:gocc lex}
-
-\begin{verbatim}
-prodId 
-    : _upcase {_id_char} 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 string_lit 
     : _raw_string 
     | _interpreted_string 
     ;
-\end{verbatim}
 
-\begin{verbatim}
-/* Ignored tokens */
-\end{verbatim}
-
-\begin{verbatim}
-/* Regular definitions */
-\end{verbatim}
-
-\begin{verbatim}
-_hex_digit 
-    : '0' - '9' 
-    | 'A' - 'F' 
-    | 'a' - 'f'
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_octal_digit 
-    : '0' - '7' 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-char_lit
-    : '\'' (_unicode_value | _byte_value) '\'' 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_unicode_value 
-    : . 
-    | _little_u_value 
-    | _big_u_value 
-    | _escaped_char 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_byte_value       
-    : _octal_byte_value 
-    | _hex_byte_value 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_octal_byte_value 
-    : '\\' _octal_digit _octal_digit _octal_digit 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_hex_byte_value   
-    : '\\' 'x' _hex_digit _hex_digit 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_little_u_value   
-    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_big_u_value
-    : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
-               _hex_digit _hex_digit _hex_digit _hex_digit 
-    ;
-\end{verbatim}
-
-\begin{verbatim}
-_escaped_char
-    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
-    ;
-\end{verbatim}
-
-
-\begin{verbatim}
 _raw_string 
     : '`' {.} '`' 
     ;
-\end{verbatim}
 
-\begin{verbatim}
 _interpreted_string 
     : '"' { _unicode_value | _byte_value } '"' 
     ;
-\end{verbatim}
-
-\begin{verbatim}
-action_lit    
-    : '<' '<' . {.} '>' '>' 
-    ;
-\end{verbatim}
+\end{Verbatim}
 
 
 

@@ -1,5 +1,3 @@
-Parser: return error on irrecoverable error - don't panic.
-
 Add lexer set action selection algorithm to doc.
 
 Lexer generation problem: the symbol range of imported function may overlap with the other character ranges and it is impossible during lexer generation to know the overlap.

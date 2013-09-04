@@ -10,14 +10,9 @@ int64 : '1'-'9' {_digit} ;
 
 << 
 import(
-	"strconv" 
 	"code.google.com/p/gocc/example/calc/token"
+	"code.google.com/p/gocc/example/calc/util"
 )
-
-func intValue(tok interface{}) (int64, error) {
-	return strconv.ParseInt(string(tok.(*token.Token).Lit), 10, 64)
-}
-
 >>
 
 Calc : Expr;
@@ -34,5 +29,5 @@ Term :
 
 Factor :
 		"(" Expr ")"	<< $1, nil >>
-	|	int64			<< intValue($0) >>
+	|	int64			<< util.IntValue($0.(*token.Token).Lit) >>
 ;

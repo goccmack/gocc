@@ -55,6 +55,9 @@ SyntaxPart	: FileHeader SyntaxProdList 					<< ast.NewSyntaxPart($0, $1) >>
 			| SyntaxProdList 								<< ast.NewSyntaxPart(nil, $0) >>
 			;
 
+FileHeader 	: g_sdt_lit										<< ast.NewFileHeader($0) >>
+			;
+
 SyntaxProdList	: SyntaxProduction							<< ast.NewSyntaxProdList($0) >>			
 				| SyntaxProdList SyntaxProduction 			<< ast.AddSyntaxProds($0, $1) >>
 				;
@@ -82,11 +85,6 @@ Symbol	: prodId											<< ast.NewSyntaxProdId($0) >>
 		| tokId												<< ast.NewTokId($0) >>
 		| string_lit										<< ast.NewStringLit($0) >>
 		;
-
-// Shared productions
-
-FileHeader 	: g_sdt_lit										<< ast.NewFileHeader($0) >>
-			;
 
 /********
 Lexical items
