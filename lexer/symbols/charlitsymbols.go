@@ -19,32 +19,44 @@ import (
 )
 
 // key: string of symbols - string(ast.CharLit.Lit). E.g.: "'a'"
-type CharLitSymbols map[string]*ast.LexCharLit
-
-func NewCharLitSymbols() CharLitSymbols {
-	return make(CharLitSymbols)
+type CharLitSymbols struct {
+	idMap   map[string]int
+	typeMap []*ast.LexCharLit
 }
 
-func (this CharLitSymbols) Add(cl *ast.LexCharLit) {
-	this[cl.String()] = cl
-}
-
-func (this CharLitSymbols) Len() int {
-	return len(this)
-}
-
-func (this CharLitSymbols) List() []*ast.LexCharLit {
-	list := make([]*ast.LexCharLit, 0, len(this))
-	for _, sym := range this {
-		list = append(list, sym)
+func NewCharLitSymbols() *CharLitSymbols {
+	return &CharLitSymbols{
+		idMap:   make(map[string]int),
+		typeMap: make([]*ast.LexCharLit, 0, 16),
 	}
-	return list
 }
 
-func (this CharLitSymbols) StringList() []string {
-	symbols := make([]string, 0, len(this))
-	for key := range this {
-		symbols = append(symbols, key)
+func (this *CharLitSymbols) Add(cl *ast.LexCharLit) {
+	this.typeMap = append(this.typeMap, cl)
+	this.idMap[cl.String()] = len(this.typeMap) - 1
+}
+
+func (this *CharLitSymbols) GetSymbolId(id string) (sym *ast.LexCharLit, exist bool) {
+	if idx, ok := this.idMap[id]; !ok {
+		return nil, false
+	} else {
+		sym = this.typeMap[idx]
+	}
+	return
+}
+
+func (this *CharLitSymbols) Len() int {
+	return len(this.typeMap)
+}
+
+func (this *CharLitSymbols) List() []*ast.LexCharLit {
+	return this.typeMap
+}
+
+func (this *CharLitSymbols) StringList() []string {
+	symbols := make([]string, len(this.typeMap))
+	for i, sym := range this.typeMap {
+		symbols[i] = sym.String()
 	}
 	return symbols
 }

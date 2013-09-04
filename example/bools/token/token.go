@@ -1,6 +1,7 @@
+
 package token
 
-import (
+import(
 	"fmt"
 )
 
@@ -12,14 +13,14 @@ type Token struct {
 
 type Type int
 
-const (
+const(
 	INVALID Type = iota
 	EOF
 )
 
 type Pos struct {
 	Offset int
-	Line   int
+	Line int
 	Column int
 }
 
@@ -28,8 +29,8 @@ func (this Pos) String() string {
 }
 
 type TokenMap struct {
-	typeMap []string
-	idMap   map[string]Type
+	typeMap  []string
+	idMap map[string]Type
 }
 
 func (this TokenMap) Id(tok Type) string {
@@ -78,25 +79,26 @@ var TokMap = TokenMap{
 		"in",
 	},
 
-	idMap: map[string]Type{
-		"INVALID":       0,
-		"$":             1,
-		"S'":            2,
-		"BoolExpr":      3,
-		"BoolExpr1":     4,
-		"Val":           5,
-		"&":             6,
-		"|":             7,
-		"(":             8,
-		")":             9,
-		"true":          10,
-		"false":         11,
-		"CompareExpr":   12,
+	idMap: map[string]Type {
+		"INVALID": 0,
+		"$": 1,
+		"S'": 2,
+		"BoolExpr": 3,
+		"BoolExpr1": 4,
+		"Val": 5,
+		"&": 6,
+		"|": 7,
+		"(": 8,
+		")": 9,
+		"true": 10,
+		"false": 11,
+		"CompareExpr": 12,
 		"SubStringExpr": 13,
-		"int_lit":       14,
-		"<":             15,
-		">":             16,
-		"string_lit":    17,
-		"in":            18,
+		"int_lit": 14,
+		"<": 15,
+		">": 16,
+		"string_lit": 17,
+		"in": 18,
 	},
 }
+

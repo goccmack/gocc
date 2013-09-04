@@ -37,7 +37,7 @@ func genAsciiTable(outDir string, symbols *symbols.Symbols) {
 func getAsciiTab(symbols *symbols.Symbols) map[rune]asciiType {
 	asciiMap := make(map[rune]asciiType)
 	for i, sym := range symbols.List() {
-		if cl, exist := symbols.CharLitSymbols[sym]; exist {
+		if cl, exist := symbols.CharLitSymbols.GetSymbolId(sym); exist {
 			if cl.Val < 0x100 {
 				asciiMap[cl.Val] = asciiType{Type: i, Comment: sym}
 			}

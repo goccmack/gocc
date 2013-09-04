@@ -1,26 +1,27 @@
+
 package lexer
 
 import (
-
+	
 	// "fmt"
 	// "code.google.com/p/gocc/example/bools/util"
-
-	"code.google.com/p/gocc/example/bools/token"
+	
 	"io/ioutil"
 	"unicode/utf8"
+	"code.google.com/p/gocc/example/bools/token"
 )
 
-const (
-	NoState    = -1
-	NumStates  = 22
-	NumSymbols = 23
-)
+const(
+	NoState = -1
+	NumStates = 22
+	NumSymbols = 25
+) 
 
 type Lexer struct {
-	src    []byte
-	pos    int
-	line   int
-	column int
+	src             []byte
+	pos             int
+	line            int
+	column          int
 }
 
 func NewLexer(src []byte) *Lexer {
@@ -42,9 +43,9 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-
+	
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-
+	
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -55,9 +56,9 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-
+	
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-
+	
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
@@ -76,6 +77,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			this.column++
 		}
 
+	
 		// Production start
 		if rune1 != -1 {
 			state = TransTab[state](rune1)
@@ -96,6 +98,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		// }
 		// state = nextState
 		// Debug end
+	
 
 		if state != -1 {
 			switch {
@@ -137,27 +140,29 @@ func (this *Lexer) Reset() {
 /*
 Lexer symbols:
 0: '"'
-1: 'u'
-2: 'l'
-3: '\r'
-4: 't'
-5: 'e'
-6: '|'
-7: '&'
-8: 'a'
-9: 's'
-10: '>'
-11: ')'
-12: '('
-13: 'i'
-14: '\t'
-15: 'r'
-16: '<'
-17: 'f'
+1: '"'
+2: '&'
+3: '|'
+4: '('
+5: ')'
+6: 't'
+7: 'r'
+8: 'u'
+9: 'e'
+10: 'f'
+11: 'a'
+12: 'l'
+13: 's'
+14: 'e'
+15: '<'
+16: '>'
+17: 'i'
 18: 'n'
 19: ' '
-20: '\n'
-21: '0'-'9'
-22: .
+20: '\t'
+21: '\n'
+22: '\r'
+23: '0'-'9'
+24: .
 
 */

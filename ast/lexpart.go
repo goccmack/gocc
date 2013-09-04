@@ -24,20 +24,26 @@ import (
 type LexPart struct {
 	Header *FileHeader
 	*LexImports
-	TokDefs        map[string]*LexTokDef
-	stringLitToks  map[string]*LexTokDef
-	RegDefs        map[string]*LexRegDef
-	IgnoredTokDefs map[string]*LexIgnoredTokDef
-	ProdList       *LexProductions
-	ProdMap        *LexProdMap
+	TokDefsList        []*LexTokDef
+	TokDefs            map[string]*LexTokDef
+	stringLitToks      map[string]*LexTokDef
+	RegDefsList        []*LexRegDef
+	RegDefs            map[string]*LexRegDef
+	IgnoredTokDefsList []*LexIgnoredTokDef
+	IgnoredTokDefs     map[string]*LexIgnoredTokDef
+	ProdList           *LexProductions
+	ProdMap            *LexProdMap
 }
 
 func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 	lexPart := &LexPart{
-		TokDefs:        make(map[string]*LexTokDef, 16),
-		stringLitToks:  make(map[string]*LexTokDef, 16),
-		RegDefs:        make(map[string]*LexRegDef, 16),
-		IgnoredTokDefs: make(map[string]*LexIgnoredTokDef, 16),
+		TokDefsList:        make([]*LexTokDef, 0, 16),
+		TokDefs:            make(map[string]*LexTokDef, 16),
+		stringLitToks:      make(map[string]*LexTokDef, 16),
+		RegDefsList:        make([]*LexRegDef, 0, 16),
+		RegDefs:            make(map[string]*LexRegDef, 16),
+		IgnoredTokDefsList: make([]*LexIgnoredTokDef, 0, 16),
+		IgnoredTokDefs:     make(map[string]*LexIgnoredTokDef, 16),
 	}
 	if header != nil {
 		lexPart.Header = header.(*FileHeader)
@@ -62,17 +68,20 @@ func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
 				}
 				lexPart.TokDefs[pid] = p1
+				lexPart.TokDefsList = append(lexPart.TokDefsList, p1)
 			case *LexRegDef:
 				//TODO: decide whether to handle in separate symantic check
 				if _, exist := lexPart.RegDefs[pid]; exist {
 					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
 				}
 				lexPart.RegDefs[pid] = p1
+				lexPart.RegDefsList = append(lexPart.RegDefsList, p1)
 			case *LexIgnoredTokDef:
 				if _, exist := lexPart.IgnoredTokDefs[pid]; exist {
 					return nil, errors.New(fmt.Sprintf("Duplicate ignored token def: %s", pid))
 				}
 				lexPart.IgnoredTokDefs[pid] = p1
+				lexPart.IgnoredTokDefsList = append(lexPart.IgnoredTokDefsList, p1)
 			}
 		}
 	} else {
@@ -115,6 +124,7 @@ func (this *LexPart) UpdateStringLitTokens(tokens []string) {
 	for _, strLit := range tokens {
 		tokDef := NewLexStringLitTokDef(strLit)
 		this.ProdMap.Add(tokDef)
+		this.TokDefsList = append(this.TokDefsList, tokDef)
 		this.TokDefs[strLit] = tokDef
 		this.stringLitToks[strLit] = tokDef
 		this.ProdList.Productions = append(this.ProdList.Productions, tokDef)

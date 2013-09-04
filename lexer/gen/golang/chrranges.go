@@ -25,14 +25,15 @@ type CharRange struct {
 }
 
 func getCharRanges(symbols *symbols.Symbols) (ranges []CharRange) {
-	for id, rng := range symbols.CharRangeSymbols {
+	ranges = make([]CharRange, symbols.CharRangeSymbols.Len())
+	for i, rng := range symbols.CharRangeSymbols.List() {
 		cr := CharRange{
 			Min:     rng.From.Val,
 			Max:     rng.To.Val,
-			Type:    symbols.Type(id),
-			Comment: id,
+			Type:    symbols.Type(rng.String()),
+			Comment: rng.String(),
 		}
-		ranges = append(ranges, cr)
+		ranges[i] = cr
 	}
 	return
 }

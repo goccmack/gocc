@@ -1,11 +1,12 @@
+
 package parser
 
-import (
+import(
 	"bytes"
+	"fmt"
+	"errors"
 	parseError "code.google.com/p/gocc/test/rr/errors"
 	"code.google.com/p/gocc/test/rr/token"
-	"errors"
-	"fmt"
 )
 
 const (
@@ -17,16 +18,16 @@ const (
 // Stack
 
 type stack struct {
-	state  []int
-	attrib []Attrib
+	state []int
+	attrib	[]Attrib
 }
 
 const iNITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
-	return &stack{state: make([]int, 0, iNITIAL_STACK_SIZE),
-		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
-	}
+	return &stack{ 	state: 	make([]int, 0, iNITIAL_STACK_SIZE),
+					attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+			}
 }
 
 func (this *stack) reset() {
@@ -39,8 +40,8 @@ func (this *stack) push(s int, a Attrib) {
 	this.attrib = append(this.attrib, a)
 }
 
-func (this *stack) top() int {
-	return this.state[len(this.state)-1]
+func(this *stack) top() int {
+	return this.state[len(this.state) - 1]
 }
 
 func (this *stack) peek(pos int) int {
@@ -52,13 +53,13 @@ func (this *stack) topIndex() int {
 }
 
 func (this *stack) popN(items int) []Attrib {
-	lo, hi := len(this.state)-items, len(this.state)
-
-	attrib := this.attrib[lo:hi]
-
+	lo, hi := len(this.state) - items, len(this.state)
+	
+	attrib := this.attrib[lo: hi]
+	
 	this.state = this.state[:lo]
 	this.attrib = this.attrib[:lo]
-
+	
 	return attrib
 }
 
@@ -82,7 +83,6 @@ func (S *stack) String() string {
 type Parser struct {
 	stack     *stack
 	nextToken *token.Token
-	tokLit    []byte
 	pos       int
 }
 
@@ -105,7 +105,6 @@ func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 	errorAttrib = &parseError.Error{
 		Err:            err,
 		ErrorToken:     P.nextToken,
-		ErrorLit:       P.tokLit,
 		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
@@ -185,11 +184,12 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				return nil, this.newError(nil)
 			}
 			if action = actionTab[this.stack.top()].actions[this.nextToken.Type]; action == nil {
-				panic("Error recover led to invalid action")
+				panic("Error recovery led to invalid action")
 			}
 		}
-
+		
 		// fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
+		
 
 		switch act := action.(type) {
 		case accept:

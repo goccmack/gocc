@@ -21,8 +21,8 @@ import (
 )
 
 type Symbols struct {
-	CharLitSymbols
-	CharRangeSymbols
+	*CharLitSymbols
+	*CharRangeSymbols
 	ImportIdList []string
 	importIdMap  map[string]int
 	//key: import Id, value: external function
@@ -39,13 +39,13 @@ func NewSymbols(lexpart *ast.LexPart) (sym *Symbols) {
 		importIdMap:      make(map[string]int),
 		importFuncMap:    make(map[string]string),
 	}
-	for _, tokDef := range lexpart.TokDefs {
+	for _, tokDef := range lexpart.TokDefsList {
 		tokDef.LexPattern().Walk(sym)
 	}
-	for _, regDef := range lexpart.RegDefs {
+	for _, regDef := range lexpart.RegDefsList {
 		regDef.LexPattern().Walk(sym)
 	}
-	for _, igDef := range lexpart.IgnoredTokDefs {
+	for _, igDef := range lexpart.IgnoredTokDefsList {
 		igDef.LexPattern().Walk(sym)
 	}
 	for id, extFunc := range lexpart.Imports {

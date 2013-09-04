@@ -38,16 +38,16 @@ S0{
 	SubStringExpr : •string_lit in string_lit «|»
 }
 Transitions:
-	BoolExpr -> 1
-	Val -> 3
+	BoolExpr1 -> 2
 	true -> 5
 	false -> 6
+	int_lit -> 9
+	BoolExpr -> 1
+	Val -> 3
+	( -> 4
 	CompareExpr -> 7
 	SubStringExpr -> 8
 	string_lit -> 10
-	BoolExpr1 -> 2
-	( -> 4
-	int_lit -> 9
 
 
 S1{
@@ -123,15 +123,15 @@ S4{
 }
 Transitions:
 	BoolExpr -> 13
-	BoolExpr1 -> 14
 	Val -> 15
 	( -> 16
+	true -> 17
 	false -> 18
 	SubStringExpr -> 20
-	int_lit -> 21
-	true -> 17
-	CompareExpr -> 19
 	string_lit -> 22
+	BoolExpr1 -> 14
+	CompareExpr -> 19
+	int_lit -> 21
 
 
 S5{
@@ -229,16 +229,16 @@ S11{
 	SubStringExpr : •string_lit in string_lit «|»
 }
 Transitions:
-	BoolExpr1 -> 27
 	Val -> 3
+	( -> 4
 	true -> 5
-	CompareExpr -> 7
-	SubStringExpr -> 8
+	int_lit -> 9
 	string_lit -> 10
 	BoolExpr -> 26
-	( -> 4
+	BoolExpr1 -> 27
 	false -> 6
-	int_lit -> 9
+	CompareExpr -> 7
+	SubStringExpr -> 8
 
 
 S12{
@@ -282,16 +282,16 @@ S12{
 	SubStringExpr : •string_lit in string_lit «|»
 }
 Transitions:
-	Val -> 3
-	false -> 6
-	SubStringExpr -> 8
-	int_lit -> 9
 	BoolExpr -> 26
+	Val -> 3
+	true -> 5
+	int_lit -> 9
+	string_lit -> 10
 	BoolExpr1 -> 28
 	( -> 4
-	true -> 5
+	false -> 6
 	CompareExpr -> 7
-	string_lit -> 10
+	SubStringExpr -> 8
 
 
 S13{
@@ -370,15 +370,15 @@ S16{
 }
 Transitions:
 	BoolExpr -> 32
-	BoolExpr1 -> 14
+	Val -> 15
 	( -> 16
+	SubStringExpr -> 20
+	string_lit -> 22
+	BoolExpr1 -> 14
 	true -> 17
 	false -> 18
-	int_lit -> 21
-	string_lit -> 22
-	Val -> 15
 	CompareExpr -> 19
-	SubStringExpr -> 20
+	int_lit -> 21
 
 
 S17{
@@ -536,13 +536,13 @@ S29{
 	SubStringExpr : •string_lit in string_lit «|»
 }
 Transitions:
-	BoolExpr -> 39
 	Val -> 15
-	CompareExpr -> 19
-	SubStringExpr -> 20
-	BoolExpr1 -> 40
 	( -> 16
 	true -> 17
+	CompareExpr -> 19
+	SubStringExpr -> 20
+	BoolExpr -> 39
+	BoolExpr1 -> 40
 	false -> 18
 	int_lit -> 21
 	string_lit -> 22
@@ -589,16 +589,16 @@ S30{
 	SubStringExpr : •string_lit in string_lit «|»
 }
 Transitions:
+	BoolExpr -> 39
 	BoolExpr1 -> 41
-	( -> 16
+	true -> 17
 	false -> 18
 	CompareExpr -> 19
 	SubStringExpr -> 20
 	int_lit -> 21
-	BoolExpr -> 39
-	Val -> 15
-	true -> 17
 	string_lit -> 22
+	Val -> 15
+	( -> 16
 
 
 S31{

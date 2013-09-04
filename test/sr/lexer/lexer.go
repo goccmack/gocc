@@ -1,29 +1,35 @@
+
 package lexer
 
 import (
+	
 	// "fmt"
-	"code.google.com/p/gocc/test/sr/token"
+	// "code.google.com/p/gocc/test/sr/util"
+	
 	"io/ioutil"
 	"unicode/utf8"
+	"code.google.com/p/gocc/test/sr/token"
 )
 
-const (
-	NoState    = -1
-	NumStates  = 17
-	NumSymbols = 17
-)
+const(
+	NoState = -1
+	NumStates = 17
+	NumSymbols = 20
+) 
 
 type Lexer struct {
-	src    []byte
-	pos    int
-	line   int
-	column int
+	src             []byte
+	pos             int
+	line            int
+	column          int
 }
 
 func NewLexer(src []byte) *Lexer {
 	lexer := &Lexer{
-		src: src,
-		pos: 0,
+		src:    src,
+		pos:    0,
+		line:   1,
+		column: 1,
 	}
 	return lexer
 }
@@ -37,9 +43,9 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-
+	
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-
+	
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -50,9 +56,9 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-
+	
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-
+	
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
@@ -71,15 +77,28 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			this.column++
 		}
 
-		nextState := TransTab[state](rune1)
+	
+		// Production start
+		if rune1 != -1 {
+			state = TransTab[state](rune1)
+		} else {
+			state = -1
+		}
+		// Production end
 
-		// fmt.Printf("\tS%d, : tok=%s, rune == %c(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), rune1, rune1, nextState)
+		// Debug start
+		// nextState := -1
+		// if rune1 != -1 {
+		// 	nextState = TransTab[state](rune1)
+		// }
+		// fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
 		// fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", this.pos, size, start, end)
 		// if nextState != -1 {
 		// 	fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		// }
-
-		state = nextState
+		// state = nextState
+		// Debug end
+	
 
 		if state != -1 {
 			switch {
@@ -95,6 +114,10 @@ func (this *Lexer) Scan() (tok *token.Token) {
 					tok.Type = token.EOF
 				}
 
+			}
+		} else {
+			if tok.Type == token.INVALID {
+				end = this.pos
 			}
 		}
 	}
@@ -117,21 +140,24 @@ func (this *Lexer) Reset() {
 /*
 Lexer symbols:
 0: '_'
-1: 't'
-2: ' '
-3: '\n'
+1: 'i'
+2: 'f'
+3: 't'
 4: 'h'
 5: 'e'
 6: 'n'
-7: 'l'
-8: 's'
-9: 'i'
-10: 'f'
-11: '\t'
-12: '\r'
-13: '0'-'9'
-14: 'a'-'z'
-15: 'A'-'Z'
-16: .
+7: 'e'
+8: 'l'
+9: 's'
+10: 'e'
+11: '_'
+12: ' '
+13: '\t'
+14: '\n'
+15: '\r'
+16: 'a'-'z'
+17: 'A'-'Z'
+18: '0'-'9'
+19: .
 
 */

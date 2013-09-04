@@ -19,32 +19,35 @@ import (
 )
 
 // key: string of range, e.g.: 'a'-'z'
-type CharRangeSymbols map[string]*ast.LexCharRange
-
-func NewCharRangeSymbols() CharRangeSymbols {
-	return make(CharRangeSymbols)
+type CharRangeSymbols struct {
+	idmap   map[string]int
+	typeMap []*ast.LexCharRange
 }
 
-func (this CharRangeSymbols) Add(cr *ast.LexCharRange) {
-	this[cr.String()] = cr
-}
-
-func (this CharRangeSymbols) Len() int {
-	return len(this)
-}
-
-func (this CharRangeSymbols) List() []*ast.LexCharRange {
-	list := make([]*ast.LexCharRange, 0, len(this))
-	for _, sym := range this {
-		list = append(list, sym)
+func NewCharRangeSymbols() *CharRangeSymbols {
+	return &CharRangeSymbols{
+		idmap:   make(map[string]int),
+		typeMap: make([]*ast.LexCharRange, 0, 16),
 	}
-	return list
 }
 
-func (this CharRangeSymbols) StringList() []string {
-	symbols := make([]string, 0, len(this))
-	for key := range this {
-		symbols = append(symbols, key)
+func (this *CharRangeSymbols) Add(cr *ast.LexCharRange) {
+	this.typeMap = append(this.typeMap, cr)
+	this.idmap[cr.String()] = len(this.typeMap) - 1
+}
+
+func (this *CharRangeSymbols) Len() int {
+	return len(this.typeMap)
+}
+
+func (this *CharRangeSymbols) List() []*ast.LexCharRange {
+	return this.typeMap
+}
+
+func (this *CharRangeSymbols) StringList() []string {
+	symbols := make([]string, len(this.typeMap))
+	for i, sym := range this.typeMap {
+		symbols[i] = sym.String()
 	}
 	return symbols
 }
