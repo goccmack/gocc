@@ -1,4 +1,15 @@
+package golang
 
+import (
+	"code.google.com/p/gocc/io"
+	"path"
+)
+
+func GenLitConv(outDir string) {
+	io.WriteFileString(path.Join(outDir, "util", "litconv.go"), litConvSrc)
+}
+
+const litConvSrc = `
 //Copyright 2013 Vastech SA (PTY) LTD
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -119,3 +130,4 @@ func digitVal(ch rune) int {
 	}
 	return 16 // larger than any legal digit val
 }
+`

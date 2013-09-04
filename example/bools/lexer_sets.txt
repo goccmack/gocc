@@ -1,0 +1,200 @@
+Item sets:
+S0{
+	int_lit : • _digit {_digit}
+	string_lit : • '"' {.} '"'
+	!whitespace : ' ' | '\t' | '\n' | • '\r'
+	!whitespace : ' ' | '\t' | • '\n' | '\r'
+	!whitespace : ' ' | • '\t' | '\n' | '\r'
+	!whitespace : • ' ' | '\t' | '\n' | '\r'
+	& : • '&'
+	| : • '|'
+	( : • '('
+	) : • ')'
+	true : • 't' 'r' 'u' 'e'
+	false : • 'f' 'a' 'l' 's' 'e'
+	< : • '<'
+	> : • '>'
+	in : • 'i' 'n'
+	_digit : •  '0'-'9'
+}
+Transitions:
+	['\t','\t'] -> S1
+	['\n','\n'] -> S1
+	['\r','\r'] -> S1
+	[' ',' '] -> S1
+	['"','"'] -> S2
+	['&','&'] -> S3
+	['(','('] -> S4
+	[')',')'] -> S5
+	['0','9'] -> S6
+	['<','<'] -> S7
+	['>','>'] -> S8
+	['f','f'] -> S9
+	['i','i'] -> S10
+	['t','t'] -> S11
+	['|','|'] -> S12
+Action: nil
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['"','"'], ['&','&'], ['(','('], [')',')'], ['0','9'], ['<','<'], ['>','>'], ['f','f'], ['i','i'], ['t','t'], ['|','|']}
+
+S1{
+	!whitespace : (' ' | '\t' | '\n' | '\r') •
+}
+Transitions:
+Action: Ignore("!whitespace")
+Symbols classes: {}
+
+S2{
+	string_lit : '"' {.} • '"'
+	string_lit : '"' {• .} '"'
+}
+Transitions:
+	['"','"'] -> S13
+. -> S2
+Action: nil
+Symbols classes: {['"','"']}
+
+S3{
+	& : '&' •
+}
+Transitions:
+Action: Accept("&")
+Symbols classes: {}
+
+S4{
+	( : '(' •
+}
+Transitions:
+Action: Accept("(")
+Symbols classes: {}
+
+S5{
+	) : ')' •
+}
+Transitions:
+Action: Accept(")")
+Symbols classes: {}
+
+S6{
+	_digit :  '0'-'9' •
+	int_lit : _digit {_digit} •
+	int_lit : _digit {• _digit}
+	_digit : •  '0'-'9'
+}
+Transitions:
+	['0','9'] -> S6
+Action: Accept("int_lit")
+Symbols classes: {['0','9']}
+
+S7{
+	< : '<' •
+}
+Transitions:
+Action: Accept("<")
+Symbols classes: {}
+
+S8{
+	> : '>' •
+}
+Transitions:
+Action: Accept(">")
+Symbols classes: {}
+
+S9{
+	false : 'f' • 'a' 'l' 's' 'e'
+}
+Transitions:
+	['a','a'] -> S14
+Action: nil
+Symbols classes: {['a','a']}
+
+S10{
+	in : 'i' • 'n'
+}
+Transitions:
+	['n','n'] -> S15
+Action: nil
+Symbols classes: {['n','n']}
+
+S11{
+	true : 't' • 'r' 'u' 'e'
+}
+Transitions:
+	['r','r'] -> S16
+Action: nil
+Symbols classes: {['r','r']}
+
+S12{
+	| : '|' •
+}
+Transitions:
+Action: Accept("|")
+Symbols classes: {}
+
+S13{
+	string_lit : '"' {.} '"' •
+}
+Transitions:
+Action: Accept("string_lit")
+Symbols classes: {}
+
+S14{
+	false : 'f' 'a' • 'l' 's' 'e'
+}
+Transitions:
+	['l','l'] -> S17
+Action: nil
+Symbols classes: {['l','l']}
+
+S15{
+	in : 'i' 'n' •
+}
+Transitions:
+Action: Accept("in")
+Symbols classes: {}
+
+S16{
+	true : 't' 'r' • 'u' 'e'
+}
+Transitions:
+	['u','u'] -> S18
+Action: nil
+Symbols classes: {['u','u']}
+
+S17{
+	false : 'f' 'a' 'l' • 's' 'e'
+}
+Transitions:
+	['s','s'] -> S19
+Action: nil
+Symbols classes: {['s','s']}
+
+S18{
+	true : 't' 'r' 'u' • 'e'
+}
+Transitions:
+	['e','e'] -> S20
+Action: nil
+Symbols classes: {['e','e']}
+
+S19{
+	false : 'f' 'a' 'l' 's' • 'e'
+}
+Transitions:
+	['e','e'] -> S21
+Action: nil
+Symbols classes: {['e','e']}
+
+S20{
+	true : 't' 'r' 'u' 'e' •
+}
+Transitions:
+Action: Accept("true")
+Symbols classes: {}
+
+S21{
+	false : 'f' 'a' 'l' 's' 'e' •
+}
+Transitions:
+Action: Accept("false")
+Symbols classes: {}
+

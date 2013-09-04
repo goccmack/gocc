@@ -144,26 +144,49 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			this.column++
 		}
 
+	{{if .Debug}}
+		// Production start
+		// if rune1 != -1 {
+		// 	state = TransTab[state](rune1)
+		// } else {
+		// 	state = -1
+		// }
+		// Production end
+
+		// Debug start
 		nextState := -1
 		if rune1 != -1 {
 			nextState = TransTab[state](rune1)
 		}
-
-	{{if .Debug}}
 		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
 		fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", this.pos, size, start, end)
 		if nextState != -1 {
 			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		}
+		state = nextState
+		// Debug end 
 	{{else}}
+		// Production start
+		if rune1 != -1 {
+			state = TransTab[state](rune1)
+		} else {
+			state = -1
+		}
+		// Production end
+
+		// Debug start
+		// nextState := -1
+		// if rune1 != -1 {
+		// 	nextState = TransTab[state](rune1)
+		// }
 		// fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
 		// fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", this.pos, size, start, end)
 		// if nextState != -1 {
 		// 	fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		// }
+		// state = nextState
+		// Debug end
 	{{end}}
-
-		state = nextState
 
 		if state != -1 {
 			switch {

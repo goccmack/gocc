@@ -1,1 +1,1 @@
-gocc -scanner example.bnf
+gocc -a example.bnf

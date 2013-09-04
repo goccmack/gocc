@@ -130,7 +130,7 @@
 \section{How to create and use a parser with gocc}
 	Figure~\ref{fig:hl design} shows the high-level design of a user application, which uses a parser generated with gocc.
 	\begin{itemize}
-		\item The user creates a target grammar conforming to the gocc BNF standard (see section~\ref{sec:gocc bnf}).
+		\item The user creates a target grammar conforming to the gocc BNF standard (see section~\ref{sec:gocc syntax}).
 
 		\item gocc reads the target grammar and generates the components shown in heavy outline in fig~\ref{fig:hl design}, i.e.: the lexer, parser, token and error packages. 
 
@@ -290,7 +290,7 @@
 		\begin{enumerate}
 			\item A token definition, \verb|int64|, which is used in the syntax part. Token identifiers always start with a lowercase letter in the range: \verb|'a'-'z'|. The token \verb|int64| must start with a digit in the range, \verb|'1'-'9'|, followed by zero or more digits in the range, \verb|'0'-'9'|. It uses the regular definition, \verb|_digit|, to declare the range, \verb|'0'-'9'|. The curly braces around \verb|_digit| indicate that it may be repeated zero or more times.
 
-			A lexical pattern may also be enclosed in square brackets, e.g.: \verb|[ '0'-'9' ]|, to indicate zero or one instances of it (in this case a decimal digit) may be present. See section~\ref{sec:gocc bnf} for details.
+			A lexical pattern may also be enclosed in square brackets, e.g.: \verb|[ '0'-'9' ]|, to indicate zero or one instances of it (in this case a decimal digit) may be present. See section~\ref{sec:gocc syntax} for details.
 
 			\item \verb|!whitespace| declares an ignored token. The \verb|'!'| before \verb|whitespace| indicates that the token is to be ignored. The generated lexer suppresses ignored tokens so that the parser never sees them. They can be uses for whitespace and comments.
 
@@ -855,171 +855,109 @@
 
 	See \verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/errors/error.go| for the definition of errors.Error.
 
-\section{gocc target BNF}\label{sec:gocc bnf}
-	A gocc target grammar is written in UTF-8.  
+\section{gocc syntax}\label{sec:gocc syntax}
+	A gocc source code is UTF-8 encoded Unicode text.
+
+	c-style block and line comments are allowed in the source code. All comments are suppressed by the lexer.
 
 	\begin{verbatim}
-/*** Lexical items ***/
+	!comment : _lineComment | _blockComment ;
+	_lineComment : '/' '/' {.} '\n' ;
+	_blockComment : '/' '*' {. | '*'} '*' '/' ;
+	\end{verbatim}
 
-/* Token definitions */
+	gocc source code consists of a sequence of token separated by white space. The white space characters are:
 
-tokId : 
-    _tokId 
-    ;
+	\begin{tabular}{cl}
+		\bf Character & \bf Unicode value \\
+		\hline
+		space	& 0x20 \\
+		horizontal tab & 0x09 \\
+		newline & 0x0a \\
+		carriage return & 0x0d \\
+	\end{tabular}
 
-regDefId
-    : '_' {_id_char} 
-    ;
-
-prodId 
-    : _upcase {_id_char} 
-    ;
-
-string_lit 
-    : _raw_string 
-    | _interpreted_string 
-    ;
-
-ignoredTokId 
-    : '!' _tokId 
-    ;
-
-/* Ignored tokens */
-
-!comment 
-    : _lineComment | _blockComment 
-    ;
-
-!whitespace 
-    : ' ' | '\t' | '\n' | '\r' 
-    ;
-
-/* Regular definitions */
-
-_upcase
-    : 'A'-'Z' 
-    ;
-
-_lowcase 
-    : 'a'-'z' 
-    ;
-
-_digit 
-    : '0'-'9' 
-    ;
-
-_hex_digit 
-    : '0' - '9' 
-    | 'A' - 'F' 
-    | 'a' - 'f'
-    ;
-
-_octal_digit 
-    : '0' - '7' 
-    ;
-
-char_lit
-    : '\'' (_unicode_value | _byte_value) '\'' 
-    ;
-
-_unicode_value 
-    : . 
-    | _little_u_value 
-    | _big_u_value 
-    | _escaped_char 
-    ;
-
-_byte_value       
-    : _octal_byte_value 
-    | _hex_byte_value 
-    ;
-
-_octal_byte_value 
-    : '\\' _octal_digit _octal_digit _octal_digit 
-    ;
-
-_hex_byte_value   
-    : '\\' 'x' _hex_digit _hex_digit 
-    ;
-
-_little_u_value   
-    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
-    ;
-
-_big_u_value
-    : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
-               _hex_digit _hex_digit _hex_digit _hex_digit 
-    ;
-
-_escaped_char
-    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
-    ;
-
-_id_char
-    : _upcase 
-    | _lowcase 
-    | '_' 
-    | _digit 
-    ;
-
-_tokId 
-    : _lowcase {_id_char} 
-    ;
-
-_raw_string 
-    : '`' {.} '`' 
-    ;
-
-_interpreted_string 
-    : '"' { _unicode_value | _byte_value } '"' 
-    ;
-
-action_lit    
-    : '<' '<' . {.} '>' '>' 
-    ;
-
-_lineComment 
-    : '/' '/' {.} '\n' 
-    ;
-
-_blockComment 
-    : '/' '*' {. | '*'} '*' '/' 
-    ;
+	\begin{verbatim}
+		!whitespace : ' ' | '\t' | '\n' | '\r' ;
+	\end{verbatim}
 
 
-/*** Syntactic items ***/
 
+	A gocc source file must contain at least one of a lexical part or a syntax part.
+
+\begin{verbatim}
 Grammar 
     : LexicalPart SyntaxPart
     | LexicalPart
     | SyntaxPart
     ;
+\end{verbatim}
 
+The lexical part is a sequence of lexical productions.
+
+\begin{verbatim}
 LexicalPart    
     : LexProductions
     ;
+\end{verbatim}
 
+\begin{verbatim}
 LexProductions    
     : LexProduction
     | LexProductions LexProduction
     ;
+\end{verbatim}
 
+Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lowercase character in the range 'a'-'z', regular definition identifiers start with '\_' and ignored token identifiers start with '!'. 
+
+Regular definitions are used as building blocks for other regular definitions, token definitions and ignored token definitions. Regular definitions may not be mutually or self recursive.
+
+Token definitions define the tokens that are recognised by the lexer and passed to the parser.
+
+Ignored token definitions define tokens that are recognised by the lexer but suppressed so that the parser never sees them. Comments and the white space separating tokens are examples of ignored tokens.
+
+\begin{verbatim}
 LexProduction 
-    : tokId ":" LexPattern ";"
-    | regDefId ":" LexPattern ";"
-    | ignoredTokId ":" LexPattern ";"
+    : tokId ":" LexPattern ";"         // token definition
+    | regDefId ":" LexPattern ";"      // regular definition
+    | ignoredTokId ":" LexPattern ";"  // ignored token defition
     ;
 
+tokId : _tokId ;
+
+regDefId : '_' {_id_char} ;
+
+ignoredTokId : '!' _tokId ;
+
+_tokId : _lowcase {_id_char} ;
+
+_lowcase : 'a'-'z' ;
+
+_id_char : _upcase | _lowcase | '_' | _digit ;
+
+_upcase : 'A'-'Z' ;
+
+_digit : '0'-'9' ;
+\end{verbatim}
+
+
+
+
+\begin{verbatim}
 LexPattern     
     : LexAlt
     | LexPattern "|" LexAlt
     ;
+\end{verbatim}
 
+\begin{verbatim}
 LexAlt     
     : LexTerm
     | LexAlt LexTerm
     ;
+\end{verbatim}
 
+\begin{verbatim}
 LexTerm 
     : "."
     | char_lit
@@ -1029,26 +967,36 @@ LexTerm
     | "{" LexPattern "}"
     | "(" LexPattern ")"
     ;
+\end{verbatim}
 
+\begin{verbatim}
 SyntaxPart
     : FileHeader SyntaxProdList
     | SyntaxProdList
     ;
+\end{verbatim}
 
+\begin{verbatim}
 SyntaxProdList
     : SyntaxProduction
     | SyntaxProdList SyntaxProduction
     ;
+\end{verbatim}
 
+\begin{verbatim}
 SyntaxProduction    
     : prodId ":" Alternatives ";"
     ;
-            
+\end{verbatim}
+
+\begin{verbatim}
 Alternatives    
     : SyntaxBody
     | Alternatives "|" SyntaxBody
     ;
+\end{verbatim}
 
+\begin{verbatim}
 SyntaxBody
     : Symbols
     | Symbols action_lit
@@ -1057,25 +1005,144 @@ SyntaxBody
     | "error" Symbols action_lit
     | "empty"
     ;
-        
+\end{verbatim}
+
+\begin{verbatim}
 Symbols    
     : Symbol
     | Symbols Symbol
     ;
-        
+\end{verbatim}
+
+\begin{verbatim}
 Symbol
     : prodId
     | tokId
     | string_lit
     ;
+\end{verbatim}
 
+\begin{verbatim}
 // Shared productions
+\end{verbatim}
 
+\begin{verbatim}
 FileHeader
     : action_lit
     ;
-
 \end{verbatim}
+
+\section{gocc lexical definitions}\label{sec:gocc lex}
+
+\begin{verbatim}
+prodId 
+    : _upcase {_id_char} 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+string_lit 
+    : _raw_string 
+    | _interpreted_string 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+/* Ignored tokens */
+\end{verbatim}
+
+\begin{verbatim}
+/* Regular definitions */
+\end{verbatim}
+
+\begin{verbatim}
+_hex_digit 
+    : '0' - '9' 
+    | 'A' - 'F' 
+    | 'a' - 'f'
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_octal_digit 
+    : '0' - '7' 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+char_lit
+    : '\'' (_unicode_value | _byte_value) '\'' 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_unicode_value 
+    : . 
+    | _little_u_value 
+    | _big_u_value 
+    | _escaped_char 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_byte_value       
+    : _octal_byte_value 
+    | _hex_byte_value 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_octal_byte_value 
+    : '\\' _octal_digit _octal_digit _octal_digit 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_hex_byte_value   
+    : '\\' 'x' _hex_digit _hex_digit 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_little_u_value   
+    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_big_u_value
+    : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
+               _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_escaped_char
+    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
+    ;
+\end{verbatim}
+
+
+\begin{verbatim}
+_raw_string 
+    : '`' {.} '`' 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+_interpreted_string 
+    : '"' { _unicode_value | _byte_value } '"' 
+    ;
+\end{verbatim}
+
+\begin{verbatim}
+action_lit    
+    : '<' '<' . {.} '>' '>' 
+    ;
+\end{verbatim}
+
+
+
 
 \nocite{Parsing, Modern Compiler Design, Dragon Book, ABNF}
 \begin{thebibliography}{99}

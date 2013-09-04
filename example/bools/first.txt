@@ -1,0 +1,33 @@
+BoolExpr1: {
+	(
+	true
+	false
+	int_lit
+	string_lit
+}
+Val: {
+	true
+	false
+	int_lit
+	string_lit
+}
+CompareExpr: {
+	int_lit
+}
+SubStringExpr: {
+	string_lit
+}
+BoolExpr: {
+	(
+	true
+	false
+	int_lit
+	string_lit
+}
+S': {
+	(
+	true
+	false
+	int_lit
+	string_lit
+}

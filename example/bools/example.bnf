@@ -12,6 +12,14 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+int_lit : _digit {_digit} ;
+
+_digit : '0'-'9' ;
+
+string_lit : '"' {.} '"' ;
+
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+
 <<import ( "code.google.com/p/gocc/example/bools/ast" )>>
 
 BoolExpr

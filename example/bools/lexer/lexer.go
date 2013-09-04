@@ -4,17 +4,17 @@ package lexer
 import (
 	
 	// "fmt"
-	// "code.google.com/p/gocc/example/errorrecovery/util"
+	// "code.google.com/p/gocc/example/bools/util"
 	
 	"io/ioutil"
 	"unicode/utf8"
-	"code.google.com/p/gocc/example/errorrecovery/token"
+	"code.google.com/p/gocc/example/bools/token"
 )
 
 const(
 	NoState = -1
-	NumStates = 7
-	NumSymbols = 9
+	NumStates = 22
+	NumSymbols = 23
 ) 
 
 type Lexer struct {
@@ -139,14 +139,28 @@ func (this *Lexer) Reset() {
 
 /*
 Lexer symbols:
-0: '_'
-1: ' '
-2: '\t'
-3: '\n'
-4: '\r'
-5: 'a'-'z'
-6: 'A'-'Z'
-7: '0'-'9'
-8: .
+0: '"'
+1: 'u'
+2: 'l'
+3: '\r'
+4: 't'
+5: 'e'
+6: '|'
+7: '&'
+8: 'a'
+9: 's'
+10: '>'
+11: ')'
+12: '('
+13: 'i'
+14: '\t'
+15: 'r'
+16: '<'
+17: 'f'
+18: 'n'
+19: ' '
+20: '\n'
+21: '0'-'9'
+22: .
 
 */

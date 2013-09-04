@@ -16,6 +16,7 @@ package ast
 
 import (
 	"code.google.com/p/gocc/example/bools/token"
+	"code.google.com/p/gocc/example/bools/util"
 	"strconv"
 	"strings"
 )
@@ -102,11 +103,11 @@ type LessThanExpr struct {
 }
 
 func NewLessThanExpr(a, b Attrib) (*LessThanExpr, error) {
-	aint, err := a.(*token.Token).IntValue()
+	aint, err := util.IntValue(a.(*token.Token).Lit)
 	if err != nil {
 		return nil, err
 	}
-	bint, err := b.(*token.Token).IntValue()
+	bint, err := util.IntValue(b.(*token.Token).Lit)
 	if err != nil {
 		return nil, err
 	}

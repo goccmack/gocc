@@ -1,0 +1,744 @@
+S0{
+	S' : •BoolExpr «$»
+	BoolExpr : •BoolExpr1 «$»
+	BoolExpr1 : •Val «$»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «$»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «$»
+	BoolExpr1 : •( BoolExpr ) «$»
+	Val : •true «$»
+	Val : •false «$»
+	Val : •CompareExpr «$»
+	Val : •SubStringExpr «$»
+	BoolExpr : •BoolExpr1 «&»
+	BoolExpr : •BoolExpr1 «|»
+	CompareExpr : •int_lit < int_lit «$»
+	CompareExpr : •int_lit > int_lit «$»
+	SubStringExpr : •string_lit in string_lit «$»
+	BoolExpr1 : •Val «&»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «&»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «&»
+	BoolExpr1 : •( BoolExpr ) «&»
+	BoolExpr1 : •Val «|»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «|»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «|»
+	BoolExpr1 : •( BoolExpr ) «|»
+	Val : •true «&»
+	Val : •false «&»
+	Val : •CompareExpr «&»
+	Val : •SubStringExpr «&»
+	Val : •true «|»
+	Val : •false «|»
+	Val : •CompareExpr «|»
+	Val : •SubStringExpr «|»
+	CompareExpr : •int_lit < int_lit «&»
+	CompareExpr : •int_lit > int_lit «&»
+	SubStringExpr : •string_lit in string_lit «&»
+	CompareExpr : •int_lit < int_lit «|»
+	CompareExpr : •int_lit > int_lit «|»
+	SubStringExpr : •string_lit in string_lit «|»
+}
+Transitions:
+	BoolExpr -> 1
+	Val -> 3
+	true -> 5
+	false -> 6
+	CompareExpr -> 7
+	SubStringExpr -> 8
+	string_lit -> 10
+	BoolExpr1 -> 2
+	( -> 4
+	int_lit -> 9
+
+
+S1{
+	S' : BoolExpr• «$»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «$»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «$»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «|»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «|»
+}
+Transitions:
+	& -> 11
+	| -> 12
+
+
+S2{
+	BoolExpr : BoolExpr1• «$»
+	BoolExpr : BoolExpr1• «&»
+	BoolExpr : BoolExpr1• «|»
+}
+Transitions:
+
+
+S3{
+	BoolExpr1 : Val• «$»
+	BoolExpr1 : Val• «&»
+	BoolExpr1 : Val• «|»
+}
+Transitions:
+
+
+S4{
+	BoolExpr1 : ( •BoolExpr ) «$»
+	BoolExpr1 : ( •BoolExpr ) «&»
+	BoolExpr1 : ( •BoolExpr ) «|»
+	BoolExpr : •BoolExpr1 «)»
+	BoolExpr1 : •Val «)»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «)»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «)»
+	BoolExpr1 : •( BoolExpr ) «)»
+	Val : •true «)»
+	Val : •false «)»
+	Val : •CompareExpr «)»
+	Val : •SubStringExpr «)»
+	BoolExpr : •BoolExpr1 «&»
+	BoolExpr : •BoolExpr1 «|»
+	CompareExpr : •int_lit < int_lit «)»
+	CompareExpr : •int_lit > int_lit «)»
+	SubStringExpr : •string_lit in string_lit «)»
+	BoolExpr1 : •Val «&»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «&»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «&»
+	BoolExpr1 : •( BoolExpr ) «&»
+	BoolExpr1 : •Val «|»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «|»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «|»
+	BoolExpr1 : •( BoolExpr ) «|»
+	Val : •true «&»
+	Val : •false «&»
+	Val : •CompareExpr «&»
+	Val : •SubStringExpr «&»
+	Val : •true «|»
+	Val : •false «|»
+	Val : •CompareExpr «|»
+	Val : •SubStringExpr «|»
+	CompareExpr : •int_lit < int_lit «&»
+	CompareExpr : •int_lit > int_lit «&»
+	SubStringExpr : •string_lit in string_lit «&»
+	CompareExpr : •int_lit < int_lit «|»
+	CompareExpr : •int_lit > int_lit «|»
+	SubStringExpr : •string_lit in string_lit «|»
+}
+Transitions:
+	BoolExpr -> 13
+	BoolExpr1 -> 14
+	Val -> 15
+	( -> 16
+	false -> 18
+	SubStringExpr -> 20
+	int_lit -> 21
+	true -> 17
+	CompareExpr -> 19
+	string_lit -> 22
+
+
+S5{
+	Val : true• «$»
+	Val : true• «&»
+	Val : true• «|»
+}
+Transitions:
+
+
+S6{
+	Val : false• «$»
+	Val : false• «&»
+	Val : false• «|»
+}
+Transitions:
+
+
+S7{
+	Val : CompareExpr• «$»
+	Val : CompareExpr• «&»
+	Val : CompareExpr• «|»
+}
+Transitions:
+
+
+S8{
+	Val : SubStringExpr• «$»
+	Val : SubStringExpr• «&»
+	Val : SubStringExpr• «|»
+}
+Transitions:
+
+
+S9{
+	CompareExpr : int_lit •< int_lit «$»
+	CompareExpr : int_lit •> int_lit «$»
+	CompareExpr : int_lit •< int_lit «&»
+	CompareExpr : int_lit •> int_lit «&»
+	CompareExpr : int_lit •< int_lit «|»
+	CompareExpr : int_lit •> int_lit «|»
+}
+Transitions:
+	< -> 23
+	> -> 24
+
+
+S10{
+	SubStringExpr : string_lit •in string_lit «$»
+	SubStringExpr : string_lit •in string_lit «&»
+	SubStringExpr : string_lit •in string_lit «|»
+}
+Transitions:
+	in -> 25
+
+
+S11{
+	BoolExpr1 : BoolExpr & •BoolExpr1 «$»
+	BoolExpr1 : BoolExpr & •BoolExpr1 «&»
+	BoolExpr1 : BoolExpr & •BoolExpr1 «|»
+	BoolExpr1 : •Val «$»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «$»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «$»
+	BoolExpr1 : •( BoolExpr ) «$»
+	BoolExpr1 : •Val «&»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «&»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «&»
+	BoolExpr1 : •( BoolExpr ) «&»
+	BoolExpr1 : •Val «|»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «|»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «|»
+	BoolExpr1 : •( BoolExpr ) «|»
+	Val : •true «$»
+	Val : •false «$»
+	Val : •CompareExpr «$»
+	Val : •SubStringExpr «$»
+	BoolExpr : •BoolExpr1 «&»
+	BoolExpr : •BoolExpr1 «|»
+	Val : •true «&»
+	Val : •false «&»
+	Val : •CompareExpr «&»
+	Val : •SubStringExpr «&»
+	Val : •true «|»
+	Val : •false «|»
+	Val : •CompareExpr «|»
+	Val : •SubStringExpr «|»
+	CompareExpr : •int_lit < int_lit «$»
+	CompareExpr : •int_lit > int_lit «$»
+	SubStringExpr : •string_lit in string_lit «$»
+	CompareExpr : •int_lit < int_lit «&»
+	CompareExpr : •int_lit > int_lit «&»
+	SubStringExpr : •string_lit in string_lit «&»
+	CompareExpr : •int_lit < int_lit «|»
+	CompareExpr : •int_lit > int_lit «|»
+	SubStringExpr : •string_lit in string_lit «|»
+}
+Transitions:
+	BoolExpr1 -> 27
+	Val -> 3
+	true -> 5
+	CompareExpr -> 7
+	SubStringExpr -> 8
+	string_lit -> 10
+	BoolExpr -> 26
+	( -> 4
+	false -> 6
+	int_lit -> 9
+
+
+S12{
+	BoolExpr1 : BoolExpr | •BoolExpr1 «$»
+	BoolExpr1 : BoolExpr | •BoolExpr1 «&»
+	BoolExpr1 : BoolExpr | •BoolExpr1 «|»
+	BoolExpr1 : •Val «$»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «$»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «$»
+	BoolExpr1 : •( BoolExpr ) «$»
+	BoolExpr1 : •Val «&»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «&»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «&»
+	BoolExpr1 : •( BoolExpr ) «&»
+	BoolExpr1 : •Val «|»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «|»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «|»
+	BoolExpr1 : •( BoolExpr ) «|»
+	Val : •true «$»
+	Val : •false «$»
+	Val : •CompareExpr «$»
+	Val : •SubStringExpr «$»
+	BoolExpr : •BoolExpr1 «&»
+	BoolExpr : •BoolExpr1 «|»
+	Val : •true «&»
+	Val : •false «&»
+	Val : •CompareExpr «&»
+	Val : •SubStringExpr «&»
+	Val : •true «|»
+	Val : •false «|»
+	Val : •CompareExpr «|»
+	Val : •SubStringExpr «|»
+	CompareExpr : •int_lit < int_lit «$»
+	CompareExpr : •int_lit > int_lit «$»
+	SubStringExpr : •string_lit in string_lit «$»
+	CompareExpr : •int_lit < int_lit «&»
+	CompareExpr : •int_lit > int_lit «&»
+	SubStringExpr : •string_lit in string_lit «&»
+	CompareExpr : •int_lit < int_lit «|»
+	CompareExpr : •int_lit > int_lit «|»
+	SubStringExpr : •string_lit in string_lit «|»
+}
+Transitions:
+	Val -> 3
+	false -> 6
+	SubStringExpr -> 8
+	int_lit -> 9
+	BoolExpr -> 26
+	BoolExpr1 -> 28
+	( -> 4
+	true -> 5
+	CompareExpr -> 7
+	string_lit -> 10
+
+
+S13{
+	BoolExpr1 : ( BoolExpr •) «$»
+	BoolExpr1 : ( BoolExpr •) «&»
+	BoolExpr1 : ( BoolExpr •) «|»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «)»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «)»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «|»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «|»
+}
+Transitions:
+	& -> 29
+	| -> 30
+	) -> 31
+
+
+S14{
+	BoolExpr : BoolExpr1• «)»
+	BoolExpr : BoolExpr1• «&»
+	BoolExpr : BoolExpr1• «|»
+}
+Transitions:
+
+
+S15{
+	BoolExpr1 : Val• «)»
+	BoolExpr1 : Val• «&»
+	BoolExpr1 : Val• «|»
+}
+Transitions:
+
+
+S16{
+	BoolExpr1 : ( •BoolExpr ) «)»
+	BoolExpr1 : ( •BoolExpr ) «&»
+	BoolExpr1 : ( •BoolExpr ) «|»
+	BoolExpr : •BoolExpr1 «)»
+	BoolExpr1 : •Val «)»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «)»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «)»
+	BoolExpr1 : •( BoolExpr ) «)»
+	Val : •true «)»
+	Val : •false «)»
+	Val : •CompareExpr «)»
+	Val : •SubStringExpr «)»
+	BoolExpr : •BoolExpr1 «&»
+	BoolExpr : •BoolExpr1 «|»
+	CompareExpr : •int_lit < int_lit «)»
+	CompareExpr : •int_lit > int_lit «)»
+	SubStringExpr : •string_lit in string_lit «)»
+	BoolExpr1 : •Val «&»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «&»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «&»
+	BoolExpr1 : •( BoolExpr ) «&»
+	BoolExpr1 : •Val «|»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «|»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «|»
+	BoolExpr1 : •( BoolExpr ) «|»
+	Val : •true «&»
+	Val : •false «&»
+	Val : •CompareExpr «&»
+	Val : •SubStringExpr «&»
+	Val : •true «|»
+	Val : •false «|»
+	Val : •CompareExpr «|»
+	Val : •SubStringExpr «|»
+	CompareExpr : •int_lit < int_lit «&»
+	CompareExpr : •int_lit > int_lit «&»
+	SubStringExpr : •string_lit in string_lit «&»
+	CompareExpr : •int_lit < int_lit «|»
+	CompareExpr : •int_lit > int_lit «|»
+	SubStringExpr : •string_lit in string_lit «|»
+}
+Transitions:
+	BoolExpr -> 32
+	BoolExpr1 -> 14
+	( -> 16
+	true -> 17
+	false -> 18
+	int_lit -> 21
+	string_lit -> 22
+	Val -> 15
+	CompareExpr -> 19
+	SubStringExpr -> 20
+
+
+S17{
+	Val : true• «)»
+	Val : true• «&»
+	Val : true• «|»
+}
+Transitions:
+
+
+S18{
+	Val : false• «)»
+	Val : false• «&»
+	Val : false• «|»
+}
+Transitions:
+
+
+S19{
+	Val : CompareExpr• «)»
+	Val : CompareExpr• «&»
+	Val : CompareExpr• «|»
+}
+Transitions:
+
+
+S20{
+	Val : SubStringExpr• «)»
+	Val : SubStringExpr• «&»
+	Val : SubStringExpr• «|»
+}
+Transitions:
+
+
+S21{
+	CompareExpr : int_lit •< int_lit «)»
+	CompareExpr : int_lit •> int_lit «)»
+	CompareExpr : int_lit •< int_lit «&»
+	CompareExpr : int_lit •> int_lit «&»
+	CompareExpr : int_lit •< int_lit «|»
+	CompareExpr : int_lit •> int_lit «|»
+}
+Transitions:
+	< -> 33
+	> -> 34
+
+
+S22{
+	SubStringExpr : string_lit •in string_lit «)»
+	SubStringExpr : string_lit •in string_lit «&»
+	SubStringExpr : string_lit •in string_lit «|»
+}
+Transitions:
+	in -> 35
+
+
+S23{
+	CompareExpr : int_lit < •int_lit «$»
+	CompareExpr : int_lit < •int_lit «&»
+	CompareExpr : int_lit < •int_lit «|»
+}
+Transitions:
+	int_lit -> 36
+
+
+S24{
+	CompareExpr : int_lit > •int_lit «$»
+	CompareExpr : int_lit > •int_lit «&»
+	CompareExpr : int_lit > •int_lit «|»
+}
+Transitions:
+	int_lit -> 37
+
+
+S25{
+	SubStringExpr : string_lit in •string_lit «$»
+	SubStringExpr : string_lit in •string_lit «&»
+	SubStringExpr : string_lit in •string_lit «|»
+}
+Transitions:
+	string_lit -> 38
+
+
+S26{
+	BoolExpr1 : BoolExpr •& BoolExpr1 «$»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «$»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «|»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «|»
+}
+Transitions:
+	& -> 11
+	| -> 12
+
+
+S27{
+	BoolExpr1 : BoolExpr & BoolExpr1• «$»
+	BoolExpr1 : BoolExpr & BoolExpr1• «&»
+	BoolExpr1 : BoolExpr & BoolExpr1• «|»
+	BoolExpr : BoolExpr1• «&»
+	BoolExpr : BoolExpr1• «|»
+}
+Transitions:
+
+
+S28{
+	BoolExpr1 : BoolExpr | BoolExpr1• «$»
+	BoolExpr1 : BoolExpr | BoolExpr1• «&»
+	BoolExpr1 : BoolExpr | BoolExpr1• «|»
+	BoolExpr : BoolExpr1• «&»
+	BoolExpr : BoolExpr1• «|»
+}
+Transitions:
+
+
+S29{
+	BoolExpr1 : BoolExpr & •BoolExpr1 «)»
+	BoolExpr1 : BoolExpr & •BoolExpr1 «&»
+	BoolExpr1 : BoolExpr & •BoolExpr1 «|»
+	BoolExpr1 : •Val «)»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «)»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «)»
+	BoolExpr1 : •( BoolExpr ) «)»
+	BoolExpr1 : •Val «&»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «&»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «&»
+	BoolExpr1 : •( BoolExpr ) «&»
+	BoolExpr1 : •Val «|»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «|»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «|»
+	BoolExpr1 : •( BoolExpr ) «|»
+	Val : •true «)»
+	Val : •false «)»
+	Val : •CompareExpr «)»
+	Val : •SubStringExpr «)»
+	BoolExpr : •BoolExpr1 «&»
+	BoolExpr : •BoolExpr1 «|»
+	Val : •true «&»
+	Val : •false «&»
+	Val : •CompareExpr «&»
+	Val : •SubStringExpr «&»
+	Val : •true «|»
+	Val : •false «|»
+	Val : •CompareExpr «|»
+	Val : •SubStringExpr «|»
+	CompareExpr : •int_lit < int_lit «)»
+	CompareExpr : •int_lit > int_lit «)»
+	SubStringExpr : •string_lit in string_lit «)»
+	CompareExpr : •int_lit < int_lit «&»
+	CompareExpr : •int_lit > int_lit «&»
+	SubStringExpr : •string_lit in string_lit «&»
+	CompareExpr : •int_lit < int_lit «|»
+	CompareExpr : •int_lit > int_lit «|»
+	SubStringExpr : •string_lit in string_lit «|»
+}
+Transitions:
+	BoolExpr -> 39
+	Val -> 15
+	CompareExpr -> 19
+	SubStringExpr -> 20
+	BoolExpr1 -> 40
+	( -> 16
+	true -> 17
+	false -> 18
+	int_lit -> 21
+	string_lit -> 22
+
+
+S30{
+	BoolExpr1 : BoolExpr | •BoolExpr1 «)»
+	BoolExpr1 : BoolExpr | •BoolExpr1 «&»
+	BoolExpr1 : BoolExpr | •BoolExpr1 «|»
+	BoolExpr1 : •Val «)»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «)»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «)»
+	BoolExpr1 : •( BoolExpr ) «)»
+	BoolExpr1 : •Val «&»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «&»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «&»
+	BoolExpr1 : •( BoolExpr ) «&»
+	BoolExpr1 : •Val «|»
+	BoolExpr1 : •BoolExpr & BoolExpr1 «|»
+	BoolExpr1 : •BoolExpr | BoolExpr1 «|»
+	BoolExpr1 : •( BoolExpr ) «|»
+	Val : •true «)»
+	Val : •false «)»
+	Val : •CompareExpr «)»
+	Val : •SubStringExpr «)»
+	BoolExpr : •BoolExpr1 «&»
+	BoolExpr : •BoolExpr1 «|»
+	Val : •true «&»
+	Val : •false «&»
+	Val : •CompareExpr «&»
+	Val : •SubStringExpr «&»
+	Val : •true «|»
+	Val : •false «|»
+	Val : •CompareExpr «|»
+	Val : •SubStringExpr «|»
+	CompareExpr : •int_lit < int_lit «)»
+	CompareExpr : •int_lit > int_lit «)»
+	SubStringExpr : •string_lit in string_lit «)»
+	CompareExpr : •int_lit < int_lit «&»
+	CompareExpr : •int_lit > int_lit «&»
+	SubStringExpr : •string_lit in string_lit «&»
+	CompareExpr : •int_lit < int_lit «|»
+	CompareExpr : •int_lit > int_lit «|»
+	SubStringExpr : •string_lit in string_lit «|»
+}
+Transitions:
+	BoolExpr1 -> 41
+	( -> 16
+	false -> 18
+	CompareExpr -> 19
+	SubStringExpr -> 20
+	int_lit -> 21
+	BoolExpr -> 39
+	Val -> 15
+	true -> 17
+	string_lit -> 22
+
+
+S31{
+	BoolExpr1 : ( BoolExpr )• «$»
+	BoolExpr1 : ( BoolExpr )• «&»
+	BoolExpr1 : ( BoolExpr )• «|»
+}
+Transitions:
+
+
+S32{
+	BoolExpr1 : ( BoolExpr •) «)»
+	BoolExpr1 : ( BoolExpr •) «&»
+	BoolExpr1 : ( BoolExpr •) «|»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «)»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «)»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «|»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «|»
+}
+Transitions:
+	& -> 29
+	| -> 30
+	) -> 42
+
+
+S33{
+	CompareExpr : int_lit < •int_lit «)»
+	CompareExpr : int_lit < •int_lit «&»
+	CompareExpr : int_lit < •int_lit «|»
+}
+Transitions:
+	int_lit -> 43
+
+
+S34{
+	CompareExpr : int_lit > •int_lit «)»
+	CompareExpr : int_lit > •int_lit «&»
+	CompareExpr : int_lit > •int_lit «|»
+}
+Transitions:
+	int_lit -> 44
+
+
+S35{
+	SubStringExpr : string_lit in •string_lit «)»
+	SubStringExpr : string_lit in •string_lit «&»
+	SubStringExpr : string_lit in •string_lit «|»
+}
+Transitions:
+	string_lit -> 45
+
+
+S36{
+	CompareExpr : int_lit < int_lit• «$»
+	CompareExpr : int_lit < int_lit• «&»
+	CompareExpr : int_lit < int_lit• «|»
+}
+Transitions:
+
+
+S37{
+	CompareExpr : int_lit > int_lit• «$»
+	CompareExpr : int_lit > int_lit• «&»
+	CompareExpr : int_lit > int_lit• «|»
+}
+Transitions:
+
+
+S38{
+	SubStringExpr : string_lit in string_lit• «$»
+	SubStringExpr : string_lit in string_lit• «&»
+	SubStringExpr : string_lit in string_lit• «|»
+}
+Transitions:
+
+
+S39{
+	BoolExpr1 : BoolExpr •& BoolExpr1 «)»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «)»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «&»
+	BoolExpr1 : BoolExpr •& BoolExpr1 «|»
+	BoolExpr1 : BoolExpr •| BoolExpr1 «|»
+}
+Transitions:
+	& -> 29
+	| -> 30
+
+
+S40{
+	BoolExpr1 : BoolExpr & BoolExpr1• «)»
+	BoolExpr1 : BoolExpr & BoolExpr1• «&»
+	BoolExpr1 : BoolExpr & BoolExpr1• «|»
+	BoolExpr : BoolExpr1• «&»
+	BoolExpr : BoolExpr1• «|»
+}
+Transitions:
+
+
+S41{
+	BoolExpr1 : BoolExpr | BoolExpr1• «)»
+	BoolExpr1 : BoolExpr | BoolExpr1• «&»
+	BoolExpr1 : BoolExpr | BoolExpr1• «|»
+	BoolExpr : BoolExpr1• «&»
+	BoolExpr : BoolExpr1• «|»
+}
+Transitions:
+
+
+S42{
+	BoolExpr1 : ( BoolExpr )• «)»
+	BoolExpr1 : ( BoolExpr )• «&»
+	BoolExpr1 : ( BoolExpr )• «|»
+}
+Transitions:
+
+
+S43{
+	CompareExpr : int_lit < int_lit• «)»
+	CompareExpr : int_lit < int_lit• «&»
+	CompareExpr : int_lit < int_lit• «|»
+}
+Transitions:
+
+
+S44{
+	CompareExpr : int_lit > int_lit• «)»
+	CompareExpr : int_lit > int_lit• «&»
+	CompareExpr : int_lit > int_lit• «|»
+}
+Transitions:
+
+
+S45{
+	SubStringExpr : string_lit in string_lit• «)»
+	SubStringExpr : string_lit in string_lit• «&»
+	SubStringExpr : string_lit in string_lit• «|»
+}
+Transitions:
+
+

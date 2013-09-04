@@ -1,26 +1,27 @@
+
 package lexer
 
 import (
-
+	
 	// "fmt"
 	// "code.google.com/p/gocc/example/calc/util"
-
-	"code.google.com/p/gocc/example/calc/token"
+	
 	"io/ioutil"
 	"unicode/utf8"
+	"code.google.com/p/gocc/example/calc/token"
 )
 
-const (
-	NoState    = -1
-	NumStates  = 8
+const(
+	NoState = -1
+	NumStates = 8
 	NumSymbols = 11
-)
+) 
 
 type Lexer struct {
-	src    []byte
-	pos    int
-	line   int
-	column int
+	src             []byte
+	pos             int
+	line            int
+	column          int
 }
 
 func NewLexer(src []byte) *Lexer {
@@ -42,9 +43,9 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-
+	
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-
+	
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -55,9 +56,9 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-
+	
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-
+	
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
@@ -76,18 +77,28 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			this.column++
 		}
 
-		nextState := -1
+	
+		// Production start
 		if rune1 != -1 {
-			nextState = TransTab[state](rune1)
+			state = TransTab[state](rune1)
+		} else {
+			state = -1
 		}
+		// Production end
 
+		// Debug start
+		// nextState := -1
+		// if rune1 != -1 {
+		// 	nextState = TransTab[state](rune1)
+		// }
 		// fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
 		// fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", this.pos, size, start, end)
 		// if nextState != -1 {
 		// 	fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		// }
-
-		state = nextState
+		// state = nextState
+		// Debug end
+	
 
 		if state != -1 {
 			switch {
@@ -128,10 +139,10 @@ func (this *Lexer) Reset() {
 
 /*
 Lexer symbols:
-0: '+'
-1: '*'
+0: '*'
+1: ')'
 2: '('
-3: ')'
+3: '+'
 4: ' '
 5: '\t'
 6: '\n'

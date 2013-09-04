@@ -6,4 +6,5 @@ import (
 
 func Gen(outDir string) {
 	golang.GenRune(outDir)
+	golang.GenLitConv(outDir)
 }
