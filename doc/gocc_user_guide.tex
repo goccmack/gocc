@@ -1,4 +1,4 @@
-% Copyright 2012 Vastech SA (PTY) LTD
+% Copyright 2012 VAStech SA (PTY) LTD
 % 
 %    Licensed under the Apache License, Version 2.0 (the "License");
 %    you may not use this file except in compliance with the License.
@@ -55,9 +55,9 @@
 
 	gocc supports parser error recovery (see section~\ref{sec:error recovery}). 
 
-	gocc supports action expressions, embedded in the input grammar, for the specification of symantic actions. For simple applications action expressions can be used to implement a syntax directed translation directly within the grammar. See the example in section~\ref{sec:first example}. For more complex applications the action routines can be used to build an abstract syntax tree (AST), which is further processed by later stages of the application. See the example in section~\ref{sec:example ast}.
+	gocc supports action expressions, embedded in the input grammar, for the specification of semantic actions. For simple applications action expressions can be used to implement a syntax directed translation directly within the grammar. See the example in section~\ref{sec:first example}. For more complex applications the action routines can be used to build an abstract syntax tree (AST), which is further processed by later stages of the application. See the example in section~\ref{sec:example ast}.
 
-	gocc has been successfully used to develop a query language compiler; a configuration/control language for a distributed system; parsers for protocol messages specified in ABNF~\cite{ABNF}, gogoprotobuf (\url{https://code.google.com/p/gogoprotobuf/}) and gographviz (\url{http://code.google.com/p/gographviz/}). In addition gocc1 was used to generate the parser for gocc2, and gocc2 to generate the lexer and parser for gocc3.
+	gocc has been successfully used to develop a query language compiler; a configuration / control language for a distributed system; parsers for protocol messages specified in ABNF~\cite{ABNF} and gographviz (\url{http://code.google.com/p/gographviz/}). In addition gocc1 was used to generate the parser for gocc2, and gocc2 to generate the lexer and parser for gocc3.
 
 	gocc was designed to be easy to use and experience has shown that its users require very little background knowledge of language and compiler theory to apply it to simple language applications, such as syntax directed translation. An appreciation of mathematical formalism is usually enough and this guide is intended to provide sufficient information for such users, provided they understand:
 	\begin{itemize}
@@ -83,7 +83,7 @@
 
 \section{Copyright}
 	\begin{verbatim}
-		Copyright 2012 Vastech SA (PTY) LTD
+		Copyright 2012 VAStech SA (PTY) LTD
 		
 		    Licensed under the Apache License, Version 2.0 (the "License");
 		    you may not use this file except in compliance with the License.
@@ -101,11 +101,11 @@
 
 
 \section{Definition of terms}
-	\begin{longtable}{ll}
+	\begin{longtable}{lp{15cm}}
 		\bf AST & Abstract syntax tree\\
 		\bf CFG & Context Free Grammar \\
-		\bf DFA & Deterministing Finite State Automaton. gocc lexers are DFAs. \\
-		\bf PDA & Pushdown Automaton. gocc parsers are PDA's, and can recognise all deterministically parsable (LR-1) languages.\\
+		\bf DFA & Deterministic Finite State Automaton. gocc lexers are DFAs. \\
+		\bf PDA & Pushdown Automaton. gocc parsers are PDA's, and can recognise all deterministically parseable (LR-1) languages.\\
 	\end{longtable}
 
 \section{Getting started}
@@ -153,9 +153,9 @@
 
 		\item The lexer reads a stream of input characters and recognizes the tokens specified in the target grammar. After reaching the end of input it returns the end of input token to every call to \Code{lexer.Scan()}.
 
-		\item Whenever the parser recognises the complete body of a production of the target grammar, it calls the function specified in the action expression associated with that production alternative. The parsed symbols of the recognised production are passed as parameters to the action expression (see section~\ref{sec:target grammar}). The result of the action expression is placed on the parser's stack as an attribute of the recognised language symbol.
+		\item Whenever the parser recognises the complete body of a production of the target grammar, it calls the function specified in the action expression associated with that production alternative. The parsed symbols of the recognised production are passed as parameters to the action expression (see section~\ref{sec:gocc syntax}). The result of the action expression is placed on the parser's stack as an attribute of the recognised language symbol.
 
-		\item When the parser recognises the complete start production of the grammer it calls its associated action expresssion. The result of the action expression is returned to the user application as type \Code{interface\{\}} together with a \Code{nil} error value.
+		\item When the parser recognises the complete start production of the grammar it calls its associated action expression. The result of the action expression is returned to the user application as type \Code{interface\{\}} together with a \Code{nil} error value.
 
 		\item If the parser encounters an error in the input it may perform automatic error recovery (see section~\ref{sec:error recovery}). If the error is recoverable the parser places all the parsed language symbols associated with the error (completed productions as well as tokens) in a symbol of type \Code{*errors.Error} and places this symbol on the parser stack. The parser then discards input tokens until it encounters an input token which may validly follow the recovered production and parsing continues normally. When error recovery is specified the user application must handle the error symbols which it may receive as attributes in calls to action expressions, or which may be returned as a top-level result of the parse to the calling application.
 
@@ -230,7 +230,7 @@
 
 			\item[lexer/] Contains the files generated for the lexer.
 
-			\item[parser/] Contains the files generated for the parser. The interpreter code is embedded withing \verb|parser/productionstable.go|.
+			\item[parser/] Contains the files generated for the parser. The interpreter code is embedded within \verb|parser/productionstable.go|.
 
 			\item[token/token.go] Contains the declaration of the tokens of the grammar.
 
@@ -286,11 +286,11 @@
 		The lexical part consists of:
 
 		\begin{enumerate}
-			\item A token definition, \verb|int64|, which is used in the syntax part. Token identifiers always start with a lowercase letter in the range: \verb|'a'-'z'|. The token \verb|int64| must start with a digit in the range, \verb|'1'-'9'|, followed by zero or more digits in the range, \verb|'0'-'9'|. It uses the regular definition, \verb|_digit|, to declare the range, \verb|'0'-'9'|. The curly braces around \verb|_digit| indicate that it may be repeated zero or more times.
+			\item A token definition, \verb|int64|, which is used in the syntax part. Token identifiers always start with a lower case letter in the range: \verb|'a'-'z'|. The token \verb|int64| must start with a digit in the range, \verb|'1'-'9'|, followed by zero or more digits in the range, \verb|'0'-'9'|. It uses the regular definition, \verb|_digit|, to declare the range, \verb|'0'-'9'|. The curly braces around \verb|_digit| indicate that it may be repeated zero or more times.
 
 			A lexical pattern may also be enclosed in square brackets, e.g.: \verb|[ '0'-'9' ]|, to indicate zero or one instances of it (in this case a decimal digit) may be present. See section~\ref{sec:gocc syntax} for details.
 
-			\item \verb|!whitespace| declares an ignored token. The \verb|'!'| before \verb|whitespace| indicates that the token is to be ignored. The generated lexer suppresses ignored tokens so that the parser never sees them. They can be uses for whitespace and comments.
+			\item \verb|!whitespace| declares an ignored token. The \verb|'!'| before \verb|whitespace| indicates that the token is to be ignored. The generated lexer suppresses ignored tokens so that the parser never sees them. They can be uses for white space and comments.
 
 			\item A regular definition, \verb|_digit|. Regular definition identifiers always start with \verb|'_'|. Regular definitions act like macros definitions in the BNF and allow tokens to be constructed from pre-defined components. Regular definitions and token definitions may not be mutually or self-recursive. That would lead to a context free grammar, which cannot be recognised by a finite state automaton.
 		\end{enumerate}
@@ -310,8 +310,8 @@
 				Factor : int64                 << util.IntValue($0.(*token.Token).Lit) >>
 			\end{verbatim}
 
-			has an action expression, \verb|<< util.IntValue($0.(*token.Token).Lit) >>|, which contains a call to the function, IntValue, in the generted file util/litconv.go. Attribute \verb|$0|, associated with the symbol \verb|int64| in the body of the produciton, is type asserted to \verb|*token.Token|, of which the field \verb|Lit| is passed as parameter to the function.
-			Action expresssions must always return a value of type, \verb|(interface{}, error)|. If the returned error parameter is \verb|nil|, the \verb|interface{}| parameter is placed on the parser stack as the attribute of the recognised production.
+			has an action expression, \verb|<< util.IntValue($0.(*token.Token).Lit) >>|, which contains a call to the function, IntValue, in the generated file util/litconv.go. Attribute \verb|$0|, associated with the symbol \verb|int64| in the body of the production, is type asserted to \verb|*token.Token|, of which the field \verb|Lit| is passed as parameter to the function.
+			Action expressions must always return a value of type, \verb|(interface{}, error)|. If the returned error parameter is \verb|nil|, the \verb|interface{}| parameter is placed on the parser stack as the attribute of the recognised production.
 
 			\item Each recognised term in a production has an associated attribute. For example: the production alternative:
 
@@ -485,9 +485,9 @@
 		rune.go
 	\end{verbatim}
 
-	Note that no parser had been generated.
+	Note that no parser had been generated, because the BNF does not include a syntax part. gocc generates only a DFA/lexer for the lexical part, which is present in the BNF. This application uses only a DFA to parse its input.
 
-	\verb|parser_test.go| shows how the generated DFA could be repeatedly invoked to parse a stream of email adresses:
+	\verb|parser_test.go| shows how the generated DFA could be repeatedly invoked to parse a stream of email addresses:
 
 	\begin{verbatim}
 		package mail
@@ -506,7 +506,7 @@
 		}
 	\end{verbatim}
 
-	Function \verb|Test1| proves that the DFA correctly recognises addresses according to the specifation.
+	Function \verb|Test1| proves that the DFA correctly recognises addresses according to the specification.
 
 	\begin{verbatim}
 		func Test1(t *testing.T) {
@@ -561,7 +561,7 @@
 	\end{verbatim}
 
 \section{Handling LR(1) conflicts} \label{sec:lr conflicts}
-	If a target grammer is outside the class of LR(1) grammars it cannot be parsed deterministically with one symbol lookahead. This condition manifests as LR(1) conflicts, of which there are two types:
+	If a target grammar is outside the class of LR(1) grammars it cannot be parsed deterministically with one symbol lookahead. This condition manifests as LR(1) conflicts, of which there are two types:
 
 	\begin{description}
 		\item[Shift/Reduce conflict:] The parser has recognised a valid production body on the stack, and can reduce it to the corresponding production. 
@@ -746,7 +746,7 @@
 
 	\verb|$GOPATH/src/code.google.com/p/gocc/example/astx/| 
 
-	we get the following ouput:
+	we get the following output:
 
 	\begin{verbatim}
 		> go test -v .
@@ -912,7 +912,7 @@ LexProductions
     ;
 \end{Verbatim}
 
-Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lowercase character in the range 'a'-'z', regular definition identifiers start with '\_' and ignored token identifiers start with '!'. 
+Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lower case character in the range 'a'-'z', regular definition identifiers start with '\_' and ignored token identifiers start with '!'. 
 
 Regular definitions are used as building blocks for other regular definitions, token definitions and ignored token definitions. Regular definitions may not be mutually or self recursive.
 
@@ -994,7 +994,7 @@ LexTerm
     ;
 \end{Verbatim}
 
-Character literals are specified as a valid unicode or byte value, enclosed in single qoutes:
+Character literals are specified as a valid Unicode or byte value, enclosed in single quotes:
 
 \begin{Verbatim}[frame=single]
 char_lit
@@ -1002,7 +1002,7 @@ char_lit
     ;
 \end{Verbatim}
 
-A unicode character may be specified as a character literal (e.g.: \verb'a'), a unicode value or an escaped character.
+A Unicode character may be specified as a character literal (e.g.: \verb'a'), a Unicode value or an escaped character.
 
 \begin{Verbatim}[frame=single]
 _unicode_value 
@@ -1069,7 +1069,7 @@ SyntaxProdList
 
 Syntax productions define a context free language and may be mutually and self recursive. Left recursion is preferable to right recursion in LR grammar productions, as this leads to less stack activity during parsing. A syntax production starts with an identifier, followed by ":" and one or more alternative bodies, which are separated by "|".
 
-Syntax  production identifiers start with an uppercase character in the range 'A'-'Z'.
+Syntax  production identifiers start with an upper case character in the range 'A'-'Z'.
 
 \begin{Verbatim}[frame=single]
 SyntaxProduction    
@@ -1086,9 +1086,9 @@ Alternatives
     ;
 \end{Verbatim}
 
-A syntax body is a sequence of syntax symbols, optionally followed by an action literal. If a syntax body starts with the keyword, \verb|error|, it indicates that the parser may accepts an error in the input of the production and continue parsing if it is able to recover from the error.
+A syntax body is a sequence of syntax symbols, optionally followed by an action literal. If a syntax body starts with the keyword, \verb|error|, it indicates that the parser may accept an error in the input of the production and continue parsing if it is able to recover from the error.
 
-A syntax body may also be empty, indicated by the reserved word, \verb|emtpy|. This allows you to write productions with optional elements, such as:
+A syntax body may also be empty, indicated by the reserved word, \verb|empty|. This allows you to write productions with optional elements, such as:
 
 \begin{verbatim}
 A : B "c";
@@ -1125,7 +1125,7 @@ gocc recognises the following terminal syntax symbols:
 
 \begin{longtable}{ll}
 	\verb|prodId| & The identifier of a syntax production defined in the grammar. \\
-	\verb|tokId| & The identifier of lexical production defined in the gramamr. \\
+	\verb|tokId| & The identifier of lexical production defined in the grammar. \\
 	\verb|string_lit| & A string literal value, e.g.: \verb|"a string"| \\
 \end{longtable}
 
