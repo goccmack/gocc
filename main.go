@@ -83,6 +83,9 @@ func main() {
 	g := grammar.(*ast.Grammar)
 
 	gSymbols := symbols.NewSymbols(g)
+	if cfg.Verbose() {
+		writeTerminals(gSymbols, cfg)
+	}
 
 	var tokenMap *outToken.TokenMap
 
@@ -137,12 +140,14 @@ func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg c
 	if len(conflicts) <= 0 {
 		return
 	}
-	io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets))
 	switch {
 	case !cfg.AutoResolveLRConf():
-		error1(fmt.Sprintf("Error: %d LR-1 conflicts\n", len(conflicts)), nil)
+		fmt.Printf("Error: %d LR-1 conflicts\n", len(conflicts))
+		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets))
+		os.Exit(1)
 	case cfg.Verbose():
 		fmt.Printf("%d LR-1 conflicts \n", len(conflicts))
+		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets))
 	}
 }
 
@@ -165,6 +170,14 @@ func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int) string
 
 func printTime(from time.Time, msg string) {
 	fmt.Printf("%s: elapsed time%s\n", msg, time.Since(from))
+}
+
+func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
+	buf := new(bytes.Buffer)
+	for _, t := range gSymbols.ListTerminals() {
+		fmt.Fprintf(buf, "%s\n", t)
+	}
+	io.WriteFile(path.Join(cfg.OutDir(), "terminals.txt"), buf.Bytes())
 }
 
 // func startProfiler() {

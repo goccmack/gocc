@@ -109,6 +109,16 @@ func (this *Symbols) ListStringLitSymbols() []string {
 	return this.stringLitList
 }
 
+func (this *Symbols) ListTerminals() []string {
+	terminals := make([]string, 0, 16)
+	for _, sym := range this.typeMap {
+		if this.IsTerminal(sym) {
+			terminals = append(terminals, sym)
+		}
+	}
+	return terminals
+}
+
 func (this *Symbols) StringLitType(id string) int {
 	if typ, exist := this.stringLitIdMap[id]; exist {
 		return typ
