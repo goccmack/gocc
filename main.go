@@ -89,16 +89,22 @@ func main() {
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
 	lexSets := lexItems.GetItemSets(g.LexPart)
-	io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
+	if cfg.Verbose() {
+		io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
+	}
 	tokenMap = outToken.NewTokenMap(gSymbols.List())
 	genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg)
 
 	if g.SyntaxPart != nil {
 		firstSets := first.GetFirstSets(g, gSymbols)
-		io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), firstSets.String())
+		if cfg.Verbose() {
+			io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), firstSets.String())
+		}
 
 		lr1Sets := lr1Items.GetItemSets(g, gSymbols, firstSets)
-		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_sets.txt"), lr1Sets.String())
+		if cfg.Verbose() {
+			io.WriteFileString(path.Join(cfg.OutDir(), "LR1_sets.txt"), lr1Sets.String())
+		}
 
 		conflicts := genParser.Gen(cfg.Package(), cfg.OutDir(), g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg)
 		handleConflicts(conflicts, lr1Sets.Size(), cfg)
