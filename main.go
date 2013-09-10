@@ -131,14 +131,18 @@ func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg c
 	if len(conflicts) <= 0 {
 		return
 	}
-	if !cfg.AutoResolveLRConf() {
-		error1(fmt.Sprintf("Error: %s\n", conflictString(conflicts, numSets)), nil)
+	io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets))
+	switch {
+	case !cfg.AutoResolveLRConf():
+		error1(fmt.Sprintf("Error: %d LR-1 conflicts\n", len(conflicts)), nil)
+	case cfg.Verbose():
+		fmt.Printf("%d LR-1 conflicts \n", len(conflicts))
 	}
 }
 
 func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int) string {
 	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "LR1 conflicts: \n")
+	fmt.Fprintf(w, "%d LR-1 conflicts: \n", len(conflicts))
 	for i := 0; i < numSets; i++ {
 		if cnf, exist := conflicts[i]; exist {
 			fmt.Fprintf(w, "\tS%d\n", i)
