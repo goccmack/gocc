@@ -19,39 +19,37 @@ import (
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/io"
 	"code.google.com/p/gocc/parser/lr1/items"
-	"code.google.com/p/gocc/parser/symbols"
+	"code.google.com/p/gocc/token"
 	"path"
 	"text/template"
 )
 
-func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols) map[int]items.RowConflicts {
+func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {
 	tmpl, err := template.New("parser action table").Parse(actionTableSrc)
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	data, conflicts := getActionTableData(prods, itemSets, symbols)
+	data, conflicts := getActionTableData(prods, itemSets, tokMap)
 	tmpl.Execute(wr, data)
 	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), wr.Bytes())
 	return conflicts
 }
 
 type actionTableData struct {
-	Rows  []string
-	SymId func(int) string
+	Rows []string
 }
 
 func getActionTableData(prods ast.SyntaxProdList, itemSets *items.ItemSets,
-	symbols *symbols.Symbols) (actTab *actionTableData, conflicts map[int]items.RowConflicts) {
+	tokMap *token.TokenMap) (actTab *actionTableData, conflicts map[int]items.RowConflicts) {
 
 	actTab = &actionTableData{
-		Rows:  make([]string, itemSets.Size()),
-		SymId: symbols.Id,
+		Rows: make([]string, itemSets.Size()),
 	}
 	conflicts = make(map[int]items.RowConflicts)
 	row, cnflcts := "", items.RowConflicts{}
 	for i := range actTab.Rows {
-		if row, cnflcts = genActionRow(prods, itemSets.Set(i), symbols); len(cnflcts) > 0 {
+		if row, cnflcts = genActionRow(prods, itemSets.Set(i), tokMap); len(cnflcts) > 0 {
 			conflicts[i] = cnflcts
 		}
 		actTab.Rows[i] = row

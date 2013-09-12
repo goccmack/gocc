@@ -95,7 +95,7 @@ func main() {
 	if cfg.Verbose() {
 		io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
 	}
-	tokenMap = outToken.NewTokenMap(gSymbols.List())
+	tokenMap = outToken.NewTokenMap(gSymbols.ListTerminals())
 	genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg)
 
 	if g.SyntaxPart != nil {

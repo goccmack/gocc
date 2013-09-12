@@ -2,8 +2,8 @@ package parser
 
 import (
 	"bytes"
-	parseError "code.google.com/p/gocc/test/rr/errors"
-	"code.google.com/p/gocc/test/rr/token"
+	parseError "code.google.com/p/gocc/example/rr/errors"
+	"code.google.com/p/gocc/example/rr/token"
 	"errors"
 	"fmt"
 )

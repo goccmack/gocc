@@ -2,7 +2,7 @@ package errors
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/test/sr/token"
+	"code.google.com/p/gocc/example/rr/token"
 	"fmt"
 )
 

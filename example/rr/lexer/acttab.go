@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"code.google.com/p/gocc/test/rr/token"
+	"code.google.com/p/gocc/example/rr/token"
 	"fmt"
 )
 
@@ -26,11 +26,11 @@ var ActTab = ActionTable{
 		Ignore: "!whitespace",
 	},
 	ActionRow{ // S2
-		Accept: 6,
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S3
-		Accept: 7,
+		Accept: 3,
 		Ignore: "",
 	},
 }

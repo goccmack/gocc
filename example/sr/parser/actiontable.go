@@ -14,8 +14,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,      /* INVALID */
 			nil,      /* $ */
-			nil,      /* S' */
-			shift(1), /* Stmt */
 			shift(2), /* if */
 			shift(3), /* id */
 			nil,      /* then */
@@ -28,8 +26,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,          /* INVALID */
 			accept(true), /* $ */
-			nil,          /* S' */
-			nil,          /* Stmt */
 			nil,          /* if */
 			nil,          /* id */
 			nil,          /* then */
@@ -42,8 +38,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,      /* INVALID */
 			nil,      /* $ */
-			nil,      /* S' */
-			nil,      /* Stmt */
 			nil,      /* if */
 			shift(4), /* id */
 			nil,      /* then */
@@ -56,8 +50,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(3), /* $, reduce: Stmt */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			nil,       /* id */
 			nil,       /* then */
@@ -70,8 +62,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,      /* INVALID */
 			nil,      /* $ */
-			nil,      /* S' */
-			nil,      /* Stmt */
 			nil,      /* if */
 			nil,      /* id */
 			shift(5), /* then */
@@ -84,8 +74,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,      /* INVALID */
 			nil,      /* $ */
-			nil,      /* S' */
-			shift(6), /* Stmt */
 			shift(7), /* if */
 			shift(8), /* id */
 			nil,      /* then */
@@ -98,8 +86,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(1), /* $, reduce: Stmt */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			nil,       /* id */
 			nil,       /* then */
@@ -112,8 +98,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			shift(10), /* id */
 			nil,       /* then */
@@ -126,8 +110,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(3), /* $, reduce: Stmt */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			nil,       /* id */
 			nil,       /* then */
@@ -138,14 +120,12 @@ var actionTab = actionTable{
 	actionRow{ // S9
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* S' */
-			shift(11), /* Stmt */
-			shift(2),  /* if */
-			shift(3),  /* id */
-			nil,       /* then */
-			nil,       /* else */
+			nil,      /* INVALID */
+			nil,      /* $ */
+			shift(2), /* if */
+			shift(3), /* id */
+			nil,      /* then */
+			nil,      /* else */
 
 		},
 	},
@@ -154,8 +134,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			nil,       /* id */
 			shift(12), /* then */
@@ -168,8 +146,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(2), /* $, reduce: Stmt */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			nil,       /* id */
 			nil,       /* then */
@@ -180,14 +156,12 @@ var actionTab = actionTable{
 	actionRow{ // S12
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* S' */
-			shift(13), /* Stmt */
-			shift(7),  /* if */
-			shift(8),  /* id */
-			nil,       /* then */
-			nil,       /* else */
+			nil,      /* INVALID */
+			nil,      /* $ */
+			shift(7), /* if */
+			shift(8), /* id */
+			nil,      /* then */
+			nil,      /* else */
 
 		},
 	},
@@ -196,8 +170,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(1), /* $, reduce: Stmt */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			nil,       /* id */
 			nil,       /* then */
@@ -208,14 +180,12 @@ var actionTab = actionTable{
 	actionRow{ // S14
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* S' */
-			shift(15), /* Stmt */
-			shift(7),  /* if */
-			shift(8),  /* id */
-			nil,       /* then */
-			nil,       /* else */
+			nil,      /* INVALID */
+			nil,      /* $ */
+			shift(7), /* if */
+			shift(8), /* id */
+			nil,      /* then */
+			nil,      /* else */
 
 		},
 	},
@@ -224,8 +194,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(2), /* $, reduce: Stmt */
-			nil,       /* S' */
-			nil,       /* Stmt */
 			nil,       /* if */
 			nil,       /* id */
 			nil,       /* then */

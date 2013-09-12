@@ -14,10 +14,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,      /* INVALID */
 			nil,      /* $ */
-			nil,      /* S' */
-			shift(1), /* RR */
-			shift(2), /* A */
-			shift(3), /* B */
 			shift(4), /* a */
 			shift(5), /* c */
 
@@ -28,10 +24,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,          /* INVALID */
 			accept(true), /* $ */
-			nil,          /* S' */
-			nil,          /* RR */
-			nil,          /* A */
-			nil,          /* B */
 			nil,          /* a */
 			nil,          /* c */
 
@@ -42,10 +34,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(1), /* $, reduce: RR */
-			nil,       /* S' */
-			nil,       /* RR */
-			nil,       /* A */
-			nil,       /* B */
 			shift(6),  /* a */
 			nil,       /* c */
 
@@ -56,10 +44,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(2), /* $, reduce: RR */
-			nil,       /* S' */
-			nil,       /* RR */
-			nil,       /* A */
-			nil,       /* B */
 			nil,       /* a */
 			nil,       /* c */
 
@@ -70,10 +54,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(3), /* $, reduce: B */
-			nil,       /* S' */
-			nil,       /* RR */
-			nil,       /* A */
-			nil,       /* B */
 			reduce(4), /* a, reduce: A */
 			nil,       /* c */
 
@@ -84,10 +64,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(6), /* $, reduce: A */
-			nil,       /* S' */
-			nil,       /* RR */
-			nil,       /* A */
-			nil,       /* B */
 			reduce(6), /* a, reduce: A */
 			nil,       /* c */
 
@@ -98,10 +74,6 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(5), /* $, reduce: A */
-			nil,       /* S' */
-			nil,       /* RR */
-			nil,       /* A */
-			nil,       /* B */
 			reduce(5), /* a, reduce: A */
 			nil,       /* c */
 

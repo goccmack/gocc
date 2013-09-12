@@ -19,18 +19,18 @@ import (
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/parser/lr1/action"
 	"code.google.com/p/gocc/parser/lr1/items"
-	"code.google.com/p/gocc/parser/symbols"
+	"code.google.com/p/gocc/token"
 	"fmt"
 	"text/template"
 )
 
-func genActionRow(prods ast.SyntaxProdList, set *items.ItemSet, symbols *symbols.Symbols) (string, items.RowConflicts) {
+func genActionRow(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *token.TokenMap) (string, items.RowConflicts) {
 	wr := new(bytes.Buffer)
 	tmpl, err := template.New("parser action row").Parse(actionRowSrc)
 	if err != nil {
 		panic(err)
 	}
-	data, conflicts := getActionRowData(prods, set, symbols)
+	data, conflicts := getActionRowData(prods, set, tokMap)
 	tmpl.Execute(wr, data)
 	return wr.String(), conflicts
 }
@@ -40,13 +40,13 @@ type actRow struct {
 	Actions    []string
 }
 
-func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, symbols *symbols.Symbols) (data *actRow, conflicts items.RowConflicts) {
+func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *token.TokenMap) (data *actRow, conflicts items.RowConflicts) {
 	data = &actRow{
 		CanRecover: set.CanRecover(),
-		Actions:    make([]string, symbols.NumSymbols()),
+		Actions:    make([]string, len(tokMap.TypeMap)),
 	}
 	conflicts = make(items.RowConflicts)
-	for i, sym := range symbols.List() {
+	for i, sym := range tokMap.TypeMap {
 		act, symConflicts := set.Action(sym)
 		if len(symConflicts) > 0 {
 			conflicts[sym] = symConflicts
