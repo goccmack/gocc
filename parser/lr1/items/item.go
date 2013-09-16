@@ -44,14 +44,20 @@ func NewItem(prodIdx int, prod *ast.SyntaxProd, pos int, followingSymbol string)
 		Id:              prod.Id,
 		Pos:             pos,
 		FollowingSymbol: followingSymbol,
-		Len:             len(prod.Body.Symbols),
+	}
+	if prod.Body.Symbols[0].SymbolString() == "empty" {
+		item.Len = 0
+	} else {
+		item.Len = len(prod.Body.Symbols)
 	}
 	if pos > item.Len {
 		panic(fmt.Sprintf("%s : %s, pos=%d", item.Id, item.Body, item.Pos))
 	}
 	item.Body = make([]string, item.Len)
-	for i, sym := range prod.Body.Symbols {
-		item.Body[i] = sym.SymbolString()
+	if item.Len > 0 {
+		for i, sym := range prod.Body.Symbols {
+			item.Body[i] = sym.SymbolString()
+		}
 	}
 	if item.Len > 0 && item.Pos < item.Len {
 		item.ExpectedSymbol = item.Body[item.Pos]
@@ -109,7 +115,7 @@ func (this *Item) Move() (next *Item) {
 Returns true if this is a reduce item
 */
 func (this *Item) reduce() bool {
-	return this.Pos >= this.Len
+	return this.Len == 0 || this.Pos >= this.Len
 }
 
 func (this *Item) Symbol(i int) string {

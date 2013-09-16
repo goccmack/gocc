@@ -27,6 +27,7 @@ import (
 	genLexer "code.google.com/p/gocc/lexer/gen/golang"
 	lexItems "code.google.com/p/gocc/lexer/items"
 	"code.google.com/p/gocc/parser/first"
+	lr1Action "code.google.com/p/gocc/parser/lr1/action"
 	lr1Items "code.google.com/p/gocc/parser/lr1/items"
 	"code.google.com/p/gocc/parser/symbols"
 	outToken "code.google.com/p/gocc/token"
@@ -110,7 +111,7 @@ func main() {
 		}
 
 		conflicts := genParser.Gen(cfg.Package(), cfg.OutDir(), g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg)
-		handleConflicts(conflicts, lr1Sets.Size(), cfg)
+		handleConflicts(conflicts, lr1Sets.Size(), cfg, g.SyntaxPart.ProdList)
 	}
 
 	genToken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
@@ -136,22 +137,22 @@ func error1(msg string, err error) {
 	os.Exit(1)
 }
 
-func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config) {
+func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config, prods ast.SyntaxProdList) {
 	if len(conflicts) <= 0 {
 		return
 	}
 	switch {
 	case !cfg.AutoResolveLRConf():
 		fmt.Printf("Error: %d LR-1 conflicts\n", len(conflicts))
-		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets))
+		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
 		os.Exit(1)
 	case cfg.Verbose():
 		fmt.Printf("%d LR-1 conflicts \n", len(conflicts))
-		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets))
+		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
 	}
 }
 
-func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int) string {
+func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int, prods ast.SyntaxProdList) string {
 	w := new(bytes.Buffer)
 	fmt.Fprintf(w, "%d LR-1 conflicts: \n", len(conflicts))
 	for i := 0; i < numSets; i++ {
@@ -160,7 +161,14 @@ func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int) string
 			for sym, conflicts := range cnf {
 				fmt.Fprintf(w, "\t\tsymbol: %s\n", sym)
 				for _, cflct := range conflicts {
-					fmt.Fprintf(w, "\t\t\t%s\n", cflct)
+					switch c := cflct.(type) {
+					case lr1Action.Reduce:
+						fmt.Fprintf(w, "\t\t\tReduce(%d:%s)\n", c, prods[c])
+					case lr1Action.Shift:
+						fmt.Fprintf(w, "\t\t\t%s\n", cflct)
+					default:
+						panic(fmt.Sprintf("unexpected type of action: %s", cflct))
+					}
 				}
 			}
 		}
