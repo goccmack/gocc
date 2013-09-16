@@ -1,9 +1,10 @@
+
 package errors
 
-import (
+import(
 	"bytes"
-	"code.google.com/p/gocc/example/astx/token"
 	"fmt"
+	"code.google.com/p/gocc/example/astx/token"
 )
 
 type ErrorSymbol interface {

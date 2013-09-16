@@ -1,3 +1,4 @@
+
 package parser
 
 import "code.google.com/p/gocc/example/astx/ast"
@@ -9,7 +10,7 @@ type (
 		String     string
 		Id         string
 		NTType     int
-		Index      int
+		Index int
 		NumSymbols int
 		ReduceFunc func([]Attrib) (Attrib, error)
 	}
@@ -17,12 +18,12 @@ type (
 	}
 )
 
-var productionsTable = ProdTab{
+var productionsTable = ProdTab {
 	ProdTabEntry{
 		String: `S' : StmtList	<<  >>`,
-		Id:         "S'",
-		NTType:     0,
-		Index:      0,
+		Id: "S'",
+		NTType: 0,
+		Index: 0,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -30,9 +31,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `StmtList : Stmt	<< ast.NewStmtList(X[0]) >>`,
-		Id:         "StmtList",
-		NTType:     1,
-		Index:      1,
+		Id: "StmtList",
+		NTType: 1,
+		Index: 1,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStmtList(X[0])
@@ -40,9 +41,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `StmtList : StmtList Stmt	<< ast.AppendStmt(X[0], X[1]) >>`,
-		Id:         "StmtList",
-		NTType:     1,
-		Index:      2,
+		Id: "StmtList",
+		NTType: 1,
+		Index: 2,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AppendStmt(X[0], X[1])
@@ -50,12 +51,13 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Stmt : id	<< ast.NewStmt(X[0]) >>`,
-		Id:         "Stmt",
-		NTType:     2,
-		Index:      3,
+		Id: "Stmt",
+		NTType: 2,
+		Index: 3,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStmt(X[0])
 		},
 	},
+	
 }
