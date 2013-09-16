@@ -1,19 +1,9 @@
-<<<<<<< HEAD
 package errors
 
 import (
 	"bytes"
 	"code.google.com/p/gocc/test/t1/token"
 	"fmt"
-=======
-
-package errors
-
-import(
-	"bytes"
-	"fmt"
-	"code.google.com/p/gocc/test/t1/token"
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 )
 
 type ErrorSymbol interface {

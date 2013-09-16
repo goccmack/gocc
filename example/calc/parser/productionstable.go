@@ -1,7 +1,6 @@
-
 package parser
 
-import(
+import (
 	"code.google.com/p/gocc/example/calc/token"
 	"code.google.com/p/gocc/example/calc/util"
 )
@@ -13,7 +12,7 @@ type (
 		String     string
 		Id         string
 		NTType     int
-		Index int
+		Index      int
 		NumSymbols int
 		ReduceFunc func([]Attrib) (Attrib, error)
 	}
@@ -21,12 +20,12 @@ type (
 	}
 )
 
-var productionsTable = ProdTab {
+var productionsTable = ProdTab{
 	ProdTabEntry{
 		String: `S' : Calc	<<  >>`,
-		Id: "S'",
-		NTType: 0,
-		Index: 0,
+		Id:         "S'",
+		NTType:     0,
+		Index:      0,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -34,9 +33,9 @@ var productionsTable = ProdTab {
 	},
 	ProdTabEntry{
 		String: `Calc : Expr	<<  >>`,
-		Id: "Calc",
-		NTType: 1,
-		Index: 1,
+		Id:         "Calc",
+		NTType:     1,
+		Index:      1,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -44,9 +43,9 @@ var productionsTable = ProdTab {
 	},
 	ProdTabEntry{
 		String: `Expr : Expr "+" Term	<< X[0].(int64) + X[2].(int64), nil >>`,
-		Id: "Expr",
-		NTType: 2,
-		Index: 2,
+		Id:         "Expr",
+		NTType:     2,
+		Index:      2,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0].(int64) + X[2].(int64), nil
@@ -54,9 +53,9 @@ var productionsTable = ProdTab {
 	},
 	ProdTabEntry{
 		String: `Expr : Term	<<  >>`,
-		Id: "Expr",
-		NTType: 2,
-		Index: 3,
+		Id:         "Expr",
+		NTType:     2,
+		Index:      3,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -64,9 +63,9 @@ var productionsTable = ProdTab {
 	},
 	ProdTabEntry{
 		String: `Term : Term "*" Factor	<< X[0].(int64) * X[2].(int64), nil >>`,
-		Id: "Term",
-		NTType: 3,
-		Index: 4,
+		Id:         "Term",
+		NTType:     3,
+		Index:      4,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0].(int64) * X[2].(int64), nil
@@ -74,9 +73,9 @@ var productionsTable = ProdTab {
 	},
 	ProdTabEntry{
 		String: `Term : Factor	<<  >>`,
-		Id: "Term",
-		NTType: 3,
-		Index: 5,
+		Id:         "Term",
+		NTType:     3,
+		Index:      5,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -84,9 +83,9 @@ var productionsTable = ProdTab {
 	},
 	ProdTabEntry{
 		String: `Factor : "(" Expr ")"	<< X[1], nil >>`,
-		Id: "Factor",
-		NTType: 4,
-		Index: 6,
+		Id:         "Factor",
+		NTType:     4,
+		Index:      6,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[1], nil
@@ -94,13 +93,12 @@ var productionsTable = ProdTab {
 	},
 	ProdTabEntry{
 		String: `Factor : int64	<< util.IntValue(X[0].(*token.Token).Lit) >>`,
-		Id: "Factor",
-		NTType: 4,
-		Index: 7,
+		Id:         "Factor",
+		NTType:     4,
+		Index:      7,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return util.IntValue(X[0].(*token.Token).Lit)
 		},
 	},
-	
 }

@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 package parser
 
 import (

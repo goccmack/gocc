@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 //Copyright 2013 Vastech SA (PTY) LTD
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");

@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 package token
 
 import (
-=======
-
-package token
-
-import(
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 	"fmt"
 )
 
@@ -19,22 +12,14 @@ type Token struct {
 
 type Type int
 
-<<<<<<< HEAD
 const (
-=======
-const(
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 	INVALID Type = iota
 	EOF
 )
 
 type Pos struct {
 	Offset int
-<<<<<<< HEAD
 	Line   int
-=======
-	Line int
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 	Column int
 }
 
@@ -43,13 +28,8 @@ func (this Pos) String() string {
 }
 
 type TokenMap struct {
-<<<<<<< HEAD
 	typeMap []string
 	idMap   map[string]Type
-=======
-	typeMap  []string
-	idMap map[string]Type
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 }
 
 func (this TokenMap) Id(tok Type) string {
@@ -84,7 +64,6 @@ var TokMap = TokenMap{
 		"b",
 	},
 
-<<<<<<< HEAD
 	idMap: map[string]Type{
 		"INVALID": 0,
 		"$":       1,
@@ -93,14 +72,3 @@ var TokMap = TokenMap{
 		"b":       4,
 	},
 }
-=======
-	idMap: map[string]Type {
-		"INVALID": 0,
-		"$": 1,
-		"c": 2,
-		"empty": 3,
-		"b": 4,
-	},
-}
-
->>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
