@@ -1,8 +1,7 @@
+
 package parser
 
-import (
-	"code.google.com/p/gocc/example/bools/ast"
-)
+import ( "code.google.com/p/gocc/example/bools/ast" )
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
@@ -11,7 +10,7 @@ type (
 		String     string
 		Id         string
 		NTType     int
-		Index      int
+		Index int
 		NumSymbols int
 		ReduceFunc func([]Attrib) (Attrib, error)
 	}
@@ -19,12 +18,12 @@ type (
 	}
 )
 
-var productionsTable = ProdTab{
+var productionsTable = ProdTab {
 	ProdTabEntry{
 		String: `S' : BoolExpr	<<  >>`,
-		Id:         "S'",
-		NTType:     0,
-		Index:      0,
+		Id: "S'",
+		NTType: 0,
+		Index: 0,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -32,9 +31,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `BoolExpr : BoolExpr1	<< X[0], nil >>`,
-		Id:         "BoolExpr",
-		NTType:     1,
-		Index:      1,
+		Id: "BoolExpr",
+		NTType: 1,
+		Index: 1,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -42,9 +41,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `BoolExpr1 : Val	<< X[0], nil >>`,
-		Id:         "BoolExpr1",
-		NTType:     2,
-		Index:      2,
+		Id: "BoolExpr1",
+		NTType: 2,
+		Index: 2,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -52,9 +51,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `BoolExpr1 : BoolExpr "&" BoolExpr1	<< ast.NewBoolAndExpr(X[0], X[2]) >>`,
-		Id:         "BoolExpr1",
-		NTType:     2,
-		Index:      3,
+		Id: "BoolExpr1",
+		NTType: 2,
+		Index: 3,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewBoolAndExpr(X[0], X[2])
@@ -62,9 +61,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `BoolExpr1 : BoolExpr "|" BoolExpr1	<< ast.NewBoolOrExpr(X[0], X[2]) >>`,
-		Id:         "BoolExpr1",
-		NTType:     2,
-		Index:      4,
+		Id: "BoolExpr1",
+		NTType: 2,
+		Index: 4,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewBoolOrExpr(X[0], X[2])
@@ -72,9 +71,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `BoolExpr1 : "(" BoolExpr ")"	<< ast.NewBoolGroupExpr(X[1]) >>`,
-		Id:         "BoolExpr1",
-		NTType:     2,
-		Index:      5,
+		Id: "BoolExpr1",
+		NTType: 2,
+		Index: 5,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewBoolGroupExpr(X[1])
@@ -82,9 +81,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Val : "true"	<< ast.TRUE, nil >>`,
-		Id:         "Val",
-		NTType:     3,
-		Index:      6,
+		Id: "Val",
+		NTType: 3,
+		Index: 6,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.TRUE, nil
@@ -92,9 +91,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Val : "false"	<< ast.FALSE, nil >>`,
-		Id:         "Val",
-		NTType:     3,
-		Index:      7,
+		Id: "Val",
+		NTType: 3,
+		Index: 7,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.FALSE, nil
@@ -102,9 +101,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Val : CompareExpr	<< X[0], nil >>`,
-		Id:         "Val",
-		NTType:     3,
-		Index:      8,
+		Id: "Val",
+		NTType: 3,
+		Index: 8,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -112,9 +111,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Val : SubStringExpr	<< X[0], nil >>`,
-		Id:         "Val",
-		NTType:     3,
-		Index:      9,
+		Id: "Val",
+		NTType: 3,
+		Index: 9,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -122,9 +121,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `CompareExpr : int_lit "<" int_lit	<< ast.NewLessThanExpr(X[0], X[2]) >>`,
-		Id:         "CompareExpr",
-		NTType:     4,
-		Index:      10,
+		Id: "CompareExpr",
+		NTType: 4,
+		Index: 10,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewLessThanExpr(X[0], X[2])
@@ -132,9 +131,9 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `CompareExpr : int_lit ">" int_lit	<< ast.NewLessThanExpr(X[2], X[0]) >>`,
-		Id:         "CompareExpr",
-		NTType:     4,
-		Index:      11,
+		Id: "CompareExpr",
+		NTType: 4,
+		Index: 11,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewLessThanExpr(X[2], X[0])
@@ -142,12 +141,13 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `SubStringExpr : string_lit "in" string_lit	<< ast.NewSubStringExpr(X[0], X[2]) >>`,
-		Id:         "SubStringExpr",
-		NTType:     5,
-		Index:      12,
+		Id: "SubStringExpr",
+		NTType: 5,
+		Index: 12,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewSubStringExpr(X[0], X[2])
 		},
 	},
+	
 }

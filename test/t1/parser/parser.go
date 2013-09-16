@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package parser
 
 import (
@@ -6,6 +7,17 @@ import (
 	"code.google.com/p/gocc/test/t1/token"
 	"errors"
 	"fmt"
+=======
+
+package parser
+
+import(
+	"bytes"
+	"fmt"
+	"errors"
+	parseError "code.google.com/p/gocc/test/t1/errors"
+	"code.google.com/p/gocc/test/t1/token"
+>>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 )
 
 const (
@@ -17,16 +29,27 @@ const (
 // Stack
 
 type stack struct {
+<<<<<<< HEAD
 	state  []int
 	attrib []Attrib
+=======
+	state []int
+	attrib	[]Attrib
+>>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 }
 
 const iNITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
+<<<<<<< HEAD
 	return &stack{state: make([]int, 0, iNITIAL_STACK_SIZE),
 		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
 	}
+=======
+	return &stack{ 	state: 	make([]int, 0, iNITIAL_STACK_SIZE),
+					attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+			}
+>>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 }
 
 func (this *stack) reset() {
@@ -39,8 +62,13 @@ func (this *stack) push(s int, a Attrib) {
 	this.attrib = append(this.attrib, a)
 }
 
+<<<<<<< HEAD
 func (this *stack) top() int {
 	return this.state[len(this.state)-1]
+=======
+func(this *stack) top() int {
+	return this.state[len(this.state) - 1]
+>>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 }
 
 func (this *stack) peek(pos int) int {
@@ -52,6 +80,7 @@ func (this *stack) topIndex() int {
 }
 
 func (this *stack) popN(items int) []Attrib {
+<<<<<<< HEAD
 	lo, hi := len(this.state)-items, len(this.state)
 
 	attrib := this.attrib[lo:hi]
@@ -59,6 +88,15 @@ func (this *stack) popN(items int) []Attrib {
 	this.state = this.state[:lo]
 	this.attrib = this.attrib[:lo]
 
+=======
+	lo, hi := len(this.state) - items, len(this.state)
+	
+	attrib := this.attrib[lo: hi]
+	
+	this.state = this.state[:lo]
+	this.attrib = this.attrib[:lo]
+	
+>>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 	return attrib
 }
 
@@ -186,8 +224,14 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				panic("Error recovery led to invalid action")
 			}
 		}
+<<<<<<< HEAD
 
 		// fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
+=======
+		
+		// fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
+		
+>>>>>>> 9d3e28b6b4a375015991b8ecb296891776774570
 
 		switch act := action.(type) {
 		case accept:
