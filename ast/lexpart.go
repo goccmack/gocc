@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"sort"
 )
 
 // All maps are indexed by production id
@@ -117,6 +118,7 @@ func (this *LexPart) TokenIds() []string {
 	for tid := range this.TokDefs {
 		tids = append(tids, tid)
 	}
+	sort.Strings(tids)
 	return tids
 }
 
