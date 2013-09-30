@@ -1,18 +1,10 @@
-//Copyright 2013 Vastech SA (PTY) LTD
-//
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
-//
-//       http://www.apache.org/licenses/LICENSE-2.0
-//
-//   Unless required by applicable law or agreed to in writing, software
-//   distributed under the License is distributed on an "AS IS" BASIS,
-//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//   See the License for the specific language governing permissions and
-//   limitations under the License.
-
 package ast
+
+import (
+	"bytes"
+	"fmt"
+	"code.google.com/p/gocc/frontend/token"
+)
 
 type SyntaxPart struct {
 	Header   *FileHeader
@@ -34,10 +26,15 @@ func NewSyntaxPart(header, prodList interface{}) (*SyntaxPart, error) {
 }
 
 func (this *SyntaxPart) augment() *SyntaxPart {
-	startProd := &SyntaxProd{
-		Id: "S'",
-		Body: &SyntaxBody{
-			Symbols: []SyntaxSymbol{SyntaxProdId(this.ProdList[0].Id)},
+	startProd := &SyntaxProdNonBasic{
+		Id: &token.Token{
+			Type: token.TokMap.Type("prodId"),
+			Lit:  []byte("S'"),
+		},
+		SyntaxExpression: SyntaxExpression{
+			&SyntaxBody{
+				Terms: SyntaxTerms{SyntaxProdId(this.ProdList[0].Id.Lit)},
+			},
 		},
 	}
 	newProdList := SyntaxProdList{startProd}
@@ -45,4 +42,14 @@ func (this *SyntaxPart) augment() *SyntaxPart {
 		Header:   this.Header,
 		ProdList: append(newProdList, this.ProdList...),
 	}
+}
+
+func (this *SyntaxPart) String() string {
+	w := new(bytes.Buffer)
+	fmt.Fprintf(w, "/* Syntax Part */\n\n")
+	fmt.Fprintf(w, "%s\n\n", this.Header)
+	for _, prod := range this.ProdList {
+		fmt.Fprintf(w, "%s\n\n", prod)
+	}
+	return w.String()
 }

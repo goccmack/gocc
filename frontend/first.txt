@@ -1,0 +1,100 @@
+LexProductions: {
+	tokId
+	regDefId
+	ignoredTokId
+}
+SyntaxProdList: {
+	prodId
+}
+SyntaxExpression: {
+	error
+	prodId
+	tokId
+	stringLit
+	(
+	[
+	{
+}
+Grammar: {
+	actionLit
+	tokId
+	regDefId
+	ignoredTokId
+	prodId
+}
+LexAlt: {
+	.
+	char_lit
+	regDefId
+	[
+	{
+	(
+}
+LexTerm: {
+	.
+	char_lit
+	regDefId
+	[
+	{
+	(
+}
+SyntaxProduction: {
+	prodId
+}
+SyntaxBody: {
+	error
+	prodId
+	tokId
+	stringLit
+	(
+	[
+	{
+}
+SyntaxPart: {
+	actionLit
+	prodId
+}
+LexPattern: {
+	.
+	char_lit
+	regDefId
+	[
+	{
+	(
+}
+S': {
+	actionLit
+	tokId
+	regDefId
+	ignoredTokId
+	prodId
+}
+LexProduction: {
+	tokId
+	regDefId
+	ignoredTokId
+}
+FileHeader: {
+	actionLit
+}
+SyntaxTerm: {
+	prodId
+	tokId
+	stringLit
+	(
+	[
+	{
+}
+SyntaxTerms: {
+	prodId
+	tokId
+	stringLit
+	(
+	[
+	{
+}
+LexicalPart: {
+	tokId
+	regDefId
+	ignoredTokId
+}

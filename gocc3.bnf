@@ -1,0 +1,218 @@
+/*** Lexical items ***/
+
+/* Token definitions */
+
+tokId : 
+	_tokId 
+	;
+
+regDefId
+	: '_' {_id_char} 
+	;
+
+prodId 
+	: _upcase {_id_char} 
+	;
+
+stringLit 
+	: _raw_string 
+	| _interpreted_string 
+	;
+
+ignoredTokId 
+	: '!' _tokId 
+	;
+
+actionLit
+	: '<' '<' . {.} '>' '>'
+	;
+
+/* Ignored tokens */
+
+!comment 
+	: _lineComment | _blockComment 
+	;
+
+!whitespace 
+	: ' ' | '\t' | '\n' | '\r' 
+	;
+
+/* Regular definitions */
+
+_upcase
+	: 'A'-'Z' 
+	;
+
+_lowcase 
+	: 'a'-'z' 
+	;
+
+_digit 
+	: '0'-'9' 
+	;
+
+_hex_digit 
+	: '0' - '9' 
+	| 'A' - 'F' 
+	| 'a' - 'f'
+	;
+
+_octal_digit 
+	: '0' - '7' 
+	;
+
+char_lit
+	: '\'' (_unicode_value | _byte_value) '\'' 
+	;
+
+_unicode_value 
+	: . 
+	| _little_u_value 
+	| _big_u_value 
+	| _escaped_char 
+	;
+
+_byte_value       
+	: _octal_byte_value 
+	| _hex_byte_value 
+	;
+
+_octal_byte_value 
+	: '\\' _octal_digit _octal_digit _octal_digit 
+	;
+
+_hex_byte_value   
+	: '\\' 'x' _hex_digit _hex_digit 
+	;
+
+_little_u_value   
+	: '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
+	;
+
+_big_u_value
+	: '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
+               _hex_digit _hex_digit _hex_digit _hex_digit 
+    ;
+
+_escaped_char
+	: '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
+	;
+
+_id_char
+	: _upcase 
+	| _lowcase 
+	| '_' 
+	| _digit 
+	;
+
+_tokId 
+	: _lowcase {_id_char} 
+	;
+
+_raw_string 
+	: '`' {.} '`' 
+	;
+
+_interpreted_string 
+	: '"' { _unicode_value | _byte_value } '"' 
+	;
+
+_lineComment 
+	: '/' '/' {.} '\n' 
+	;
+
+_blockComment 
+	: '/' '*' {. | '*'} '*' '/' 
+	;
+
+
+/*** Syntax items ***/
+
+<< import "code.google.com/p/gocc/ast" >>
+
+Grammar 
+	: LexicalPart SyntaxPart 					<< ast.NewGrammar($0, $1) >>
+	| LexicalPart 								<< ast.NewGrammar($0, nil) >>
+	| SyntaxPart								<< ast.NewGrammar(nil, $0) >>
+	;
+
+LexicalPart	
+	: LexProductions 							<< ast.NewLexPart(nil, nil, $0) >>
+	;
+
+LexProductions	
+	: LexProduction 							<< ast.NewLexProductions($0) >>
+	| LexProductions LexProduction 				<< ast.AppendLexProduction($0, $1) >>
+	;
+
+LexProduction 
+	: tokId ":" LexPattern ";" 					<< ast.NewLexTokDef($0, $2) >>
+	| regDefId ":" LexPattern ";" 				<< ast.NewLexRegDef($0, $2) >>
+	| ignoredTokId ":" LexPattern ";"			<< ast.NewLexIgnoredTokDef($0, $2) >>
+	;
+
+LexPattern 	
+	: LexAlt 									<< ast.NewLexPattern($0) >>
+	| LexPattern "|" LexAlt 					<< ast.AppendLexAlt($0, $2) >>
+	;
+
+LexAlt 	
+	: LexTerm									<< ast.NewLexAlt($0) >>
+	| LexAlt LexTerm 							<< ast.AppendLexTerm($0, $1) >>
+	;
+
+LexTerm 
+	: "."										<< ast.LexDOT, nil >>
+	| char_lit 									<< ast.NewLexCharLit($0) >>
+	| char_lit "-" char_lit 					<< ast.NewLexCharRange($0, $2) >>
+	| regDefId									<< ast.NewLexRegDefId($0) >>
+	| "[" LexPattern "]" 						<< ast.NewLexOptPattern($1) >>
+	| "{" LexPattern "}" 						<< ast.NewLexRepPattern($1) >>
+	| "(" LexPattern ")"						<< ast.NewLexGroupPattern($1) >>
+	;
+
+SyntaxPart
+	: FileHeader SyntaxProdList 				<< ast.NewSyntaxPart($0, $1) >>
+	| SyntaxProdList 							<< ast.NewSyntaxPart(nil, $0) >>
+	;
+
+FileHeader
+	: actionLit									<< ast.NewFileHeader($0) >>
+	;
+
+SyntaxProdList
+	: SyntaxProduction							<< ast.NewSyntaxProdList($0) >>			
+	| SyntaxProdList SyntaxProduction 			<< ast.AddSyntaxProds($0, $1) >>
+	;
+
+SyntaxProduction	
+	: prodId ":" SyntaxExpression ";"			<< ast.NewSyntaxProdNonBasic($0, $2) >>
+	;
+			
+SyntaxExpression	
+	: SyntaxBody								<< ast.NewSyntaxExpression($0) >>
+	| SyntaxExpression "|" SyntaxBody			<< ast.AddSyntaxExprBody($0, $2) >>
+	;
+
+SyntaxBody
+	: SyntaxTerms								<< ast.NewSyntaxBody($0, nil) >>
+	| SyntaxTerms actionLit						<< ast.NewSyntaxBody($0, $1) >>
+	| "error"									<< ast.NewErrorBody(nil, nil) >>
+	| "error" SyntaxTerms						<< ast.NewErrorBody($1, nil) >>
+	| "error" SyntaxTerms actionLit				<< ast.NewErrorBody($1, $2) >>
+	;
+		
+SyntaxTerms	
+	: SyntaxTerm								<< ast.NewSyntaxTerms($0) >>
+	| SyntaxTerms SyntaxTerm					<< ast.AddSyntaxTerm($0, $1) >>
+	;
+		
+SyntaxTerm
+	: prodId									<< ast.NewSyntaxProdId($0) >>
+	| tokId										<< ast.NewTokId($0) >>
+	| stringLit									<< ast.NewStringLit($0) >>
+	| "(" SyntaxExpression ")"					<< ast.NewSyntaxGroupExpression($1) >>
+	| "[" SyntaxExpression "]"					<< ast.NewSyntaxOptionalExpression($1) >>
+	| "{" SyntaxExpression "}"					<< ast.NewSyntaxRepeatedExpression($1) >>
+	;
+

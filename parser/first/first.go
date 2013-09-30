@@ -1,17 +1,3 @@
-//Copyright 2013 Vastech SA (PTY) LTD
-//
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
-//
-//       http://www.apache.org/licenses/LICENSE-2.0
-//
-//   Unless required by applicable law or agreed to in writing, software
-//   distributed under the License is distributed on an "AS IS" BASIS,
-//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//   See the License for the specific language governing permissions and
-//   limitations under the License.
-
 package first
 
 import (
@@ -21,132 +7,80 @@ import (
 	"fmt"
 )
 
-/*
-key: Id of production
-*/
-type FirstSets struct {
-	firstSets map[string]SymbolSet
-	symbols   *symbols.Symbols
+type First struct {
+	// key: symbol
+	symbol map[string]FirstSet
+
+	// key: prod id
+	ntMap  map[string][]*ast.SyntaxBasicProd
+	ntList []string
+
+	tList []string
 }
 
-const EMPTY = "empty"
-
-//Returns the FirstSets of the Grammar.
-func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
-	firstSets := &FirstSets{
-		firstSets: make(map[string]SymbolSet),
-		symbols:   symbols,
+func New(symbols *symbols.Symbols, prods []*ast.SyntaxBasicProd) *First {
+	first := &First{
+		symbol: make(map[string]FirstSet),
+		ntMap:  make(map[string][]*ast.SyntaxBasicProd),
+		ntList: symbols.ListNonTerminals(),
+		tList:  symbols.ListTerminals(),
 	}
+	first.AddTerminals()
+	first.AddNonTerminals(prods)
+	return first
+}
 
-	if g.SyntaxPart == nil {
-		return firstSets
-	}
-
-	for i, again := 1, true; again; i++ {
+func (this *First) AddNonTerminals(prods []*ast.SyntaxBasicProd) {
+	for again := true; again; {
 		again = false
-		for _, prod := range g.SyntaxPart.ProdList {
-			switch {
-			case len(prod.Body.Symbols) == 0:
-				if firstSets.AddToken(prod.Id, EMPTY) {
-					again = true
-				}
-			case symbols.IsTerminal(prod.Body.Symbols[0].SymbolString()):
-				if firstSets.AddToken(prod.Id, prod.Body.Symbols[0].SymbolString()) {
-					again = true
-				}
-			default:
-				first := FirstS(firstSets, stringList(prod.Body.Symbols))
-				if !first.Equal(firstSets.GetSet(prod.Id)) {
-					if firstSets.AddSet(prod.Id, first) {
-						again = true
-					}
-				}
+		for _, prod := range prods {
+			changed := false
+			switch t := prod.Terms[0].(type) {
+			case ast.SyntaxTokId:
+				this.symbol[prod.Id], changed = this.symbol[prod.Id].Add(string(t))
+				break
+			case ast.SyntaxProdId:
+				this.symbol[prod.Id], changed = this.symbol[prod.Id].Add(this.symbol[string(t)]...)
+			case ast.SyntaxStringLit:
+				this.symbol[prod.Id], changed = this.symbol[prod.Id].Add(string(t))
+			}
+			if changed {
+				again = true
 			}
 		}
 	}
-
-	return firstSets
 }
 
-func stringList(symbols []ast.SyntaxSymbol) []string {
-	sl := make([]string, len(symbols))
-	for i, sym := range symbols {
-		sl[i] = sym.SymbolString()
-	}
-	return sl
-}
-
-func (this *FirstSets) AddSet(prodName string, terminals SymbolSet) (symbolsAdded bool) {
-	for symbol := range terminals {
-		if this.AddToken(prodName, symbol) {
-			symbolsAdded = true
+func (this *First) AddTerminals() {
+	for _, s := range this.tList {
+		if _, exist := this.symbol[s]; exist {
+			panic(fmt.Sprintf("Duplicate terminal: %s", s))
 		}
+		this.symbol[s] = FirstSet{s}
 	}
-	return
 }
 
-func (this *FirstSets) AddToken(prodName string, terminal string) (symbolAdded bool) {
-	set, ok := this.firstSets[prodName]
-	if !ok {
-		set = make(SymbolSet)
-		this.firstSets[prodName] = set
-	}
-	if _, contain := set[terminal]; !contain {
-		set[terminal] = true
-		symbolAdded = true
-	}
-	return
+func (this *First) FirstSymbol(sym string) FirstSet {
+	return this.symbol[sym]
 }
 
-//Returns a set.
-func (this *FirstSets) GetSet(prodName string) SymbolSet {
-	if set, ok := this.firstSets[prodName]; ok {
-		return set
+func (this *First) FirstString(s []string, context ...string) FirstSet {
+	// If the AST is changed to allow e-productions this must iterate over the string and context
+	if len(s) == 0 {
+		return append(FirstSet{}, context...)
 	}
-	return nil
+	return this.symbol[s[0]]
 }
 
-//Returns a string representing the FirstSets.
-func (this *FirstSets) String() string {
-	buf := new(bytes.Buffer)
-	for nt, set := range this.firstSets {
-		fmt.Fprintf(buf, "%s: %s\n", nt, set)
+func (this *First) String() string {
+	w := new(bytes.Buffer)
+	fmt.Fprintf(w, "Terminals:\n")
+	for _, t := range this.tList {
+		fmt.Fprintf(w, "\t%s\t%s\n", t, this.symbol[t])
 	}
-	return buf.String()
-}
-
-//Returns the First SymbolSet given the ast.SyntaxSymbol.
-func First(fs *FirstSets, sym string) SymbolSet {
-	if fs.symbols.IsTerminal(sym) {
-		return SymbolSet{sym: true}
+	fmt.Fprintf(w, "\nNon-terminals:\n")
+	for _, nt := range this.ntList {
+		fmt.Fprintf(w, "\t%s\t%s\n", nt, this.symbol[nt])
 	}
-	return fs.GetSet(sym)
-}
-
-/*
-Returns First of the string, xyz, e.g.: for the item,
-
-  X  : w • xyz
-
-  Let x, y, z be strings from the union of T and NT.
-  First(xy...z) =
-	First(x) if First(x) does not contain ϵ
- 	First(x) + First(y) if First(x) contains ϵ but First(y) does not contain ϵ
- 	...
- 	First(x) + First(y) + ... + First(z)
-*/
-func FirstS(firstSets *FirstSets, symbols []string) (first SymbolSet) {
-	first = make(SymbolSet)
-	fst := First(firstSets, symbols[0])
-	first.AddSet(fst)
-	_, containEmpty := fst["empty"]
-	for i := 1; i < len(symbols) && containEmpty; i++ {
-		fst = First(firstSets, symbols[i])
-		first.AddSet(fst)
-		_, containEmpty = fst["empty"]
-	}
-	if !containEmpty {
-		delete(first, "empty")
-	}
-	return
+	return w.String()
 }
