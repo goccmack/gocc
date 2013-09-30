@@ -1,4 +1,4 @@
-//Copyright 2012 Vastech SA (PTY) LTD
+//Copyright 2013 Vastech SA (PTY) LTD
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-//Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
+//Gocc is a compiler kit for go written in go.
 //Please see https://code.google.com/p/gocc/ for more documentation.
 package main
 
@@ -78,16 +78,6 @@ func main() {
 
 	genlexer.Gen(cfg, g.LexPart, tokenMap)
 	genparser.Gen(cfg, basicSyntaxProds, cfgSymbols)
-
-	// var tokenMap *outToken.TokenMap
-
-	// io.WriteFileString(path.Join(cfg.OutDir(), "lex_prods.txt"), g.LexPart.String())
-	// gSymbols.Add(g.LexPart.TokenIds()...)
-	// g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
-	// lexSets := lexItems.GetItemSets(g.LexPart, gSymbols.ListStringLitSymbols())
-	// io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
-	// tokenMap = outToken.NewTokenMap(gSymbols.List())
-	// genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap)
 
 	gentoken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
 	genutil.Gen(cfg.OutDir())

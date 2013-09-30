@@ -2,10 +2,10 @@ package states
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/parser/first"
 	lr0items "code.google.com/p/gocc/parser/lrk/items"
 	"code.google.com/p/gocc/parser/symbols"
+	"fmt"
 )
 
 type State struct {

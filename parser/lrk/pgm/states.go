@@ -6,6 +6,7 @@ import (
 	"code.google.com/p/gocc/parser/lrk/states"
 	"code.google.com/p/gocc/parser/lrk/symbolsuccessors"
 	"code.google.com/p/gocc/parser/symbols"
+	// "fmt"
 )
 
 func States(symbols *symbols.Symbols, lr0items *items.Items, first *first.First) *states.States {
@@ -121,7 +122,7 @@ func weaklyCompatibleCfgGrpSet(this *states.ConfigGroupSet, that *states.ConfigG
 	if contextMutuallyDisjunct(this, that) {
 		return true
 	}
-	return contextInternallyDisjunct(this) || contextInternallyDisjunct(that)
+	return !contextInternallyDisjunct(this) || !contextInternallyDisjunct(that)
 }
 
 func contextMutuallyDisjunct(this *states.ConfigGroupSet, that *states.ConfigGroupSet) bool {

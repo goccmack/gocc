@@ -61,3 +61,7 @@ func (this *Transitions) String() string {
 	}
 	return w.String()
 }
+
+func (this *Transitions) Transition(sym string) *State {
+	return this.transitions[sym]
+}

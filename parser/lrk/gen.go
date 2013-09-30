@@ -25,13 +25,15 @@ func Gen(cfg config.Config, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbo
 	if cfg.Knuth() {
 		knuthStates = knuth.States(symbols, items, first)
 	}
+	actions, conflicts := Actions(pgmStates, symbols)
+	handleConflicts(conflicts, pgmStates, cfg)
 
 	if cfg.Verbose2() {
 		writeBasicProductions(cfg, prods)
 		io.WriteFileString(path.Join(cfg.OutDir(), "CFG_items.txt"), items.String())
 		writeCFGSymbols(cfg, symbols)
 		io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), first.String())
-		io.WriteFileString(path.Join(cfg.OutDir(), "PGM_states.txt"), pgmStates.String())
+		io.WriteFile(path.Join(cfg.OutDir(), "PGM_states.txt"), statesString(pgmStates, actions, symbols))
 		if cfg.Knuth() {
 			io.WriteFileString(path.Join(cfg.OutDir(), "knuth_lr1_states.txt"), knuthStates.String())
 		}
@@ -39,14 +41,31 @@ func Gen(cfg config.Config, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbo
 
 }
 
-// func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config) {
-// 	if len(conflicts) <= 0 {
-// 		return
-// 	}
-// 	if !cfg.AutoResolveLRConf() {
-// 		error1(fmt.Sprintf("Error: %s\n", conflictString(conflicts, numSets)), nil)
-// 	}
-// }
+func handleConflicts(conflicts [][]*Conflict, states *states.States, cfg config.Config) {
+	if len(conflicts) <= 0 {
+		return
+	}
+	fmt.Printf("LR(1) conflicts\n")
+	for si, sc := range conflicts {
+		for _, c := range sc {
+			fmt.Printf("\tS%d: %s\n", si, c)
+		}
+	}
+	// if !cfg.AutoResolveLRConf() {
+	// 	error1(fmt.Sprintf("Error: %s\n", conflictString(conflicts, numSets)), nil)
+	// }
+}
+
+func numConflicts(conflicts [][]*Conflict) (num int) {
+	for _, sc := range conflicts {
+		for _, c := range sc {
+			if c != nil {
+				num += c.NumConflicts()
+			}
+		}
+	}
+	return
+}
 
 // func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int) string {
 // 	w := new(bytes.Buffer)
@@ -64,6 +83,21 @@ func Gen(cfg config.Config, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbo
 // 	}
 // 	return w.String()
 // }
+
+func statesString(states *states.States, actions []map[string]Action, symbols *symbols.Symbols) []byte {
+	w := new(bytes.Buffer)
+	for si, state := range states.List {
+		fmt.Fprintf(w, "%s", state)
+		fmt.Fprintf(w, "Actions:\n")
+		for _, symT := range symbols.ListTerminals() {
+			if action := actions[si][symT]; action != nil {
+				fmt.Fprintf(w, "\t%s: %s\n", symT, action)
+			}
+		}
+		fmt.Fprintln(w)
+	}
+	return w.Bytes()
+}
 
 func removeOldFiles(cfg config.Config) {
 	os.Remove(path.Join(cfg.OutDir(), "basic_productions.txt"))

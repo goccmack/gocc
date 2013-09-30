@@ -33,11 +33,12 @@ const (
 
 func NewSymbols(prods []*ast.SyntaxBasicProd) *Symbols {
 	symbols := &Symbols{
-		StartSymbol: prods[0].Id,
-		ntMap:       make(map[string]ast.SyntaxTerm),
-		tMap:        make(map[string]ast.SyntaxTerm),
-		symMap:      make(map[string]bool),
-		prodMap:     make(map[string]int),
+		StartSymbol:  prods[0].Id,
+		ntMap:        make(map[string]ast.SyntaxTerm),
+		tMap:         make(map[string]ast.SyntaxTerm),
+		symMap:       make(map[string]bool),
+		prodMap:      make(map[string]int),
+		stringLitMap: make(map[string]ast.SyntaxStringLit),
 	}
 	for _, prod := range prods {
 		if _, exist := symbols.prodMap[prod.Id]; !exist {
@@ -60,6 +61,8 @@ func (this *Symbols) makeLists() {
 		this.tList = append(this.tList, sym)
 	}
 	sort.Strings(this.tList)
+	this.tMap["$"] = nil
+	this.tList = append(this.tList, "$")
 
 	for sym, _ := range this.stringLitMap {
 		this.stringLitList = append(this.stringLitList, sym)

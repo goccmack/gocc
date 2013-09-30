@@ -24,9 +24,10 @@ type LexPart struct {
 
 func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 	lexPart := &LexPart{
-		TokDefs:        make(map[string]*LexTokDef, 16),
-		RegDefs:        make(map[string]*LexRegDef, 16),
-		IgnoredTokDefs: make(map[string]*LexIgnoredTokDef, 16),
+		TokDefs:          make(map[string]*LexTokDef, 16),
+		RegDefs:          make(map[string]*LexRegDef, 16),
+		IgnoredTokDefs:   make(map[string]*LexIgnoredTokDef, 16),
+		stringLitTokDefs: make(map[string]bool),
 	}
 	if header != nil {
 		lexPart.Header = header.(*FileHeader)

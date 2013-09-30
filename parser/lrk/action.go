@@ -12,11 +12,66 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-package action
+package lrk
 
 import (
+	"code.google.com/p/gocc/parser/lrk/states"
+	"code.google.com/p/gocc/parser/symbols"
 	"fmt"
 )
+
+/*
+Returns:
+actions - One entry for each state. Each entry is a map of symbol -> action
+conflicts - for each state a list of conflict lists. Each conflict list contains a list of conflicts for each
+conflicted symbol in the state.
+*/
+func Actions(states *states.States, symbols *symbols.Symbols) (actions []map[string]Action, conflicts [][]*Conflict) {
+	actions = make([](map[string]Action), len(states.List))
+	conflicts = make([][]*Conflict, len(states.List))
+	for si, state := range states.List {
+		actions[si] = make(map[string]Action)
+		for _, sym := range symbols.ListTerminals() {
+			act, cnf := stateAction(state, sym)
+			actions[si][sym] = act
+			if cnf != nil {
+				conflicts[si] = append(conflicts[si], cnf)
+			}
+		}
+	}
+	return
+}
+
+func stateAction(state *states.State, nextSym string) (action Action, conflict *Conflict) {
+	if nextState := state.Transitions.Transition(nextSym); nextState != nil {
+		action = Shift(nextState.Number)
+	}
+	for _, cfgrp := range state.ConfigGroups().List() {
+		if act1 := configGroupAction(cfgrp, nextSym); act1 != nil {
+			switch {
+			case action == nil:
+				action = act1
+			case !act1.Equal(action):
+				conflict = conflict.AddConflict(nextSym, action, act1)
+				action = action.ResolveConflict(act1)
+			}
+		}
+	}
+	return
+}
+
+func configGroupAction(cfgrp *states.ConfigGroup, nextSym string) (action Action) {
+	if cfgrp.Item.Reduce() {
+		if cfgrp.ContextSet.Contain[nextSym] {
+			if cfgrp.Item.BasicProdIdx == 0 {
+				action = ACCEPT
+			} else {
+				action = Reduce(cfgrp.Item.BasicProdIdx)
+			}
+		}
+	}
+	return
+}
 
 type Action interface {
 	Equal(Action) bool

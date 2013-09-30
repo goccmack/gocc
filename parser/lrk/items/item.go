@@ -2,8 +2,8 @@ package items
 
 import (
 	"bytes"
-	"fmt"
 	"code.google.com/p/gocc/ast"
+	"fmt"
 )
 
 /*
@@ -59,6 +59,20 @@ func (this *Item) ExpectedSymbol() string {
 
 func (this *Item) HashKey() string {
 	return this.hashKey
+}
+
+/*
+Return true iff this is of the form: u -> α•
+*/
+func (this *Item) Reduce() bool {
+	return this.Position >= len(this.Symbols)
+}
+
+/*
+Return true iff this is of the form: u -> α•β and len(β) > 0
+*/
+func (this *Item) Shift() bool {
+	return this.Position < len(this.Symbols)
 }
 
 func (this *Item) String() string {
