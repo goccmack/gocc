@@ -188,7 +188,8 @@ func (this *ConfigRecord) getFlags() error {
 }
 
 func getOutDir(outDirSpec, wd string) string {
-	if strings.HasPrefix(outDirSpec, wd) {
+	fmt.Printf("config.getOutDir: %s, wd:%s\n", outDirSpec, wd)
+	if strings.HasPrefix(outDirSpec, wd) || strings.HasPrefix(outDirSpec, "/") {
 		return outDirSpec
 	}
 	return path.Join(wd, outDirSpec)
