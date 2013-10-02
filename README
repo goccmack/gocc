@@ -13,7 +13,7 @@ This version of gocc has a number of new features:
 	
 		See: A Practical General Method for Constructing LR(k) Parsers. David Pager. Acta Informatica 7, 249-268, 1977
 
-   gocc3 will still generate a Knuth LR(1) state machine if the -knuth option is used. PGM state machines reduce the state space of 
+   gocc3 will still generate a Knuth LR(1) state machine if the -knuth option is used. PGM state machines can reduce the state space of 
    the parser to less than 10% of the equivalent Knuth machine without introducing new LR(1) conflicts. The typical PGM machine is of 
    the same size as an LALR(1) machine for the same grammar.
 
