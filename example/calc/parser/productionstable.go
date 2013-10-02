@@ -22,7 +22,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : Calc	<<  >>`,
+		String:     `S' : Calc ;`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -32,7 +32,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Calc : Expr	<<  >>`,
+		String:     `Calc : Expr ;`,
 		Id:         "Calc",
 		NTType:     1,
 		Index:      1,
@@ -42,7 +42,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Expr "+" Term	<< X[0].(int64) + X[2].(int64), nil >>`,
+		String:     `Expr : Expr "+" Term << X[0].(int64) + X[2].(int64), nil >> ;`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      2,
@@ -52,7 +52,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Term	<<  >>`,
+		String:     `Expr : Term ;`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      3,
@@ -62,7 +62,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Term : Term "*" Factor	<< X[0].(int64) * X[2].(int64), nil >>`,
+		String:     `Term : Term "*" Factor << X[0].(int64) * X[2].(int64), nil >> ;`,
 		Id:         "Term",
 		NTType:     3,
 		Index:      4,
@@ -72,7 +72,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Term : Factor	<<  >>`,
+		String:     `Term : Factor ;`,
 		Id:         "Term",
 		NTType:     3,
 		Index:      5,
@@ -82,7 +82,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : "(" Expr ")"	<< X[1], nil >>`,
+		String:     `Factor : "(" Expr ")" << X[1], nil >> ;`,
 		Id:         "Factor",
 		NTType:     4,
 		Index:      6,
@@ -92,7 +92,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : int64	<< util.IntValue(X[0].(*token.Token).Lit) >>`,
+		String:     `Factor : int64 << util.IntValue(X[0].(*token.Token).Lit) >> ;`,
 		Id:         "Factor",
 		NTType:     4,
 		Index:      7,

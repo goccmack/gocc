@@ -13,9 +13,9 @@ var gotoTab = gotoTable{
 	gotoRow{ // S0
 
 		-1, // S'
-		1,  // RR
-		3,  // B
-		2,  // A
+		3,  // RR
+		4,  // B
+		5,  // A
 
 	},
 	gotoRow{ // S1

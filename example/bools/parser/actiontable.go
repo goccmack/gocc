@@ -4,882 +4,488 @@ type (
 	actionTable [numStates]actionRow
 	actionRow   struct {
 		canRecover bool
-		actions    [numSymbols]action
+		actions    [numTerminals]action
 	}
 )
 
 var actionTab = actionTable{
 	actionRow{ // S0
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			shift(4),  /* ( */
-			nil,       /* ) */
-			shift(5),  /* true */
-			shift(6),  /* false */
-			shift(9),  /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			shift(10), /* string_lit */
-			nil,       /* in */
+		actions: [numTerminals]action{
+			nil,      /* INVALID */
+			nil,      /* $ */
+			nil,      /* error */
+			nil,      /* & */
+			shift(1), /* ( */
+			nil,      /* ) */
+			nil,      /* < */
+			nil,      /* > */
+			shift(2), /* false */
+			nil,      /* in */
+			shift(3), /* int_lit */
+			shift(4), /* string_lit */
+			shift(5), /* true */
+			nil,      /* | */
 
 		},
 	},
 	actionRow{ // S1
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,          /* INVALID */
-			accept(true), /* $ */
-			shift(11),    /* & */
-			shift(12),    /* | */
-			nil,          /* ( */
-			nil,          /* ) */
-			nil,          /* true */
-			nil,          /* false */
-			nil,          /* int_lit */
-			nil,          /* < */
-			nil,          /* > */
-			nil,          /* string_lit */
-			nil,          /* in */
+		actions: [numTerminals]action{
+			nil,      /* INVALID */
+			nil,      /* $ */
+			nil,      /* error */
+			nil,      /* & */
+			shift(1), /* ( */
+			nil,      /* ) */
+			nil,      /* < */
+			nil,      /* > */
+			shift(2), /* false */
+			nil,      /* in */
+			shift(3), /* int_lit */
+			shift(4), /* string_lit */
+			shift(5), /* true */
+			nil,      /* | */
 
 		},
 	},
 	actionRow{ // S2
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(1), /* $, reduce: BoolExpr */
-			reduce(1), /* &, reduce: BoolExpr */
-			reduce(1), /* |, reduce: BoolExpr */
+			reduce(7), /* $, reduce: Val */
+			nil,       /* error */
+			reduce(7), /* &, reduce: Val */
 			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			reduce(7), /* ), reduce: Val */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			reduce(7), /* |, reduce: Val */
 
 		},
 	},
 	actionRow{ // S3
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(2), /* $, reduce: BoolExpr1 */
-			reduce(2), /* &, reduce: BoolExpr1 */
-			reduce(2), /* |, reduce: BoolExpr1 */
+			nil,       /* $ */
+			nil,       /* error */
+			nil,       /* & */
 			nil,       /* ( */
 			nil,       /* ) */
-			nil,       /* true */
+			shift(12), /* < */
+			shift(13), /* > */
 			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			nil,       /* | */
 
 		},
 	},
 	actionRow{ // S4
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
+			nil,       /* error */
 			nil,       /* & */
-			nil,       /* | */
-			shift(16), /* ( */
+			nil,       /* ( */
 			nil,       /* ) */
-			shift(17), /* true */
-			shift(18), /* false */
-			shift(21), /* int_lit */
 			nil,       /* < */
 			nil,       /* > */
-			shift(22), /* string_lit */
-			nil,       /* in */
+			nil,       /* false */
+			shift(14), /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			nil,       /* | */
 
 		},
 	},
 	actionRow{ // S5
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			reduce(6), /* $, reduce: Val */
+			nil,       /* error */
 			reduce(6), /* &, reduce: Val */
-			reduce(6), /* |, reduce: Val */
 			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			reduce(6), /* ), reduce: Val */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			reduce(6), /* |, reduce: Val */
 
 		},
 	},
 	actionRow{ // S6
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			reduce(7), /* $, reduce: Val */
-			reduce(7), /* &, reduce: Val */
-			reduce(7), /* |, reduce: Val */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
+		actions: [numTerminals]action{
+			nil,          /* INVALID */
+			accept(true), /* $ */
+			nil,          /* error */
+			shift(15),    /* & */
+			nil,          /* ( */
+			nil,          /* ) */
+			nil,          /* < */
+			nil,          /* > */
+			nil,          /* false */
+			nil,          /* in */
+			nil,          /* int_lit */
+			nil,          /* string_lit */
+			nil,          /* true */
+			shift(16),    /* | */
 
 		},
 	},
 	actionRow{ // S7
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(8), /* $, reduce: Val */
-			reduce(8), /* &, reduce: Val */
-			reduce(8), /* |, reduce: Val */
+			reduce(1), /* $, reduce: BoolExpr */
+			nil,       /* error */
+			reduce(1), /* &, reduce: BoolExpr */
 			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			reduce(1), /* ), reduce: BoolExpr */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			reduce(1), /* |, reduce: BoolExpr */
 
 		},
 	},
 	actionRow{ // S8
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(9), /* $, reduce: Val */
-			reduce(9), /* &, reduce: Val */
-			reduce(9), /* |, reduce: Val */
+			reduce(2), /* $, reduce: BoolExpr1 */
+			nil,       /* error */
+			reduce(2), /* &, reduce: BoolExpr1 */
 			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			reduce(2), /* ), reduce: BoolExpr1 */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			reduce(2), /* |, reduce: BoolExpr1 */
 
 		},
 	},
 	actionRow{ // S9
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
+			reduce(8), /* $, reduce: Val */
+			nil,       /* error */
+			reduce(8), /* &, reduce: Val */
 			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
+			reduce(8), /* ), reduce: Val */
+			nil,       /* < */
+			nil,       /* > */
 			nil,       /* false */
-			nil,       /* int_lit */
-			shift(23), /* < */
-			shift(24), /* > */
-			nil,       /* string_lit */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			reduce(8), /* |, reduce: Val */
 
 		},
 	},
 	actionRow{ // S10
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
+			reduce(9), /* $, reduce: Val */
+			nil,       /* error */
+			reduce(9), /* &, reduce: Val */
 			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			reduce(9), /* ), reduce: Val */
 			nil,       /* < */
 			nil,       /* > */
+			nil,       /* false */
+			nil,       /* in */
+			nil,       /* int_lit */
 			nil,       /* string_lit */
-			shift(25), /* in */
+			nil,       /* true */
+			reduce(9), /* |, reduce: Val */
 
 		},
 	},
 	actionRow{ // S11
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			shift(4),  /* ( */
-			nil,       /* ) */
-			shift(5),  /* true */
-			shift(6),  /* false */
-			shift(9),  /* int_lit */
+			nil,       /* error */
+			shift(15), /* & */
+			nil,       /* ( */
+			shift(17), /* ) */
 			nil,       /* < */
 			nil,       /* > */
-			shift(10), /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			shift(16), /* | */
 
 		},
 	},
 	actionRow{ // S12
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
+			nil,       /* error */
 			nil,       /* & */
-			nil,       /* | */
-			shift(4),  /* ( */
+			nil,       /* ( */
 			nil,       /* ) */
-			shift(5),  /* true */
-			shift(6),  /* false */
-			shift(9),  /* int_lit */
 			nil,       /* < */
 			nil,       /* > */
-			shift(10), /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			shift(18), /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			nil,       /* | */
 
 		},
 	},
 	actionRow{ // S13
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			shift(29), /* & */
-			shift(30), /* | */
+			nil,       /* error */
+			nil,       /* & */
 			nil,       /* ( */
-			shift(31), /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			nil,       /* ) */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			shift(19), /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			nil,       /* | */
 
 		},
 	},
 	actionRow{ // S14
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			reduce(1), /* &, reduce: BoolExpr */
-			reduce(1), /* |, reduce: BoolExpr */
+			nil,       /* error */
+			nil,       /* & */
 			nil,       /* ( */
-			reduce(1), /* ), reduce: BoolExpr */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			nil,       /* ) */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			nil,       /* int_lit */
+			shift(20), /* string_lit */
+			nil,       /* true */
+			nil,       /* | */
 
 		},
 	},
 	actionRow{ // S15
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(2), /* &, reduce: BoolExpr1 */
-			reduce(2), /* |, reduce: BoolExpr1 */
-			nil,       /* ( */
-			reduce(2), /* ), reduce: BoolExpr1 */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
+		actions: [numTerminals]action{
+			nil,      /* INVALID */
+			nil,      /* $ */
+			nil,      /* error */
+			nil,      /* & */
+			shift(1), /* ( */
+			nil,      /* ) */
+			nil,      /* < */
+			nil,      /* > */
+			shift(2), /* false */
+			nil,      /* in */
+			shift(3), /* int_lit */
+			shift(4), /* string_lit */
+			shift(5), /* true */
+			nil,      /* | */
 
 		},
 	},
 	actionRow{ // S16
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			shift(16), /* ( */
-			nil,       /* ) */
-			shift(17), /* true */
-			shift(18), /* false */
-			shift(21), /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			shift(22), /* string_lit */
-			nil,       /* in */
+		actions: [numTerminals]action{
+			nil,      /* INVALID */
+			nil,      /* $ */
+			nil,      /* error */
+			nil,      /* & */
+			shift(1), /* ( */
+			nil,      /* ) */
+			nil,      /* < */
+			nil,      /* > */
+			shift(2), /* false */
+			nil,      /* in */
+			shift(3), /* int_lit */
+			shift(4), /* string_lit */
+			shift(5), /* true */
+			nil,      /* | */
 
 		},
 	},
 	actionRow{ // S17
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(6), /* &, reduce: Val */
-			reduce(6), /* |, reduce: Val */
+			reduce(5), /* $, reduce: BoolExpr1 */
+			nil,       /* error */
+			reduce(5), /* &, reduce: BoolExpr1 */
 			nil,       /* ( */
-			reduce(6), /* ), reduce: Val */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			nil,       /* ) */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
+			nil,       /* false */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			reduce(5), /* |, reduce: BoolExpr1 */
 
 		},
 	},
 	actionRow{ // S18
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(7), /* &, reduce: Val */
-			reduce(7), /* |, reduce: Val */
-			nil,       /* ( */
-			reduce(7), /* ), reduce: Val */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
+		actions: [numTerminals]action{
+			nil,        /* INVALID */
+			reduce(10), /* $, reduce: CompareExpr */
+			nil,        /* error */
+			reduce(10), /* &, reduce: CompareExpr */
+			nil,        /* ( */
+			reduce(10), /* ), reduce: CompareExpr */
+			nil,        /* < */
+			nil,        /* > */
+			nil,        /* false */
+			nil,        /* in */
+			nil,        /* int_lit */
+			nil,        /* string_lit */
+			nil,        /* true */
+			reduce(10), /* |, reduce: CompareExpr */
 
 		},
 	},
 	actionRow{ // S19
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(8), /* &, reduce: Val */
-			reduce(8), /* |, reduce: Val */
-			nil,       /* ( */
-			reduce(8), /* ), reduce: Val */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
+		actions: [numTerminals]action{
+			nil,        /* INVALID */
+			reduce(11), /* $, reduce: CompareExpr */
+			nil,        /* error */
+			reduce(11), /* &, reduce: CompareExpr */
+			nil,        /* ( */
+			reduce(11), /* ), reduce: CompareExpr */
+			nil,        /* < */
+			nil,        /* > */
+			nil,        /* false */
+			nil,        /* in */
+			nil,        /* int_lit */
+			nil,        /* string_lit */
+			nil,        /* true */
+			reduce(11), /* |, reduce: CompareExpr */
 
 		},
 	},
 	actionRow{ // S20
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(9), /* &, reduce: Val */
-			reduce(9), /* |, reduce: Val */
-			nil,       /* ( */
-			reduce(9), /* ), reduce: Val */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
+		actions: [numTerminals]action{
+			nil,        /* INVALID */
+			reduce(12), /* $, reduce: SubStringExpr */
+			nil,        /* error */
+			reduce(12), /* &, reduce: SubStringExpr */
+			nil,        /* ( */
+			reduce(12), /* ), reduce: SubStringExpr */
+			nil,        /* < */
+			nil,        /* > */
+			nil,        /* false */
+			nil,        /* in */
+			nil,        /* int_lit */
+			nil,        /* string_lit */
+			nil,        /* true */
+			reduce(12), /* |, reduce: SubStringExpr */
 
 		},
 	},
 	actionRow{ // S21
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
+			nil,       /* error */
+			shift(15), /* & */
 			nil,       /* ( */
 			nil,       /* ) */
-			nil,       /* true */
+			nil,       /* < */
+			nil,       /* > */
 			nil,       /* false */
-			nil,       /* int_lit */
-			shift(33), /* < */
-			shift(34), /* > */
-			nil,       /* string_lit */
 			nil,       /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			shift(16), /* | */
 
 		},
 	},
 	actionRow{ // S22
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
+			reduce(3), /* $, reduce: BoolExpr1 */
+			nil,       /* error */
+			reduce(1), /* &, reduce: BoolExpr */
 			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
+			reduce(3), /* ), reduce: BoolExpr1 */
 			nil,       /* < */
 			nil,       /* > */
+			nil,       /* false */
+			nil,       /* in */
+			nil,       /* int_lit */
 			nil,       /* string_lit */
-			shift(35), /* in */
+			nil,       /* true */
+			reduce(1), /* |, reduce: BoolExpr */
 
 		},
 	},
 	actionRow{ // S23
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			shift(36), /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S24
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			shift(37), /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S25
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			shift(38), /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S26
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			shift(11), /* & */
-			shift(12), /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S27
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			reduce(3), /* $, reduce: BoolExpr1 */
-			reduce(1), /* &, reduce: BoolExpr */
-			reduce(1), /* |, reduce: BoolExpr */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S28
-		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			reduce(4), /* $, reduce: BoolExpr1 */
+			nil,       /* error */
 			reduce(1), /* &, reduce: BoolExpr */
-			reduce(1), /* |, reduce: BoolExpr */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S29
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			shift(16), /* ( */
-			nil,       /* ) */
-			shift(17), /* true */
-			shift(18), /* false */
-			shift(21), /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			shift(22), /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S30
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			shift(16), /* ( */
-			nil,       /* ) */
-			shift(17), /* true */
-			shift(18), /* false */
-			shift(21), /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			shift(22), /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S31
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			reduce(5), /* $, reduce: BoolExpr1 */
-			reduce(5), /* &, reduce: BoolExpr1 */
-			reduce(5), /* |, reduce: BoolExpr1 */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S32
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			shift(29), /* & */
-			shift(30), /* | */
-			nil,       /* ( */
-			shift(42), /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S33
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			shift(43), /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S34
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			shift(44), /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S35
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			nil,       /* & */
-			nil,       /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			shift(45), /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S36
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        /* INVALID */
-			reduce(10), /* $, reduce: CompareExpr */
-			reduce(10), /* &, reduce: CompareExpr */
-			reduce(10), /* |, reduce: CompareExpr */
-			nil,        /* ( */
-			nil,        /* ) */
-			nil,        /* true */
-			nil,        /* false */
-			nil,        /* int_lit */
-			nil,        /* < */
-			nil,        /* > */
-			nil,        /* string_lit */
-			nil,        /* in */
-
-		},
-	},
-	actionRow{ // S37
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        /* INVALID */
-			reduce(11), /* $, reduce: CompareExpr */
-			reduce(11), /* &, reduce: CompareExpr */
-			reduce(11), /* |, reduce: CompareExpr */
-			nil,        /* ( */
-			nil,        /* ) */
-			nil,        /* true */
-			nil,        /* false */
-			nil,        /* int_lit */
-			nil,        /* < */
-			nil,        /* > */
-			nil,        /* string_lit */
-			nil,        /* in */
-
-		},
-	},
-	actionRow{ // S38
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        /* INVALID */
-			reduce(12), /* $, reduce: SubStringExpr */
-			reduce(12), /* &, reduce: SubStringExpr */
-			reduce(12), /* |, reduce: SubStringExpr */
-			nil,        /* ( */
-			nil,        /* ) */
-			nil,        /* true */
-			nil,        /* false */
-			nil,        /* int_lit */
-			nil,        /* < */
-			nil,        /* > */
-			nil,        /* string_lit */
-			nil,        /* in */
-
-		},
-	},
-	actionRow{ // S39
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			shift(29), /* & */
-			shift(30), /* | */
-			nil,       /* ( */
-			nil,       /* ) */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S40
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(1), /* &, reduce: BoolExpr */
-			reduce(1), /* |, reduce: BoolExpr */
-			nil,       /* ( */
-			reduce(3), /* ), reduce: BoolExpr1 */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S41
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(1), /* &, reduce: BoolExpr */
-			reduce(1), /* |, reduce: BoolExpr */
 			nil,       /* ( */
 			reduce(4), /* ), reduce: BoolExpr1 */
-			nil,       /* true */
-			nil,       /* false */
-			nil,       /* int_lit */
 			nil,       /* < */
 			nil,       /* > */
-			nil,       /* string_lit */
-			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S42
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			nil,       /* $ */
-			reduce(5), /* &, reduce: BoolExpr1 */
-			reduce(5), /* |, reduce: BoolExpr1 */
-			nil,       /* ( */
-			reduce(5), /* ), reduce: BoolExpr1 */
-			nil,       /* true */
 			nil,       /* false */
-			nil,       /* int_lit */
-			nil,       /* < */
-			nil,       /* > */
-			nil,       /* string_lit */
 			nil,       /* in */
-
-		},
-	},
-	actionRow{ // S43
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        /* INVALID */
-			nil,        /* $ */
-			reduce(10), /* &, reduce: CompareExpr */
-			reduce(10), /* |, reduce: CompareExpr */
-			nil,        /* ( */
-			reduce(10), /* ), reduce: CompareExpr */
-			nil,        /* true */
-			nil,        /* false */
-			nil,        /* int_lit */
-			nil,        /* < */
-			nil,        /* > */
-			nil,        /* string_lit */
-			nil,        /* in */
-
-		},
-	},
-	actionRow{ // S44
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        /* INVALID */
-			nil,        /* $ */
-			reduce(11), /* &, reduce: CompareExpr */
-			reduce(11), /* |, reduce: CompareExpr */
-			nil,        /* ( */
-			reduce(11), /* ), reduce: CompareExpr */
-			nil,        /* true */
-			nil,        /* false */
-			nil,        /* int_lit */
-			nil,        /* < */
-			nil,        /* > */
-			nil,        /* string_lit */
-			nil,        /* in */
-
-		},
-	},
-	actionRow{ // S45
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        /* INVALID */
-			nil,        /* $ */
-			reduce(12), /* &, reduce: SubStringExpr */
-			reduce(12), /* |, reduce: SubStringExpr */
-			nil,        /* ( */
-			reduce(12), /* ), reduce: SubStringExpr */
-			nil,        /* true */
-			nil,        /* false */
-			nil,        /* int_lit */
-			nil,        /* < */
-			nil,        /* > */
-			nil,        /* string_lit */
-			nil,        /* in */
+			nil,       /* int_lit */
+			nil,       /* string_lit */
+			nil,       /* true */
+			reduce(1), /* |, reduce: BoolExpr */
 
 		},
 	},
