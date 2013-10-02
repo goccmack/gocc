@@ -23,9 +23,13 @@ string_lit : '"' {.} '"' ;
 <<import ( "code.google.com/p/gocc/example/bools/ast" )>>
 
 BoolExpr
+	:	BoolExpr1													<< $0, nil >>
+	;
+	
+BoolExpr1
 	:	Val															<< $0, nil >>
-	|	BoolExpr "&" BoolExpr										<< ast.NewBoolAndExpr($0, $2) >>
-	|	BoolExpr "|" BoolExpr										<< ast.NewBoolOrExpr($0, $2) >>
+	|	BoolExpr "&" BoolExpr1										<< ast.NewBoolAndExpr($0, $2) >>
+	|	BoolExpr "|" BoolExpr1										<< ast.NewBoolOrExpr($0, $2) >>
 	|	"(" BoolExpr ")"											<< ast.NewBoolGroupExpr($1) >>
 	;
 

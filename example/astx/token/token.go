@@ -33,8 +33,8 @@ type TokenMap struct {
 }
 
 func (this TokenMap) Id(tok Type) string {
-	if int(tok) < len(this.typeMap)-1 {
-		return this.typeMap[tok+1]
+	if int(tok) < len(this.typeMap) {
+		return this.typeMap[tok]
 	}
 	return "unknown"
 }
@@ -59,14 +59,12 @@ var TokMap = TokenMap{
 	typeMap: []string{
 		"INVALID",
 		"$",
-		"error",
 		"id",
 	},
 
 	idMap: map[string]Type{
 		"INVALID": 0,
 		"$":       1,
-		"error":   2,
-		"id":      3,
+		"id":      2,
 	},
 }

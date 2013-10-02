@@ -13,7 +13,7 @@ import (
 const (
 	NoState    = -1
 	NumStates  = 8
-	NumSymbols = 7
+	NumSymbols = 11
 )
 
 type Lexer struct {
@@ -136,12 +136,16 @@ func (this *Lexer) Reset() {
 
 /*
 Lexer symbols:
-0: ' '
-1: '\t'
-2: '\n'
-3: '\r'
-4: '1'-'9'
-5: '0'-'9'
-6: .
+0: '+'
+1: '*'
+2: '('
+3: ')'
+4: ' '
+5: '\t'
+6: '\n'
+7: '\r'
+8: '1'-'9'
+9: '0'-'9'
+10: .
 
 */

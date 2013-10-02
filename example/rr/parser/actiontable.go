@@ -4,83 +4,76 @@ type (
 	actionTable [numStates]actionRow
 	actionRow   struct {
 		canRecover bool
-		actions    [numTerminals]action
+		actions    [numSymbols]action
 	}
 )
 
 var actionTab = actionTable{
 	actionRow{ // S0
 		canRecover: false,
-		actions: [numTerminals]action{
+		actions: [numSymbols]action{
 			nil,      /* INVALID */
 			nil,      /* $ */
-			nil,      /* error */
-			shift(1), /* a */
-			shift(2), /* c */
+			shift(4), /* a */
+			shift(5), /* c */
 
 		},
 	},
 	actionRow{ // S1
 		canRecover: false,
-		actions: [numTerminals]action{
-			nil,       /* INVALID */
-			reduce(3), /* $, reduce: B */
-			nil,       /* error */
-			reduce(4), /* a, reduce: A */
-			nil,       /* c */
+		actions: [numSymbols]action{
+			nil,          /* INVALID */
+			accept(true), /* $ */
+			nil,          /* a */
+			nil,          /* c */
 
 		},
 	},
 	actionRow{ // S2
 		canRecover: false,
-		actions: [numTerminals]action{
+		actions: [numSymbols]action{
 			nil,       /* INVALID */
-			reduce(6), /* $, reduce: A */
-			nil,       /* error */
-			reduce(6), /* a, reduce: A */
+			reduce(1), /* $, reduce: RR */
+			shift(6),  /* a */
 			nil,       /* c */
 
 		},
 	},
 	actionRow{ // S3
 		canRecover: false,
-		actions: [numTerminals]action{
-			nil,          /* INVALID */
-			accept(true), /* $ */
-			nil,          /* error */
-			nil,          /* a */
-			nil,          /* c */
+		actions: [numSymbols]action{
+			nil,       /* INVALID */
+			reduce(2), /* $, reduce: RR */
+			nil,       /* a */
+			nil,       /* c */
 
 		},
 	},
 	actionRow{ // S4
 		canRecover: false,
-		actions: [numTerminals]action{
+		actions: [numSymbols]action{
 			nil,       /* INVALID */
-			reduce(2), /* $, reduce: RR */
-			nil,       /* error */
-			nil,       /* a */
+			reduce(3), /* $, reduce: B */
+			reduce(4), /* a, reduce: A */
 			nil,       /* c */
 
 		},
 	},
 	actionRow{ // S5
 		canRecover: false,
-		actions: [numTerminals]action{
+		actions: [numSymbols]action{
 			nil,       /* INVALID */
-			reduce(1), /* $, reduce: RR */
-			nil,       /* error */
-			shift(6),  /* a */
+			reduce(6), /* $, reduce: A */
+			reduce(6), /* a, reduce: A */
 			nil,       /* c */
 
 		},
 	},
 	actionRow{ // S6
 		canRecover: false,
-		actions: [numTerminals]action{
+		actions: [numSymbols]action{
 			nil,       /* INVALID */
 			reduce(5), /* $, reduce: A */
-			nil,       /* error */
 			reduce(5), /* a, reduce: A */
 			nil,       /* c */
 
