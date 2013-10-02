@@ -17,30 +17,27 @@ package golang
 import (
 	"bytes"
 	"code.google.com/p/gocc/ast"
+	"code.google.com/p/gocc/config"
 	"code.google.com/p/gocc/io"
-	"code.google.com/p/gocc/parser/lr1/items"
+	"code.google.com/p/gocc/parser/lrk/states"
 	"code.google.com/p/gocc/parser/symbols"
-	"code.google.com/p/gocc/token"
 	"fmt"
 	"path"
 	"text/template"
 )
 
-func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap) {
-
-	fname := path.Join(outDir, "parser", "productionstable.go")
+func genProductionsTable(cfg config.Config, header string, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbols, states *states.States) {
+	fname := path.Join(cfg.OutDir(), "parser", "productionstable.go")
 	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc)
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, getProdsTab(header, prods, symbols, itemsets, tokMap))
+	tmpl.Execute(wr, getProdsTab(header, prods, symbols, states))
 	io.WriteFile(fname, wr.Bytes())
 }
 
-func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap) *prodsTabData {
+func getProdsTab(header string, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbols, states *states.States) *prodsTabData {
 
 	data := &prodsTabData{
 		Header:  header,
@@ -50,14 +47,14 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 		data.ProdTab[i].String = fmt.Sprintf("`%s`", prod.String())
 		data.ProdTab[i].Id = prod.Id
 		data.ProdTab[i].NTType = symbols.NTType(prod.Id)
-		if prod.Body.Symbols[0].SymbolString() == "empty" {
+		if prod.Terms[0].String() == "empty" {
 			data.ProdTab[i].NumSymbols = 0
 			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return nil, nil")
 		} else {
-			data.ProdTab[i].NumSymbols = len(prod.Body.Symbols)
+			data.ProdTab[i].NumSymbols = len(prod.Terms)
 			switch {
-			case prod.Body.SDT != "":
-				data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", prod.Body.SDT)
+			case prod.Action != "":
+				data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", prod.Action)
 			default:
 				data.ProdTab[i].ReduceFunc = fmt.Sprintf("return X[0], nil")
 			}

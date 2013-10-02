@@ -16,9 +16,8 @@ package items
 
 import (
 	"code.google.com/p/gocc/ast"
+	"code.google.com/p/gocc/frontend/lexer"
 	"code.google.com/p/gocc/frontend/parser"
-	"code.google.com/p/gocc/frontend/scanner"
-	"code.google.com/p/gocc/frontend/token"
 	"fmt"
 	"testing"
 )
@@ -54,9 +53,8 @@ func setContainItem(set *ItemSet, item string) bool {
 }
 
 func parse(src string, t *testing.T) *ast.Grammar {
-	scanner := new(scanner.Scanner)
-	scanner.Init([]byte(src), token.FRONTENDTokens)
-	parser := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.FRONTENDTokens)
+	scanner := lexer.NewLexer([]byte(src))
+	parser := parser.NewParser()
 	g, err := parser.Parse(scanner)
 	if err != nil {
 		t.Fatal(fmt.Sprintf("Parse error: %s\n", err))

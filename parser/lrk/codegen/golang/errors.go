@@ -15,19 +15,20 @@ package golang
 
 import (
 	"bytes"
+	"code.google.com/p/gocc/config"
 	"code.google.com/p/gocc/io"
 	"path"
 	"text/template"
 )
 
-func GenErrors(pkg, outDir string) {
+func genErrors(cfg config.Config) {
 	tmpl, err := template.New("parser errors").Parse(errorsSrc)
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, path.Join(pkg, "token"))
-	io.WriteFile(path.Join(outDir, "errors", "errors.go"), wr.Bytes())
+	tmpl.Execute(wr, path.Join(cfg.Package(), "token"))
+	io.WriteFile(path.Join(cfg.OutDir(), "errors", "errors.go"), wr.Bytes())
 }
 
 const errorsSrc = `

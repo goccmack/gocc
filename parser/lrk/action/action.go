@@ -12,7 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-package lrk
+package action
 
 import (
 	"code.google.com/p/gocc/parser/lrk/states"
@@ -21,13 +21,17 @@ import (
 )
 
 /*
+One entry for each state. Each entry is a map of symbol -> action
+*/
+type Actions []map[string]Action
+
+/*
 Returns:
-actions - One entry for each state. Each entry is a map of symbol -> action
 conflicts - for each state a list of conflict lists. Each conflict list contains a list of conflicts for each
 conflicted symbol in the state.
 */
-func Actions(states *states.States, symbols *symbols.Symbols) (actions []map[string]Action, conflicts [][]*Conflict) {
-	actions = make([](map[string]Action), len(states.List))
+func GetActions(states *states.States, symbols *symbols.Symbols) (actions Actions, conflicts [][]*Conflict) {
+	actions = make(Actions, len(states.List))
 	conflicts = make([][]*Conflict, len(states.List))
 	for si, state := range states.List {
 		actions[si] = make(map[string]Action)

@@ -19,7 +19,7 @@ import (
 	"path"
 )
 
-func GenAction(outDir string) {
+func genAction(outDir string) {
 	io.WriteFileString(path.Join(outDir, "parser", "action.go"), actionSrc)
 }
 

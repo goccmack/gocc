@@ -15,26 +15,23 @@
 /*
 This package controls the generation of all parser-related code.
 */
-package gen
+package golang
 
 import (
 	"code.google.com/p/gocc/ast"
 	"code.google.com/p/gocc/config"
-	"code.google.com/p/gocc/parser/gen/golang"
-	"code.google.com/p/gocc/parser/lr1/items"
+	"code.google.com/p/gocc/parser/lrk/action"
+	"code.google.com/p/gocc/parser/lrk/states"
 	"code.google.com/p/gocc/parser/symbols"
-	"code.google.com/p/gocc/token"
 )
 
-func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config) (conflicts map[int]items.RowConflicts) {
-
-	golang.GenAction(outDir)
-	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap)
-	golang.GenErrors(pkg, outDir)
-	golang.GenGotoTable(outDir, itemsets, symbols)
-	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg)
-	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap)
+func Gen(cfg config.Config, header string, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbols, states *states.States, actions action.Actions) {
+	genAction(cfg.OutDir())
+	genActionTable(cfg.OutDir(), prods, symbols, states, actions)
+	genErrors(cfg)
+	genGotoTable(cfg.OutDir(), symbols, states)
+	genParser(cfg, prods, symbols, states)
+	genProductionsTable(cfg, header, prods, symbols, states)
 
 	return
 }

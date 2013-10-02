@@ -26,10 +26,10 @@ import (
 	genparser "code.google.com/p/gocc/parser"
 	cfgsymbols "code.google.com/p/gocc/parser/symbols"
 	"code.google.com/p/gocc/semantic"
-	semerr "code.google.com/p/gocc/semantic/errors"
 	gentokmap "code.google.com/p/gocc/token"
 	gentoken "code.google.com/p/gocc/token/gen"
 	genutil "code.google.com/p/gocc/util/gen"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -66,22 +66,39 @@ func main() {
 		fmt.Printf("Parse error: %s\n", err)
 		os.Exit(1)
 	}
+	errs := []error{}
+
 	g := grammar.(*ast.Grammar)
-	basicSyntaxProds := astrw.BasicProds(g.SyntaxPart.ProdList)
-	cfgSymbols := cfgsymbols.NewSymbols(basicSyntaxProds)
+	var basicSyntaxProds []*ast.SyntaxBasicProd
+	if g.SyntaxPart != nil {
+		basicSyntaxProds = astrw.BasicProds(g.SyntaxPart.ProdList)
+	}
+
+	cfgSymbols, serr := cfgsymbols.NewSymbols(g.LexPart, basicSyntaxProds)
+	errs = append(errs, serr...)
+
 	g.LexPart.UpdateStringLitTokens(cfgSymbols.ListStringLitSymbols())
 	tokenMap := gentokmap.NewTokenMap(cfgSymbols.ListTerminals())
 
-	if errs := semantic.Check(g, basicSyntaxProds, cfgSymbols); errs != nil {
-		reportSemanticErrors(errs)
-	}
-
 	genlexer.Gen(cfg, g.LexPart, tokenMap)
-	genparser.Gen(cfg, basicSyntaxProds, cfgSymbols)
+
+	if g.SyntaxPart != nil {
+		if serrs := semantic.Check(g, basicSyntaxProds, cfgSymbols); serrs != nil {
+			for _, serr := range serrs {
+				errs = append(errs, errors.New(serr.String()))
+			}
+		}
+		errs = append(errs,
+			genparser.Gen(cfg, basicSyntaxProds, cfgSymbols, g.SyntaxPart.Header.Lit)...)
+	}
 
 	gentoken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
 	genutil.Gen(cfg.OutDir())
 
+	if errs != nil {
+		report(errs)
+		os.Exit(1)
+	}
 }
 
 func usage() {
@@ -91,21 +108,11 @@ func usage() {
 	os.Exit(1)
 }
 
-func errorMsg(msg string) {
-	fmt.Println("Error:", msg)
-	flag.Usage()
-}
-
-func error1(msg string, err error) {
-	fmt.Println(msg, err)
-	os.Exit(1)
-}
-
 func printTime(from time.Time, msg string) {
 	fmt.Printf("%s: elapsed time%s\n", msg, time.Since(from))
 }
 
-func reportSemanticErrors(errs []*semerr.Error) {
+func report(errs []error) {
 	for _, err := range errs {
 		fmt.Printf("Error: %s\n", err)
 	}

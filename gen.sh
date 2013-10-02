@@ -1,1 +1,1 @@
-gocc2 -v -o frontend gocc3.bnf
+gocc -v -o frontend gocc3.bnf

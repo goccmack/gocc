@@ -1,32 +1,90 @@
-package parser
+//Copyright 2012 Vastech SA (PTY) LTD
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
+package golang
 
 import (
 	"bytes"
-	parseError "code.google.com/p/gocc/test/t1/errors"
-	"code.google.com/p/gocc/test/t1/token"
-	"errors"
+	"code.google.com/p/gocc/ast"
+	"code.google.com/p/gocc/config"
+	"code.google.com/p/gocc/io"
+	"code.google.com/p/gocc/parser/lrk/states"
+	"code.google.com/p/gocc/parser/symbols"
+	"path"
+	"text/template"
+)
+
+func genParser(cfg config.Config, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbols, states *states.States) {
+	tmpl, err := template.New("parser").Parse(parserSrc)
+	if err != nil {
+		panic(err)
+	}
+	wr := new(bytes.Buffer)
+	tmpl.Execute(wr, getParserData(cfg, prods, symbols, states))
+	io.WriteFile(path.Join(cfg.OutDir(), "parser", "parser.go"), wr.Bytes())
+}
+
+type parserData struct {
+	Debug          bool
+	ErrorImport    string
+	TokenImport    string
+	NumProductions int
+	NumStates      int
+	NumTerminals   int
+}
+
+func getParserData(cfg config.Config, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbols, states *states.States) *parserData {
+	return &parserData{
+		Debug:          cfg.DebugParser(),
+		ErrorImport:    path.Join(cfg.Package(), "errors"),
+		TokenImport:    path.Join(cfg.Package(), "token"),
+		NumProductions: len(prods),
+		NumStates:      states.Size(),
+		NumTerminals:   len(symbols.ListTerminals()),
+	}
+}
+
+const parserSrc = `
+package parser
+
+import(
+	"bytes"
 	"fmt"
+	"errors"
+	parseError "{{.ErrorImport}}"
+	"{{.TokenImport}}"
 )
 
 const (
-	numProductions = 4
-	numStates      = 5
-	numSymbols     = 8
+	numProductions 		= {{.NumProductions}}
+	numStates      		= {{.NumStates}}
+	numTerminals   		= {{.NumTerminals}}
 )
 
 // Stack
 
 type stack struct {
-	state  []int
-	attrib []Attrib
+	state []int
+	attrib	[]Attrib
 }
 
 const iNITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
-	return &stack{state: make([]int, 0, iNITIAL_STACK_SIZE),
-		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
-	}
+	return &stack{ 	state: 	make([]int, 0, iNITIAL_STACK_SIZE),
+					attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+			}
 }
 
 func (this *stack) reset() {
@@ -39,8 +97,8 @@ func (this *stack) push(s int, a Attrib) {
 	this.attrib = append(this.attrib, a)
 }
 
-func (this *stack) top() int {
-	return this.state[len(this.state)-1]
+func(this *stack) top() int {
+	return this.state[len(this.state) - 1]
 }
 
 func (this *stack) peek(pos int) int {
@@ -52,13 +110,13 @@ func (this *stack) topIndex() int {
 }
 
 func (this *stack) popN(items int) []Attrib {
-	lo, hi := len(this.state)-items, len(this.state)
-
-	attrib := this.attrib[lo:hi]
-
+	lo, hi := len(this.state) - items, len(this.state)
+	
+	attrib := this.attrib[lo: hi]
+	
 	this.state = this.state[:lo]
 	this.attrib = this.attrib[:lo]
-
+	
 	return attrib
 }
 
@@ -186,8 +244,11 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				panic("Error recovery led to invalid action")
 			}
 		}
-
+		{{if .Debug}}
+		fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
+		{{else}}
 		// fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
+		{{end}}
 
 		switch act := action.(type) {
 		case accept:
@@ -210,3 +271,4 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 	}
 	return res, nil
 }
+`

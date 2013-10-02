@@ -17,29 +17,29 @@ package golang
 import (
 	"bytes"
 	"code.google.com/p/gocc/io"
-	"code.google.com/p/gocc/parser/lr1/items"
+	"code.google.com/p/gocc/parser/lrk/states"
 	"code.google.com/p/gocc/parser/symbols"
 	"path"
 	"text/template"
 )
 
-func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols) {
+func genGotoTable(outDir string, symbols *symbols.Symbols, states *states.States) {
 	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc)
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, getGotoTableData(itemSets, sym))
+	tmpl.Execute(wr, getGotoTableData(symbols, states))
 	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), wr.Bytes())
 }
 
-func getGotoTableData(itemSets *items.ItemSets, sym *symbols.Symbols) *gotoTableData {
+func getGotoTableData(symbols *symbols.Symbols, states *states.States) *gotoTableData {
 	data := &gotoTableData{
-		NumNTSymbols: sym.NumNTSymbols(),
-		Rows:         make([]string, itemSets.Size()),
+		NumNTSymbols: len(symbols.ListNonTerminals()),
+		Rows:         make([]string, len(states.List)),
 	}
-	for i, set := range itemSets.List() {
-		data.Rows[i] = genGotoRow(set, sym)
+	for i, state := range states.List {
+		data.Rows[i] = genGotoRow(symbols, state)
 	}
 	return data
 }

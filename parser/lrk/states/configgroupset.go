@@ -1,9 +1,23 @@
+//Copyright 2013 Vastech SA (PTY) LTD
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
 package states
 
 import (
 	"bytes"
-	"fmt"
 	lr0items "code.google.com/p/gocc/parser/lrk/items"
+	"fmt"
 	// "sort"
 )
 
@@ -143,7 +157,7 @@ func (this *ConfigGroupSet) CoreEqual(that *ConfigGroupSet) bool {
 	if len(this.list) != len(that.list) {
 		return false
 	}
-	for key, _ := range this.contain {
+	for key := range this.contain {
 		if _, exist := that.contain[key]; !exist {
 			return false
 		}

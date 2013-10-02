@@ -47,19 +47,19 @@ S0{
 	SyntaxProduction : •prodId : SyntaxExpression ; «prodId»
 }
 Transitions:
-	LexicalPart -> 2
-	LexProductions -> 4
-	LexProduction -> 5
-	tokId -> 6
-	regDefId -> 7
-	ignoredTokId -> 8
-	SyntaxProdList -> 10
-	SyntaxProduction -> 12
 	Grammar -> 1
 	SyntaxPart -> 3
+	LexProductions -> 4
+	LexProduction -> 5
+	regDefId -> 7
+	ignoredTokId -> 8
 	FileHeader -> 9
 	actionLit -> 11
+	SyntaxProduction -> 12
 	prodId -> 13
+	LexicalPart -> 2
+	tokId -> 6
+	SyntaxProdList -> 10
 
 
 S1{
@@ -331,13 +331,13 @@ S16{
 Transitions:
 	LexPattern -> 22
 	regDefId -> 23
-	{ -> 29
 	LexAlt -> 24
+	( -> 30
 	LexTerm -> 25
 	. -> 26
 	char_lit -> 27
 	[ -> 28
-	( -> 30
+	{ -> 29
 
 
 S17{
@@ -425,14 +425,14 @@ S17{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
-	LexPattern -> 31
 	LexAlt -> 24
-	LexTerm -> 25
-	[ -> 28
-	{ -> 29
-	regDefId -> 23
 	. -> 26
 	char_lit -> 27
+	[ -> 28
+	LexPattern -> 31
+	regDefId -> 23
+	LexTerm -> 25
+	{ -> 29
 	( -> 30
 
 
@@ -521,15 +521,15 @@ S18{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
-	LexAlt -> 24
-	. -> 26
-	char_lit -> 27
-	[ -> 28
-	{ -> 29
-	( -> 30
 	LexPattern -> 32
 	regDefId -> 23
+	LexAlt -> 24
 	LexTerm -> 25
+	. -> 26
+	[ -> 28
+	{ -> 29
+	char_lit -> 27
+	( -> 30
 
 
 S19{
@@ -646,13 +646,13 @@ Transitions:
 	( -> 36
 	prodId -> 37
 	SyntaxExpression -> 38
-	SyntaxBody -> 39
-	SyntaxTerms -> 40
+	error -> 41
+	SyntaxTerm -> 42
 	stringLit -> 43
 	tokId -> 33
 	[ -> 34
-	error -> 41
-	SyntaxTerm -> 42
+	SyntaxBody -> 39
+	SyntaxTerms -> 40
 
 
 S22{
@@ -898,13 +898,13 @@ S28{
 Transitions:
 	LexPattern -> 48
 	regDefId -> 49
-	LexTerm -> 51
-	[ -> 54
-	{ -> 55
 	LexAlt -> 50
-	. -> 52
+	LexTerm -> 51
 	char_lit -> 53
 	( -> 56
+	. -> 52
+	[ -> 54
+	{ -> 55
 
 
 S29{
@@ -994,14 +994,14 @@ S29{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
-	LexTerm -> 60
-	char_lit -> 62
-	( -> 65
-	LexPattern -> 57
 	regDefId -> 58
-	LexAlt -> 59
+	LexTerm -> 60
 	. -> 61
 	[ -> 63
+	( -> 65
+	LexPattern -> 57
+	LexAlt -> 59
+	char_lit -> 62
 	{ -> 64
 
 
@@ -1092,15 +1092,15 @@ S30{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
+	LexPattern -> 66
 	regDefId -> 67
 	LexAlt -> 68
-	char_lit -> 71
-	{ -> 73
-	LexPattern -> 66
-	LexTerm -> 69
-	. -> 70
 	[ -> 72
 	( -> 74
+	LexTerm -> 69
+	. -> 70
+	char_lit -> 71
+	{ -> 73
 
 
 S31{
@@ -1245,17 +1245,17 @@ S34{
 	SyntaxTerm : •{ SyntaxExpression } «|»
 }
 Transitions:
-	tokId -> 77
 	[ -> 78
-	prodId -> 81
 	SyntaxExpression -> 82
+	SyntaxBody -> 83
+	error -> 85
+	tokId -> 77
+	{ -> 79
+	( -> 80
+	prodId -> 81
 	SyntaxTerms -> 84
 	SyntaxTerm -> 86
 	stringLit -> 87
-	{ -> 79
-	( -> 80
-	SyntaxBody -> 83
-	error -> 85
 
 
 S35{
@@ -1357,16 +1357,16 @@ S35{
 }
 Transitions:
 	[ -> 89
-	SyntaxBody -> 94
-	SyntaxTerms -> 95
-	error -> 96
+	prodId -> 92
 	SyntaxTerm -> 97
-	stringLit -> 98
 	tokId -> 88
 	{ -> 90
 	( -> 91
-	prodId -> 92
 	SyntaxExpression -> 93
+	SyntaxBody -> 94
+	SyntaxTerms -> 95
+	error -> 96
+	stringLit -> 98
 
 
 S36{
@@ -1467,17 +1467,17 @@ S36{
 	SyntaxTerm : •{ SyntaxExpression } «|»
 }
 Transitions:
-	[ -> 100
-	( -> 102
-	SyntaxExpression -> 104
-	SyntaxBody -> 105
-	error -> 107
-	SyntaxTerm -> 108
-	stringLit -> 109
 	tokId -> 99
 	{ -> 101
+	( -> 102
+	error -> 107
+	[ -> 100
 	prodId -> 103
+	SyntaxExpression -> 104
+	SyntaxBody -> 105
 	SyntaxTerms -> 106
+	SyntaxTerm -> 108
+	stringLit -> 109
 
 
 S37{
@@ -2079,15 +2079,15 @@ S54{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
-	regDefId -> 49
-	LexAlt -> 50
-	[ -> 54
-	{ -> 55
-	( -> 56
-	LexPattern -> 121
 	LexTerm -> 51
 	. -> 52
+	[ -> 54
+	( -> 56
+	LexPattern -> 121
+	regDefId -> 49
+	LexAlt -> 50
 	char_lit -> 53
+	{ -> 55
 
 
 S55{
@@ -2178,13 +2178,13 @@ S55{
 }
 Transitions:
 	LexPattern -> 122
-	LexAlt -> 59
-	char_lit -> 62
-	{ -> 64
 	regDefId -> 58
+	[ -> 63
+	LexAlt -> 59
 	LexTerm -> 60
 	. -> 61
-	[ -> 63
+	char_lit -> 62
+	{ -> 64
 	( -> 65
 
 
@@ -2275,14 +2275,14 @@ S56{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
-	LexPattern -> 123
-	LexAlt -> 68
-	char_lit -> 71
-	{ -> 73
 	regDefId -> 67
 	LexTerm -> 69
+	LexPattern -> 123
+	LexAlt -> 68
 	. -> 70
+	char_lit -> 71
 	[ -> 72
+	{ -> 73
 	( -> 74
 
 
@@ -2529,15 +2529,15 @@ S63{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
-	LexAlt -> 50
-	{ -> 55
 	LexPattern -> 128
-	regDefId -> 49
-	LexTerm -> 51
-	. -> 52
 	char_lit -> 53
 	[ -> 54
 	( -> 56
+	regDefId -> 49
+	LexAlt -> 50
+	LexTerm -> 51
+	. -> 52
+	{ -> 55
 
 
 S64{
@@ -2628,14 +2628,14 @@ S64{
 }
 Transitions:
 	regDefId -> 58
+	( -> 65
+	LexPattern -> 129
 	LexAlt -> 59
 	LexTerm -> 60
 	. -> 61
 	char_lit -> 62
 	[ -> 63
-	LexPattern -> 129
 	{ -> 64
-	( -> 65
 
 
 S65{
@@ -2725,15 +2725,15 @@ S65{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
+	regDefId -> 67
+	char_lit -> 71
+	[ -> 72
+	( -> 74
 	LexPattern -> 130
 	LexAlt -> 68
 	LexTerm -> 69
-	char_lit -> 71
-	regDefId -> 67
 	. -> 70
-	[ -> 72
 	{ -> 73
-	( -> 74
 
 
 S66{
@@ -2979,15 +2979,15 @@ S72{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
-	LexAlt -> 50
-	. -> 52
-	{ -> 55
-	LexPattern -> 135
 	regDefId -> 49
+	LexAlt -> 50
 	LexTerm -> 51
+	. -> 52
 	char_lit -> 53
 	[ -> 54
+	{ -> 55
 	( -> 56
+	LexPattern -> 135
 
 
 S73{
@@ -3077,14 +3077,14 @@ S73{
 	LexTerm : •( LexPattern ) «|»
 }
 Transitions:
+	LexAlt -> 59
+	. -> 61
+	char_lit -> 62
+	[ -> 63
 	LexPattern -> 136
 	regDefId -> 58
-	char_lit -> 62
-	{ -> 64
-	LexAlt -> 59
 	LexTerm -> 60
-	. -> 61
-	[ -> 63
+	{ -> 64
 	( -> 65
 
 
@@ -3176,14 +3176,14 @@ S74{
 }
 Transitions:
 	LexPattern -> 137
-	LexTerm -> 69
+	LexAlt -> 68
 	char_lit -> 71
 	[ -> 72
+	{ -> 73
 	( -> 74
 	regDefId -> 67
-	LexAlt -> 68
+	LexTerm -> 69
 	. -> 70
-	{ -> 73
 
 
 S75{
@@ -3323,13 +3323,13 @@ Transitions:
 	tokId -> 77
 	[ -> 78
 	{ -> 79
-	( -> 80
-	SyntaxBody -> 83
-	SyntaxTerms -> 84
-	SyntaxTerm -> 86
-	prodId -> 81
 	SyntaxExpression -> 138
+	SyntaxTerms -> 84
+	( -> 80
+	prodId -> 81
+	SyntaxBody -> 83
 	error -> 85
+	SyntaxTerm -> 86
 	stringLit -> 87
 
 
@@ -3431,17 +3431,17 @@ S79{
 	SyntaxTerm : •{ SyntaxExpression } «|»
 }
 Transitions:
-	tokId -> 88
-	SyntaxExpression -> 139
-	SyntaxTerm -> 97
-	stringLit -> 98
 	[ -> 89
-	{ -> 90
-	( -> 91
 	prodId -> 92
-	SyntaxBody -> 94
 	SyntaxTerms -> 95
 	error -> 96
+	SyntaxTerm -> 97
+	tokId -> 88
+	{ -> 90
+	( -> 91
+	SyntaxExpression -> 139
+	SyntaxBody -> 94
+	stringLit -> 98
 
 
 S80{
@@ -3543,15 +3543,15 @@ S80{
 }
 Transitions:
 	{ -> 101
+	( -> 102
+	prodId -> 103
 	SyntaxExpression -> 140
-	SyntaxTerms -> 106
+	SyntaxBody -> 105
 	SyntaxTerm -> 108
 	stringLit -> 109
 	tokId -> 99
 	[ -> 100
-	( -> 102
-	prodId -> 103
-	SyntaxBody -> 105
+	SyntaxTerms -> 106
 	error -> 107
 
 
@@ -3907,14 +3907,14 @@ S89{
 Transitions:
 	tokId -> 77
 	[ -> 78
+	{ -> 79
 	( -> 80
+	SyntaxExpression -> 146
 	SyntaxBody -> 83
 	SyntaxTerms -> 84
 	error -> 85
-	{ -> 79
-	prodId -> 81
-	SyntaxExpression -> 146
 	SyntaxTerm -> 86
+	prodId -> 81
 	stringLit -> 87
 
 
@@ -4016,17 +4016,17 @@ S90{
 	SyntaxTerm : •{ SyntaxExpression } «|»
 }
 Transitions:
-	[ -> 89
-	prodId -> 92
-	SyntaxBody -> 94
-	error -> 96
-	SyntaxTerm -> 97
-	stringLit -> 98
 	tokId -> 88
+	[ -> 89
 	{ -> 90
 	( -> 91
 	SyntaxExpression -> 147
+	SyntaxBody -> 94
 	SyntaxTerms -> 95
+	SyntaxTerm -> 97
+	stringLit -> 98
+	prodId -> 92
+	error -> 96
 
 
 S91{
@@ -4127,16 +4127,16 @@ S91{
 	SyntaxTerm : •{ SyntaxExpression } «|»
 }
 Transitions:
-	tokId -> 99
 	[ -> 100
+	{ -> 101
 	( -> 102
 	prodId -> 103
-	SyntaxExpression -> 148
-	error -> 107
 	stringLit -> 109
-	{ -> 101
+	tokId -> 99
+	SyntaxExpression -> 148
 	SyntaxBody -> 105
 	SyntaxTerms -> 106
+	error -> 107
 	SyntaxTerm -> 108
 
 
@@ -4491,16 +4491,16 @@ S100{
 }
 Transitions:
 	tokId -> 77
-	[ -> 78
-	SyntaxBody -> 83
-	error -> 85
-	stringLit -> 87
 	{ -> 79
 	( -> 80
+	SyntaxBody -> 83
+	SyntaxTerms -> 84
+	error -> 85
+	SyntaxTerm -> 86
+	[ -> 78
 	prodId -> 81
 	SyntaxExpression -> 154
-	SyntaxTerms -> 84
-	SyntaxTerm -> 86
+	stringLit -> 87
 
 
 S101{
@@ -4601,16 +4601,16 @@ S101{
 	SyntaxTerm : •{ SyntaxExpression } «|»
 }
 Transitions:
-	tokId -> 88
 	[ -> 89
-	{ -> 90
 	( -> 91
-	SyntaxExpression -> 155
-	error -> 96
-	SyntaxTerm -> 97
 	prodId -> 92
 	SyntaxBody -> 94
 	SyntaxTerms -> 95
+	error -> 96
+	tokId -> 88
+	{ -> 90
+	SyntaxExpression -> 155
+	SyntaxTerm -> 97
 	stringLit -> 98
 
 
@@ -4713,16 +4713,16 @@ S102{
 }
 Transitions:
 	tokId -> 99
+	{ -> 101
 	( -> 102
 	prodId -> 103
+	SyntaxTerms -> 106
+	SyntaxTerm -> 108
+	stringLit -> 109
+	[ -> 100
+	SyntaxExpression -> 156
 	SyntaxBody -> 105
 	error -> 107
-	SyntaxTerm -> 108
-	[ -> 100
-	{ -> 101
-	SyntaxExpression -> 156
-	SyntaxTerms -> 106
-	stringLit -> 109
 
 
 S103{
@@ -5058,14 +5058,14 @@ S111{
 }
 Transitions:
 	tokId -> 33
+	[ -> 34
+	SyntaxBody -> 162
+	SyntaxTerms -> 40
+	SyntaxTerm -> 42
 	{ -> 35
 	( -> 36
 	prodId -> 37
-	SyntaxBody -> 162
 	error -> 41
-	[ -> 34
-	SyntaxTerms -> 40
-	SyntaxTerm -> 42
 	stringLit -> 43
 
 
@@ -5938,13 +5938,13 @@ S141{
 Transitions:
 	tokId -> 77
 	[ -> 78
-	SyntaxTerm -> 86
+	error -> 85
 	{ -> 79
 	( -> 80
 	prodId -> 81
 	SyntaxBody -> 182
 	SyntaxTerms -> 84
-	error -> 85
+	SyntaxTerm -> 86
 	stringLit -> 87
 
 
@@ -6205,15 +6205,15 @@ S149{
 }
 Transitions:
 	tokId -> 88
+	[ -> 89
 	{ -> 90
 	SyntaxBody -> 187
 	SyntaxTerms -> 95
+	( -> 91
+	prodId -> 92
 	error -> 96
 	SyntaxTerm -> 97
 	stringLit -> 98
-	[ -> 89
-	( -> 91
-	prodId -> 92
 
 
 S150{
@@ -6475,12 +6475,12 @@ Transitions:
 	[ -> 100
 	( -> 102
 	prodId -> 103
+	SyntaxBody -> 192
 	SyntaxTerms -> 106
 	error -> 107
 	SyntaxTerm -> 108
 	tokId -> 99
 	{ -> 101
-	SyntaxBody -> 192
 	stringLit -> 109
 
 

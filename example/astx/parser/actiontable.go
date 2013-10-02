@@ -4,52 +4,57 @@ type (
 	actionTable [numStates]actionRow
 	actionRow   struct {
 		canRecover bool
-		actions    [numSymbols]action
+		actions    [numTerminals]action
 	}
 )
 
 var actionTab = actionTable{
 	actionRow{ // S0
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,      /* INVALID */
 			nil,      /* $ */
-			shift(3), /* id */
+			nil,      /* error */
+			shift(1), /* id */
 
 		},
 	},
 	actionRow{ // S1
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,          /* INVALID */
-			accept(true), /* $ */
-			shift(3),     /* id */
+		actions: [numTerminals]action{
+			nil,       /* INVALID */
+			reduce(3), /* $, reduce: Stmt */
+			nil,       /* error */
+			reduce(3), /* id, reduce: Stmt */
 
 		},
 	},
 	actionRow{ // S2
 		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       /* INVALID */
-			reduce(1), /* $, reduce: StmtList */
-			reduce(1), /* id, reduce: StmtList */
+		actions: [numTerminals]action{
+			nil,          /* INVALID */
+			accept(true), /* $ */
+			nil,          /* error */
+			shift(1),     /* id */
 
 		},
 	},
 	actionRow{ // S3
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(3), /* $, reduce: Stmt */
-			reduce(3), /* id, reduce: Stmt */
+			reduce(1), /* $, reduce: StmtList */
+			nil,       /* error */
+			reduce(1), /* id, reduce: StmtList */
 
 		},
 	},
 	actionRow{ // S4
 		canRecover: false,
-		actions: [numSymbols]action{
+		actions: [numTerminals]action{
 			nil,       /* INVALID */
 			reduce(2), /* $, reduce: StmtList */
+			nil,       /* error */
 			reduce(2), /* id, reduce: StmtList */
 
 		},

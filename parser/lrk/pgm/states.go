@@ -1,3 +1,17 @@
+//Copyright 2013 Vastech SA (PTY) LTD
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
 package pgm
 
 import (
@@ -6,7 +20,6 @@ import (
 	"code.google.com/p/gocc/parser/lrk/states"
 	"code.google.com/p/gocc/parser/lrk/symbolsuccessors"
 	"code.google.com/p/gocc/parser/symbols"
-	// "fmt"
 )
 
 func States(symbols *symbols.Symbols, lr0items *items.Items, first *first.First) *states.States {
@@ -38,7 +51,6 @@ func States(symbols *symbols.Symbols, lr0items *items.Items, first *first.First)
 				st_trans = append(st_trans, trans)
 				s.List = append(s.List, trans.State)
 				trans.State.Number = len(s.List) - 1
-				// fmt.Printf("New S%d\n", trans.State.Number)
 				symSuccessors[trans.Sym] = append(symSuccessors[trans.Sym], trans.State.Number)
 			}
 		}
@@ -61,6 +73,7 @@ func makeContext(from *states.ConfigGroupSet, to *states.ConfigGroupSet) *states
 func mergeStates(this *states.State, that *states.State) (newStates map[string][]*states.State) {
 	oldNucleus := this.Nucleus.Clone()
 	mergeCfgGrpSet(this.Nucleus, that.Nucleus)
+	this.NonNucleus = states.NewConfigGroupSet()
 	this.Closure()
 	cfgDiff := this.Nucleus.ContextDiff(oldNucleus)
 	cfgDiff.Add(this.NonNucleus.List()...)
@@ -75,6 +88,7 @@ func mergeContext(this *states.State, thatNucleus *states.ConfigGroupSet) {
 	for _, grp := range thatNucleus.List() {
 		this.Nucleus.GetGroup(grp).AddContext(grp.ContextSet.List...)
 	}
+	this.NonNucleus = states.NewConfigGroupSet()
 	this.Closure()
 }
 

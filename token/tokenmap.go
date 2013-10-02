@@ -21,13 +21,12 @@ type TokenMap struct {
 
 func NewTokenMap(symbols []string) *TokenMap {
 	tm := &TokenMap{
-		IdMap:   make(map[string]int),
-		TypeMap: make([]string, len(symbols)),
+		IdMap: make(map[string]int),
 	}
 
 	for i, sym := range symbols {
+		tm.TypeMap = append(tm.TypeMap, sym)
 		tm.IdMap[sym] = i
-		tm.TypeMap[i] = sym
 	}
 	return tm
 }

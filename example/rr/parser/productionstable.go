@@ -17,7 +17,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : RR	<<  >>`,
+		String:     `S' : RR ;`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -27,7 +27,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `RR : A	<<  >>`,
+		String:     `RR : A ;`,
 		Id:         "RR",
 		NTType:     1,
 		Index:      1,
@@ -37,7 +37,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `RR : B	<<  >>`,
+		String:     `RR : B ;`,
 		Id:         "RR",
 		NTType:     1,
 		Index:      2,
@@ -47,7 +47,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `B : a	<< "B ", nil >>`,
+		String:     `B : a << "B ", nil >> ;`,
 		Id:         "B",
 		NTType:     2,
 		Index:      3,
@@ -57,7 +57,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `A : a	<< "A0 ", nil >>`,
+		String:     `A : a << "A0 ", nil >> ;`,
 		Id:         "A",
 		NTType:     3,
 		Index:      4,
@@ -67,7 +67,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `A : A a	<< "A1 ", nil >>`,
+		String:     `A : A a << "A1 ", nil >> ;`,
 		Id:         "A",
 		NTType:     3,
 		Index:      5,
@@ -77,7 +77,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `A : c	<< "A2 ", nil >>`,
+		String:     `A : c << "A2 ", nil >> ;`,
 		Id:         "A",
 		NTType:     3,
 		Index:      6,

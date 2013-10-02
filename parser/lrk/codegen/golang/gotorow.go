@@ -16,18 +16,18 @@ package golang
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/parser/lr1/items"
+	"code.google.com/p/gocc/parser/lrk/states"
 	"code.google.com/p/gocc/parser/symbols"
 	"text/template"
 )
 
-func genGotoRow(itemSet *items.ItemSet, sym *symbols.Symbols) string {
+func genGotoRow(sym *symbols.Symbols, state *states.State) string {
 	tmpl, err := template.New("parser goto table row").Parse(gotoRowSrc)
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, getGotoRowData(itemSet, sym))
+	tmpl.Execute(wr, getGotoRowData(sym, state))
 	return wr.String()
 }
 
@@ -36,11 +36,15 @@ type gotoRowElement struct {
 	State int
 }
 
-func getGotoRowData(itemSet *items.ItemSet, sym *symbols.Symbols) []gotoRowElement {
-	row := make([]gotoRowElement, sym.NumNTSymbols())
-	for i, nt := range sym.NTList() {
+func getGotoRowData(sym *symbols.Symbols, state *states.State) []gotoRowElement {
+	row := make([]gotoRowElement, len(sym.ListNonTerminals()))
+	for i, nt := range sym.ListNonTerminals() {
 		row[i].NT = nt
-		row[i].State = itemSet.NextSetIndex(nt)
+		if nextState := state.Transitions.Transition(nt); nextState == nil {
+			row[i].State = -1
+		} else {
+			row[i].State = nextState.Number
+		}
 	}
 	return row
 }

@@ -1,3 +1,17 @@
+//Copyright 2013 Vastech SA (PTY) LTD
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
 package states
 
 import (
@@ -54,7 +68,7 @@ Returns set difference: this-that
 */
 func (this *ContextSet) Diff(that *ContextSet) *ContextSet {
 	diff := NewContextSet()
-	for sym, _ := range this.Contain {
+	for sym := range this.Contain {
 		if !that.Contain[sym] {
 			diff.Add(sym)
 		}
@@ -66,7 +80,7 @@ func (this *ContextSet) Equal(that *ContextSet) bool {
 	if len(this.List) != len(that.List) {
 		return false
 	}
-	for sym, _ := range this.Contain {
+	for sym := range this.Contain {
 		if !that.Contain[sym] {
 			return false
 		}
@@ -76,7 +90,7 @@ func (this *ContextSet) Equal(that *ContextSet) bool {
 
 func (this *ContextSet) Intersection(that *ContextSet) []string {
 	intersection := []string{}
-	for sym, _ := range this.Contain {
+	for sym := range this.Contain {
 		if that.Contain[sym] {
 			intersection = append(intersection, sym)
 		}

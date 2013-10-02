@@ -19,7 +19,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : Stmt	<<  >>`,
+		String:     `S' : Stmt ;`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -29,7 +29,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : "if" id "then" Stmt	<< ast.NewIf(X[1], X[3]), nil >>`,
+		String:     `Stmt : "if" id "then" Stmt << ast.NewIf(X[1], X[3]), nil >> ;`,
 		Id:         "Stmt",
 		NTType:     1,
 		Index:      1,
@@ -39,7 +39,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : "if" id "then" Stmt "else" Stmt	<< ast.NewIfElse(X[1], X[3], X[5]), nil >>`,
+		String:     `Stmt : "if" id "then" Stmt "else" Stmt << ast.NewIfElse(X[1], X[3], X[5]), nil >> ;`,
 		Id:         "Stmt",
 		NTType:     1,
 		Index:      2,
@@ -49,7 +49,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : id	<< ast.NewIdStmt(X[0]), nil >>`,
+		String:     `Stmt : id << ast.NewIdStmt(X[0]), nil >> ;`,
 		Id:         "Stmt",
 		NTType:     1,
 		Index:      3,

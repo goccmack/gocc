@@ -1,3 +1,17 @@
+//Copyright 2013 Vastech SA (PTY) LTD
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
 package ast
 
 import (
@@ -110,7 +124,7 @@ func (this *LexPart) TokDefsList() []*LexTokDef {
 
 func (this *LexPart) TokenIds() []string {
 	tids := make([]string, 0, len(this.TokDefs))
-	for tid, _ := range this.TokDefs {
+	for tid := range this.TokDefs {
 		tids = append(tids, tid)
 	}
 	return tids
@@ -146,7 +160,7 @@ func (this *LexPart) String() string {
 
 func (this *LexPart) makeLists() {
 	tokdefs := []string{}
-	for sym, _ := range this.TokDefs {
+	for sym := range this.TokDefs {
 		tokdefs = append(tokdefs, sym)
 	}
 	sort.Strings(tokdefs)
@@ -155,7 +169,7 @@ func (this *LexPart) makeLists() {
 	}
 
 	regDefs := []string{}
-	for sym, _ := range this.RegDefs {
+	for sym := range this.RegDefs {
 		regDefs = append(regDefs, sym)
 	}
 	sort.Strings(regDefs)
@@ -164,7 +178,7 @@ func (this *LexPart) makeLists() {
 	}
 
 	ignoredTokDefs := []string{}
-	for sym, _ := range this.IgnoredTokDefs {
+	for sym := range this.IgnoredTokDefs {
 		ignoredTokDefs = append(ignoredTokDefs, sym)
 	}
 	sort.Strings(ignoredTokDefs)

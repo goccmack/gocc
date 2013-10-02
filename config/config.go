@@ -1,3 +1,17 @@
+//Copyright 2013 Vastech SA (PTY) LTD
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
 package config
 
 import (
@@ -19,6 +33,7 @@ type Config interface {
 	OutDir() string
 
 	DebugLexer() bool
+	DebugParser() bool
 
 	ErrorsDir() string
 	ParserDir() string
@@ -39,6 +54,7 @@ type ConfigRecord struct {
 	allowUnreachable  *bool
 	autoResolveLRConf *bool
 	debugLexer        *bool
+	debugParser       *bool
 	knuth             *bool
 	profile           *bool
 	genScanner        *bool
@@ -96,6 +112,10 @@ func (this *ConfigRecord) DebugLexer() bool {
 	return *this.debugLexer
 }
 
+func (this *ConfigRecord) DebugParser() bool {
+	return *this.debugParser
+}
+
 func (this *ConfigRecord) GenScanner() bool {
 	return *this.genScanner
 }
@@ -144,6 +164,7 @@ func (this *ConfigRecord) ProjectName() string {
 func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("    generate an ABNF parser       = %t\n", *this.abnf)
 	fmt.Printf("    generate debug lexer          = %t\n", *this.debugLexer)
+	fmt.Printf("    generate debug parser         = %t\n", *this.debugParser)
 	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
 	fmt.Printf("    output directory              = %s\n", this.outDir)
 	fmt.Printf("    knuth                         = %t\n", *this.knuth)
@@ -163,6 +184,7 @@ func (this *ConfigRecord) getFlags() error {
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
 	this.debugLexer = flag.Bool("debug_lexer", false, "generate a debug lexer")
+	this.debugParser = flag.Bool("debug_parser", false, "generate a debug parser")
 	this.genScanner = flag.Bool("s", false, "generate a scanner")
 	this.knuth = flag.Bool("knuth", false, "generate a Knuth LR(1) machine")
 	this.help = flag.Bool("h", false, "help")
@@ -188,7 +210,6 @@ func (this *ConfigRecord) getFlags() error {
 }
 
 func getOutDir(outDirSpec, wd string) string {
-	fmt.Printf("config.getOutDir: %s, wd:%s\n", outDirSpec, wd)
 	if strings.HasPrefix(outDirSpec, wd) || strings.HasPrefix(outDirSpec, "/") {
 		return outDirSpec
 	}
