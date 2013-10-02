@@ -1,0 +1,2 @@
+test:
+	gocc mail.bnf

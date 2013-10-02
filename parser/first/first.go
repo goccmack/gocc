@@ -94,7 +94,6 @@ func (this *First) firstTerms(terms ast.SyntaxTerms) (first FirstSet) {
 			return
 		}
 	}
-	panic("Handle ℇ-productions?")
 	first, _ = first.Add("ℇ")
 	return
 }

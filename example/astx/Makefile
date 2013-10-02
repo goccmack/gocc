@@ -1,0 +1,2 @@
+test:
+	gocc ast.bnf

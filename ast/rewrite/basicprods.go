@@ -87,13 +87,13 @@ func repProds(repPid, repTid string) (prods []*ast.SyntaxBasicProd) {
 			Id:     repPid,
 			Error:  false,
 			Terms:  ast.SyntaxTerms{ast.SyntaxProdId(repTid)},
-			Action: "[]interface{}{$0}, nil",
+			Action: "[]interface{}{X[0]}, nil",
 		},
 		{
 			Id:     repPid,
 			Error:  false,
 			Terms:  ast.SyntaxTerms{ast.SyntaxProdId(repPid), ast.SyntaxProdId(repTid)},
-			Action: "append($0.([]interface{}), $1), nil",
+			Action: "append(X[0].([]interface{}), X[1]), nil",
 		},
 	}
 }

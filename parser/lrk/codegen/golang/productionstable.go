@@ -47,7 +47,7 @@ func getProdsTab(header string, prods []*ast.SyntaxBasicProd, symbols *symbols.S
 		data.ProdTab[i].String = fmt.Sprintf("`%s`", prod.String())
 		data.ProdTab[i].Id = prod.Id
 		data.ProdTab[i].NTType = symbols.NTType(prod.Id)
-		if prod.Terms[0].String() == "empty" {
+		if len(prod.Terms) == 0 {
 			data.ProdTab[i].NumSymbols = 0
 			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return nil, nil")
 		} else {

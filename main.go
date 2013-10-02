@@ -95,10 +95,11 @@ func main() {
 	gentoken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
 	genutil.Gen(cfg.OutDir())
 
-	if errs != nil {
+	if len(errs) > 0 {
 		report(errs)
 		os.Exit(1)
 	}
+	os.Exit(0)
 }
 
 func usage() {

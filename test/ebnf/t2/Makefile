@@ -1,0 +1,2 @@
+all:
+	gocc ex.bnf
