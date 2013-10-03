@@ -1,7 +1,4 @@
-
 package parser
-
-
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
@@ -10,84 +7,81 @@ type (
 		String     string
 		Id         string
 		NTType     int
-		Index int
+		Index      int
 		NumSymbols int
-		ReduceFunc func([]Attrib) (Attrib, error)
-	}
-	Attrib interface {
+		ReduceFunc func([]interface{}) (interface{}, error)
 	}
 )
 
-var productionsTable = ProdTab {
+var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : RR ;`,
-		Id: "S'",
-		NTType: 0,
-		Index: 0,
+		String:     `S' : RR ;`,
+		Id:         "S'",
+		NTType:     0,
+		Index:      0,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `RR : A ;`,
-		Id: "RR",
-		NTType: 1,
-		Index: 1,
+		String:     `RR : A ;`,
+		Id:         "RR",
+		NTType:     1,
+		Index:      1,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `RR : B ;`,
-		Id: "RR",
-		NTType: 1,
-		Index: 2,
+		String:     `RR : B ;`,
+		Id:         "RR",
+		NTType:     1,
+		Index:      2,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `B : a << "B ", nil >> ;`,
-		Id: "B",
-		NTType: 2,
-		Index: 3,
+		String:     `B : a << "B ", nil >> ;`,
+		Id:         "B",
+		NTType:     2,
+		Index:      3,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return "B ", nil
 		},
 	},
 	ProdTabEntry{
-		String: `A : a << "A0 ", nil >> ;`,
-		Id: "A",
-		NTType: 3,
-		Index: 4,
+		String:     `A : a << "A0 ", nil >> ;`,
+		Id:         "A",
+		NTType:     3,
+		Index:      4,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return "A0 ", nil
 		},
 	},
 	ProdTabEntry{
-		String: `A : A a << "A1 ", nil >> ;`,
-		Id: "A",
-		NTType: 3,
-		Index: 5,
+		String:     `A : A a << "A1 ", nil >> ;`,
+		Id:         "A",
+		NTType:     3,
+		Index:      5,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return "A1 ", nil
 		},
 	},
 	ProdTabEntry{
-		String: `A : c << "A2 ", nil >> ;`,
-		Id: "A",
-		NTType: 3,
-		Index: 6,
+		String:     `A : c << "A2 ", nil >> ;`,
+		Id:         "A",
+		NTType:     3,
+		Index:      6,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return "A2 ", nil
 		},
 	},
-	
 }

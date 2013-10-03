@@ -1,33 +1,32 @@
-
 package parser
 
-import(
+import (
 	"bytes"
-	"fmt"
-	"errors"
 	parseError "code.google.com/p/gocc/test/ebnf/t2/errors"
 	"code.google.com/p/gocc/test/ebnf/t2/token"
+	"errors"
+	"fmt"
 )
 
 const (
-	numProductions 		= 6
-	numStates      		= 6
-	numTerminals   		= 4
+	numProductions = 6
+	numStates      = 6
+	numTerminals   = 4
 )
 
 // Stack
 
 type stack struct {
-	state []int
-	attrib	[]Attrib
+	state  []int
+	attrib []interface{}
 }
 
 const iNITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
-	return &stack{ 	state: 	make([]int, 0, iNITIAL_STACK_SIZE),
-					attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
-			}
+	return &stack{state: make([]int, 0, iNITIAL_STACK_SIZE),
+		attrib: make([]interface{}, 0, iNITIAL_STACK_SIZE),
+	}
 }
 
 func (this *stack) reset() {
@@ -35,13 +34,13 @@ func (this *stack) reset() {
 	this.attrib = this.attrib[0:0]
 }
 
-func (this *stack) push(s int, a Attrib) {
+func (this *stack) push(s int, a interface{}) {
 	this.state = append(this.state, s)
 	this.attrib = append(this.attrib, a)
 }
 
-func(this *stack) top() int {
-	return this.state[len(this.state) - 1]
+func (this *stack) top() int {
+	return this.state[len(this.state)-1]
 }
 
 func (this *stack) peek(pos int) int {
@@ -52,14 +51,14 @@ func (this *stack) topIndex() int {
 	return len(this.state) - 1
 }
 
-func (this *stack) popN(items int) []Attrib {
-	lo, hi := len(this.state) - items, len(this.state)
-	
-	attrib := this.attrib[lo: hi]
-	
+func (this *stack) popN(items int) []interface{} {
+	lo, hi := len(this.state)-items, len(this.state)
+
+	attrib := this.attrib[lo:hi]
+
 	this.state = this.state[:lo]
 	this.attrib = this.attrib[:lo]
-	
+
 	return attrib
 }
 
@@ -187,9 +186,8 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				panic("Error recovery led to invalid action")
 			}
 		}
-		
+
 		// fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
-		
 
 		switch act := action.(type) {
 		case accept:

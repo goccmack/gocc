@@ -19,22 +19,32 @@ import (
 	"fmt"
 )
 
+type augId map[string]int
+
+func (this augId) Next(prodId string) int {
+	if num, exist := this[prodId]; exist {
+		this[prodId] = num + 1
+	} else {
+		this[prodId] = 1
+	}
+	return this[prodId]
+}
+
 func BasicProds(prods ast.SyntaxProdList) []*ast.SyntaxBasicProd {
 	bprods := make([]*ast.SyntaxBasicProd, 0, 256)
+	augIds := make(augId)
 	for _, prod := range prods {
 		for _, body := range prod.SyntaxExpression {
-			bprods = append(bprods, rewriteSyntaxProd(string(prod.Id.Lit), body)...)
+			bprods = append(bprods, rewriteSyntaxProd(string(prod.Id.Lit), augIds, body)...)
 		}
 	}
 	return bprods
 }
 
-func rewriteSyntaxProd(prodId string, expr ...*ast.SyntaxBody) (basicProds []*ast.SyntaxBasicProd) {
+func rewriteSyntaxProd(prodId string, idx augId, expr ...*ast.SyntaxBody) (basicProds []*ast.SyntaxBasicProd) {
 	basicProds = make([]*ast.SyntaxBasicProd, 0, 8)
-	nameIndex := 1
 	for _, body := range expr {
-		bprods, newIndex := rewriteSyntaxProdBody(string(prodId), nameIndex, body)
-		basicProds, nameIndex = append(basicProds, bprods...), newIndex
+		basicProds = append(basicProds, rewriteSyntaxProdBody(string(prodId), idx, body)...)
 	}
 	return
 }
@@ -42,7 +52,7 @@ func rewriteSyntaxProd(prodId string, expr ...*ast.SyntaxBody) (basicProds []*as
 /*
 Return the basic productions for (prodId, body) and the next name index for prodId
 */
-func rewriteSyntaxProdBody(prodId string, idx int, body *ast.SyntaxBody) ([]*ast.SyntaxBasicProd, int) {
+func rewriteSyntaxProdBody(prodId string, idx augId, body *ast.SyntaxBody) []*ast.SyntaxBasicProd {
 	basicProds := make([]*ast.SyntaxBasicProd, 0, 8)
 	prod := &ast.SyntaxBasicProd{
 		Id:     prodId,
@@ -56,21 +66,20 @@ func rewriteSyntaxProdBody(prodId string, idx int, body *ast.SyntaxBody) ([]*ast
 			prod.Terms = append(prod.Terms, term)
 		} else {
 			newProdId := augmentedProdId(prodId, idx)
-			idx++
 			prod.Terms = append(prod.Terms, ast.SyntaxProdId(newProdId))
 
 			switch t := term.(type) {
 			case ast.SyntaxGroupExpression:
-				basicProds = append(basicProds, rewriteSyntaxProd(newProdId, t...)...)
+				basicProds = append(basicProds, rewriteSyntaxProd(newProdId, idx, t...)...)
 			case ast.SyntaxOptionalExpression:
-				basicProds = append(basicProds, rewriteSyntaxProd(prodId, bodyWithoutTerm(body, ti))...)
-				basicProds = append(basicProds, rewriteSyntaxProd(newProdId, t...)...)
+				basicProds = append(basicProds, rewriteSyntaxProd(prodId, idx, bodyWithoutTerm(body, ti))...)
+				basicProds = append(basicProds, rewriteSyntaxProd(newProdId, idx, t...)...)
 			case ast.SyntaxRepeatedExpression:
-				basicProds = append(basicProds, rewriteSyntaxProd(prodId, bodyWithoutTerm(body, ti))...)
+				basicProds = append(basicProds, rewriteSyntaxProd(prodId, idx, bodyWithoutTerm(body, ti))...)
 				repTermId := repPid(newProdId)
 				basicProds = append(basicProds, repProds(newProdId, repTermId)...)
 				for _, t1 := range t {
-					prods := rewriteSyntaxProd(repTermId, t1)
+					prods := rewriteSyntaxProd(repTermId, idx, t1)
 					basicProds = append(basicProds, prods...)
 				}
 			default:
@@ -78,7 +87,7 @@ func rewriteSyntaxProdBody(prodId string, idx int, body *ast.SyntaxBody) ([]*ast
 			}
 		}
 	}
-	return basicProds, idx
+	return basicProds
 }
 
 func repProds(repPid, repTid string) (prods []*ast.SyntaxBasicProd) {
@@ -116,6 +125,6 @@ func bodyWithoutTerm(body *ast.SyntaxBody, term int) *ast.SyntaxBody {
 	}
 }
 
-func augmentedProdId(prodId string, index int) string {
-	return fmt.Sprintf("%s~%d", prodId, index)
+func augmentedProdId(prodId string, index augId) string {
+	return fmt.Sprintf("%s~%d", prodId, index.Next(prodId))
 }

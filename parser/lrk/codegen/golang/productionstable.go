@@ -91,9 +91,7 @@ type (
 		NTType     int
 		Index int
 		NumSymbols int
-		ReduceFunc func([]Attrib) (Attrib, error)
-	}
-	Attrib interface {
+		ReduceFunc func([]interface{}) (interface{}, error)
 	}
 )
 
@@ -104,7 +102,7 @@ var productionsTable = ProdTab {
 		NTType: {{$entry.NTType}},
 		Index: {{$i}},
 		NumSymbols: {{$entry.NumSymbols}},
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			{{$entry.ReduceFunc}}
 		},
 	},

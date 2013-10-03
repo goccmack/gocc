@@ -15,36 +15,74 @@
 package ast
 
 import (
+	"bytes"
+	"fmt"
 	"regexp"
 	"strings"
 )
 
 func ActionExpressionVal(lit []byte) string {
-	sdt := string(lit)
+	var res string
+	if match := matchIndividualParams(lit); len(match) > 0 {
+		res = individualParams(lit, match)
+	} else {
+		if match := matchVariadicParams(lit); len(match) > 0 {
+			res = variadicParams(lit, match)
+		} else {
+			res = string(lit)
+		}
+	}
+	return strings.TrimSpace(res[2 : len(res)-2])
+}
+
+func individualParams(lit []byte, match [][]int) string {
+	w := new(bytes.Buffer)
+	for i, loc := range match {
+		if loc[0] > 0 {
+			if i > 0 {
+				fmt.Fprintf(w, "%s", lit[match[i-1][1]:loc[0]])
+			} else {
+				fmt.Fprintf(w, "%s", lit[0:loc[0]])
+			}
+			fmt.Fprintf(w, "X[%s]", lit[loc[0]+1:loc[1]])
+		}
+	}
+	if match[len(match)-1][1] < len(lit) {
+		fmt.Fprintf(w, "%s", lit[match[len(match)-1][1]:])
+	}
+	return w.String()
+}
+
+func matchIndividualParams(lit []byte) [][]int {
 	rex, err := regexp.Compile("\\$[0-9]+")
 	if err != nil {
 		panic(err)
 	}
-	idx := rex.FindAllStringIndex(sdt, -1)
-	res := ""
-	if len(idx) <= 0 {
-		res = sdt
-	} else {
-		for i, loc := range idx {
-			if loc[0] > 0 {
-				if i > 0 {
-					res += sdt[idx[i-1][1]:loc[0]]
-				} else {
-					res += sdt[0:loc[0]]
-				}
+	return rex.FindAllIndex(lit, -1)
+}
+
+func matchVariadicParams(lit []byte) [][]int {
+	rex, err := regexp.Compile("\\$\\.\\.\\.")
+	if err != nil {
+		panic(err)
+	}
+	return rex.FindAllIndex(lit, -1)
+}
+
+func variadicParams(lit []byte, match [][]int) string {
+	w := new(bytes.Buffer)
+	for i, loc := range match {
+		if loc[0] > 0 {
+			if i > 0 {
+				fmt.Fprintf(w, "%s", lit[match[i-1][1]:loc[0]])
+			} else {
+				fmt.Fprintf(w, "%s", lit[0:loc[0]])
 			}
-			res += "X["
-			res += sdt[loc[0]+1 : loc[1]]
-			res += "]"
-		}
-		if idx[len(idx)-1][1] < len(sdt) {
-			res += sdt[idx[len(idx)-1][1]:]
+			fmt.Fprintf(w, "X...")
+			if match[len(match)-1][1] < len(lit) {
+				fmt.Fprintf(w, "%s", lit[match[len(match)-1][1]:])
+			}
 		}
 	}
-	return strings.TrimSpace(res[2 : len(res)-2])
+	return w.String()
 }

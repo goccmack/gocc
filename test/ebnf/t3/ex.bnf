@@ -1,0 +1,5 @@
+!ws : ' ' ;
+
+<< import "code.google.com/p/gocc/test/ebnf/t3/ast" >>
+
+A : ["b"] {"a"} << ast.Test($...) >> ;
