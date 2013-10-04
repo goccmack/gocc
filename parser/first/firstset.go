@@ -44,6 +44,31 @@ func (this FirstSet) Contain(sym string) bool {
 	return false
 }
 
+func (this FirstSet) Equal(that FirstSet) bool {
+	if len(this) != len(that) {
+		return false
+	}
+	for _, sym := range this {
+		if !that.Contain(sym) {
+			return false
+		}
+	}
+	return true
+}
+
+/*
+Return this - {sym}
+*/
+func (this FirstSet) Min(sym string) FirstSet {
+	min := make(FirstSet, 0, len(this))
+	for _, s := range this {
+		if s != sym {
+			min = append(min, s)
+		}
+	}
+	return min
+}
+
 func (this FirstSet) Size() int {
 	return len(this)
 }

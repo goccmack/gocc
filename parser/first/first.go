@@ -98,12 +98,21 @@ func (this *First) firstTerms(terms ast.SyntaxTerms) (first FirstSet) {
 	return
 }
 
-func (this *First) FirstString(s []string, context ...string) FirstSet {
-	// If the AST is changed to allow e-productions this must iterate over the string and context
+func (this *First) FirstString(s []string, context ...string) (fs FirstSet) {
 	if len(s) == 0 {
-		return append(FirstSet{}, context...)
+		fs, _ = fs.Add(context...)
+		return
 	}
-	return this.symbol[s[0]]
+	frst := make(FirstSet, 0, 4)
+	deriveEmpty := true
+	for i := 0; deriveEmpty && i < len(s); deriveEmpty, i = frst.Contain("ℇ"), i+1 {
+		frst = this.FirstSymbol(s[i])
+		fs, _ = fs.Add(frst.Min("ℇ")...)
+	}
+	if deriveEmpty {
+		fs, _ = fs.Add(context...)
+	}
+	return
 }
 
 func (this *First) String() string {
