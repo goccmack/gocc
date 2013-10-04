@@ -29,7 +29,6 @@ import (
 	gentokmap "code.google.com/p/gocc/token"
 	gentoken "code.google.com/p/gocc/token/gen"
 	genutil "code.google.com/p/gocc/util/gen"
-	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -84,9 +83,7 @@ func main() {
 
 	if g.SyntaxPart != nil {
 		if serrs := semantic.Check(g, basicSyntaxProds, cfgSymbols); serrs != nil {
-			for _, serr := range serrs {
-				errs = append(errs, errors.New(serr.String()))
-			}
+			errs = append(errs, serrs...)
 		}
 		errs = append(errs,
 			genparser.Gen(cfg, basicSyntaxProds, cfgSymbols, g.SyntaxPart.Header.Lit)...)

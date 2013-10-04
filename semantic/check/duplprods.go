@@ -16,19 +16,17 @@ package check
 
 import (
 	"code.google.com/p/gocc/ast"
-	"code.google.com/p/gocc/semantic/errors"
+	"errors"
 	"fmt"
 )
 
-func DuplicateProductions(g *ast.Grammar) (errs []*errors.Error) {
+func DuplicateProductions(g *ast.Grammar) (errs []error) {
 	ntMap := make(map[string]int)
 	for _, prod := range g.SyntaxPart.ProdList {
 		pid := string(prod.Id.Lit)
 		if count, dup := ntMap[pid]; dup {
-			errs = append(errs, &errors.Error{
-				Msg:    fmt.Sprintf("Duplicate production Id: %s", pid),
-				Offset: prod.Id.Pos.Offset,
-			})
+			errs = append(errs,
+				errors.New(fmt.Sprintf("Duplicate production Id: %s at offset %d", pid, prod.Id.Pos.Offset)))
 			ntMap[pid] = count + 1
 		} else {
 			ntMap[pid] = 1
