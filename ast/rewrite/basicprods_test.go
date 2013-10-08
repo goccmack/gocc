@@ -60,56 +60,57 @@ var testData = []*testDataStruct{
 		src: `A : "a" ["b" << b >> | "c" << c >> ] "d" << d >> ;`,
 		expected: []string{
 			`S' : A ;`,
-			`A : "a" A~1 "d" << d >> ;`,
 			`A : "a" "d" << d >> ;`,
+			`A : "a" A~1 "d" << d >> ;`,
 			`A~1 : "b" << b >> ;`,
 			`A~1 : "c" << c >> ;`,
 		},
 	},
 
-	{
-		src: `A : "a" {"b" << b >> | "c" << c >> } "d" << d >> ;`,
-		expected: []string{
-			`S' : A ;`,
-			`A : "a" A~1 "d" << d >> ;`,
-			`A : "a" "d" << d >> ;`,
-			`A~1 : A~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
-			`A~1 : A~1 A~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
-			`A~1_RepTerm : "b" << b >> ;`,
-			`A~1_RepTerm : "c" << c >> ;`,
-		},
-	},
+	//ToDo: delete
+	// {
+	// 	src: `A : "a" {"b" << b >> | "c" << c >> } "d" << d >> ;`,
+	// 	expected: []string{
+	// 		`S' : A ;`,
+	// 		`A : "a" A~1 "d" << d >> ;`,
+	// 		`A : "a" "d" << d >> ;`,
+	// 		`A~1 : A~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
+	// 		`A~1 : A~1 A~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
+	// 		`A~1_RepTerm : "b" << b >> ;`,
+	// 		`A~1_RepTerm : "c" << c >> ;`,
+	// 	},
+	// },
 
-	{
-		src: `A : "a" {["b"] "b" << b >> | "c" <<c>>} "d" <<d>> ;`,
-		expected: []string{
-			`S' : A ;`,
-			`A : "a" A~1 "d" << d >> ;`,
-			`A : "a" "d" << d >> ;`,
-			`A~1 : A~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
-			`A~1 : A~1 A~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
-			`A~1_RepTerm : A~1_RepTerm~1 "b" << b >> ;`,
-			`A~1_RepTerm : "b" << b >> ;`,
-			`A~1_RepTerm~1 : "b" ;`,
-			`A~1_RepTerm : "c" << c >> ;`,
-		},
-	},
+	// {
+	// 	src: `A : "a" {["b"] "b" << b >> | "c" <<c>>} "d" <<d>> ;`,
+	// 	expected: []string{
+	// 		`S' : A ;`,
+	// 		`A : "a" A~1 "d" << d >> ;`,
+	// 		`A : "a" "d" << d >> ;`,
+	// 		`A~1 : A~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
+	// 		`A~1 : A~1 A~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
+	// 		`A~1_RepTerm : A~1_RepTerm~1 "b" << b >> ;`,
+	// 		`A~1_RepTerm : "b" << b >> ;`,
+	// 		`A~1_RepTerm~1 : "b" ;`,
+	// 		`A~1_RepTerm : "c" << c >> ;`,
+	// 	},
+	// },
 
-	{
-		src: `A : "a" {{"b" << b >> } "c" <<c>>} "d" <<d>> ;`,
-		expected: []string{
-			`S' : A ;`,
-			`A : "a" A~1 "d" << d >> ;`,
-			`A : "a" "d" << d >> ;`,
-			`A~1 : A~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
-			`A~1 : A~1 A~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
-			`A~1_RepTerm : A~1_RepTerm~1 "c" << c >> ;`,
-			`A~1_RepTerm : "c" << c >> ;`,
-			`A~1_RepTerm~1 : A~1_RepTerm~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
-			`A~1_RepTerm~1 : A~1_RepTerm~1 A~1_RepTerm~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
-			`A~1_RepTerm~1_RepTerm : "b" << b >> ;`,
-		},
-	},
+	// {
+	// 	src: `A : "a" {{"b" << b >> } "c" <<c>>} "d" <<d>> ;`,
+	// 	expected: []string{
+	// 		`S' : A ;`,
+	// 		`A : "a" "d" << d >> ;`,
+	// 		`A : "a" A~1 "d" << d >> ;`,
+	// 		`A~1 : A~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
+	// 		`A~1 : A~1 A~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
+	// 		`A~1_RepTerm : A~1_RepTerm~1 "c" << c >> ;`,
+	// 		`A~1_RepTerm : "c" << c >> ;`,
+	// 		`A~1_RepTerm~1 : A~1_RepTerm~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
+	// 		`A~1_RepTerm~1 : A~1_RepTerm~1 A~1_RepTerm~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
+	// 		`A~1_RepTerm~1_RepTerm : "b" << b >> ;`,
+	// 	},
+	// },
 }
 
 func Test1(t *testing.T) {
@@ -120,16 +121,16 @@ func Test1(t *testing.T) {
 			t.Fatalf("%s", err)
 		}
 		prods := BasicProds(g.(*ast.Grammar).SyntaxPart.ProdList)
-		fmt.Printf("Prods:\n")
-		for _, prod := range prods {
+		fmt.Printf("Prods (%d):\n", i)
+		for prod := prods.First(); prod != nil; prod = prod.Next {
 			fmt.Printf("\t%s\n", prod)
 		}
-		if len(prods) != len(data.expected) {
-			t.Errorf("%d: len(prods)=%d, expected %d", i, len(prods), len(data.expected))
+		if prods.Len() != len(data.expected) {
+			t.Errorf("%d: prods.Len()=%d, expected %d", i, prods.Len(), len(data.expected))
 		} else {
-			for i, prod := range prods {
-				if prod.String() != data.expected[i] {
-					t.Errorf("Prod[%d]=`%s`, expected `%s`", i, prod.String(), data.expected[i])
+			for j, prod := 0, prods.First(); prod != nil; j, prod = j+1, prod.Next {
+				if prod.String() != data.expected[j] {
+					t.Errorf("%d: Prod[%d]=`%s`, expected `%s`", i, j, prod.String(), data.expected[i])
 				}
 			}
 		}

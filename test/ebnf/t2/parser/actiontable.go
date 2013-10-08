@@ -13,7 +13,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(2), /* $, reduce: A */
+			reduce(1), /* $, reduce: A */
 			nil,       /* error */
 			shift(1),  /* a */
 
@@ -23,9 +23,9 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(5), /* $, reduce: A~1_RepTerm */
+			reduce(3), /* $, reduce: A~1 */
 			nil,       /* error */
-			reduce(5), /* a, reduce: A~1_RepTerm */
+			reduce(3), /* a, reduce: A~1 */
 
 		},
 	},
@@ -43,23 +43,13 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(1), /* $, reduce: A */
+			reduce(2), /* $, reduce: A */
 			nil,       /* error */
-			shift(1),  /* a */
+			shift(4),  /* a */
 
 		},
 	},
 	actionRow{ // S4
-		canRecover: false,
-		actions: [numTerminals]action{
-			nil,       /* INVALID */
-			reduce(3), /* $, reduce: A~1 */
-			nil,       /* error */
-			reduce(3), /* a, reduce: A~1 */
-
-		},
-	},
-	actionRow{ // S5
 		canRecover: false,
 		actions: [numTerminals]action{
 			nil,       /* INVALID */

@@ -25,6 +25,10 @@ func NewSyntaxOptionalExpression(expr interface{}) (SyntaxOptionalExpression, er
 	return SyntaxOptionalExpression(expr.(SyntaxExpression)), nil
 }
 
+func (SyntaxOptionalExpression) Equal(SyntaxTerm) bool {
+	panic("Should not be called")
+}
+
 func (this SyntaxOptionalExpression) ExpressionIsBasic() bool {
 	return SyntaxExpression(this).Basic()
 }
@@ -41,4 +45,8 @@ func (this SyntaxOptionalExpression) String() string {
 	}
 	fmt.Fprintf(w, "]")
 	return w.String()
+}
+
+func (this SyntaxOptionalExpression) DotString() string {
+	panic("should not be called")
 }

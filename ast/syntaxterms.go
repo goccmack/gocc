@@ -28,6 +28,52 @@ func AddSyntaxTerm(terms, term interface{}) (SyntaxTerms, error) {
 	return append(terms.(SyntaxTerms), term.(SyntaxTerm)), nil
 }
 
+func (this SyntaxTerms) CloneDeleteTerm(tidx int) SyntaxTerms {
+	clone := make(SyntaxTerms, len(this)-1)
+	copy(clone, this[0:tidx])
+	copy(clone[tidx:], this[tidx+1:])
+	return clone
+}
+
+func (this SyntaxTerms) CloneInsertTerm(tidx int, term SyntaxTerm) SyntaxTerms {
+	clone := make(SyntaxTerms, len(this)+1)
+	if tidx > 0 {
+		copy(clone, this[0:tidx])
+		copy(clone[tidx+1:], this[tidx:])
+	} else {
+		copy(clone[1:], this)
+	}
+	clone[tidx] = term
+	return clone
+}
+
+func (this SyntaxTerms) CloneReplace(tidx int, terms SyntaxTerms) SyntaxTerms {
+	clone := make(SyntaxTerms, len(this)-1+len(terms))
+	copy(clone, this[0:tidx])
+	copy(clone[tidx:], terms)
+	copy(clone[tidx+len(terms):], this[tidx+1:])
+	return clone
+}
+
+func (this SyntaxTerms) CloneReplaceTerm(tidx int, term SyntaxTerm) SyntaxTerms {
+	clone := make(SyntaxTerms, len(this))
+	copy(clone, this)
+	clone[tidx] = term
+	return clone
+}
+
+func (this SyntaxTerms) Equal(that SyntaxTerms) bool {
+	if len(this) != len(that) {
+		return false
+	}
+	for i, term := range this {
+		if !term.Equal(that[i]) {
+			return false
+		}
+	}
+	return true
+}
+
 func (this SyntaxTerms) String() string {
 	w := new(bytes.Buffer)
 	for i, term := range this {

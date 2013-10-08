@@ -18,6 +18,15 @@ type SyntaxEmpty int
 
 const EMPTY SyntaxEmpty = 0
 
+func (SyntaxEmpty) DotString() string {
+	return "empty"
+}
+
 func (SyntaxEmpty) String() string {
 	return "empty"
+}
+
+func (SyntaxEmpty) Equal(that SyntaxTerm) bool {
+	_, ok := that.(SyntaxEmpty)
+	return ok
 }

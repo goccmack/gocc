@@ -13,7 +13,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(2), /* $, reduce: A */
+			reduce(1), /* $, reduce: A */
 			nil,       /* error */
 			shift(1),  /* a */
 
@@ -43,7 +43,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numTerminals]action{
 			nil,       /* INVALID */
-			reduce(1), /* $, reduce: A */
+			reduce(2), /* $, reduce: A */
 			nil,       /* error */
 			nil,       /* a */
 

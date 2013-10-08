@@ -1,2 +1,2 @@
 all:
-	gocc -a ex.bnf
+	gocc ex.bnf

@@ -18,8 +18,11 @@ package ast
 All syntax symbols are types of string
 */
 type SyntaxTerm interface {
-	String() string
 	Basic() bool
+	Equal(SyntaxTerm) bool
+	IsTerminal() bool
+	String() string
+	DotString() string
 }
 
 func (SyntaxEmpty) Basic() bool              { return true }
@@ -31,3 +34,13 @@ func (SyntaxStringLit) Basic() bool          { return true }
 func (SyntaxOptionalExpression) Basic() bool { return false }
 func (SyntaxGroupExpression) Basic() bool    { return false }
 func (SyntaxRepeatedExpression) Basic() bool { return false }
+
+func (SyntaxEmpty) IsTerminal() bool              { return false }
+func (SyntaxEof) IsTerminal() bool                { return false }
+func (SyntaxError) IsTerminal() bool              { return true }
+func (SyntaxProdId) IsTerminal() bool             { return false }
+func (SyntaxTokId) IsTerminal() bool              { return true }
+func (SyntaxStringLit) IsTerminal() bool          { return true }
+func (SyntaxOptionalExpression) IsTerminal() bool { return false }
+func (SyntaxGroupExpression) IsTerminal() bool    { return false }
+func (SyntaxRepeatedExpression) IsTerminal() bool { return false }

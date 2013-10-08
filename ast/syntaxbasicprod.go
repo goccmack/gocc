@@ -20,10 +20,40 @@ import (
 )
 
 type SyntaxBasicProd struct {
-	Id     string
-	Error  bool
-	Terms  SyntaxTerms
-	Action string
+	Prev, Next *SyntaxBasicProd
+	Id         string
+	Error      bool
+	Terms      SyntaxTerms
+	Action     string
+}
+
+func NewSyntaxBasicProd(id string, body *SyntaxBody) *SyntaxBasicProd {
+	return &SyntaxBasicProd{
+		Id:     id,
+		Error:  body.Error,
+		Terms:  body.Terms,
+		Action: body.Action,
+	}
+}
+
+func (this *SyntaxBasicProd) Clone(newTerms SyntaxTerms) (clone *SyntaxBasicProd) {
+	clone = &SyntaxBasicProd{
+		Id:     this.Id,
+		Error:  this.Error,
+		Terms:  newTerms,
+		Action: this.Action,
+	}
+	return
+}
+
+func (this *SyntaxBasicProd) Equal(that *SyntaxBasicProd) bool {
+	if this == nil || that == nil {
+		return false
+	}
+	return this.Id == that.Id &&
+		this.Error == that.Error &&
+		this.Terms.Equal(that.Terms) &&
+		this.Action == that.Action
 }
 
 func (this *SyntaxBasicProd) String() string {
@@ -37,4 +67,19 @@ func (this *SyntaxBasicProd) String() string {
 	}
 	w.WriteString(";")
 	return w.String()
+}
+
+func (this *SyntaxBasicProd) DotString() string {
+	w := new(bytes.Buffer)
+	fmt.Fprintf(w, "%s : ", this.Id)
+	for _, term := range this.Terms {
+		fmt.Fprintf(w, "%s ", term.DotString())
+	}
+	return w.String()
+}
+
+func (this *SyntaxBasicProd) Equivalent(that *SyntaxBasicProd) bool {
+	return this.Error == that.Error &&
+		this.Terms.Equal(that.Terms) &&
+		this.Action == that.Action
 }

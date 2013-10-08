@@ -36,6 +36,18 @@ func (this SyntaxExpression) Basic() bool {
 	return this[0].Basic()
 }
 
+func (this SyntaxExpression) Equal(that SyntaxExpression) bool {
+	if len(this) != len(that) {
+		return false
+	}
+	for i := 0; i < len(this); i++ {
+		if !this[i].Equal(that[i]) {
+			return false
+		}
+	}
+	return true
+}
+
 func (this SyntaxExpression) String() string {
 	w := new(bytes.Buffer)
 	for i, body := range this {

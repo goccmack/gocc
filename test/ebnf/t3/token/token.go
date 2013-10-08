@@ -33,7 +33,7 @@ type TokenMap struct {
 }
 
 func (this TokenMap) Id(tok Type) string {
-	if int(tok) < len(this.typeMap)-1 {
+	if int(tok) < len(this.typeMap) {
 		return this.typeMap[tok]
 	}
 	return "unknown"

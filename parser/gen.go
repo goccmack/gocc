@@ -21,6 +21,6 @@ import (
 	"code.google.com/p/gocc/parser/symbols"
 )
 
-func Gen(cfg config.Config, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbols, header string) []error {
-	return lrk.Gen(cfg, prods, symbols, header)
+func Gen(cfg config.Config, prods *ast.SyntaxBasicProdsList, symbols *symbols.Symbols, header string) []error {
+	return lrk.Gen(cfg, prods.List(), symbols, header)
 }

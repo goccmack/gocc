@@ -28,7 +28,7 @@ func TestFirst1(t *testing.T) {
 			t.Logf("%s", err)
 		}
 	}
-	first := New(sym, basicProds)
+	first := New(sym, basicProds.List())
 	exp := FirstSet{"b", "x", "y"}
 	f := first.FirstString([]string{"B"}, "x", "y")
 	if !f.Equal(exp) {

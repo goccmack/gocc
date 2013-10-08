@@ -25,23 +25,23 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `A : A~1 ;`,
-		Id:         "A",
-		NTType:     1,
-		Index:      1,
-		NumSymbols: 1,
-		ReduceFunc: func(X []interface{}) (interface{}, error) {
-			return X[0], nil
-		},
-	},
-	ProdTabEntry{
 		String:     `A : ;`,
 		Id:         "A",
 		NTType:     1,
-		Index:      2,
+		Index:      1,
 		NumSymbols: 0,
 		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return nil, nil
+		},
+	},
+	ProdTabEntry{
+		String:     `A : A~1 ;`,
+		Id:         "A",
+		NTType:     1,
+		Index:      2,
+		NumSymbols: 1,
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
+			return X[0], nil
 		},
 	},
 	ProdTabEntry{

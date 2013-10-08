@@ -25,6 +25,14 @@ func NewSyntaxRepeatedExpression(expr interface{}) (SyntaxRepeatedExpression, er
 	return SyntaxRepeatedExpression(expr.(SyntaxExpression)), nil
 }
 
+func (this SyntaxRepeatedExpression) Equal(that SyntaxTerm) bool {
+	if thatExpr, ok := that.(SyntaxRepeatedExpression); ok {
+		return SyntaxExpression(this).Equal(SyntaxExpression(thatExpr))
+	} else {
+		return false
+	}
+}
+
 func (this SyntaxRepeatedExpression) ExpressionIsBasic() bool {
 	return SyntaxExpression(this).Basic()
 }
@@ -41,4 +49,8 @@ func (this SyntaxRepeatedExpression) String() string {
 	}
 	fmt.Fprintf(w, "}")
 	return w.String()
+}
+
+func (this SyntaxRepeatedExpression) DotString() string {
+	panic("should not be called")
 }

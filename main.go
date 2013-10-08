@@ -68,7 +68,7 @@ func main() {
 	errs := []error{}
 
 	g := grammar.(*ast.Grammar)
-	var basicSyntaxProds []*ast.SyntaxBasicProd
+	var basicSyntaxProds *ast.SyntaxBasicProdsList
 	if g.SyntaxPart != nil {
 		basicSyntaxProds = astrw.BasicProds(g.SyntaxPart.ProdList)
 	}

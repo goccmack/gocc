@@ -56,6 +56,7 @@ func Gen(cfg config.Config, prods []*ast.SyntaxBasicProd, symbols *symbols.Symbo
 		writeCFGSymbols(cfg, symbols)
 		io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), first.String())
 		io.WriteFile(path.Join(cfg.OutDir(), "LR1_states.txt"), statesString(states, actions, symbols))
+		io.WriteFileString(path.Join(cfg.OutDir(), "LR_states.dot"), statesDotString(states, actions, prods))
 	}
 	codegen.Gen(cfg, header, prods, symbols, states, actions)
 	return
@@ -98,6 +99,44 @@ func writeConflicts(cfg config.Config, conflicts [][]*action.Conflict) {
 	io.WriteFile(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), w.Bytes())
 }
 
+func reduceLabel(state *states.State, actions map[string]action.Action, prods []*ast.SyntaxBasicProd) string {
+	w := new(bytes.Buffer)
+	numRedux, accept := 0, false
+	for sym, a := range actions {
+		switch red := a.(type) {
+		case action.Accept:
+			accept = true
+		case action.Reduce:
+			if numRedux > 0 {
+				fmt.Fprintf(w, "\\n")
+			}
+			fmt.Fprintf(w, "%s {%s}", prods[red].DotString(), sym)
+			numRedux++
+		}
+	}
+	switch {
+	case numRedux > 0:
+		return fmt.Sprintf("S%d [shape=box,label=\"S%d\\n%s\"]\n", state.Number, state.Number, w.String())
+	case accept:
+		return fmt.Sprintf("S%d [shape=doublecircle]\n", state.Number)
+	default:
+		return ""
+	}
+}
+
+func statesDotString(states *states.States, actions action.Actions, prods []*ast.SyntaxBasicProd) string {
+	w := new(bytes.Buffer)
+	fmt.Fprintf(w, "digraph{\n")
+	for si, state := range states.List {
+		fmt.Fprintf(w, "%s", reduceLabel(state, actions[si], prods))
+		for _, t := range state.Transitions.List() {
+			fmt.Fprintf(w, "\tS%d ->S%d [label = \"%s\"]\n", state.Number, t.State.Number, t.Sym)
+		}
+	}
+	fmt.Fprintf(w, "}\n")
+	return w.String()
+}
+
 func statesString(states *states.States, actions action.Actions, symbols *symbols.Symbols) []byte {
 	w := new(bytes.Buffer)
 	for si, state := range states.List {
@@ -126,8 +165,8 @@ func removeOldFiles(cfg config.Config) {
 
 func writeBasicProductions(cfg config.Config, prods []*ast.SyntaxBasicProd) {
 	w := new(bytes.Buffer)
-	for _, prod := range prods {
-		fmt.Fprintf(w, "%s\n\n", prod)
+	for i, prod := range prods {
+		fmt.Fprintf(w, "%4d: %s\n\n", i, prod)
 	}
 	io.WriteFileString(path.Join(cfg.OutDir(), "basic_productions.txt"), w.String())
 }

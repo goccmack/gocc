@@ -25,6 +25,10 @@ func NewSyntaxGroupExpression(expr interface{}) (SyntaxGroupExpression, error) {
 	return SyntaxGroupExpression(expr.(SyntaxExpression)), nil
 }
 
+func (SyntaxGroupExpression) Equal(SyntaxTerm) bool {
+	panic("Should not be called")
+}
+
 func (this SyntaxGroupExpression) ExpressionIsBasic() bool {
 	return SyntaxExpression(this).Basic()
 }
@@ -41,4 +45,8 @@ func (this SyntaxGroupExpression) String() string {
 	}
 	fmt.Fprintf(w, ")")
 	return w.String()
+}
+
+func (this SyntaxGroupExpression) DotString() string {
+	panic("should not be called")
 }

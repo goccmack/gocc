@@ -25,27 +25,27 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `A : A~1 ;`,
-		Id:         "A",
-		NTType:     1,
-		Index:      1,
-		NumSymbols: 1,
-		ReduceFunc: func(X []interface{}) (interface{}, error) {
-			return X[0], nil
-		},
-	},
-	ProdTabEntry{
 		String:     `A : ;`,
 		Id:         "A",
 		NTType:     1,
-		Index:      2,
+		Index:      1,
 		NumSymbols: 0,
 		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return nil, nil
 		},
 	},
 	ProdTabEntry{
-		String:     `A~1 : A~1_RepTerm << []interface{}{X[0]}, nil >> ;`,
+		String:     `A : A~1 ;`,
+		Id:         "A",
+		NTType:     1,
+		Index:      2,
+		NumSymbols: 1,
+		ReduceFunc: func(X []interface{}) (interface{}, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String:     `A~1 : "a" << []interface{}{X[0]}, nil >> ;`,
 		Id:         "A~1",
 		NTType:     2,
 		Index:      3,
@@ -55,23 +55,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String:     `A~1 : A~1 A~1_RepTerm << append(X[0].([]interface{}), X[1]), nil >> ;`,
+		String:     `A~1 : A~1 "a" << append(X[0].([]interface{}), X[1]), nil >> ;`,
 		Id:         "A~1",
 		NTType:     2,
 		Index:      4,
 		NumSymbols: 2,
 		ReduceFunc: func(X []interface{}) (interface{}, error) {
 			return append(X[0].([]interface{}), X[1]), nil
-		},
-	},
-	ProdTabEntry{
-		String:     `A~1_RepTerm : "a" ;`,
-		Id:         "A~1_RepTerm",
-		NTType:     3,
-		Index:      5,
-		NumSymbols: 1,
-		ReduceFunc: func(X []interface{}) (interface{}, error) {
-			return X[0], nil
 		},
 	},
 }

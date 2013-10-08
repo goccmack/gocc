@@ -48,7 +48,7 @@ const (
 	NT_Type
 )
 
-func NewSymbols(lexpart *ast.LexPart, prods []*ast.SyntaxBasicProd) (symbols *Symbols, errs []error) {
+func NewSymbols(lexpart *ast.LexPart, prods *ast.SyntaxBasicProdsList) (symbols *Symbols, errs []error) {
 	declared_prods := make(map[string]bool)
 	symbols = &Symbols{
 		ntMap:        make(map[string]int),
@@ -57,12 +57,12 @@ func NewSymbols(lexpart *ast.LexPart, prods []*ast.SyntaxBasicProd) (symbols *Sy
 		prodMap:      make(map[string]int),
 		stringLitMap: make(map[string]ast.SyntaxStringLit),
 	}
-	if len(prods) > 0 {
-		symbols.StartSymbol = prods[0].Id
-		for _, prod := range prods {
+	if prods != nil && prods.Len() > 0 {
+		symbols.StartSymbol = prods.First().Id
+		for prod := prods.First(); prod != nil; prod = prod.Next {
 			declared_prods[prod.Id] = false
 		}
-		for _, prod := range prods {
+		for prod := prods.First(); prod != nil; prod = prod.Next {
 			if _, exist := symbols.prodMap[prod.Id]; !exist {
 				symbols.ntList = append(symbols.ntList, prod.Id)
 				symbols.ntMap[prod.Id] = len(symbols.ntList) - 1

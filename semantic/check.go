@@ -20,7 +20,7 @@ import (
 	"code.google.com/p/gocc/semantic/check"
 )
 
-func Check(g *ast.Grammar, basicProds []*ast.SyntaxBasicProd, s *symbols.Symbols) (errs []error) {
+func Check(g *ast.Grammar, basicProds *ast.SyntaxBasicProdsList, s *symbols.Symbols) (errs []error) {
 	errs = append(errs, check.DuplicateProductions(g)...)
 	return
 }

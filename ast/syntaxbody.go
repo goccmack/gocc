@@ -49,6 +49,15 @@ func NewErrorBody(terms, sdtLit interface{}) (*SyntaxBody, error) {
 	return body, nil
 }
 
+func (this SyntaxBody) Equal(that *SyntaxBody) bool {
+	if that == nil {
+		return false
+	}
+	return this.Error == that.Error &&
+		this.Action == that.Action &&
+		this.Terms.Equal(that.Terms)
+}
+
 func NewEmptyBody() (*SyntaxBody, error) {
 	return NewSyntaxBody(nil, nil)
 }
