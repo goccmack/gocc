@@ -1,0 +1,139 @@
+Item sets:
+S0{
+	token : _token1 | _token2 | • _token3
+	token : _token1 | • _token2 | _token3
+	token : • _token1 | _token2 | _token3
+	!ws : '\t' | '\n' | '\r' | • ' '
+	!ws : '\t' | '\n' | • '\r' | ' '
+	!ws : '\t' | • '\n' | '\r' | ' '
+	!ws : • '\t' | '\n' | '\r' | ' '
+	!comment : • ';' {.} '\n'
+	_token3 : • 't' 'o' 'k' 'e' 'n' '3'
+	_token2 : • 't' 'o' 'k' 'e' 'n' '2'
+	_token1 : • 't' 'o' 'k' 'e' 'n' '1'
+}
+Transitions:
+	['\t','\t'] -> S1
+	['\n','\n'] -> S1
+	['\r','\r'] -> S1
+	[' ',' '] -> S1
+	[';',';'] -> S2
+	['t','t'] -> S3
+Action: nil
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], [';',';'], ['t','t']}
+
+S1{
+	!ws : ('\t' | '\n' | '\r' | ' ') •
+}
+Transitions:
+Action: Ignore("!ws")
+Symbols classes: {}
+
+S2{
+	!comment : ';' {.} • '\n'
+	!comment : ';' {• .} '\n'
+}
+Transitions:
+	['\n','\n'] -> S4
+. -> S2
+Action: nil
+Symbols classes: {['\n','\n']}
+
+S3{
+	_token3 : 't' • 'o' 'k' 'e' 'n' '3'
+	_token2 : 't' • 'o' 'k' 'e' 'n' '2'
+	_token1 : 't' • 'o' 'k' 'e' 'n' '1'
+	token : _token1 | _token2 | • _token3
+	token : _token1 | • _token2 | _token3
+	token : • _token1 | _token2 | _token3
+}
+Transitions:
+	['o','o'] -> S5
+Action: nil
+Symbols classes: {['o','o']}
+
+S4{
+	!comment : ';' {.} '\n' •
+}
+Transitions:
+Action: Ignore("!comment")
+Symbols classes: {}
+
+S5{
+	_token3 : 't' 'o' • 'k' 'e' 'n' '3'
+	_token2 : 't' 'o' • 'k' 'e' 'n' '2'
+	_token1 : 't' 'o' • 'k' 'e' 'n' '1'
+	token : _token1 | _token2 | • _token3
+	token : _token1 | • _token2 | _token3
+	token : • _token1 | _token2 | _token3
+}
+Transitions:
+	['k','k'] -> S6
+Action: nil
+Symbols classes: {['k','k']}
+
+S6{
+	_token3 : 't' 'o' 'k' • 'e' 'n' '3'
+	_token2 : 't' 'o' 'k' • 'e' 'n' '2'
+	_token1 : 't' 'o' 'k' • 'e' 'n' '1'
+	token : _token1 | _token2 | • _token3
+	token : _token1 | • _token2 | _token3
+	token : • _token1 | _token2 | _token3
+}
+Transitions:
+	['e','e'] -> S7
+Action: nil
+Symbols classes: {['e','e']}
+
+S7{
+	_token3 : 't' 'o' 'k' 'e' • 'n' '3'
+	_token2 : 't' 'o' 'k' 'e' • 'n' '2'
+	_token1 : 't' 'o' 'k' 'e' • 'n' '1'
+	token : _token1 | _token2 | • _token3
+	token : _token1 | • _token2 | _token3
+	token : • _token1 | _token2 | _token3
+}
+Transitions:
+	['n','n'] -> S8
+Action: nil
+Symbols classes: {['n','n']}
+
+S8{
+	_token3 : 't' 'o' 'k' 'e' 'n' • '3'
+	_token2 : 't' 'o' 'k' 'e' 'n' • '2'
+	_token1 : 't' 'o' 'k' 'e' 'n' • '1'
+	token : _token1 | _token2 | • _token3
+	token : _token1 | • _token2 | _token3
+	token : • _token1 | _token2 | _token3
+}
+Transitions:
+	['1','1'] -> S9
+	['2','2'] -> S10
+	['3','3'] -> S11
+Action: nil
+Symbols classes: {['1','1'], ['2','2'], ['3','3']}
+
+S9{
+	_token1 : 't' 'o' 'k' 'e' 'n' '1' •
+	token : (_token1 | _token2 | _token3) •
+}
+Transitions:
+Action: Accept("token")
+Symbols classes: {}
+
+S10{
+	_token2 : 't' 'o' 'k' 'e' 'n' '2' •
+	token : (_token1 | _token2 | _token3) •
+}
+Transitions:
+Action: Accept("token")
+Symbols classes: {}
+
+S11{
+	_token3 : 't' 'o' 'k' 'e' 'n' '3' •
+	token : (_token1 | _token2 | _token3) •
+}
+Transitions:
+Action: Accept("token")
+Symbols classes: {}
+
