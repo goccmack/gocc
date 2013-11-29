@@ -1,12 +1,11 @@
-
 package lexer
 
-import(
-	"fmt"
+import (
 	"code.google.com/p/gocc/test/lexer/comment/token"
+	"fmt"
 )
 
-type ActionTable [NumStates] ActionRow
+type ActionTable [NumStates]ActionRow
 
 type ActionRow struct {
 	Accept token.Type
@@ -18,53 +17,52 @@ func (this ActionRow) String() string {
 }
 
 var ActTab = ActionTable{
- 	ActionRow{ // S0
+	ActionRow{ // S0
 		Accept: 0,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S1
+		Ignore: "",
+	},
+	ActionRow{ // S1
 		Accept: -1,
- 		Ignore: "!ws",
- 	},
- 	ActionRow{ // S2
+		Ignore: "!ws",
+	},
+	ActionRow{ // S2
 		Accept: 0,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S3
+		Ignore: "",
+	},
+	ActionRow{ // S3
 		Accept: 0,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S4
+		Ignore: "",
+	},
+	ActionRow{ // S4
 		Accept: -1,
- 		Ignore: "!comment",
- 	},
- 	ActionRow{ // S5
+		Ignore: "!comment",
+	},
+	ActionRow{ // S5
 		Accept: 0,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S6
+		Ignore: "",
+	},
+	ActionRow{ // S6
 		Accept: 0,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S7
+		Ignore: "",
+	},
+	ActionRow{ // S7
 		Accept: 0,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S8
+		Ignore: "",
+	},
+	ActionRow{ // S8
 		Accept: 0,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S9
+		Ignore: "",
+	},
+	ActionRow{ // S9
 		Accept: 3,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S10
+		Ignore: "",
+	},
+	ActionRow{ // S10
 		Accept: 3,
- 		Ignore: "",
- 	},
- 	ActionRow{ // S11
+		Ignore: "",
+	},
+	ActionRow{ // S11
 		Accept: 3,
- 		Ignore: "",
- 	},
- 		
+		Ignore: "",
+	},
 }
