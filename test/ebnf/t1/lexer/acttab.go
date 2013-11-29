@@ -1,11 +1,12 @@
+
 package lexer
 
-import (
-	"code.google.com/p/gocc/test/ebnf/t1/token"
+import(
 	"fmt"
+	"code.google.com/p/gocc/test/ebnf/t1/token"
 )
 
-type ActionTable [NumStates]ActionRow
+type ActionTable [NumStates] ActionRow
 
 type ActionRow struct {
 	Accept token.Type
@@ -17,12 +18,13 @@ func (this ActionRow) String() string {
 }
 
 var ActTab = ActionTable{
-	ActionRow{ // S0
+ 	ActionRow{ // S0
 		Accept: 0,
-		Ignore: "",
-	},
-	ActionRow{ // S1
+ 		Ignore: "",
+ 	},
+ 	ActionRow{ // S1
 		Accept: 3,
-		Ignore: "",
-	},
+ 		Ignore: "",
+ 	},
+ 		
 }

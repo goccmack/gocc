@@ -25,8 +25,13 @@ func NewSyntaxOptionalExpression(expr interface{}) (SyntaxOptionalExpression, er
 	return SyntaxOptionalExpression(expr.(SyntaxExpression)), nil
 }
 
-func (SyntaxOptionalExpression) Equal(SyntaxTerm) bool {
-	panic("Should not be called")
+func (this SyntaxOptionalExpression) Equal(that SyntaxTerm) bool {
+	if thatOpt, ok := that.(SyntaxOptionalExpression); ok {
+		return SyntaxExpression(this).Equal(SyntaxExpression(thatOpt))
+	} else {
+		return false
+	}
+	//Todo: delete: panic(fmt.Sprintf("Should not be called on this:%s that:%s", this.String(), that.String()))
 }
 
 func (this SyntaxOptionalExpression) ExpressionIsBasic() bool {

@@ -187,7 +187,7 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 			}
 		}
 
-		// fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
+		// fmt.Printf("S%d %s o%s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
 
 		switch act := action.(type) {
 		case accept:
