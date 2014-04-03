@@ -33,17 +33,6 @@ func NewLexIgnoredTokDef(tokId, lexPattern interface{}) (*LexIgnoredTokDef, erro
 	return tokDef, nil
 }
 
-// func (this *LexIgnoredTokDef) Equal(that Node) bool {
-// 	that1, ok := that.(*LexIgnoredTokDef)
-// 	if !ok {
-// 		return false
-// 	}
-// 	if this.id != that1.id {
-// 		return false
-// 	}
-// 	return this.pattern.Equal(that1.pattern)
-// }
-
 func (*LexIgnoredTokDef) RegDef() bool {
 	return false
 }

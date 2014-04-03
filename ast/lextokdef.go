@@ -46,22 +46,6 @@ func NewLexStringLitTokDef(tokId string) *LexTokDef {
 	}
 }
 
-// TODO:
-// func (this *LexTokDef) Equal(that Node) bool {
-// 	that1, ok := that.(*LexTokDef)
-// 	if !ok {
-// 		return false
-// 	}
-// 	if this.id != that1.id {
-// 		return false
-// 	}
-// 	return this.pattern.Equal(that1.pattern)
-// }
-
-// func (*LexTokDef) RegDef() bool {
-// 	return false
-// }
-
 func (*LexTokDef) RegDef() bool {
 	return false
 }

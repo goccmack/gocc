@@ -1,2 +1,0 @@
-test:
-	gocc ex.bnf

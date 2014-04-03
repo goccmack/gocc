@@ -1,1 +1,1 @@
-gocc -v -o frontend gocc3.bnf
+gocc -o frontend -p "code.google.com/p/gocc/frontend" spec/gocc2.ebnf

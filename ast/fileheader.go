@@ -20,15 +20,15 @@ import (
 )
 
 type FileHeader struct {
-	Lit string
-	str string
+	SDTLit string
+	str    string
 }
 
-func NewFileHeader(actExpr interface{}) (*FileHeader, error) {
+func NewFileHeader(sdtLit interface{}) (*FileHeader, error) {
 	sh := &FileHeader{
-		Lit: ActionExpressionVal(actExpr.(*token.Token).Lit),
+		SDTLit: sdtLit.(*token.Token).SDTVal(),
 	}
-	sh.str = fmt.Sprintf("<< %s >>", sh.Lit)
+	sh.str = fmt.Sprintf("<< %s >>", sh.SDTLit)
 	return sh, nil
 }
 

@@ -17,9 +17,6 @@ package ast
 type LexTerm interface {
 	LexNode
 
-	//TODO: remove from all LexTerm classes
-	// Equal(LexTerm) bool
-
 	lexTerm()
 }
 

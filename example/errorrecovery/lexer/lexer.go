@@ -41,10 +41,6 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 	return NewLexer(src), nil
 }
 
-func NewLexerString(src string) *Lexer {
-	return NewLexer([]byte(src))
-}
-
 func (this *Lexer) Scan() (tok *token.Token) {
 
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
@@ -146,9 +142,9 @@ Lexer symbols:
 3: '\t'
 4: '\n'
 5: '\r'
-6: '0'-'9'
-7: 'a'-'z'
-8: 'A'-'Z'
+6: 'a'-'z'
+7: 'A'-'Z'
+8: '0'-'9'
 9: .
 
 */

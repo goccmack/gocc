@@ -33,17 +33,6 @@ func NewLexRegDef(regDefId, lexPattern interface{}) (*LexRegDef, error) {
 	return regDef, nil
 }
 
-// func (this *LexRegDef) Equal(that Node) bool {
-// 	that1, ok := that.(LexRegDef)
-// 	if !ok {
-// 		return false
-// 	}
-// 	if this.id != that1.id {
-// 		return false
-// 	}
-// 	return this.pattern.Equal(that1.pattern)
-// }
-
 func (*LexRegDef) RegDef() bool {
 	return true
 }

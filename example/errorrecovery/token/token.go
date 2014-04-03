@@ -59,14 +59,14 @@ var TokMap = TokenMap{
 	typeMap: []string{
 		"INVALID",
 		"$",
-		"error",
 		"id",
+		"error",
 	},
 
 	idMap: map[string]Type{
 		"INVALID": 0,
 		"$":       1,
-		"error":   2,
-		"id":      3,
+		"id":      2,
+		"error":   3,
 	},
 }

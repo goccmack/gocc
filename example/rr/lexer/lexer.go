@@ -41,10 +41,6 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 	return NewLexer(src), nil
 }
 
-func NewLexerString(src string) *Lexer {
-	return NewLexer([]byte(src))
-}
-
 func (this *Lexer) Scan() (tok *token.Token) {
 
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)

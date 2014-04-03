@@ -67,8 +67,8 @@ func (this *ItemSet) Action() Action {
 	for _, item := range this.Items {
 		if !item.Prod.RegDef() && item.Reduce() {
 			if actionItem == nil ||
-				this.lexPart.StringLitTokDef(item.Id) ||
-				(!this.lexPart.StringLitTokDef(actionItem.Id) && item.ProdIndex < actionItem.ProdIndex) {
+				this.lexPart.StringLitTokDef(item.Id) != nil ||
+				(this.lexPart.StringLitTokDef(actionItem.Id) == nil && item.ProdIndex < actionItem.ProdIndex) {
 
 				actionItem = item
 			}

@@ -12,26 +12,34 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-//Gocc is a compiler kit for go written in go.
+//Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
 //Please see https://code.google.com/p/gocc/ for more documentation.
 package main
 
 import (
+	"bytes"
 	"code.google.com/p/gocc/ast"
-	astrw "code.google.com/p/gocc/ast/rewrite"
 	"code.google.com/p/gocc/config"
-	"code.google.com/p/gocc/frontend/lexer"
 	"code.google.com/p/gocc/frontend/parser"
-	genlexer "code.google.com/p/gocc/lexer"
-	genparser "code.google.com/p/gocc/parser"
-	cfgsymbols "code.google.com/p/gocc/parser/symbols"
-	"code.google.com/p/gocc/semantic"
-	gentokmap "code.google.com/p/gocc/token"
-	gentoken "code.google.com/p/gocc/token/gen"
-	genutil "code.google.com/p/gocc/util/gen"
+	"code.google.com/p/gocc/frontend/scanner"
+	"code.google.com/p/gocc/frontend/token"
+	"code.google.com/p/gocc/io"
+	genLexer "code.google.com/p/gocc/lexer/gen/golang"
+	lexItems "code.google.com/p/gocc/lexer/items"
+	"code.google.com/p/gocc/parser/first"
+	lr1Action "code.google.com/p/gocc/parser/lr1/action"
+	lr1Items "code.google.com/p/gocc/parser/lr1/items"
+	"code.google.com/p/gocc/parser/symbols"
+	outToken "code.google.com/p/gocc/token"
+	genToken "code.google.com/p/gocc/token/gen"
+	genUtil "code.google.com/p/gocc/util/gen"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path"
+	// "runtime/pprof"
+	genParser "code.google.com/p/gocc/parser/gen"
 	"time"
 )
 
@@ -53,65 +61,138 @@ func main() {
 		usage()
 	}
 
-	lex, err := lexer.NewLexerFile(cfg.SourceFile())
+	// if *profile {
+	// 	startProfiler()
+	// 	defer pprof.StopCPUProfile()
+	// }
+
+	scanner := &scanner.Scanner{}
+	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	parser := parser.NewParser()
-	grammar, err := parser.Parse(lex)
+	scanner.Init(srcBuffer, token.FRONTENDTokens)
+	parser := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.FRONTENDTokens)
+	grammar, err := parser.Parse(scanner)
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err)
 		os.Exit(1)
 	}
-	errs := []error{}
 
 	g := grammar.(*ast.Grammar)
-	var basicSyntaxProds *ast.SyntaxBasicProdsList
-	if g.SyntaxPart != nil {
-		basicSyntaxProds = astrw.BasicProds(g.SyntaxPart.ProdList)
+
+	gSymbols := symbols.NewSymbols(g)
+	if cfg.Verbose() {
+		writeTerminals(gSymbols, cfg)
 	}
 
-	cfgSymbols, serr := cfgsymbols.NewSymbols(g.LexPart, basicSyntaxProds)
-	errs = append(errs, serr...)
+	var tokenMap *outToken.TokenMap
 
-	g.LexPart.UpdateStringLitTokens(cfgSymbols.ListStringLitSymbols())
-	tokenMap := gentokmap.NewTokenMap(cfgSymbols.ListTerminals())
-
-	genlexer.Gen(cfg, g.LexPart, tokenMap)
+	gSymbols.Add(g.LexPart.TokenIds()...)
+	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
+	lexSets := lexItems.GetItemSets(g.LexPart)
+	if cfg.Verbose() {
+		io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
+	}
+	tokenMap = outToken.NewTokenMap(gSymbols.ListTerminals())
+	genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg)
 
 	if g.SyntaxPart != nil {
-		if serrs := semantic.Check(g, basicSyntaxProds, cfgSymbols); serrs != nil {
-			errs = append(errs, serrs...)
+		firstSets := first.GetFirstSets(g, gSymbols)
+		if cfg.Verbose() {
+			io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), firstSets.String())
 		}
-		errs = append(errs,
-			genparser.Gen(cfg, basicSyntaxProds, cfgSymbols, g.SyntaxPart.Header.Lit)...)
+
+		lr1Sets := lr1Items.GetItemSets(g, gSymbols, firstSets)
+		if cfg.Verbose() {
+			io.WriteFileString(path.Join(cfg.OutDir(), "LR1_sets.txt"), lr1Sets.String())
+		}
+
+		conflicts := genParser.Gen(cfg.Package(), cfg.OutDir(), g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg)
+		handleConflicts(conflicts, lr1Sets.Size(), cfg, g.SyntaxPart.ProdList)
 	}
 
-	gentoken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
-	genutil.Gen(cfg.OutDir())
+	genToken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
+	genUtil.Gen(cfg.OutDir())
 
-	if len(errs) > 0 {
-		report(errs)
-		os.Exit(1)
-	}
-	os.Exit(0)
 }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, "usage: gocc flags bnf_file\n")
-	fmt.Fprintf(os.Stderr, "   - bnf_file: contains the BNF grammar\n")
+	fmt.Fprintf(os.Stderr, "usage: gocc flags bnf_file\n\n")
+	fmt.Fprintf(os.Stderr, "  bnf_file: contains the BNF grammar\n\n")
+	fmt.Fprintf(os.Stderr, "Flags:\n")
 	flag.PrintDefaults()
 	os.Exit(1)
+}
+
+func errorMsg(msg string) {
+	fmt.Println("Error:", msg)
+	flag.Usage()
+}
+
+func error1(msg string, err error) {
+	fmt.Println(msg, err)
+	os.Exit(1)
+}
+
+func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config, prods ast.SyntaxProdList) {
+	if len(conflicts) <= 0 {
+		return
+	}
+	switch {
+	case !cfg.AutoResolveLRConf():
+		fmt.Printf("Error: %d LR-1 conflicts\n", len(conflicts))
+		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
+		os.Exit(1)
+	case cfg.Verbose():
+		fmt.Printf("%d LR-1 conflicts \n", len(conflicts))
+		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
+	}
+}
+
+func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int, prods ast.SyntaxProdList) string {
+	w := new(bytes.Buffer)
+	fmt.Fprintf(w, "%d LR-1 conflicts: \n", len(conflicts))
+	for i := 0; i < numSets; i++ {
+		if cnf, exist := conflicts[i]; exist {
+			fmt.Fprintf(w, "\tS%d\n", i)
+			for sym, conflicts := range cnf {
+				fmt.Fprintf(w, "\t\tsymbol: %s\n", sym)
+				for _, cflct := range conflicts {
+					switch c := cflct.(type) {
+					case lr1Action.Reduce:
+						fmt.Fprintf(w, "\t\t\tReduce(%d:%s)\n", c, prods[c])
+					case lr1Action.Shift:
+						fmt.Fprintf(w, "\t\t\t%s\n", cflct)
+					default:
+						panic(fmt.Sprintf("unexpected type of action: %s", cflct))
+					}
+				}
+			}
+		}
+	}
+	return w.String()
 }
 
 func printTime(from time.Time, msg string) {
 	fmt.Printf("%s: elapsed time%s\n", msg, time.Since(from))
 }
 
-func report(errs []error) {
-	for _, err := range errs {
-		fmt.Printf("Error: %s\n", err)
+func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
+	buf := new(bytes.Buffer)
+	for _, t := range gSymbols.ListTerminals() {
+		fmt.Fprintf(buf, "%s\n", t)
 	}
+	io.WriteFile(path.Join(cfg.OutDir(), "terminals.txt"), buf.Bytes())
 }
+
+// func startProfiler() {
+// 	f, err := os.Create("cpu.prof")
+// 	if err != nil {
+// 		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
+// 		os.Exit(1)
+// 	}
+// 	pprof.StartCPUProfile(f)
+// }

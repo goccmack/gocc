@@ -25,18 +25,10 @@ func NewSyntaxProdId(tok interface{}) (SyntaxProdId, error) {
 	return SyntaxProdId(string(tok.(*token.Token).Lit)), nil
 }
 
-func (this SyntaxProdId) Equal(that SyntaxTerm) bool {
-	if thatPId, ok := that.(SyntaxProdId); ok {
-		return this == thatPId
-	} else {
-		return false
-	}
-}
-
-func (this SyntaxProdId) String() string {
+func (this SyntaxProdId) SymbolString() string {
 	return string(this)
 }
 
-func (this SyntaxProdId) DotString() string {
+func (this SyntaxProdId) String() string {
 	return string(this)
 }

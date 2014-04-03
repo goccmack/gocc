@@ -13,19 +13,19 @@ var gotoTab = gotoTable{
 	gotoRow{ // S0
 
 		-1, // S'
-		3,  // Calc
-		4,  // Expr
-		5,  // Term
-		6,  // Factor
+		1,  // Calc
+		2,  // Expr
+		3,  // Term
+		4,  // Factor
 
 	},
 	gotoRow{ // S1
 
 		-1, // S'
 		-1, // Calc
-		7,  // Expr
-		5,  // Term
-		6,  // Factor
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
 
 	},
 	gotoRow{ // S2
@@ -59,9 +59,9 @@ var gotoTab = gotoTable{
 
 		-1, // S'
 		-1, // Calc
-		-1, // Expr
-		-1, // Term
-		-1, // Factor
+		9,  // Expr
+		10, // Term
+		11, // Factor
 
 	},
 	gotoRow{ // S6
@@ -78,8 +78,8 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Calc
 		-1, // Expr
-		-1, // Term
-		-1, // Factor
+		14, // Term
+		4,  // Factor
 
 	},
 	gotoRow{ // S8
@@ -87,8 +87,8 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Calc
 		-1, // Expr
-		11, // Term
-		6,  // Factor
+		-1, // Term
+		15, // Factor
 
 	},
 	gotoRow{ // S9
@@ -97,7 +97,7 @@ var gotoTab = gotoTable{
 		-1, // Calc
 		-1, // Expr
 		-1, // Term
-		12, // Factor
+		-1, // Factor
 
 	},
 	gotoRow{ // S10
@@ -119,6 +119,96 @@ var gotoTab = gotoTable{
 
 	},
 	gotoRow{ // S12
+
+		-1, // S'
+		-1, // Calc
+		19, // Expr
+		10, // Term
+		11, // Factor
+
+	},
+	gotoRow{ // S13
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
+
+	},
+	gotoRow{ // S14
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
+
+	},
+	gotoRow{ // S15
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
+
+	},
+	gotoRow{ // S16
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		20, // Term
+		11, // Factor
+
+	},
+	gotoRow{ // S17
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
+
+	},
+	gotoRow{ // S18
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		21, // Factor
+
+	},
+	gotoRow{ // S19
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
+
+	},
+	gotoRow{ // S20
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
+
+	},
+	gotoRow{ // S21
+
+		-1, // S'
+		-1, // Calc
+		-1, // Expr
+		-1, // Term
+		-1, // Factor
+
+	},
+	gotoRow{ // S22
 
 		-1, // S'
 		-1, // Calc

@@ -25,23 +25,26 @@ import (
 type LexPart struct {
 	Header *FileHeader
 	*LexImports
+	TokDefsList        []*LexTokDef
 	TokDefs            map[string]*LexTokDef
-	tokDefsList        []*LexTokDef
+	stringLitToks      map[string]*LexTokDef
+	RegDefsList        []*LexRegDef
 	RegDefs            map[string]*LexRegDef
-	regDefsList        []*LexRegDef
+	IgnoredTokDefsList []*LexIgnoredTokDef
 	IgnoredTokDefs     map[string]*LexIgnoredTokDef
-	ignoredTokDefsList []*LexIgnoredTokDef
 	ProdList           *LexProductions
 	ProdMap            *LexProdMap
-	stringLitTokDefs   map[string]bool
 }
 
 func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 	lexPart := &LexPart{
-		TokDefs:          make(map[string]*LexTokDef, 16),
-		RegDefs:          make(map[string]*LexRegDef, 16),
-		IgnoredTokDefs:   make(map[string]*LexIgnoredTokDef, 16),
-		stringLitTokDefs: make(map[string]bool),
+		TokDefsList:        make([]*LexTokDef, 0, 16),
+		TokDefs:            make(map[string]*LexTokDef, 16),
+		stringLitToks:      make(map[string]*LexTokDef, 16),
+		RegDefsList:        make([]*LexRegDef, 0, 16),
+		RegDefs:            make(map[string]*LexRegDef, 16),
+		IgnoredTokDefsList: make([]*LexIgnoredTokDef, 0, 16),
+		IgnoredTokDefs:     make(map[string]*LexIgnoredTokDef, 16),
 	}
 	if header != nil {
 		lexPart.Header = header.(*FileHeader)
@@ -66,29 +69,32 @@ func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
 				}
 				lexPart.TokDefs[pid] = p1
+				lexPart.TokDefsList = append(lexPart.TokDefsList, p1)
 			case *LexRegDef:
 				//TODO: decide whether to handle in separate symantic check
 				if _, exist := lexPart.RegDefs[pid]; exist {
 					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
 				}
 				lexPart.RegDefs[pid] = p1
+				lexPart.RegDefsList = append(lexPart.RegDefsList, p1)
 			case *LexIgnoredTokDef:
 				if _, exist := lexPart.IgnoredTokDefs[pid]; exist {
 					return nil, errors.New(fmt.Sprintf("Duplicate ignored token def: %s", pid))
 				}
 				lexPart.IgnoredTokDefs[pid] = p1
+				lexPart.IgnoredTokDefsList = append(lexPart.IgnoredTokDefsList, p1)
 			}
 		}
 	} else {
 		lexPart.ProdList = newLexProductions()
 		lexPart.ProdMap = newLexProdMap()
 	}
-	lexPart.makeLists()
 	return lexPart, nil
 }
 
-func (this *LexPart) IgnoredTokDefsList() []*LexIgnoredTokDef {
-	return this.ignoredTokDefsList
+func (this *LexPart) StringLitTokDef(id string) *LexTokDef {
+	tokDef, _ := this.stringLitToks[id]
+	return tokDef
 }
 
 func (this *LexPart) Production(id string) LexProduction {
@@ -107,26 +113,12 @@ func (this *LexPart) ProdIndex(id string) LexProdIndex {
 	return idx
 }
 
-func (this *LexPart) RegDefsList() []*LexRegDef {
-	return this.regDefsList
-}
-
-/*
-Return true iff sym is a string literal token defined in the syntax part
-*/
-func (this *LexPart) StringLitTokDef(sym string) bool {
-	return this.stringLitTokDefs[sym]
-}
-
-func (this *LexPart) TokDefsList() []*LexTokDef {
-	return this.tokDefsList
-}
-
 func (this *LexPart) TokenIds() []string {
 	tids := make([]string, 0, len(this.TokDefs))
 	for tid := range this.TokDefs {
 		tids = append(tids, tid)
 	}
+	sort.Strings(tids)
 	return tids
 }
 
@@ -134,9 +126,10 @@ func (this *LexPart) UpdateStringLitTokens(tokens []string) {
 	for _, strLit := range tokens {
 		tokDef := NewLexStringLitTokDef(strLit)
 		this.ProdMap.Add(tokDef)
+		this.TokDefsList = append(this.TokDefsList, tokDef)
 		this.TokDefs[strLit] = tokDef
+		this.stringLitToks[strLit] = tokDef
 		this.ProdList.Productions = append(this.ProdList.Productions, tokDef)
-		this.stringLitTokDefs[strLit] = true
 	}
 }
 
@@ -153,36 +146,4 @@ func (this *LexPart) String() string {
 		fmt.Fprintf(buf, "\t%s\n", t)
 	}
 	return buf.String()
-	//TODO: add RegDefs and TokDefs
-}
-
-/*** Utility functions ***/
-
-func (this *LexPart) makeLists() {
-	tokdefs := []string{}
-	for sym := range this.TokDefs {
-		tokdefs = append(tokdefs, sym)
-	}
-	sort.Strings(tokdefs)
-	for _, sym := range tokdefs {
-		this.tokDefsList = append(this.tokDefsList, this.TokDefs[sym])
-	}
-
-	regDefs := []string{}
-	for sym := range this.RegDefs {
-		regDefs = append(regDefs, sym)
-	}
-	sort.Strings(regDefs)
-	for _, sym := range regDefs {
-		this.regDefsList = append(this.regDefsList, this.RegDefs[sym])
-	}
-
-	ignoredTokDefs := []string{}
-	for sym := range this.IgnoredTokDefs {
-		ignoredTokDefs = append(ignoredTokDefs, sym)
-	}
-	sort.Strings(ignoredTokDefs)
-	for _, sym := range ignoredTokDefs {
-		this.ignoredTokDefsList = append(this.ignoredTokDefsList, this.IgnoredTokDefs[sym])
-	}
 }

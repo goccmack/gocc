@@ -1,31 +1,107 @@
 package parser
 
 import (
-	"bytes"
-	parseError "code.google.com/p/gocc/frontend/errors"
-	"code.google.com/p/gocc/frontend/token"
 	"errors"
 	"fmt"
+	"strconv"
 )
 
-const (
-	numProductions = 42
-	numStates      = 194
-	numSymbols     = 37
+import errs "code.google.com/p/gocc/frontend/errors"
+
+import "code.google.com/p/gocc/frontend/token"
+
+type (
+	ActionTab []*ActionRow
+	ActionRow struct {
+		canRecover bool
+		Actions    Actions
+	}
+	Actions map[token.Type]Action
+)
+
+func (R *ActionRow) String() string {
+	s := fmt.Sprintf("canRecover=%t\n", R.canRecover)
+	for t, a := range R.Actions {
+		s += strconv.Itoa(int(t)) + " : " + a.String() + "\n"
+	}
+	return s
+}
+
+type (
+	Accept int
+	Shift  State
+	Reduce int
+
+	Action interface {
+		Act()
+		String() string
+	}
+)
+
+func (this Accept) Act() {}
+func (this Shift) Act()  {}
+func (this Reduce) Act() {}
+
+func (this Accept) Equal(that Action) bool {
+	if _, ok := that.(Accept); ok {
+		return true
+	}
+	return false
+}
+
+func (this Reduce) Equal(that Action) bool {
+	that1, ok := that.(Reduce)
+	if !ok {
+		return false
+	}
+	return this == that1
+}
+
+func (this Shift) Equal(that Action) bool {
+	that1, ok := that.(Shift)
+	if !ok {
+		return false
+	}
+	return this == that1
+}
+
+func (this Accept) String() string { return "Accept(0)" }
+func (this Shift) String() string  { return fmt.Sprintf("Shift:%d", this) }
+func (this Reduce) String() string {
+	return fmt.Sprintf("Reduce:%d(%s)", this, ProductionsTable[this].String)
+}
+
+type (
+	GotoTab []GotoRow
+	GotoRow map[NT]State
+	State   int
+	NT      string
+)
+
+type (
+	ProdTab      []ProdTabEntry
+	ProdTabEntry struct {
+		String     string
+		Head       NT
+		NumSymbols int
+		ReduceFunc func([]Attrib) (Attrib, error)
+	}
+	Attrib interface {
+	}
 )
 
 // Stack
 
 type stack struct {
-	state  []int
+	state  []State
 	attrib []Attrib
 }
 
-const iNITIAL_STACK_SIZE = 100
+const INITIAL_STACK_SIZE = 100
 
-func newStack() *stack {
-	return &stack{state: make([]int, 0, iNITIAL_STACK_SIZE),
-		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+func NewStack() *stack {
+	return &stack{state: make([]State, 0, INITIAL_STACK_SIZE),
+		attrib: make([]Attrib, 0, INITIAL_STACK_SIZE),
 	}
 }
 
@@ -34,24 +110,24 @@ func (this *stack) reset() {
 	this.attrib = this.attrib[0:0]
 }
 
-func (this *stack) push(s int, a Attrib) {
+func (this *stack) Push(s State, a Attrib) {
 	this.state = append(this.state, s)
 	this.attrib = append(this.attrib, a)
 }
 
-func (this *stack) top() int {
+func (this *stack) Top() State {
 	return this.state[len(this.state)-1]
 }
 
-func (this *stack) peek(pos int) int {
+func (this *stack) Peek(pos int) State {
 	return this.state[pos]
 }
 
-func (this *stack) topIndex() int {
+func (this *stack) TopIndex() int {
 	return len(this.state) - 1
 }
 
-func (this *stack) popN(items int) []Attrib {
+func (this *stack) PopN(items int) []Attrib {
 	lo, hi := len(this.state)-items, len(this.state)
 
 	attrib := this.attrib[lo:hi]
@@ -63,146 +139,155 @@ func (this *stack) popN(items int) []Attrib {
 }
 
 func (S *stack) String() string {
-	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "stack:\n")
+	res := "stack:\n"
 	for i, st := range S.state {
-		fmt.Fprintf(w, "\t%d:%d , ", i, st)
+		res += "\t" + strconv.Itoa(i) + ": " + strconv.Itoa(int(st))
+		res += " , "
 		if S.attrib[i] == nil {
-			fmt.Fprintf(w, "nil")
+			res += "nil"
 		} else {
-			fmt.Fprintf(w, "%v", S.attrib[i])
+			res += fmt.Sprintf("%v", S.attrib[i])
 		}
-		w.WriteString("\n")
+		res += "\n"
 	}
-	return w.String()
+	return res
 }
 
 // Parser
 
 type Parser struct {
+	actTab    ActionTab
+	gotoTab   GotoTab
+	prodTab   ProdTab
 	stack     *stack
 	nextToken *token.Token
-	pos       int
+	pos       token.Position
+	tokenMap  *token.TokenMap
 }
 
 type Scanner interface {
-	Scan() (tok *token.Token)
+	Scan() (*token.Token, token.Position)
 }
 
-func NewParser() *Parser {
-	p := &Parser{stack: newStack()}
-	p.Reset()
+func NewParser(act ActionTab, gto GotoTab, prod ProdTab, tm *token.TokenMap) *Parser {
+	p := &Parser{actTab: act, gotoTab: gto, prodTab: prod, stack: NewStack(), tokenMap: tm}
+	p.stack.Push(0, nil)
 	return p
 }
 
 func (P *Parser) Reset() {
 	P.stack.reset()
-	P.stack.push(0, nil)
+	P.stack.Push(0, nil)
 }
 
-func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib *parseError.Error) {
-	errorAttrib = &parseError.Error{
+func Acc() {
+	fmt.Println("Accept")
+}
+
+func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib *errs.Error) {
+	errorAttrib = &errs.Error{
 		Err:            err,
 		ErrorToken:     P.nextToken,
+		ErrorPos:       P.pos,
 		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
-	for t, action := range actionTab[P.stack.top()].actions {
-		if action != nil {
-			errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, token.TokMap.Id(token.Type(t)))
-		}
+	for t := range P.actTab[P.stack.Top()].Actions {
+		errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, P.tokenMap.TokenString(t))
 	}
 
-	if action := actionTab[P.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
-		P.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
-	} else {
+	action, ok := P.actTab[P.stack.Top()].Actions[P.tokenMap.Type("error")]
+	if !ok {
 		return
 	}
+	P.stack.Push(State(action.(Shift)), errorAttrib) // action can only be shift
 
-	if action := actionTab[P.stack.top()].actions[P.nextToken.Type]; action != nil {
-		recovered = true
-	}
+	_, recovered = P.actTab[P.stack.Top()].Actions[P.nextToken.Type]
 	for !recovered && P.nextToken.Type != token.EOF {
-		P.nextToken = scanner.Scan()
-		if action := actionTab[P.stack.top()].actions[P.nextToken.Type]; action != nil {
-			recovered = true
-		}
+		P.nextToken, P.pos = scanner.Scan()
+		_, recovered = P.actTab[P.stack.Top()].Actions[P.nextToken.Type]
 	}
 
 	return
 }
 
-func (P *Parser) popNonRecoveryStates() (removedAttribs []parseError.ErrorSymbol) {
+func (P *Parser) popNonRecoveryStates() (removedAttribs []errs.ErrorSymbol) {
 	if rs, ok := P.firstRecoveryState(); ok {
-		errorSymbols := P.stack.popN(int(P.stack.topIndex() - rs))
-		removedAttribs = make([]parseError.ErrorSymbol, len(errorSymbols))
+		errorSymbols := P.stack.PopN(int(P.stack.TopIndex() - rs))
+		removedAttribs = make([]errs.ErrorSymbol, len(errorSymbols))
 		for i, e := range errorSymbols {
 			removedAttribs[i] = e
 		}
 	} else {
-		removedAttribs = []parseError.ErrorSymbol{}
+		removedAttribs = []errs.ErrorSymbol{}
 	}
 	return
 }
 
 // recoveryState points to the highest state on the stack, which can recover
 func (P *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
-	recoveryState, canRecover = P.stack.topIndex(), actionTab[P.stack.top()].canRecover
+	recoveryState, canRecover = P.stack.TopIndex(), P.actTab[P.stack.Top()].canRecover
 	for recoveryState > 0 && !canRecover {
 		recoveryState--
-		canRecover = actionTab[P.stack.peek(recoveryState)].canRecover
+		canRecover = P.actTab[P.stack.Peek(recoveryState)].canRecover
 	}
 	return
 }
 
 func (P *Parser) newError(err error) error {
-	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "Error in S%d: %s, %s", P.stack.top(), token.TokMap.TokenString(P.nextToken), P.nextToken.Pos.String())
+	errmsg := "Error: " + P.TokString(P.nextToken) + " @ " + P.pos.String()
 	if err != nil {
-		w.WriteString(err.Error())
+		errmsg += " " + err.Error()
 	} else {
-		w.WriteString(", expected one of: ")
-		actRow := actionTab[P.stack.top()]
-		for i, t := range actRow.actions {
-			if t != nil {
-				fmt.Fprintf(w, "%s ", token.TokMap.Id(token.Type(i)))
+		errmsg += ", expected one of: "
+		actRow := P.actTab[P.stack.Top()]
+		i := 0
+		for t := range actRow.Actions {
+			errmsg += P.tokenMap.TokenString(t)
+			if i < len(actRow.Actions)-1 {
+				errmsg += " "
 			}
+			i++
 		}
 	}
-	return errors.New(w.String())
+	return errors.New(errmsg)
+}
+
+func (P *Parser) TokString(tok *token.Token) string {
+	msg := P.tokenMap.TokenString(tok.Type) + "(" + strconv.Itoa(int(tok.Type)) + ")"
+	msg += " " + string(tok.Lit)
+	return msg
 }
 
 func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 	this.Reset()
-	this.nextToken = scanner.Scan()
+	this.nextToken, this.pos = scanner.Scan()
 	for acc := false; !acc; {
-		action := actionTab[this.stack.top()].actions[this.nextToken.Type]
-		if action == nil {
+		action, ok := this.actTab[this.stack.Top()].Actions[this.nextToken.Type]
+		if !ok {
 			if recovered, errAttrib := this.Error(nil, scanner); !recovered {
-				this.nextToken = errAttrib.ErrorToken
+				this.nextToken, this.pos = errAttrib.ErrorToken, errAttrib.ErrorPos
 				return nil, this.newError(nil)
 			}
-			if action = actionTab[this.stack.top()].actions[this.nextToken.Type]; action == nil {
-				panic("Error recovery led to invalid action")
+			if action, ok = this.actTab[this.stack.Top()].Actions[this.nextToken.Type]; !ok {
+				panic("Error recover led to invalid action")
 			}
 		}
-
-		// fmt.Printf("S%d %s o%s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
-
+		// fmt.Printf("S%d %s %s\n", this.stack.Top(), this.nextToken, action)
 		switch act := action.(type) {
-		case accept:
-			res = this.stack.popN(1)[0]
+		case Accept:
+			res = this.stack.PopN(1)[0]
 			acc = true
-		case shift:
-			this.stack.push(int(act), this.nextToken)
-			this.nextToken = scanner.Scan()
-		case reduce:
-			prod := productionsTable[int(act)]
-			attrib, err := prod.ReduceFunc(this.stack.popN(prod.NumSymbols))
+		case Shift:
+			this.stack.Push(State(act), this.nextToken)
+			this.nextToken, this.pos = scanner.Scan()
+		case Reduce:
+			prod := this.prodTab[int(act)]
+			attrib, err := prod.ReduceFunc(this.stack.PopN(prod.NumSymbols))
 			if err != nil {
 				return nil, this.newError(err)
 			} else {
-				this.stack.push(gotoTab[this.stack.top()][prod.NTType], attrib)
+				this.stack.Push(this.gotoTab[this.stack.Top()][prod.Head], attrib)
 			}
 		default:
 			panic("unknown action: " + action.String())

@@ -10,22 +10,22 @@ import (
 
 const (
 	numProductions = 8
-	numStates      = 13
-	numTerminals   = 8
+	numStates      = 23
+	numSymbols     = 12
 )
 
 // Stack
 
 type stack struct {
 	state  []int
-	attrib []interface{}
+	attrib []Attrib
 }
 
 const iNITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
 	return &stack{state: make([]int, 0, iNITIAL_STACK_SIZE),
-		attrib: make([]interface{}, 0, iNITIAL_STACK_SIZE),
+		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
 	}
 }
 
@@ -34,7 +34,7 @@ func (this *stack) reset() {
 	this.attrib = this.attrib[0:0]
 }
 
-func (this *stack) push(s int, a interface{}) {
+func (this *stack) push(s int, a Attrib) {
 	this.state = append(this.state, s)
 	this.attrib = append(this.attrib, a)
 }
@@ -51,7 +51,7 @@ func (this *stack) topIndex() int {
 	return len(this.state) - 1
 }
 
-func (this *stack) popN(items int) []interface{} {
+func (this *stack) popN(items int) []Attrib {
 	lo, hi := len(this.state)-items, len(this.state)
 
 	attrib := this.attrib[lo:hi]

@@ -25,10 +25,10 @@ import (
 
 type Config interface {
 	Help() bool
-	ABNF() bool
+	Verbose() bool
 	AllowUnreachable() bool
 	AutoResolveLRConf() bool
-	Knuth() bool
+	Profile() bool
 	SourceFile() string
 	OutDir() string
 
@@ -42,25 +42,20 @@ type Config interface {
 
 	ProjectName() string
 	Package() string
+
 	PrintParams()
-	Verbose() bool
-	Verbose2() bool
 }
 
 type ConfigRecord struct {
 	workingDir string
 
-	abnf              *bool
 	allowUnreachable  *bool
 	autoResolveLRConf *bool
 	debugLexer        *bool
 	debugParser       *bool
-	knuth             *bool
 	profile           *bool
-	genScanner        *bool
 	help              *bool
 	verbose           *bool
-	verbose2          *bool
 	srcFile           string
 	outDir            string
 	pkg               string
@@ -84,20 +79,12 @@ func New() (Config, error) {
 	return cfg, nil
 }
 
-func (this *ConfigRecord) ABNF() bool {
-	return *this.abnf
-}
-
 func (this *ConfigRecord) Help() bool {
 	return *this.help
 }
 
 func (this *ConfigRecord) Verbose() bool {
 	return *this.verbose
-}
-
-func (this *ConfigRecord) Verbose2() bool {
-	return *this.verbose2
 }
 
 func (this *ConfigRecord) AllowUnreachable() bool {
@@ -114,14 +101,6 @@ func (this *ConfigRecord) DebugLexer() bool {
 
 func (this *ConfigRecord) DebugParser() bool {
 	return *this.debugParser
-}
-
-func (this *ConfigRecord) GenScanner() bool {
-	return *this.genScanner
-}
-
-func (this *ConfigRecord) Knuth() bool {
-	return *this.knuth
 }
 
 func (this *ConfigRecord) Profile() bool {
@@ -162,34 +141,26 @@ func (this *ConfigRecord) ProjectName() string {
 }
 
 func (this *ConfigRecord) PrintParams() {
-	fmt.Printf("    generate an ABNF parser       = %t\n", *this.abnf)
-	fmt.Printf("    generate debug lexer          = %t\n", *this.debugLexer)
-	fmt.Printf("    generate debug parser         = %t\n", *this.debugParser)
+	fmt.Printf("    debug lexer                   = %t\n", *this.debugLexer)
+	fmt.Printf("    debug parser                  = %t\n", *this.debugParser)
 	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
 	fmt.Printf("    output directory              = %s\n", this.outDir)
-	fmt.Printf("    knuth                         = %t\n", *this.knuth)
 	fmt.Printf("    package                       = %s\n", this.pkg)
-	fmt.Printf("    generate a scanner            = %t\n", *this.genScanner)
 	fmt.Printf("    help                          = %t\n", *this.help)
 	fmt.Printf("    allow unreachable productions = %t\n", *this.allowUnreachable)
 	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
 	fmt.Printf("    verbose                       = %t\n", *this.verbose)
-	fmt.Printf("    more verbose                  = %t\n", *this.verbose2)
 }
 
 /*** Utility routines ***/
 
 func (this *ConfigRecord) getFlags() error {
-	this.abnf = flag.Bool("ABNF", false, "generate an ABNF parser")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
-	this.debugLexer = flag.Bool("debug_lexer", false, "generate a debug lexer")
-	this.debugParser = flag.Bool("debug_parser", false, "generate a debug parser")
-	this.genScanner = flag.Bool("s", false, "generate a scanner")
-	this.knuth = flag.Bool("knuth", false, "generate a Knuth LR(1) machine")
+	this.debugLexer = flag.Bool("debug_lexer", false, "enable debug logging in lexer")
+	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
 	this.help = flag.Bool("h", false, "help")
 	this.verbose = flag.Bool("v", false, "verbose")
-	this.verbose2 = flag.Bool("vv", false, "more verbose")
 	this.profile = flag.Bool("prof", false, "write profile to file")
 	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
@@ -210,7 +181,7 @@ func (this *ConfigRecord) getFlags() error {
 }
 
 func getOutDir(outDirSpec, wd string) string {
-	if strings.HasPrefix(outDirSpec, wd) || strings.HasPrefix(outDirSpec, "/") {
+	if strings.HasPrefix(outDirSpec, wd) {
 		return outDirSpec
 	}
 	return path.Join(wd, outDirSpec)

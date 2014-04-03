@@ -20,64 +20,38 @@ import (
 )
 
 type SyntaxBody struct {
-	Error  bool
-	Terms  SyntaxTerms
-	Action string
+	Error   bool
+	Symbols SyntaxSymbols
+	SDT     string
 }
 
-func NewSyntaxBody(terms, sdtLit interface{}) (*SyntaxBody, error) {
+func NewSyntaxBody(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 	syntaxBody := &SyntaxBody{
 		Error: false,
 	}
-	if terms != nil {
-		syntaxBody.Terms = terms.(SyntaxTerms)
+	if symbols != nil {
+		syntaxBody.Symbols = symbols.(SyntaxSymbols)
 	}
 	if sdtLit != nil {
-		syntaxBody.Action = ActionExpressionVal(sdtLit.(*token.Token).Lit)
+		syntaxBody.SDT = sdtLit.(*token.Token).SDTVal()
 	}
 	return syntaxBody, nil
 }
 
-func NewErrorBody(terms, sdtLit interface{}) (*SyntaxBody, error) {
-	body, _ := NewSyntaxBody(terms, sdtLit)
+func NewErrorBody(symbols, sdtLit interface{}) (*SyntaxBody, error) {
+	body, _ := NewSyntaxBody(symbols, sdtLit)
 	body.Error = true
-	if terms != nil {
-		body.Terms = append(SyntaxTerms{errorConst}, terms.(SyntaxTerms)...)
-	} else {
-		body.Terms = SyntaxTerms{errorConst}
-	}
 	return body, nil
-}
-
-func (this SyntaxBody) Equal(that *SyntaxBody) bool {
-	if that == nil {
-		return false
-	}
-	return this.Error == that.Error &&
-		this.Action == that.Action &&
-		this.Terms.Equal(that.Terms)
 }
 
 func NewEmptyBody() (*SyntaxBody, error) {
 	return NewSyntaxBody(nil, nil)
 }
 
-func (this *SyntaxBody) Basic() bool {
-	if this.Action != "" {
-		return false
-	}
-	for _, term := range this.Terms {
-		if !term.Basic() {
-			return false
-		}
-	}
-	return true
-}
-
 func (this *SyntaxBody) Empty() bool {
-	return len(this.Terms) == 0
+	return len(this.Symbols) == 0
 }
 
 func (this *SyntaxBody) String() string {
-	return fmt.Sprintf("%s\t<< %s >>", this.Terms.String(), this.Action)
+	return fmt.Sprintf("%s\t<< %s >>", this.Symbols.String(), this.SDT)
 }

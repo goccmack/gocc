@@ -13,7 +13,7 @@ import (
 const (
 	NoState    = -1
 	NumStates  = 17
-	NumSymbols = 10
+	NumSymbols = 20
 )
 
 type Lexer struct {
@@ -39,10 +39,6 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 		return nil, err
 	}
 	return NewLexer(src), nil
-}
-
-func NewLexerString(src string) *Lexer {
-	return NewLexer([]byte(src))
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
@@ -141,14 +137,24 @@ func (this *Lexer) Reset() {
 /*
 Lexer symbols:
 0: '_'
-1: '_'
-2: ' '
-3: '\t'
-4: '\n'
-5: '\r'
-6: '0'-'9'
-7: 'a'-'z'
-8: 'A'-'Z'
-9: .
+1: 'i'
+2: 'f'
+3: 't'
+4: 'h'
+5: 'e'
+6: 'n'
+7: 'e'
+8: 'l'
+9: 's'
+10: 'e'
+11: '_'
+12: ' '
+13: '\t'
+14: '\n'
+15: '\r'
+16: 'a'-'z'
+17: 'A'-'Z'
+18: '0'-'9'
+19: .
 
 */

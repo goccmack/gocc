@@ -14,12 +14,6 @@
 
 package ast
 
-import (
-	"bytes"
-	"code.google.com/p/gocc/frontend/token"
-	"fmt"
-)
-
 type SyntaxPart struct {
 	Header   *FileHeader
 	ProdList SyntaxProdList
@@ -40,15 +34,10 @@ func NewSyntaxPart(header, prodList interface{}) (*SyntaxPart, error) {
 }
 
 func (this *SyntaxPart) augment() *SyntaxPart {
-	startProd := &SyntaxProdNonBasic{
-		Id: &token.Token{
-			Type: token.TokMap.Type("prodId"),
-			Lit:  []byte("S'"),
-		},
-		SyntaxExpression: SyntaxExpression{
-			&SyntaxBody{
-				Terms: SyntaxTerms{SyntaxProdId(this.ProdList[0].Id.Lit)},
-			},
+	startProd := &SyntaxProd{
+		Id: "S'",
+		Body: &SyntaxBody{
+			Symbols: []SyntaxSymbol{SyntaxProdId(this.ProdList[0].Id)},
 		},
 	}
 	newProdList := SyntaxProdList{startProd}
@@ -56,14 +45,4 @@ func (this *SyntaxPart) augment() *SyntaxPart {
 		Header:   this.Header,
 		ProdList: append(newProdList, this.ProdList...),
 	}
-}
-
-func (this *SyntaxPart) String() string {
-	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "/* Syntax Part */\n\n")
-	fmt.Fprintf(w, "%s\n\n", this.Header)
-	for _, prod := range this.ProdList {
-		fmt.Fprintf(w, "%s\n\n", prod)
-	}
-	return w.String()
 }

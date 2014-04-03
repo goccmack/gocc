@@ -12,200 +12,172 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+/*
+Support for the symbols of the language defined by the input grammar, G. This package supports code generation.
+*/
 package symbols
 
 import (
 	"bytes"
 	"code.google.com/p/gocc/ast"
-	"errors"
 	"fmt"
-	"sort"
 )
 
 type Symbols struct {
-	StartSymbol string
+	//key: symbol id
+	//val: symbol type
+	idMap map[string]int
 
-	ntList []string
-	ntMap  map[string]int
+	//key: symbol ntTypeMap index
+	//val: symbol type
+	ntIdMap   map[string]int
+	ntTypeMap []string
 
-	tList []string
-	tMap  map[string]bool
+	//key: symbol id
+	//val: symbol type
+	stringLitIdMap map[string]int
+	stringLitList  []string
 
-	list   []string
-	symMap map[string]bool
-
-	ProdList []string
-	prodMap  map[string]int
-
-	stringLitList []string
-	stringLitMap  map[string]ast.SyntaxStringLit
+	//key: symbol type
+	//val: symbol id
+	typeMap []string
 }
 
-type Type int
-
-const (
-	T_Type Type = iota
-	NT_Type
-)
-
-func NewSymbols(lexpart *ast.LexPart, prods *ast.SyntaxBasicProdsList) (symbols *Symbols, errs []error) {
-	declared_prods := make(map[string]bool)
-	symbols = &Symbols{
-		ntMap:        make(map[string]int),
-		tMap:         make(map[string]bool),
-		symMap:       make(map[string]bool),
-		prodMap:      make(map[string]int),
-		stringLitMap: make(map[string]ast.SyntaxStringLit),
+func NewSymbols(grammar *ast.Grammar) *Symbols {
+	symbols := &Symbols{
+		idMap:          make(map[string]int),
+		typeMap:        make([]string, 0, 16),
+		ntIdMap:        make(map[string]int),
+		ntTypeMap:      make([]string, 0, 16),
+		stringLitIdMap: make(map[string]int),
+		stringLitList:  make([]string, 0, 16),
 	}
-	if prods != nil && prods.Len() > 0 {
-		symbols.StartSymbol = prods.First().Id
-		for prod := prods.First(); prod != nil; prod = prod.Next {
-			declared_prods[prod.Id] = false
+
+	symbols.Add("INVALID")
+	symbols.Add("$")
+
+	if grammar.SyntaxPart == nil {
+		return symbols
+	}
+
+	for _, p := range grammar.SyntaxPart.ProdList {
+		if _, exist := symbols.ntIdMap[p.Id]; !exist {
+			symbols.ntTypeMap = append(symbols.ntTypeMap, p.Id)
+			symbols.ntIdMap[p.Id] = len(symbols.ntTypeMap) - 1
 		}
-		for prod := prods.First(); prod != nil; prod = prod.Next {
-			if _, exist := symbols.prodMap[prod.Id]; !exist {
-				symbols.ntList = append(symbols.ntList, prod.Id)
-				symbols.ntMap[prod.Id] = len(symbols.ntList) - 1
-				symbols.ProdList = append(symbols.ProdList, prod.Id)
-				symbols.prodMap[prod.Id] = len(symbols.ProdList) - 1
+		symbols.Add(p.Id)
+		for _, sym := range p.Body.Symbols {
+			symStr := sym.SymbolString()
+			symbols.Add(symStr)
+			if _, ok := sym.(ast.SyntaxStringLit); ok {
+				if _, exist := symbols.stringLitIdMap[symStr]; !exist {
+					symbols.stringLitIdMap[symStr] = symbols.Type(symStr)
+					symbols.stringLitList = append(symbols.stringLitList, symStr)
+				}
 			}
-			if err := symbols.addSymbols(prod.Terms, declared_prods); err != nil {
-				errs = append(errs, newError(prod, err))
-			}
-		}
-		errs = append(errs, checkUnreachableProds(declared_prods)...)
-	} else {
-		for _, sym := range lexpart.TokenIds() {
-			symbols.tMap[sym] = true
 		}
 	}
-	if lexpart != nil {
-		errs = append(errs, symbols.checkTokens(lexpart.TokenIds())...)
-	}
-
-	symbols.makeLists()
-	return
+	return symbols
 }
 
-func (this *Symbols) IsNT(prodId string) bool {
-	if _, exist := this.ntMap[prodId]; exist {
-		return true
+func (this *Symbols) Add(symbols ...string) {
+	for _, sym := range symbols {
+		if _, exist := this.idMap[sym]; !exist {
+			this.typeMap = append(this.typeMap, sym)
+			this.idMap[sym] = len(this.typeMap) - 1
+		}
 	}
-	return false
+}
+
+func (this *Symbols) Id(typ int) string {
+	return this.typeMap[typ]
+}
+
+func (this *Symbols) IsTerminal(sym string) bool {
+	_, nt := this.ntIdMap[sym]
+	return !nt
 }
 
 func (this *Symbols) List() []string {
-	return this.list
+	return this.typeMap
 }
 
-func (this *Symbols) ListNonTerminals() []string {
-	return this.ntList
-}
-
+/*
+Return a slice containing the ids of all symbols declared as string literals in the grammar.
+*/
 func (this *Symbols) ListStringLitSymbols() []string {
 	return this.stringLitList
 }
 
 func (this *Symbols) ListTerminals() []string {
-	return this.tList
-}
-
-func (this *Symbols) NTType(prodId string) int {
-	for i, id := range this.ntList {
-		if prodId == id {
-			return i
+	terminals := make([]string, 0, 16)
+	for _, sym := range this.typeMap {
+		if this.IsTerminal(sym) {
+			terminals = append(terminals, sym)
 		}
 	}
-	panic(fmt.Sprintf("Unknown production id: %s", prodId))
+	return terminals
 }
 
-/*** utility functions ***/
-
-func (this *Symbols) addSymbols(terms ast.SyntaxTerms, declared_prods map[string]bool) (errs []error) {
-	for _, term := range terms {
-		if err := this.addSymbol(term, declared_prods); err != nil {
-			errs = append(errs, err)
-		}
+func (this *Symbols) StringLitType(id string) int {
+	if typ, exist := this.stringLitIdMap[id]; exist {
+		return typ
 	}
-	return
+	return -1
 }
 
-func (this *Symbols) addSymbol(term ast.SyntaxTerm, declared_prods map[string]bool) (err error) {
-	switch t := term.(type) {
-	case ast.SyntaxStringLit:
-		this.symMap[string(t)] = true
-		this.tMap[string(t)] = true
-		this.stringLitMap[string(t)] = t
-	case ast.SyntaxTokId:
-		this.symMap[string(t)] = true
-		this.tMap[string(t)] = true
-	case ast.SyntaxProdId:
-		this.symMap[string(t)] = true
-		if _, exist := declared_prods[string(t)]; !exist {
-			err = errors.New(fmt.Sprintf("reference to unknown production: %s", string(t)))
-		} else {
-			declared_prods[string(t)] = true
-		}
+/*
+Return the id of the NT with index idx, or "" if there is no NT symbol with index, idx.
+*/
+func (this *Symbols) NTId(idx int) string {
+	if idx < 0 || idx >= len(this.ntTypeMap) {
+		return ""
 	}
-	return
+	return this.ntTypeMap[idx]
 }
 
-func (this Symbols) checkTokens(tokIds []string) (errs []error) {
-	for _, tokId := range tokIds {
-		if _, exist := this.tMap[tokId]; !exist {
-			errs = append(errs, errors.New(fmt.Sprintf("token %s not used in syntax part", tokId)))
-		}
-	}
-	for tokId := range this.tMap {
-		if _, exist := this.stringLitMap[tokId]; !exist && !tokIdsContain(tokIds, tokId) {
-			errs = append(errs, errors.New(fmt.Sprintf("token %s referenced in syntax part is not defined in lex part", tokId)))
-		}
-	}
-	return
+/*
+Return the number of NT symbols in the grammar
+*/
+func (this *Symbols) NumNTSymbols() int {
+	return len(this.ntTypeMap)
 }
 
-func tokIdsContain(tokIds []string, id string) bool {
-	for _, tokId := range tokIds {
-		if tokId == id {
-			return true
-		}
-	}
-	return false
+/*
+Returns a slice containing all the non-terminal symbols of the grammar.
+*/
+func (this *Symbols) NTList() []string {
+	return this.ntTypeMap
 }
 
-func checkUnreachableProds(declared_prods map[string]bool) (errs []error) {
-	for prod, referenced := range declared_prods {
-		if prod != "S'" && !referenced {
-			errs = append(errs, errors.New(fmt.Sprintf("Unreachable production: %s", prod)))
-		}
+/*
+Returns the NT index of a symbol (index in 0..|NT|-1) or -1 if the symbol is not in NT.
+*/
+func (this *Symbols) NTType(symbol string) int {
+	if idx, exist := this.ntIdMap[symbol]; exist {
+		return idx
 	}
-	return
+	return -1
 }
 
-func (this *Symbols) makeLists() {
-	for sym := range this.tMap {
-		this.tList = append(this.tList, sym)
-	}
-	sort.Strings(this.tList)
-	this.tMap["$"] = true
-	this.tMap["error"] = true
-	this.tMap["INVALID"] = true
-	this.tList = append([]string{"INVALID", "$", "error"}, this.tList...)
-
-	for sym := range this.stringLitMap {
-		this.stringLitList = append(this.stringLitList, sym)
-	}
-	sort.Strings(this.stringLitList)
-
-	this.list = append(this.list, this.tList...)
-	this.list = append(this.list, this.ntList...)
+/*
+Returns the total number of symbols in grammar: the sum of the terminals and non-terminals.
+*/
+func (this *Symbols) NumSymbols() int {
+	return len(this.typeMap)
 }
 
-func newError(prod *ast.SyntaxBasicProd, errs []error) error {
+func (this *Symbols) String() string {
 	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "%s:\n", prod.String())
-	for _, err := range errs {
-		fmt.Fprintf(w, "\t%s\n", err)
+	for i, sym := range this.typeMap {
+		fmt.Fprintf(w, "%3d: %s\n", i, sym)
 	}
-	return errors.New(w.String())
+	return w.String()
+}
+
+func (this *Symbols) Type(id string) int {
+	if typ, ok := this.idMap[id]; ok {
+		return typ
+	}
+	return -1
 }

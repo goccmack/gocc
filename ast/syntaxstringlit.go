@@ -26,12 +26,8 @@ func NewStringLit(tok interface{}) (SyntaxStringLit, error) {
 	return SyntaxStringLit(lit[1 : len(lit)-1]), nil
 }
 
-func (this SyntaxStringLit) Equal(that SyntaxTerm) bool {
-	if thatSLit, ok := that.(SyntaxStringLit); ok {
-		return this == thatSLit
-	} else {
-		return false
-	}
+func (this SyntaxStringLit) SymbolString() string {
+	return string(this)
 }
 
 func (this SyntaxStringLit) String() string {
@@ -40,8 +36,4 @@ func (this SyntaxStringLit) String() string {
 
 func (this SyntaxStringLit) Bytes() []byte {
 	return []byte(this)
-}
-
-func (this SyntaxStringLit) DotString() string {
-	return fmt.Sprintf("%s", string(this))
 }

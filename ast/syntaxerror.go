@@ -18,15 +18,10 @@ type SyntaxError int
 
 const errorConst = SyntaxError(-1)
 
-func (SyntaxError) Equal(that SyntaxTerm) bool {
-	_, ok := that.(SyntaxError)
-	return ok
-}
-
-func (SyntaxError) String() string {
+func (SyntaxError) SymbolString() string {
 	return "error"
 }
 
-func (SyntaxError) DotString() string {
+func (SyntaxError) String() string {
 	return "error"
 }

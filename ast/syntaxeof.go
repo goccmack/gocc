@@ -22,15 +22,6 @@ func (SyntaxEof) SymbolsString() string {
 	return "$"
 }
 
-func (SyntaxEof) Equal(that SyntaxTerm) bool {
-	_, ok := that.(SyntaxEof)
-	return ok
-}
-
 func (SyntaxEof) String() string {
-	return "$"
-}
-
-func (SyntaxEof) DotString() string {
 	return "$"
 }

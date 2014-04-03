@@ -13,15 +13,15 @@ var gotoTab = gotoTable{
 	gotoRow{ // S0
 
 		-1, // S'
-		3,  // StmtList
-		4,  // Stmt
+		1,  // StmtList
+		2,  // Stmt
 
 	},
 	gotoRow{ // S1
 
 		-1, // S'
 		-1, // StmtList
-		-1, // Stmt
+		5,  // Stmt
 
 	},
 	gotoRow{ // S2
@@ -35,7 +35,7 @@ var gotoTab = gotoTable{
 
 		-1, // S'
 		-1, // StmtList
-		5,  // Stmt
+		-1, // Stmt
 
 	},
 	gotoRow{ // S4

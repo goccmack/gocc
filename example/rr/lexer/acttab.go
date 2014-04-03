@@ -26,11 +26,11 @@ var ActTab = ActionTable{
 		Ignore: "!whitespace",
 	},
 	ActionRow{ // S2
-		Accept: 3,
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S3
-		Accept: 4,
+		Accept: 3,
 		Ignore: "",
 	},
 }
