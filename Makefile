@@ -1,3 +1,5 @@
+.PHONY: test
+
 build:
 	go build -v ./...
 
