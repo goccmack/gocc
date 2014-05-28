@@ -74,7 +74,7 @@ func consistent(g *Grammar) (err error) {
 	}
 	for s, in := range used {
 		if _, ok := defs[s]; !ok {
-			if s == "empty" {
+			if s == "empty" || s == "error" {
 				continue
 			}
 			if s[0] >= 'A' && s[0] <= 'Z' {
