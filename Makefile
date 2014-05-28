@@ -10,4 +10,4 @@ gofmt:
 	gofmt -l -s -w .
 
 govet:
-	go vet ./...
+	go tool vet -methods=false .
