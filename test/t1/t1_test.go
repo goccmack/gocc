@@ -18,13 +18,13 @@ func Test1(t *testing.T) {
 			t.Fatalf("len(slice)==%d", len(slice))
 		}
 		if slice[0] != nil {
-			t.Fatal()
+			t.Fatal("slice[0] != nil")
 		}
 		if str, ok := slice[1].(string); !ok {
 			t.Fatalf("%T", slice[1])
 		} else {
 			if str != "c" {
-				t.Fatal()
+				t.Fatal(`str != "c"`)
 			}
 		}
 	}
@@ -42,17 +42,17 @@ func Test2(t *testing.T) {
 			t.Fatalf("len(slice)==%d", len(slice))
 		}
 		if str, ok := slice[0].(string); !ok {
-			t.Fatal()
+			t.Fatal(`str, ok := slice[0].(string); !ok`)
 		} else {
 			if str != "b" {
-				t.Fatal()
+				t.Fatal(`str != "b"`)
 			}
 		}
 		if str, ok := slice[1].(string); !ok {
 			t.Fatalf("%T", slice[1])
 		} else {
 			if str != "c" {
-				t.Fatal()
+				t.Fatal(`str != "c"`)
 			}
 		}
 	}

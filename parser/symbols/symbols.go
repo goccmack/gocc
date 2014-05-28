@@ -70,6 +70,9 @@ func NewSymbols(grammar *ast.Grammar) *Symbols {
 			symStr := sym.SymbolString()
 			symbols.Add(symStr)
 			if _, ok := sym.(ast.SyntaxStringLit); ok {
+				if _, exist := symbols.ntIdMap[symStr]; exist {
+					panic(fmt.Sprintf("string_lit \"%s\" conflicts with production name %s", symStr, symStr))
+				}
 				if _, exist := symbols.stringLitIdMap[symStr]; !exist {
 					symbols.stringLitIdMap[symStr] = symbols.Type(symStr)
 					symbols.stringLitList = append(symbols.stringLitList, symStr)

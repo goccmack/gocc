@@ -32,6 +32,7 @@ type Config interface {
 	SourceFile() string
 	OutDir() string
 
+	NoLexer() bool
 	DebugLexer() bool
 	DebugParser() bool
 
@@ -53,12 +54,13 @@ type ConfigRecord struct {
 	autoResolveLRConf *bool
 	debugLexer        *bool
 	debugParser       *bool
-	profile           *bool
 	help              *bool
-	verbose           *bool
-	srcFile           string
+	noLexer           *bool
 	outDir            string
 	pkg               string
+	profile           *bool
+	srcFile           string
+	verbose           *bool
 }
 
 func New() (Config, error) {
@@ -93,6 +95,10 @@ func (this *ConfigRecord) AllowUnreachable() bool {
 
 func (this *ConfigRecord) AutoResolveLRConf() bool {
 	return *this.autoResolveLRConf
+}
+
+func (this *ConfigRecord) NoLexer() bool {
+	return *this.noLexer
 }
 
 func (this *ConfigRecord) DebugLexer() bool {
@@ -141,6 +147,7 @@ func (this *ConfigRecord) ProjectName() string {
 }
 
 func (this *ConfigRecord) PrintParams() {
+	fmt.Printf("    noLexer                       = %t\n", *this.noLexer)
 	fmt.Printf("    debug lexer                   = %t\n", *this.debugLexer)
 	fmt.Printf("    debug parser                  = %t\n", *this.debugParser)
 	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
@@ -157,6 +164,7 @@ func (this *ConfigRecord) PrintParams() {
 func (this *ConfigRecord) getFlags() error {
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
+	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
 	this.debugLexer = flag.Bool("debug_lexer", false, "enable debug logging in lexer")
 	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
 	this.help = flag.Bool("h", false, "help")
@@ -165,6 +173,10 @@ func (this *ConfigRecord) getFlags() error {
 	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
 	flag.Parse()
+
+	if *this.noLexer && *this.debugLexer {
+		return errors.New("no-lexer and debug_lexer cannot both be set")
+	}
 
 	this.outDir = getOutDir(this.outDir, this.workingDir)
 	if this.outDir != this.workingDir {

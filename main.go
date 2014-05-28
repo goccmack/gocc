@@ -97,7 +97,9 @@ func main() {
 		io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
 	}
 	tokenMap = outToken.NewTokenMap(gSymbols.ListTerminals())
-	genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg)
+	if !cfg.NoLexer() {
+		genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg)
+	}
 
 	if g.SyntaxPart != nil {
 		firstSets := first.GetFirstSets(g, gSymbols)

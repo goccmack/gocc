@@ -52,7 +52,7 @@ func Test2(t *testing.T) {
 	s.Init([]byte(fmt.Sprintf("<< %s >>", lit)), token.FRONTENDTokens)
 	tok, _ := s.Scan()
 	if tok.Type != token.FRONTENDTokens.Type("g_sdt_lit") {
-		t.Error(fmt.Sprintf("Expected tok type: g_sdt_lit, got: %s"), token.FRONTENDTokens.TokenString(tok.Type))
+		t.Error(fmt.Sprintf("Expected tok type: g_sdt_lit, got: %s", token.FRONTENDTokens.TokenString(tok.Type)))
 	}
 	if tok.SDTVal() != lit {
 		t.Error(fmt.Sprintf("Expected SDTVal: %s, got: %s\n", lit, tok.SDTVal()))

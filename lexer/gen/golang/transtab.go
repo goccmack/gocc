@@ -128,9 +128,11 @@ var TransTab = TransitionTable{
 			{{end}}{{end}}
 			{{if $state.MatchAny}}default:
 				return {{$state.MatchAnyState}}
-			{{end}}
+			}
+			{{else}}
 			}
 			return NoState
+			{{end}}
 		},
 	{{end}}
 }

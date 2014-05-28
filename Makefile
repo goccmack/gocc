@@ -9,3 +9,5 @@ test:
 gofmt:
 	gofmt -l -s -w .
 
+govet:
+	go vet ./...

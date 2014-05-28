@@ -111,7 +111,7 @@ func (this itemSet) Contain(item string) bool {
 
 func checkItemsetResult(t *testing.T, set *ItemSet, data *itemSetTestData) {
 	if len(set.Items) != len(data.itemSet) {
-		testItemSetsErr(t, set, data, fmt.Sprintf("len(set.Items) == ", len(set.Items)))
+		testItemSetsErr(t, set, data, fmt.Sprintf("len(set.Items) == %v", len(set.Items)))
 	}
 }
 

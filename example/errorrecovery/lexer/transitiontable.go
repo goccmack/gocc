@@ -29,6 +29,7 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
+
 	},
 
 	// S1
@@ -37,6 +38,7 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
+
 	},
 
 	// S2
@@ -53,6 +55,7 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
+
 	},
 
 	// S3
@@ -69,6 +72,7 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
+
 	},
 
 	// S4
@@ -85,6 +89,7 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
+
 	},
 
 	// S5
@@ -101,6 +106,7 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
+
 	},
 
 	// S6
@@ -117,5 +123,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
+
 	},
 }

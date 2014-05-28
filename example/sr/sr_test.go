@@ -53,7 +53,7 @@ func Test3(t *testing.T) {
 	if !ok {
 		t.Fatalf("stmt is not *ast.IfElse")
 	}
-	ife2 := &ast.IfElse{"c2", ast.IdStmt("s2"), ast.IdStmt("s3")}
+	ife2 := &ast.IfElse{C: "c2", S1: ast.IdStmt("s2"), S2: ast.IdStmt("s3")}
 	if !ifs.MatchIf("c1", ife2) {
 		t.Fail()
 	}

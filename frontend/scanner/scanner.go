@@ -86,7 +86,7 @@ func (S *Scanner) Init(src []byte, tokenMap *token.TokenMap) {
 	// Explicitly initialize all fields since a scanner may be reused.
 	S.src = src
 	S.tokenMap = tokenMap
-	S.pos = token.Position{0, 1, 0}
+	S.pos = token.Position{Offset: 0, Line: 1, Column: 0}
 	S.offset = 0
 	S.ErrorCount = 0
 	S.next()
@@ -324,7 +324,6 @@ func (S *Scanner) scanIdentifier(pos token.Position) token.Type {
 	default:
 		return S.tokenMap.Type("tokId")
 	}
-	return token.ILLEGAL
 }
 
 var (
