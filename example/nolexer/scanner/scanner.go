@@ -47,10 +47,16 @@ func (S *Scanner) Scan() (tok *token.Token) {
 	lit := S.scanId()
 	switch lit {
 	case "hiya":
-		return &token.Token{Type: token.TokMap.Type("hiya"), Lit: []byte("hiya"), Pos: token.Pos{Offset: pos}}
+		return &token.Token{Type: token.TokMap.Type("hiya"),
+			Lit: []byte("hiya"),
+			Pos: token.Pos{Offset: pos}}
 	case "hello":
-		return &token.Token{Type: token.TokMap.Type("hello"), Lit: []byte("hello"), Pos: token.Pos{Offset: pos}}
+		return &token.Token{Type: token.TokMap.Type("hello"),
+			Lit: []byte("hello"),
+			Pos: token.Pos{Offset: pos}}
 	default:
-		return &token.Token{Type: token.TokMap.Type("name"), Lit: []byte(lit), Pos: token.Pos{Offset: pos}}
+		return &token.Token{Type: token.TokMap.Type("name"),
+			Lit: []byte(lit),
+			Pos: token.Pos{Offset: pos}}
 	}
 }

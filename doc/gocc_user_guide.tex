@@ -21,6 +21,7 @@
 \DeclareGraphicsExtensions{.jpg, .pdf}
 \usepackage{longtable}
 \usepackage{fancyvrb}
+\usepackage{listings}
 \usepackage{pdflscape}
 \usepackage{pdfpages}
 \usepackage[bookmarksnumbered,bookmarksopen,bookmarksopenlevel=2,pdffitwindow]{hyperref}
@@ -415,21 +416,20 @@
 
 \section{Commandline syntax}\label{sec:commandline}
 	\begin{verbatim}
-		> gocc -h
-		usage: gocc flags bnf_file
-
-		  bnf_file: contains the BNF grammar
-
-		Flags:
-		  -a=false: automatically resolve LR(1) conflicts
-		  -debug_lexer=false: enable debug logging in lexer
-		  -debug_parser=false: enable debug logging in parser
-		  -h=false: help
-		  -o="$HOME/goprj/src/code.google.com/p/gocc": output dir.
-		  -p="code.google.com/p/gocc": package
-		  -prof=false: write profile to file
-		  -u=false: allow unreachable productions
-		  -v=false: verbose
+        usage: gocc flags bnf_file
+        
+          bnf_file: contains the BNF grammar
+        
+        Flags:
+          -a=false: automatically resolve LR(1) conflicts
+          -debug_lexer=false: enable debug logging in lexer
+          -debug_parser=false: enable debug logging in parser
+          -h=false: help
+          -no_lexer=false: do not generate a lexer
+          -o="/Users/marius/goprj/src/code.google.com/p/gocc": output dir.
+          -p="code.google.com/p/gocc": package
+          -u=false: allow unreachable productions
+          -v=false: verbose
 	\end{verbatim}
 
 \section{Example: parsing simple mail addresses} \label{sec:example mail}
@@ -853,6 +853,96 @@
 	\end{enumerate}
 
 	See \verb|$GOPATH/src/code.google.com/p/gocc/examples/errorrecovery/errors/error.go| for the definition of errors.Error.
+
+\section{Example: Using another lexer} \label{sec:no lexer}
+	The generation of lexer code can be suppressed with the \verb|no_lexer| option (see section~\ref{sec:commandline}). An example, 
+	which uses a hand-written lexer, can be found at: 
+
+	\verb|$GOPATH/src/code.google.com/p/gocc/examples/nolexer/nolexer.bnf|:
+
+	\begin{verbatim}
+<<
+import (
+    "fmt"
+    "code.google.com/p/gocc/example/nolexer/token"
+)
+>>
+
+Hello : Saying name   << func () (Attrib, error) {
+                            fmt.Println(string($1.(*token.Token).Lit)); 
+                            return nil, nil} () >> 
+      ;
+
+Saying : "hello"    << func () (Attrib, error) {
+                            fmt.Print("hello "); 
+                            return nil, nil} () >>
+       | "hiya"     << func () (Attrib, error) {
+                            fmt.Print("hiya "); 
+                            return nil, nil} () >>
+       ;	
+    \end{verbatim}
+
+    This grammar contains no lexical productions. We generate code for it using 
+
+    \verb|$GOPATH/src/code.google.com/p/gocc/examples/nolexer/gen.sh|:
+
+    \verb|gocc -no_lexer nolexer.bnf|
+
+    After running gocc the directory structure contains the following files:
+    \begin{verbatim}
+> ls -R
+errors		nolexer.bnf	parser		token
+gen.sh		nolexer_test.go	scanner		util
+
+./errors:
+errors.go
+
+./parser:
+action.go		actiontable.go		gototable.go		parser.go		productionstable.go
+
+./scanner:
+scanner.go
+
+./token:
+token.go
+
+./util:
+litconv.go	rune.go
+    \end{verbatim}
+
+    Note the absence of a \verb|lexer| directory. Instead there is a hand-written scanner in 
+
+    \verb|$GOPATH/src/code.google.com/p/gocc/examples/nolexer/scanner/scanner.go|
+
+    The scanner implements the interface:
+
+    \lstinputlisting[numbers=left, linerange=89-91, firstnumber=89]{../example/nolexer/parser/parser.go}
+
+    which is declared in the generated parser:
+
+    \verb|$GOPATH/src/code.google.com/p/gocc/examples/nolexer/parser/parser.go|.
+
+    The scanner must recognise the tokens required by the parser generated from the BNF. They are declared in a \verb|TokenMap| in 
+
+    \verb|$GOPATH/src/code.google.com/p/gocc/examples/nolexer/token/token.go|:
+
+    \lstinputlisting[numbers=left,linerange=59-75,firstnumber=59]{../example/nolexer/token/token.go}
+
+    \verb|$| is the EOF symbol used by the parser.
+
+    \verb|hello| and \verb|hiya| are string literals from the BNF.
+
+    \verb|name| is literal other than \verb|hello| and \verb|hiya|.
+
+    Any lexeme not matching a valid terminal symbol of the grammar must be returned as \verb|INVALID|.
+
+    \verb|$GOPATH/src/code.google.com/p/gocc/examples/nolexer/scanner/scanner.go| implements a lexical analyser for this grammar as follows:
+
+    \lstinputlisting[numbers=left]{../example/nolexer/scanner/scanner.go}
+
+    Examples of using the generated parser with the hand-written scanner are given in 
+
+    \verb|$GOPATH/src/code.google.com/p/gocc/examples/nolexer/nolexer_test.go|
 
 \section{gocc syntax}\label{sec:gocc syntax}
 	A gocc source file contains UTF-8 encoded Unicode text.

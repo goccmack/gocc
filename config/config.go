@@ -28,7 +28,7 @@ type Config interface {
 	Verbose() bool
 	AllowUnreachable() bool
 	AutoResolveLRConf() bool
-	Profile() bool
+	// Profile() bool
 	SourceFile() string
 	OutDir() string
 
@@ -58,9 +58,9 @@ type ConfigRecord struct {
 	noLexer           *bool
 	outDir            string
 	pkg               string
-	profile           *bool
-	srcFile           string
-	verbose           *bool
+	// profile           *bool
+	srcFile string
+	verbose *bool
 }
 
 func New() (Config, error) {
@@ -109,9 +109,9 @@ func (this *ConfigRecord) DebugParser() bool {
 	return *this.debugParser
 }
 
-func (this *ConfigRecord) Profile() bool {
-	return *this.profile
-}
+// func (this *ConfigRecord) Profile() bool {
+// 	return *this.profile
+// }
 
 func (this *ConfigRecord) SourceFile() string {
 	return this.srcFile
@@ -147,31 +147,29 @@ func (this *ConfigRecord) ProjectName() string {
 }
 
 func (this *ConfigRecord) PrintParams() {
-	fmt.Printf("    noLexer                       = %t\n", *this.noLexer)
-	fmt.Printf("    debug lexer                   = %t\n", *this.debugLexer)
-	fmt.Printf("    debug parser                  = %t\n", *this.debugParser)
-	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
-	fmt.Printf("    output directory              = %s\n", this.outDir)
-	fmt.Printf("    package                       = %s\n", this.pkg)
-	fmt.Printf("    help                          = %t\n", *this.help)
-	fmt.Printf("    allow unreachable productions = %t\n", *this.allowUnreachable)
-	fmt.Printf("    resolve LR(1) conflicts       = %t\n", *this.autoResolveLRConf)
-	fmt.Printf("    verbose                       = %t\n", *this.verbose)
+	fmt.Printf("-a             = %v\n", *this.autoResolveLRConf)
+	fmt.Printf("-debug_lexer   = %v\n", *this.debugLexer)
+	fmt.Printf("-debug_parser  = %v\n", *this.debugParser)
+	fmt.Printf("-h             = %v\n", *this.help)
+	fmt.Printf("-no_lexer      = %v\n", *this.noLexer)
+	fmt.Printf("-o             = %v\n", this.outDir)
+	fmt.Printf("-p             = %v\n", this.pkg)
+	fmt.Printf("-u             = %v\n", *this.allowUnreachable)
+	fmt.Printf("-v             = %v\n", *this.verbose)
 }
 
 /*** Utility routines ***/
 
 func (this *ConfigRecord) getFlags() error {
-	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
-	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
 	this.debugLexer = flag.Bool("debug_lexer", false, "enable debug logging in lexer")
 	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
 	this.help = flag.Bool("h", false, "help")
-	this.verbose = flag.Bool("v", false, "verbose")
-	this.profile = flag.Bool("prof", false, "write profile to file")
+	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
 	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
+	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
+	this.verbose = flag.Bool("v", false, "verbose")
 	flag.Parse()
 
 	if *this.noLexer && *this.debugLexer {
