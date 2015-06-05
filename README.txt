@@ -1,3 +1,5 @@
+[![Build Status](https://drone.io/github.com/goccmack/gocc/status.png)](https://drone.io/github.com/goccmack/gocc/latest)
+
 Release Notes for gocc 2.1
 ==========================
 
