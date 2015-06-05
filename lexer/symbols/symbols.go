@@ -16,8 +16,8 @@ package symbols
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/ast"
 	"fmt"
+	"github.com/goccmack/gocc/ast"
 )
 
 type Symbols struct {

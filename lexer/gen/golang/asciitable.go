@@ -16,8 +16,8 @@ package golang
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/io"
-	"code.google.com/p/gocc/lexer/symbols"
+	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/lexer/symbols"
 	"path"
 	"text/template"
 )

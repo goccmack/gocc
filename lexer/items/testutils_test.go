@@ -15,11 +15,11 @@
 package items
 
 import (
-	"code.google.com/p/gocc/ast"
-	"code.google.com/p/gocc/frontend/parser"
-	"code.google.com/p/gocc/frontend/scanner"
-	"code.google.com/p/gocc/frontend/token"
 	"fmt"
+	"github.com/goccmack/gocc/ast"
+	"github.com/goccmack/gocc/frontend/parser"
+	"github.com/goccmack/gocc/frontend/scanner"
+	"github.com/goccmack/gocc/frontend/token"
 	"testing"
 )
 

@@ -15,8 +15,8 @@
 package gen
 
 import (
-	"code.google.com/p/gocc/token"
-	"code.google.com/p/gocc/token/gen/golang"
+	"github.com/goccmack/gocc/token"
+	"github.com/goccmack/gocc/token/gen/golang"
 )
 
 func Gen(pkg, outdir string, tokenMap *token.TokenMap) {

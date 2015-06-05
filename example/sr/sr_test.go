@@ -1,9 +1,9 @@
 package sr
 
 import (
-	"code.google.com/p/gocc/example/sr/ast"
-	"code.google.com/p/gocc/example/sr/lexer"
-	"code.google.com/p/gocc/example/sr/parser"
+	"github.com/goccmack/gocc/example/sr/ast"
+	"github.com/goccmack/gocc/example/sr/lexer"
+	"github.com/goccmack/gocc/example/sr/parser"
 	"testing"
 )
 

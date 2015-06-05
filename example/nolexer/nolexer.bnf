@@ -1,7 +1,7 @@
 <<
 import (
     "fmt"
-    "code.google.com/p/gocc/example/nolexer/token"
+    "github.com/goccmack/gocc/example/nolexer/token"
 )
 >>
 

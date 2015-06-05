@@ -15,7 +15,7 @@
 package ast
 
 import (
-	"code.google.com/p/gocc/frontend/token"
+	"github.com/goccmack/gocc/frontend/token"
 )
 
 // Id or name of a grammar(syntax) production

@@ -1,6 +1,6 @@
 package parser
 
-import "code.google.com/p/gocc/ast"
+import "github.com/goccmack/gocc/ast"
 
 const (
 	NUM_STATES = 120

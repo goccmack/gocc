@@ -2,8 +2,8 @@ package errors
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/example/nolexer/token"
 	"fmt"
+	"github.com/goccmack/gocc/example/nolexer/token"
 )
 
 type ErrorSymbol interface {

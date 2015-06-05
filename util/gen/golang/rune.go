@@ -1,7 +1,7 @@
 package golang
 
 import (
-	"code.google.com/p/gocc/io"
+	"github.com/goccmack/gocc/io"
 	"path"
 )
 

@@ -15,9 +15,9 @@
 package rr
 
 import (
-	"code.google.com/p/gocc/example/rr/lexer"
-	"code.google.com/p/gocc/example/rr/parser"
 	"fmt"
+	"github.com/goccmack/gocc/example/rr/lexer"
+	"github.com/goccmack/gocc/example/rr/parser"
 	"testing"
 )
 

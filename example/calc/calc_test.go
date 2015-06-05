@@ -1,9 +1,9 @@
 package calc
 
 import (
-	"code.google.com/p/gocc/example/calc/lexer"
-	"code.google.com/p/gocc/example/calc/parser"
 	"fmt"
+	"github.com/goccmack/gocc/example/calc/lexer"
+	"github.com/goccmack/gocc/example/calc/parser"
 	"testing"
 )
 

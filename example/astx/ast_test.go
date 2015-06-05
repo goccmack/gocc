@@ -1,10 +1,10 @@
 package astx
 
 import (
-	"code.google.com/p/gocc/example/astx/ast"
-	"code.google.com/p/gocc/example/astx/lexer"
-	"code.google.com/p/gocc/example/astx/parser"
 	"fmt"
+	"github.com/goccmack/gocc/example/astx/ast"
+	"github.com/goccmack/gocc/example/astx/lexer"
+	"github.com/goccmack/gocc/example/astx/parser"
 	"testing"
 )
 

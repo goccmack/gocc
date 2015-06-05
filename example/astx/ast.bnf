@@ -12,7 +12,7 @@ id : (_letter | '_') {_idchar} ;
 
 /* Syntax elements */
 
-<< import "code.google.com/p/gocc/example/astx/ast" >>
+<< import "github.com/goccmack/gocc/example/astx/ast" >>
 
 StmtList : 
       Stmt             << ast.NewStmtList($0) >>

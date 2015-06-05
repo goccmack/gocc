@@ -1,8 +1,8 @@
 package nolexer
 
 import (
-	"code.google.com/p/gocc/example/nolexer/parser"
-	"code.google.com/p/gocc/example/nolexer/scanner"
+	"github.com/goccmack/gocc/example/nolexer/parser"
+	"github.com/goccmack/gocc/example/nolexer/scanner"
 	"testing"
 )
 

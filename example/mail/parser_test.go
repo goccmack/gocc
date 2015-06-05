@@ -1,8 +1,8 @@
 package mail
 
 import (
-	"code.google.com/p/gocc/example/mail/lexer"
-	"code.google.com/p/gocc/example/mail/token"
+	"github.com/goccmack/gocc/example/mail/lexer"
+	"github.com/goccmack/gocc/example/mail/token"
 	"testing"
 )
 

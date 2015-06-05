@@ -16,8 +16,8 @@ package ast
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/frontend/token"
 	"fmt"
+	"github.com/goccmack/gocc/frontend/token"
 )
 
 type LexRegDef struct {

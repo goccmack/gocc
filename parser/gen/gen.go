@@ -18,12 +18,12 @@ This package controls the generation of all parser-related code.
 package gen
 
 import (
-	"code.google.com/p/gocc/ast"
-	"code.google.com/p/gocc/config"
-	"code.google.com/p/gocc/parser/gen/golang"
-	"code.google.com/p/gocc/parser/lr1/items"
-	"code.google.com/p/gocc/parser/symbols"
-	"code.google.com/p/gocc/token"
+	"github.com/goccmack/gocc/ast"
+	"github.com/goccmack/gocc/config"
+	"github.com/goccmack/gocc/parser/gen/golang"
+	"github.com/goccmack/gocc/parser/lr1/items"
+	"github.com/goccmack/gocc/parser/symbols"
+	"github.com/goccmack/gocc/token"
 )
 
 func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,

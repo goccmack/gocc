@@ -1,8 +1,8 @@
 package t1
 
 import (
-	"code.google.com/p/gocc/test/t1/lexer"
-	"code.google.com/p/gocc/test/t1/parser"
+	"github.com/goccmack/gocc/test/t1/lexer"
+	"github.com/goccmack/gocc/test/t1/parser"
 	"testing"
 )
 

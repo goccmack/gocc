@@ -13,33 +13,33 @@
 //   limitations under the License.
 
 //Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
-//Please see https://code.google.com/p/gocc/ for more documentation.
+//Please see https://github.com/goccmack/gocc/ for more documentation.
 package main
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/ast"
-	"code.google.com/p/gocc/config"
-	"code.google.com/p/gocc/frontend/parser"
-	"code.google.com/p/gocc/frontend/scanner"
-	"code.google.com/p/gocc/frontend/token"
-	"code.google.com/p/gocc/io"
-	genLexer "code.google.com/p/gocc/lexer/gen/golang"
-	lexItems "code.google.com/p/gocc/lexer/items"
-	"code.google.com/p/gocc/parser/first"
-	lr1Action "code.google.com/p/gocc/parser/lr1/action"
-	lr1Items "code.google.com/p/gocc/parser/lr1/items"
-	"code.google.com/p/gocc/parser/symbols"
-	outToken "code.google.com/p/gocc/token"
-	genToken "code.google.com/p/gocc/token/gen"
-	genUtil "code.google.com/p/gocc/util/gen"
 	"flag"
 	"fmt"
+	"github.com/goccmack/gocc/ast"
+	"github.com/goccmack/gocc/config"
+	"github.com/goccmack/gocc/frontend/parser"
+	"github.com/goccmack/gocc/frontend/scanner"
+	"github.com/goccmack/gocc/frontend/token"
+	"github.com/goccmack/gocc/io"
+	genLexer "github.com/goccmack/gocc/lexer/gen/golang"
+	lexItems "github.com/goccmack/gocc/lexer/items"
+	"github.com/goccmack/gocc/parser/first"
+	lr1Action "github.com/goccmack/gocc/parser/lr1/action"
+	lr1Items "github.com/goccmack/gocc/parser/lr1/items"
+	"github.com/goccmack/gocc/parser/symbols"
+	outToken "github.com/goccmack/gocc/token"
+	genToken "github.com/goccmack/gocc/token/gen"
+	genUtil "github.com/goccmack/gocc/util/gen"
 	"io/ioutil"
 	"os"
 	"path"
 	// "runtime/pprof"
-	genParser "code.google.com/p/gocc/parser/gen"
+	genParser "github.com/goccmack/gocc/parser/gen"
 	"time"
 )
 

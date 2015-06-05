@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"code.google.com/p/gocc/frontend/token"
 	"fmt"
+	"github.com/goccmack/gocc/frontend/token"
 )
 
 type SyntaxStringLit string

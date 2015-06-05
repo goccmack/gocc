@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"code.google.com/p/gocc/example/calc/token"
-	"code.google.com/p/gocc/example/calc/util"
+	"github.com/goccmack/gocc/example/calc/token"
+	"github.com/goccmack/gocc/example/calc/util"
 )
 
 type (

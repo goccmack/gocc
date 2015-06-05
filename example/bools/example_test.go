@@ -15,9 +15,9 @@
 package example
 
 import (
-	"code.google.com/p/gocc/example/bools/ast"
-	"code.google.com/p/gocc/example/bools/lexer"
-	"code.google.com/p/gocc/example/bools/parser"
+	"github.com/goccmack/gocc/example/bools/ast"
+	"github.com/goccmack/gocc/example/bools/lexer"
+	"github.com/goccmack/gocc/example/bools/parser"
 	"testing"
 )
 

@@ -26,7 +26,7 @@ id : (_letter | '_') {_idchar} ;
 
 /* Syntax elements */
 
-<< import "code.google.com/p/gocc/example/sr/ast" >>
+<< import "github.com/goccmack/gocc/example/sr/ast" >>
 
 Stmt :
 		"if" id "then" Stmt					<< ast.NewIf($1, $3), nil >>

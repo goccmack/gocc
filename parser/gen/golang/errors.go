@@ -15,7 +15,7 @@ package golang
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/io"
+	"github.com/goccmack/gocc/io"
 	"path"
 	"text/template"
 )

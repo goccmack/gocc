@@ -16,9 +16,9 @@ package golang
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/io"
-	"code.google.com/p/gocc/parser/lr1/items"
-	"code.google.com/p/gocc/parser/symbols"
+	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/parser/lr1/items"
+	"github.com/goccmack/gocc/parser/symbols"
 	"path"
 	"text/template"
 )

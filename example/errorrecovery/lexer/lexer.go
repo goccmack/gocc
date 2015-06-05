@@ -3,9 +3,9 @@ package lexer
 import (
 
 	// "fmt"
-	// "code.google.com/p/gocc/example/errorrecovery/util"
+	// "github.com/goccmack/gocc/example/errorrecovery/util"
 
-	"code.google.com/p/gocc/example/errorrecovery/token"
+	"github.com/goccmack/gocc/example/errorrecovery/token"
 	"io/ioutil"
 	"unicode/utf8"
 )

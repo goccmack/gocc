@@ -2,10 +2,10 @@ package parser
 
 import (
 	"bytes"
-	parseError "code.google.com/p/gocc/example/rr/errors"
-	"code.google.com/p/gocc/example/rr/token"
 	"errors"
 	"fmt"
+	parseError "github.com/goccmack/gocc/example/rr/errors"
+	"github.com/goccmack/gocc/example/rr/token"
 )
 
 const (

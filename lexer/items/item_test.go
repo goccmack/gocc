@@ -15,8 +15,8 @@
 package items
 
 import (
-	"code.google.com/p/gocc/lexer/symbols"
 	"fmt"
+	"github.com/goccmack/gocc/lexer/symbols"
 	"testing"
 )
 

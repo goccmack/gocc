@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"code.google.com/p/gocc/frontend/token"
-	"code.google.com/p/gocc/util"
+	"github.com/goccmack/gocc/frontend/token"
+	"github.com/goccmack/gocc/util"
 )
 
 type LexCharLit struct {

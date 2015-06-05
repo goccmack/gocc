@@ -16,10 +16,10 @@ package golang
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/ast"
-	"code.google.com/p/gocc/io"
-	"code.google.com/p/gocc/parser/lr1/items"
-	"code.google.com/p/gocc/token"
+	"github.com/goccmack/gocc/ast"
+	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/parser/lr1/items"
+	"github.com/goccmack/gocc/token"
 	"path"
 	"text/template"
 )

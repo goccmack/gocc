@@ -16,9 +16,9 @@ package golang
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/io"
-	"code.google.com/p/gocc/token"
 	"fmt"
+	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/token"
 	"path"
 	"text/template"
 )

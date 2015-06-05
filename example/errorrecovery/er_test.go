@@ -1,11 +1,11 @@
 package astx
 
 import (
-	"code.google.com/p/gocc/example/errorrecovery/ast"
-	"code.google.com/p/gocc/example/errorrecovery/errors"
-	"code.google.com/p/gocc/example/errorrecovery/lexer"
-	"code.google.com/p/gocc/example/errorrecovery/parser"
 	"fmt"
+	"github.com/goccmack/gocc/example/errorrecovery/ast"
+	"github.com/goccmack/gocc/example/errorrecovery/errors"
+	"github.com/goccmack/gocc/example/errorrecovery/lexer"
+	"github.com/goccmack/gocc/example/errorrecovery/parser"
 	"testing"
 )
 

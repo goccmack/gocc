@@ -1,1 +1,1 @@
-gocc -o frontend -p "code.google.com/p/gocc/frontend" spec/gocc2.ebnf
+gocc -o frontend -p "github.com/goccmack/gocc/frontend" spec/gocc2.ebnf

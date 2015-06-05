@@ -3,9 +3,9 @@ package lexer
 import (
 
 	// "fmt"
-	// "code.google.com/p/gocc/example/sr/util"
+	// "github.com/goccmack/gocc/example/sr/util"
 
-	"code.google.com/p/gocc/example/sr/token"
+	"github.com/goccmack/gocc/example/sr/token"
 	"io/ioutil"
 	"unicode/utf8"
 )

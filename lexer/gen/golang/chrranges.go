@@ -15,7 +15,7 @@
 package golang
 
 import (
-	"code.google.com/p/gocc/lexer/symbols"
+	"github.com/goccmack/gocc/lexer/symbols"
 )
 
 type CharRange struct {

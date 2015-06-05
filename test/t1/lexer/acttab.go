@@ -1,8 +1,8 @@
 package lexer
 
 import (
-	"code.google.com/p/gocc/test/t1/token"
 	"fmt"
+	"github.com/goccmack/gocc/test/t1/token"
 )
 
 type ActionTable [NumStates]ActionRow

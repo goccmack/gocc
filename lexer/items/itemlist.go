@@ -16,10 +16,10 @@ package items
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/ast"
-	"code.google.com/p/gocc/lexer/symbols"
 	"errors"
 	"fmt"
+	"github.com/goccmack/gocc/ast"
+	"github.com/goccmack/gocc/lexer/symbols"
 )
 
 // Each Itemset element is a ItemList

@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"code.google.com/p/gocc/example/nolexer/token"
 	"fmt"
+	"github.com/goccmack/gocc/example/nolexer/token"
 )
 
 type (

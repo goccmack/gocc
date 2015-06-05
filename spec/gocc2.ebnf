@@ -14,7 +14,7 @@
 
 /*** Syntactic items ***/
 
-<< import "code.google.com/p/gocc/ast" >>
+<< import "github.com/goccmack/gocc/ast" >>
 
 Grammar : LexicalPart SyntaxPart 							<< ast.NewGrammar($0, $1) >>
 		| LexicalPart 										<< ast.NewGrammar($0, nil) >>

@@ -3,9 +3,9 @@ package lexer
 import (
 
 	// "fmt"
-	// "code.google.com/p/gocc/example/bools/util"
+	// "github.com/goccmack/gocc/example/bools/util"
 
-	"code.google.com/p/gocc/example/bools/token"
+	"github.com/goccmack/gocc/example/bools/token"
 	"io/ioutil"
 	"unicode/utf8"
 )

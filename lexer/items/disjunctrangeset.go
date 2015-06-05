@@ -16,8 +16,8 @@ package items
 
 import (
 	"bytes"
-	"code.google.com/p/gocc/ast"
 	"fmt"
+	"github.com/goccmack/gocc/ast"
 )
 
 // set is kept sorted

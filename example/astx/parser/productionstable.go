@@ -1,6 +1,6 @@
 package parser
 
-import "code.google.com/p/gocc/example/astx/ast"
+import "github.com/goccmack/gocc/example/astx/ast"
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
