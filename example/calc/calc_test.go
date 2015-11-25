@@ -1,10 +1,10 @@
 package calc
 
 import (
-	"fmt"
+	"testing"
+
 	"github.com/goccmack/gocc/example/calc/lexer"
 	"github.com/goccmack/gocc/example/calc/parser"
-	"testing"
 )
 
 type TI struct {
@@ -20,20 +20,14 @@ var testData = []*TI{
 
 func Test1(t *testing.T) {
 	p := parser.NewParser()
-	pass := true
 	for _, ts := range testData {
 		s := lexer.NewLexer([]byte(ts.src))
 		sum, err := p.Parse(s)
 		if err != nil {
-			pass = false
-			t.Log(err.Error())
+			t.Error(err)
 		}
 		if sum != ts.expect {
-			pass = false
-			t.Log(fmt.Sprintf("Error: %s = %d. Got %d\n", ts.src, sum, ts.expect))
+			t.Errorf("Error: %s = %d. Expected %d\n", ts.src, sum, ts.expect)
 		}
-	}
-	if !pass {
-		t.Fail()
 	}
 }
