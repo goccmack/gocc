@@ -46,9 +46,10 @@ import (
 var cfg config.Config
 
 func main() {
+	flag.Usage = usage
 	if cfg1, err := config.New(); err != nil {
 		fmt.Printf("Error reading configuration: %s\n", err)
-		usage()
+		flag.Usage()
 	} else {
 		cfg = cfg1
 	}
@@ -58,7 +59,7 @@ func main() {
 	}
 
 	if cfg.Help() {
-		usage()
+		flag.Usage()
 	}
 
 	// if *profile {
