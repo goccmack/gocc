@@ -63,21 +63,21 @@ Next create ast.go file at $GOPATH/src/foo/ast with the following contents:
 package ast
 
 import (
-  "foo/token"
+    "foo/token"
 )
 
 type Attrib interface {}
 
 type World struct {
-  Name string
+    Name string
 }
 
 func NewWorld(id Attrib) (*World, error) {
-  return &World{string(id.(*token.Token).Lit)}, nil
+    return &World{string(id.(*token.Token).Lit)}, nil
 }
 
 func (this *World) String() string {
-  return "hello " + this.Name
+    return "hello " + this.Name
 }
 ```
 
@@ -87,27 +87,27 @@ Finally we want to parse a string into the ast, so let us write a test at $GOPAT
 package test
 
 import (
-        "foo/ast"
-        "foo/lexer"
-        "foo/parser"
-        "testing"
+    "foo/ast"
+    "foo/lexer"
+    "foo/parser"
+    "testing"
 )
 
 func TestWorld(t *testing.T) {
-        input := []byte(`hello gocc`)
-        lex := lexer.NewLexer(input)
-        p := parser.NewParser()
-        st, err := p.Parse(lex)
-        if err != nil {
-                panic(err)
-        }
-        w, ok := st.(*ast.World)
-        if !ok {
-                t.Fatalf("This is not a world")
-        }
-        if w.Name != `gocc` {
-                t.Fatalf("Wrong world %v", w.Name)
-        }
+    input := []byte(`hello gocc`)
+    lex := lexer.NewLexer(input)
+    p := parser.NewParser()
+    st, err := p.Parse(lex)
+    if err != nil {
+        panic(err)
+    }
+    w, ok := st.(*ast.World)
+    if !ok {
+        t.Fatalf("This is not a world")
+    }
+    if w.Name != `gocc` {
+        t.Fatalf("Wrong world %v", w.Name)
+    }
 }
 ```
 
@@ -182,4 +182,3 @@ panic: string_lit "A" conflicts with production name A
 ```
 
 This issue will be properly resolved in a future release.
-
