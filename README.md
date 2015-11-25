@@ -24,8 +24,8 @@ See the [README](example/bools/README) for an included example.
 
 * First download and Install Go From http://golang.org/
 * Setup your GOPATH environment variable.
-* Next in your command line run: go get code.google.com/p/gocc/ (go get will git clone gocc into GOPATH/src/code.google.com/p/gocc and run go install)
-* Alternatively clone the source: https://code.google.com/p/gocc/source/checkout . Followed by go install code.google.com/p/gocc
+* Next in your command line run: go get github.com/goccmack/gocc (go get will git clone gocc into GOPATH/src/github.com/goccmack/gocc and run go install)
+* Alternatively clone the source: https://github.com/goccmack/gocc . Followed by go install github.com/goccmack/gocc
 * Finally make sure that the bin folder where the gocc binary is located is in your PATH environment variable.
 
 ## Getting Started
