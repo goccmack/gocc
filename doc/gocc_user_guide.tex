@@ -578,7 +578,7 @@
 \section{Example: reduce/reduce conflict handling} \label{sec:example rr}
 	The source code of the following example can be found at
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/reducereduce|
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/rr|
 
 	\begin{verbatim}
 	RR : A | B ;
@@ -589,7 +589,7 @@
 
 	\end{verbatim}
 
-	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/reducereduce/rr.bnf| we discover a reduce/reduce conflict:
+	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/rr/rr.bnf| we discover a reduce/reduce conflict:
 
 	\begin{verbatim}
 		> gocc -v rr.bnf
@@ -601,7 +601,7 @@
 
 	\gocc generates a number of informational files, and at this point we turn to
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/reducereduce/sm_sets.txt|
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/rr/sm_sets.txt|
 
 	to analyse the conflict.
 
@@ -637,7 +637,7 @@
 \section{Example: Shift/reduce conflict handling} \label{sec:example sr}
 	The source code of the following example can be found at
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/shiftreduce|
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/sr|
 
 	It is the classic example of the dangling else in the \Clang:
 
@@ -648,7 +648,7 @@
 		;
 	\end{verbatim}
 
-	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/shiftreduce/sr.bnf| we discover a shift/reduce conflict:
+	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/sr/sr.bnf| we discover a shift/reduce conflict:
 
 	\begin{verbatim}
 		> gocc -v sr.bnf
