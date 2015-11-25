@@ -1148,7 +1148,7 @@ SyntaxPart
     ;
 
 FileHeader
-    : action_lit
+    : g_sdt_lit
     ;
 
 SyntaxProdList
@@ -1190,10 +1190,10 @@ This grammar will match strings, \verb|b c| or \verb|c|.
 \begin{Verbatim}[frame=single]
 SyntaxBody
     : Symbols
-    | Symbols action_lit
+    | Symbols g_sdt_lit
     | "error"
     | "error" Symbols
-    | "error" Symbols action_lit
+    | "error" Symbols g_sdt_lit
     | "empty"
     ;
 
@@ -1206,7 +1206,7 @@ Symbols
 An action literal is any string of characters enclosed in "<<" ">>". The contents of the action literal is invoke as an expression when the associated production body has been recognised by the parser. The action expression must return a tuple of type \verb| (interface{}, error)|. If the second parameter is not \verb|nil| the parser terminates and returns the error to its caller. If the second parameter is \verb|nil| the parser associates first parameter with the recognise syntax production as its attribute.
 
 \begin{Verbatim}[frame=single]
-action_lit
+g_sdt_lit
     : '<' '<' . {.} '>' '>'
     ;
 \end{Verbatim}
