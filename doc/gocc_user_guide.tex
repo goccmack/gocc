@@ -58,7 +58,7 @@
 
 	gocc supports action expressions, embedded in the input grammar, for the specification of semantic actions. For simple applications action expressions can be used to implement a syntax directed translation directly within the grammar. See the example in section~\ref{sec:first example}. For more complex applications the action routines can be used to build an abstract syntax tree (AST), which is further processed by later stages of the application. See the example in section~\ref{sec:example ast}.
 
-	gocc has been successfully used to develop a query language compiler; a configuration / control language for a distributed system; parsers for protocol messages specified in ABNF~\cite{ABNF} and gographviz (\url{http://code.google.com/p/gographviz/}). In addition gocc1 was used to generate the parser for gocc2, and gocc2 to generate the lexer and parser for gocc3.
+	gocc has been successfully used to develop a query language compiler; a configuration / control language for a distributed system; parsers for protocol messages specified in ABNF~\cite{ABNF} and gographviz (\url{https://github.com/awalterschulze/gographviz}). In addition gocc1 was used to generate the parser for gocc2, and gocc2 to generate the lexer and parser for gocc3.
 
 	gocc was designed to be easy to use and experience has shown that its users require very little background knowledge of language and compiler theory to apply it to simple language applications, such as syntax directed translation. An appreciation of mathematical formalism is usually enough and this guide is intended to provide sufficient information for such users, provided they understand:
 	\begin{itemize}
