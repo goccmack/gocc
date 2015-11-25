@@ -58,13 +58,13 @@ SyntaxPart	: FileHeader SyntaxProdList 					<< ast.NewSyntaxPart($0, $1) >>
 FileHeader 	: g_sdt_lit										<< ast.NewFileHeader($0) >>
 			;
 
-SyntaxProdList	: SyntaxProduction							<< ast.NewSyntaxProdList($0) >>			
+SyntaxProdList	: SyntaxProduction							<< ast.NewSyntaxProdList($0) >>
 				| SyntaxProdList SyntaxProduction 			<< ast.AddSyntaxProds($0, $1) >>
 				;
 
 SyntaxProduction	: prodId ":" Alternatives ";"			<< ast.NewSyntaxProd($0, $2) >>
 					;
-			
+
 Alternatives	:	SyntaxBody								<< ast.NewSyntaxAlts($0) >>
 				|	Alternatives "|" SyntaxBody				<< ast.AddSyntaxAlt($0, $2) >>
 				;
@@ -76,11 +76,11 @@ SyntaxBody	: Symbols										<< ast.NewSyntaxBody($0, nil) >>
 			| "error" Symbols g_sdt_lit						<< ast.NewErrorBody($1, $2) >>
 			| "empty"										<< ast.NewEmptyBody() >>
 			;
-		
+
 Symbols	: Symbol											<< ast.NewSyntaxSymbols($0) >>
 		| Symbols Symbol									<< ast.AddSyntaxSymbol($0, $1) >>
 		;
-		
+
 Symbol	: prodId											<< ast.NewSyntaxProdId($0) >>
 		| tokId												<< ast.NewTokId($0) >>
 		| string_lit										<< ast.NewStringLit($0) >>
@@ -113,7 +113,7 @@ string : _raw_string | _interpreted_string ;
 _raw_string : "`" _unicode_char* "`" ;
 _interpreted_string : `"` ( _unicode_value | byte_value )* `"` ;
 
-sdt_lit	: '<' '<' _unicode_char+ '>' '>'
+g_sdt_lit	: '<' '<' _unicode_char+ '>' '>'
 **********/
 
 /*** TODO: ***

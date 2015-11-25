@@ -1,11 +1,11 @@
 % Copyright 2012 VAStech SA (PTY) LTD
-% 
+%
 %    Licensed under the Apache License, Version 2.0 (the "License");
 %    you may not use this file except in compliance with the License.
 %    You may obtain a copy of the License at
-% 
+%
 %        http://www.apache.org/licenses/LICENSE-2.0
-% 
+%
 %    Unless required by applicable law or agreed to in writing, software
 %    distributed under the License is distributed on an "AS IS" BASIS,
 %    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,24 +41,24 @@
 \newcommand{\TBD}{\textcolor{red}{TBD}}
 \newcommand{\TBDx}[1]{\textcolor{red}{TBD:} #1}
 \newcommand{\Go}{{\em Go}\ }
-\newcommand{\Code}[1]{{\bf #1} } 
+\newcommand{\Code}[1]{{\bf #1} }
 \newcommand{\gocc}{{\em gocc}\ }
 \newcommand{\Clang}{{\em C} language}
 
 \section{Introduction}
-	gocc is a compiler kit which generates lexers, parsers and stand-alone DFAs from an EBNF file. 
+	gocc is a compiler kit which generates lexers, parsers and stand-alone DFAs from an EBNF file.
 
-	gocc lexers are deterministic finite state automata (DFA), which recognise regular languages.  
+	gocc lexers are deterministic finite state automata (DFA), which recognise regular languages.
 
 	gocc parsers are pushdown automata (PDA), which recognise LR-1 languages. LR-1 is the set of languages, which can be parsed deterministically. Some context free grammars (CFG) are outside LR-1, because they produce ambiguous derivations. gocc recognises ambiguous grammars and can automatically resolve LR-1 conflicts (see section~\ref{sec:lr conflicts}).
 
 	gocc can also be used to generate stand-alone finite state automata for parsing simple regular languages. See for example: see the mail address example (section~\ref{sec:example mail}).
 
-	gocc supports parser error recovery (see section~\ref{sec:error recovery}). 
+	gocc supports parser error recovery (see section~\ref{sec:error recovery}).
 
 	gocc supports action expressions, embedded in the input grammar, for the specification of semantic actions. For simple applications action expressions can be used to implement a syntax directed translation directly within the grammar. See the example in section~\ref{sec:first example}. For more complex applications the action routines can be used to build an abstract syntax tree (AST), which is further processed by later stages of the application. See the example in section~\ref{sec:example ast}.
 
-	gocc has been successfully used to develop a query language compiler; a configuration / control language for a distributed system; parsers for protocol messages specified in ABNF~\cite{ABNF} and gographviz (\url{http://code.google.com/p/gographviz/}). In addition gocc1 was used to generate the parser for gocc2, and gocc2 to generate the lexer and parser for gocc3.
+	gocc has been successfully used to develop a query language compiler; a configuration / control language for a distributed system; parsers for protocol messages specified in ABNF~\cite{ABNF} and gographviz (\url{https://github.com/awalterschulze/gographviz}). In addition gocc1 was used to generate the parser for gocc2, and gocc2 to generate the lexer and parser for gocc3.
 
 	gocc was designed to be easy to use and experience has shown that its users require very little background knowledge of language and compiler theory to apply it to simple language applications, such as syntax directed translation. An appreciation of mathematical formalism is usually enough and this guide is intended to provide sufficient information for such users, provided they understand:
 	\begin{itemize}
@@ -85,13 +85,13 @@
 \section{Copyright}
 	\begin{verbatim}
 		Copyright 2012 VAStech SA (PTY) LTD
-		
+
 		    Licensed under the Apache License, Version 2.0 (the "License");
 		    you may not use this file except in compliance with the License.
 		    You may obtain a copy of the License at
-		    
+
 		        http://www.apache.org/licenses/LICENSE-2.0
-		    
+
 		    Unless required by applicable law or agreed to in writing, software
 		    distributed under the License is distributed on an "AS IS" BASIS,
 		    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -119,7 +119,7 @@
 			\begin{enumerate}
 				\item In your command line run: \Code{go get github.com/goccmack/gocc/} (go get will git clone gocc into GOPATH/src/github.com/goccmack/gocc and run go install)
 
-					or 
+					or
 
 				\item Alternatively clone the repository: \url{https://github.com/goccmack/gocc/source/checkout}. Followed by:
 				\verb|go install github.com/goccmack/gocc|.
@@ -134,15 +134,15 @@
 	\begin{itemize}
 		\item The user creates a target grammar conforming to the gocc BNF standard (see section~\ref{sec:gocc syntax}).
 
-		\item gocc reads the target grammar and generates the components shown in heavy outline in fig~\ref{fig:hl design}, i.e.: the lexer, parser, token and error packages. 
+		\item gocc reads the target grammar and generates the components shown in heavy outline in fig~\ref{fig:hl design}, i.e.: the lexer, parser, token and error packages.
 
 		\item The user also creates a package called by the compiler to execute semantic actions for each recognised production of the target grammar. The methods of the semantic package provided by the user correspond to the method calls specified in the action expressions of the target grammar.
 
 		\item The user application initialises a lexer object with the input text. Then it calls the \Code{Parse(...)} method of the parser.
 
-		\item Once created, the lexer and parser objects may be used repeatedly for successive inputs. For each input the lexer must be initialised with the next input text and the parser's \Code{Parse(...)} method called with a reference to the lexer.	
+		\item Once created, the lexer and parser objects may be used repeatedly for successive inputs. For each input the lexer must be initialised with the next input text and the parser's \Code{Parse(...)} method called with a reference to the lexer.
 
-		\item The parser reads a stream of tokens (lexical elements) from the lexer (lexer) by repeatedly calling the lexer interface method, \Code{lexer.Scan()}. 
+		\item The parser reads a stream of tokens (lexical elements) from the lexer (lexer) by repeatedly calling the lexer interface method, \Code{lexer.Scan()}.
 
 		\begin{verbatim}
 			type Scanner interface {
@@ -172,16 +172,16 @@
 \section{First example}\label{sec:first example}
 	This example shows how action expressions in the BNF can be used to implement a syntax directed translation scheme without the need for further user provided packages, such as AST.
 
-	The source code of the following example can be found at 
+	The source code of the following example can be found at
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/calc| 
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/calc|
 
 	The grammar implements the simple desktop calculator described in~\cite{Dragon Book}. The generated code is both a parser and an interpreter for the calculator.
 
 	The following files are provided by the user:
 	\begin{verbatim}
 		> ls -R
-		calc.bnf	calc_test.go	
+		calc.bnf	calc_test.go
 	\end{verbatim}
 
 	\begin{description}
@@ -254,7 +254,7 @@
 
 			/* Syntax part */
 
-			<< 
+			<<
 			import(
 			    "github.com/goccmack/gocc/example/calc/token"
 			    "github.com/goccmack/gocc/example/calc/util"
@@ -265,15 +265,15 @@
 
 			Expr
 			    : Expr "+" Term           << $0.(int64) + $2.(int64), nil >>
-			    | Term			
+			    | Term
 			    ;
 
 			Term
 			    : Term "*" Factor         << $0.(int64) * $2.(int64), nil >>
-			    |	Factor			
+			    |	Factor
 			    ;
 
-			Factor 
+			Factor
 			    : "(" Expr ")"            << $1, nil >>
 			    | int64                   << util.IntValue($0.(*token.Token).Lit) >>
 			    ;
@@ -327,7 +327,7 @@
 
 		When the parser has recognised the whole body of a production alternative, it calls the associated action expression with the attributes of the recognised language symbols of that body. If the action expression returns a non-nil error the parser stops and returns the error to the calling user application. If the action expression returns a nil error the parser replaces the recognised language symbols of the production on its stack with the attribute returned by the action expression.
 
-		If a recognised production alternative does not have a specific action expression, e.g.: 
+		If a recognised production alternative does not have a specific action expression, e.g.:
 		\begin{verbatim}
 			Calc : Expr;
 		\end{verbatim}
@@ -340,7 +340,7 @@
 
 		The first alternative of \verb|Factor| simply returns the attribute of the parenthesised \verb|Expr|. The second alternative returns the value of a numeric token.
 
-		In the second alternative of \verb|Factor| we use a method on the input token, which returns 
+		In the second alternative of \verb|Factor| we use a method on the input token, which returns
 		\verb|(int64, error)|. Therefore the types of all numbers are \verb|int64|.
 
 	\subsection{The test program}
@@ -417,9 +417,9 @@
 \section{Commandline syntax}\label{sec:commandline}
 	\begin{verbatim}
         usage: gocc flags bnf_file
-        
+
           bnf_file: contains the BNF grammar
-        
+
         Flags:
           -a=false: automatically resolve LR(1) conflicts
           -debug_lexer=false: enable debug logging in lexer
@@ -442,8 +442,8 @@
 	\begin{verbatim}
 		!whitespace : '\t' | '\n' | '\r' | ' ' ;
 
-		_atext  : 'A'-'Z' | 'a'-'z' | '0'-'9'	
-		        | '!' | '#' | '$' | '%' | '&' | '\'' | '*' | '+' | '-' | '/' 
+		_atext  : 'A'-'Z' | 'a'-'z' | '0'-'9'
+		        | '!' | '#' | '$' | '%' | '&' | '\'' | '*' | '+' | '-' | '/'
 		        | '=' | '?' | '^' | '_' | '`' | '{' | '|' | '}' | '~'
 		        | '\u0100'-'\U0010FFFF'
 		;
@@ -459,7 +459,7 @@
 		addrspec : (_dotatom | _quotedstring)  '@' _dotatom ;
 	\end{verbatim}
 
-	The production 
+	The production
 
 	\verb|_quotedpair : ’\\’ . ;|
 
@@ -564,7 +564,7 @@
 	If a target grammar is outside the class of LR(1) grammars it cannot be parsed deterministically with one symbol lookahead. This condition manifests as LR(1) conflicts, of which there are two types:
 
 	\begin{description}
-		\item[Shift/Reduce conflict:] The parser has recognised a valid production body on the stack, and can reduce it to the corresponding production. 
+		\item[Shift/Reduce conflict:] The parser has recognised a valid production body on the stack, and can reduce it to the corresponding production.
 
 		However, the same symbols are also a valid prefix of the body of another, longer production. The parser could continue to shift the input symbols and attempt to recognise the longer production.
 
@@ -578,7 +578,7 @@
 \section{Example: reduce/reduce conflict handling} \label{sec:example rr}
 	The source code of the following example can be found at
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/reducereduce|
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/rr|
 
 	\begin{verbatim}
 	RR : A | B ;
@@ -589,7 +589,7 @@
 
 	\end{verbatim}
 
-	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/reducereduce/rr.bnf| we discover a reduce/reduce conflict:
+	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/rr/rr.bnf| we discover a reduce/reduce conflict:
 
 	\begin{verbatim}
 		> gocc -v rr.bnf
@@ -599,15 +599,15 @@
 
 	\gocc does not generate code because the default for automatic LR(1) conflict resolution is \verb|off|. From the output we see that \gocc could reduce either of production \verb|B| or \verb|A| in state \verb|4|.
 
-	\gocc generates a number of informational files, and at this point we turn to 
+	\gocc generates a number of informational files, and at this point we turn to
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/reducereduce/sm_sets.txt|
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/rr/sm_sets.txt|
 
 	to analyse the conflict.
 
-	\verb|sm_set.txt| contains the LR(1) sets, which will be translated into the states of the parser. Each state contains a set of {\em LR(1)  items}, which specifies what the parser expects in that state. 
+	\verb|sm_set.txt| contains the LR(1) sets, which will be translated into the states of the parser. Each state contains a set of {\em LR(1)  items}, which specifies what the parser expects in that state.
 
-	An LR(1) item is a production alternative with the position of the parser marked by a $\bullet$, and the next symbol expected after this production body, in double angle brackets. Alternatives of a production are in  separate items. For example: 
+	An LR(1) item is a production alternative with the position of the parser marked by a $\bullet$, and the next symbol expected after this production body, in double angle brackets. Alternatives of a production are in  separate items. For example:
 
 	$A : a\bullet <<\$>>$
 
@@ -637,7 +637,7 @@
 \section{Example: Shift/reduce conflict handling} \label{sec:example sr}
 	The source code of the following example can be found at
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/shiftreduce|
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/sr|
 
 	It is the classic example of the dangling else in the \Clang:
 
@@ -648,7 +648,7 @@
 		;
 	\end{verbatim}
 
-	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/shiftreduce/sr.bnf| we discover a shift/reduce conflict:
+	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/sr/sr.bnf| we discover a shift/reduce conflict:
 
 	\begin{verbatim}
 		> gocc -v sr.bnf
@@ -672,7 +672,7 @@
 	When automatic LR(1) conflict resolution is selected by the \verb|-a| option, \gocc resolves this conflict in the same way as specified in the \Clang\ specification: by shifting and parsing the longest valid production ({\em maximal-munch}). This means recognising the \verb|else|-statement as part of the second \verb|if|.
 
 \section{Example: Using an AST} \label{sec:example ast}
-	The following example illustrates the use of user-provided action expressions to produce a simple abstract syntax tree (AST) for a list of simple statements. 
+	The following example illustrates the use of user-provided action expressions to produce a simple abstract syntax tree (AST) for a list of simple statements.
 
 	The code for the example can be found at
 
@@ -683,23 +683,23 @@
 	\begin{verbatim}
 		<< import "github.com/goccmack/gocc/example/astx/ast" >>
 
-		StmtList : 
+		StmtList :
 		      Stmt             << ast.NewStmtList($0) >>
 		    | StmtList Stmt    << ast.AppendStmt($0, $1) >>
 		;
 
-		Stmt : 
+		Stmt :
 		      id               << ast.NewStmt($0) >>
 		;
 	\end{verbatim}
 
-	At the top of the grammar is an file header section containing an import statement for the user-provided package, 
+	At the top of the grammar is a file header section containing an import statement for the user-provided package,
 	\verb|github.com/goccmack/gocc/example/astx/ast|.
 
 	The production action expressions will use functions from the package, \verb|ast|.
 
-	The start production, \verb"StmtList" returns a tuple: \verb|(ast.StmtList, error)|, as we can see from the code of functions 
-	\verb|NewStmtList| and \verb|AppendStmt| in 
+	The start production, \verb"StmtList" returns a tuple: \verb|(ast.StmtList, error)|, as we can see from the code of functions
+	\verb|NewStmtList| and \verb|AppendStmt| in
 
 	\verb|$GOPATH/src/github.com/goccmack/gocc/example/astx/ast.go|:
 
@@ -721,7 +721,7 @@
 
 		func AppendStmt(stmtList, stmt interface{}) (StmtList, error) {
 		    return append(stmtList.(StmtList), stmt.(Stmt)), nil
-		}	
+		}
 
 		func NewStmt(stmtList interface{}) (Stmt, error) {
 		    return Stmt(stmtList.(*token.Token).Lit), nil
@@ -738,13 +738,13 @@
 		\item The parser will return the result of a successful parse, a \verb"StmtList", to the calling application as type \verb"interface{}". The calling application must type assert the returned value to the expected type.
 	\end{itemize}
 
-	If we run 
+	If we run
 
-	\verb"go test -v ." 
+	\verb"go test -v ."
 
-	from the directory 
+	from the directory
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/astx/| 
+	\verb|$GOPATH/src/github.com/goccmack/gocc/example/astx/|
 
 	we get the following output:
 
@@ -775,7 +775,7 @@
 	The input to the second test, \verb|TestFail|, contains an invalid identifier, \verb|;|. The parser returns an error, indicating that it encountered an invalid token when it expect a token of type \verb|id| or the end of input.
 
 \section{Example: Parser error recovery} \label{sec:error recovery}
-	Without error recovery a \gocc parser terminates when it reaches the first error in the input. Sometimes it is convenient to attempt to continue the parse and this can be achieved in \gocc by specifying in the grammar which productions can recover from errors in the input. 
+	Without error recovery a \gocc parser terminates when it reaches the first error in the input. Sometimes it is convenient to attempt to continue the parse and this can be achieved in \gocc by specifying in the grammar which productions can recover from errors in the input.
 
 	When the \gocc reserved word, \verb|error|, is the first symbol in a production alternative, it indicates that that production can recover from input errors.
 
@@ -786,12 +786,12 @@
 	\begin{verbatim}
 		<< import "github.com/goccmack/gocc/example/errorrecovery/ast" >>
 
-		StmtList : 
+		StmtList :
 		      Stmt             << ast.NewStmtList($0) >>
 		    | StmtList Stmt    << ast.AppendStmt($0, $1) >>
 		;
 
-		Stmt : 
+		Stmt :
 		      id               << ast.NewStmt($0) >>
 		    | error
 		;
@@ -801,9 +801,9 @@
 
 	This indicates to \gocc that input errors can be handles in production \verb|Stmt|.
 
-	From the directory, 
+	From the directory,
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/examples/errorrecovery/|, 
+	\verb|$GOPATH/src/github.com/goccmack/gocc/examples/errorrecovery/|,
 
 	run \verb|go test| as follows:
 
@@ -855,8 +855,8 @@
 	See \verb|$GOPATH/src/github.com/goccmack/gocc/examples/errorrecovery/errors/error.go| for the definition of errors.Error.
 
 \section{Example: Using another lexer} \label{sec:no lexer}
-	The generation of lexer code can be suppressed with the \verb|no_lexer| option (see section~\ref{sec:commandline}). An example, 
-	which uses a hand-written lexer, can be found at: 
+	The generation of lexer code can be suppressed with the \verb|no_lexer| option (see section~\ref{sec:commandline}). An example,
+	which uses a hand-written lexer, can be found at:
 
 	\verb|$GOPATH/src/github.com/goccmack/gocc/examples/nolexer/nolexer.bnf|:
 
@@ -869,20 +869,20 @@ import (
 >>
 
 Hello : Saying name   << func () (Attrib, error) {
-                            fmt.Println(string($1.(*token.Token).Lit)); 
-                            return nil, nil} () >> 
+                            fmt.Println(string($1.(*token.Token).Lit));
+                            return nil, nil} () >>
       ;
 
 Saying : "hello"    << func () (Attrib, error) {
-                            fmt.Print("hello "); 
+                            fmt.Print("hello ");
                             return nil, nil} () >>
        | "hiya"     << func () (Attrib, error) {
-                            fmt.Print("hiya "); 
+                            fmt.Print("hiya ");
                             return nil, nil} () >>
-       ;	
+       ;
     \end{verbatim}
 
-    This grammar contains no lexical productions. We generate code for it using 
+    This grammar contains no lexical productions. We generate code for it using
 
     \verb|$GOPATH/src/github.com/goccmack/gocc/examples/nolexer/gen.sh|:
 
@@ -910,7 +910,7 @@ token.go
 litconv.go	rune.go
     \end{verbatim}
 
-    Note the absence of a \verb|lexer| directory. Instead there is a hand-written scanner in 
+    Note the absence of a \verb|lexer| directory. Instead there is a hand-written scanner in
 
     \verb|$GOPATH/src/github.com/goccmack/gocc/examples/nolexer/scanner/scanner.go|
 
@@ -922,7 +922,7 @@ litconv.go	rune.go
 
     \verb|$GOPATH/src/github.com/goccmack/gocc/examples/nolexer/parser/parser.go|.
 
-    The scanner must recognise the tokens required by the parser generated from the BNF. They are declared in a \verb|TokenMap| in 
+    The scanner must recognise the tokens required by the parser generated from the BNF. They are declared in a \verb|TokenMap| in
 
     \verb|$GOPATH/src/github.com/goccmack/gocc/examples/nolexer/token/token.go|:
 
@@ -940,7 +940,7 @@ litconv.go	rune.go
 
     \lstinputlisting[numbers=left]{../example/nolexer/scanner/scanner.go}
 
-    Examples of using the generated parser with the hand-written scanner are given in 
+    Examples of using the generated parser with the hand-written scanner are given in
 
     \verb|$GOPATH/src/github.com/goccmack/gocc/examples/nolexer/nolexer_test.go|
 
@@ -980,7 +980,7 @@ _blockComment : '/' '*' {. | '*'} '*' '/' ;
 	A gocc source file must contain at least one of a lexical part or a syntax part.
 
 	\begin{Verbatim}[frame=single]
-Grammar 
+Grammar
     : LexicalPart SyntaxPart
     | LexicalPart
     | SyntaxPart
@@ -990,19 +990,19 @@ Grammar
 The lexical part is a sequence of lexical productions.
 
 \begin{Verbatim}[frame=single]
-LexicalPart    
+LexicalPart
     : LexProductions
     ;
 \end{Verbatim}
 
 \begin{Verbatim}[frame=single]
-LexProductions    
+LexProductions
     : LexProduction
     | LexProductions LexProduction
     ;
 \end{Verbatim}
 
-Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lower case character in the range 'a'-'z', regular definition identifiers start with '\_' and ignored token identifiers start with '!'. 
+Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lower case character in the range \verb|'a'-'z'|, regular definition identifiers start with \verb|'_'| and ignored token identifiers start with \verb|'!'|.
 
 Regular definitions are used as building blocks for other regular definitions, token definitions and ignored token definitions. Regular definitions may not be mutually or self recursive.
 
@@ -1011,14 +1011,14 @@ Token definitions define the tokens that are recognised by the lexer and passed 
 Ignored token definitions define tokens that are recognised by the lexer but suppressed so that the parser never sees them. Comments and the white space separating tokens are examples of ignored tokens.
 
 \begin{Verbatim}[frame=single]
-LexProduction 
+LexProduction
     : tokId ":" LexPattern ";"         // token definition
     | regDefId ":" LexPattern ";"      // regular definition
     | ignoredTokId ":" LexPattern ";"  // ignored token defition
     ;
 \end{Verbatim}
 
-Token identifiers start with a lowercase letter in the range 'a'-'z'.
+Token identifiers start with a lowercase letter in the range \verb|'a'-'z'|.
 
 \begin{Verbatim}[frame=single]
 tokId : _tokId ;
@@ -1046,15 +1046,15 @@ Ignored token identifiers start with \verb|'!'|
 ignoredTokId : '!' _tokId ;
 \end{Verbatim}
 
-A lexical pattern is one or more alternatives, each consisting of a sequence of terms. 
+A lexical pattern is one or more alternatives, each consisting of a sequence of terms.
 
 \begin{Verbatim}[frame=single]
-LexPattern     
+LexPattern
     : LexAlt
     | LexPattern "|" LexAlt
     ;
 
-LexAlt     
+LexAlt
     : LexTerm
     | LexAlt LexTerm
     ;
@@ -1064,16 +1064,16 @@ A lexical term can be one of:
 
 \begin{longtable}{lp{12cm}}
 	\verb|.| & Match any UTF-8 rune. This match is only applied after all more specific terms have been matched. \\
-	\verb|char_lit| & A specific character literal, e.g.: 'a'. \\
-	\verb|char_lit "-" char_lit| & An inclusive range, e.g.: 'a'-'z' \\
+	\verb|char_lit| & A specific character literal, e.g.: \verb|'a'|. \\
+	\verb|char_lit "-" char_lit| & An inclusive range, e.g.: \verb|'a'-'z'| \\
 	\verb|regDefId| & the identifier of a regular definition production in the BNF \\
 	\verb|"[" LexPattern "]"| & An optional lexical pattern \\
 	\verb|"{" LexPattern "}"| & Zero or more instances of a lexical pattern \\
-	\verb|"(" LexPattern ")"| & A grouped lexical pattern, e.g.: \verb|('a' | 'b')| \\
+	\verb|"(" LexPattern ")"| & A grouped lexical pattern, e.g.: \verb+('a' | 'b')+ \\
 \end{longtable}
 
 \begin{Verbatim}[frame=single]
-LexTerm 
+LexTerm
     : "."
     | char_lit
     | char_lit "-" char_lit
@@ -1088,53 +1088,53 @@ Character literals are specified as a valid Unicode or byte value, enclosed in s
 
 \begin{Verbatim}[frame=single]
 char_lit
-    : '\'' (_unicode_value | _byte_value) '\'' 
+    : '\'' (_unicode_value | _byte_value) '\''
     ;
 \end{Verbatim}
 
-A Unicode character may be specified as a character literal (e.g.: \verb'a'), a Unicode value or an escaped character.
+A Unicode character may be specified as a character literal (e.g.: \verb|'a'|), a Unicode value or an escaped character.
 
 \begin{Verbatim}[frame=single]
-_unicode_value 
+_unicode_value
     : .                   // Any UTF-8 character literal
-    | _little_u_value 
-    | _big_u_value 
-    | _escaped_char 
+    | _little_u_value
+    | _big_u_value
+    | _escaped_char
     ;
 
-_byte_value       
-    : _octal_byte_value 
-    | _hex_byte_value 
+_byte_value
+    : _octal_byte_value
+    | _hex_byte_value
     ;
 
-_little_u_value   
-    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit 
+_little_u_value
+    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
     ;
 
 _big_u_value
     : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
-               _hex_digit _hex_digit _hex_digit _hex_digit 
+               _hex_digit _hex_digit _hex_digit _hex_digit
     ;
 
 _escaped_char
-    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' ) 
+    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' )
     ;
 
-_octal_byte_value 
-    : '\\' _octal_digit _octal_digit _octal_digit 
+_octal_byte_value
+    : '\\' _octal_digit _octal_digit _octal_digit
     ;
 
-_hex_byte_value   
-    : '\\' 'x' _hex_digit _hex_digit 
+_hex_byte_value
+    : '\\' 'x' _hex_digit _hex_digit
     ;
 
-_octal_digit 
-    : '0' - '7' 
+_octal_digit
+    : '0' - '7'
     ;
 
-_hex_digit 
-    : '0' - '9' 
-    | 'A' - 'F' 
+_hex_digit
+    : '0' - '9'
+    | 'A' - 'F'
     | 'a' - 'f'
     ;
 \end{Verbatim}
@@ -1148,7 +1148,7 @@ SyntaxPart
     ;
 
 FileHeader
-    : action_lit
+    : g_sdt_lit
     ;
 
 SyntaxProdList
@@ -1157,20 +1157,20 @@ SyntaxProdList
     ;
 \end{Verbatim}
 
-Syntax productions define a context free language and may be mutually and self recursive. Left recursion is preferable to right recursion in LR grammar productions, as this leads to less stack activity during parsing. A syntax production starts with an identifier, followed by ":" and one or more alternative bodies, which are separated by "|".
+Syntax productions define a context free language and may be mutually and self recursive. Left recursion is preferable to right recursion in LR grammar productions, as this leads to less stack activity during parsing. A syntax production starts with an identifier, followed by \verb|":"| and one or more alternative bodies, which are separated by \verb+"|"+.
 
-Syntax  production identifiers start with an upper case character in the range 'A'-'Z'.
+Syntax production identifiers start with an upper case character in the range \verb|'A'-'Z'|.
 
 \begin{Verbatim}[frame=single]
-SyntaxProduction    
+SyntaxProduction
     : prodId ":" Alternatives ";"
     ;
 
-prodId 
-    : _upcase {_id_char} 
+prodId
+    : _upcase {_id_char}
     ;
 
-Alternatives    
+Alternatives
     : SyntaxBody
     | Alternatives "|" SyntaxBody
     ;
@@ -1182,7 +1182,7 @@ A syntax body may also be empty, indicated by the reserved word, \verb|empty|. T
 
 \begin{verbatim}
 A : B "c";
-B : "b" ;
+B : "b" | empty;
 \end{verbatim}
 
 This grammar will match strings, \verb|b c| or \verb|c|.
@@ -1190,24 +1190,24 @@ This grammar will match strings, \verb|b c| or \verb|c|.
 \begin{Verbatim}[frame=single]
 SyntaxBody
     : Symbols
-    | Symbols action_lit
+    | Symbols g_sdt_lit
     | "error"
     | "error" Symbols
-    | "error" Symbols action_lit
+    | "error" Symbols g_sdt_lit
     | "empty"
     ;
 
-Symbols    
+Symbols
     : Symbol
     | Symbols Symbol
     ;
 \end{Verbatim}
 
-An action literal is any string of characters enclosed in "<<" ">>". The contents of the action literal is invoke as an expression when the associated production body has been recognised by the parser. The action expression must return a tuple of type \verb| (interface{}, error)|. If the second parameter is not \verb|nil| the parser terminates and returns the error to its caller. If the second parameter is \verb|nil| the parser associates first parameter with the recognise syntax production as its attribute.
+An action literal is any string of characters enclosed in \verb|"<<"| \verb|">>"|. The contents of the action literal is invoke as an expression when the associated production body has been recognised by the parser. The action expression must return a tuple of type \verb| (interface{}, error)|. If the second parameter is not \verb|nil| the parser terminates and returns the error to its caller. If the second parameter is \verb|nil| the parser associates first parameter with the recognise syntax production as its attribute.
 
 \begin{Verbatim}[frame=single]
-action_lit    
-    : '<' '<' . {.} '>' '>' 
+g_sdt_lit
+    : '<' '<' . {.} '>' '>'
     ;
 \end{Verbatim}
 
@@ -1230,17 +1230,17 @@ Symbol
 A string literal can be any valid go raw string (e.g.: \verb|`a raw string`|) or interpreted string (e.g.: \verb|"an interpreted string"|).
 
 \begin{Verbatim}[frame=single]
-string_lit 
-    : _raw_string 
-    | _interpreted_string 
+string_lit
+    : _raw_string
+    | _interpreted_string
     ;
 
-_raw_string 
-    : '`' {.} '`' 
+_raw_string
+    : '`' {.} '`'
     ;
 
-_interpreted_string 
-    : '"' { _unicode_value | _byte_value } '"' 
+_interpreted_string
+    : '"' { _unicode_value | _byte_value } '"'
     ;
 \end{Verbatim}
 
@@ -1253,7 +1253,7 @@ _interpreted_string
 	Dick Grune and Ceriel J.H. Jacobs.
 	\newblock {\em Parsing Techniques. A Practical Guide. Second Edition}.
 	\newblock Monographs in Computer Science, Springer, 2008
-	
+
 	\bibitem{Modern Compiler Design}
 	Dick Grune, Kees van Reeuwijk, Henri E. Bal, Ceriel J.H. Jacobs and Koen Langendoen.
 	\newblock {\em Modern Modern Compiler Design. Second Edition}.
@@ -1273,7 +1273,7 @@ _interpreted_string
 	{\em The Go Language Specification}
 	\newblock \url{http://golang.org/ref/spec}
 
-	
+
 \end{thebibliography}
 
 
