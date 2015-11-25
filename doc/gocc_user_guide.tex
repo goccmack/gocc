@@ -693,7 +693,7 @@
 		;
 	\end{verbatim}
 
-	At the top of the grammar is an file header section containing an import statement for the user-provided package,
+	At the top of the grammar is a file header section containing an import statement for the user-provided package,
 	\verb|github.com/goccmack/gocc/example/astx/ast|.
 
 	The production action expressions will use functions from the package, \verb|ast|.
@@ -1002,7 +1002,7 @@ LexProductions
     ;
 \end{Verbatim}
 
-Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lower case character in the range 'a'-'z', regular definition identifiers start with '\_' and ignored token identifiers start with '!'.
+Each lexical production is token definition or a regular definition or an ignored token definition. Token identifiers start with a lower case character in the range \verb|'a'-'z'|, regular definition identifiers start with \verb|'_'| and ignored token identifiers start with \verb|'!'|.
 
 Regular definitions are used as building blocks for other regular definitions, token definitions and ignored token definitions. Regular definitions may not be mutually or self recursive.
 
@@ -1018,7 +1018,7 @@ LexProduction
     ;
 \end{Verbatim}
 
-Token identifiers start with a lowercase letter in the range 'a'-'z'.
+Token identifiers start with a lowercase letter in the range \verb|'a'-'z'|.
 
 \begin{Verbatim}[frame=single]
 tokId : _tokId ;
@@ -1064,12 +1064,12 @@ A lexical term can be one of:
 
 \begin{longtable}{lp{12cm}}
 	\verb|.| & Match any UTF-8 rune. This match is only applied after all more specific terms have been matched. \\
-	\verb|char_lit| & A specific character literal, e.g.: 'a'. \\
-	\verb|char_lit "-" char_lit| & An inclusive range, e.g.: 'a'-'z' \\
+	\verb|char_lit| & A specific character literal, e.g.: \verb|'a'|. \\
+	\verb|char_lit "-" char_lit| & An inclusive range, e.g.: \verb|'a'-'z'| \\
 	\verb|regDefId| & the identifier of a regular definition production in the BNF \\
 	\verb|"[" LexPattern "]"| & An optional lexical pattern \\
 	\verb|"{" LexPattern "}"| & Zero or more instances of a lexical pattern \\
-	\verb|"(" LexPattern ")"| & A grouped lexical pattern, e.g.: \verb|('a' | 'b')| \\
+	\verb|"(" LexPattern ")"| & A grouped lexical pattern, e.g.: \verb+('a' | 'b')+ \\
 \end{longtable}
 
 \begin{Verbatim}[frame=single]
@@ -1092,7 +1092,7 @@ char_lit
     ;
 \end{Verbatim}
 
-A Unicode character may be specified as a character literal (e.g.: \verb'a'), a Unicode value or an escaped character.
+A Unicode character may be specified as a character literal (e.g.: \verb|'a'|), a Unicode value or an escaped character.
 
 \begin{Verbatim}[frame=single]
 _unicode_value
@@ -1157,9 +1157,9 @@ SyntaxProdList
     ;
 \end{Verbatim}
 
-Syntax productions define a context free language and may be mutually and self recursive. Left recursion is preferable to right recursion in LR grammar productions, as this leads to less stack activity during parsing. A syntax production starts with an identifier, followed by ":" and one or more alternative bodies, which are separated by "|".
+Syntax productions define a context free language and may be mutually and self recursive. Left recursion is preferable to right recursion in LR grammar productions, as this leads to less stack activity during parsing. A syntax production starts with an identifier, followed by \verb|":"| and one or more alternative bodies, which are separated by \verb+"|"+.
 
-Syntax  production identifiers start with an upper case character in the range 'A'-'Z'.
+Syntax production identifiers start with an upper case character in the range \verb|'A'-'Z'|.
 
 \begin{Verbatim}[frame=single]
 SyntaxProduction
@@ -1182,7 +1182,7 @@ A syntax body may also be empty, indicated by the reserved word, \verb|empty|. T
 
 \begin{verbatim}
 A : B "c";
-B : "b" ;
+B : "b" | empty;
 \end{verbatim}
 
 This grammar will match strings, \verb|b c| or \verb|c|.
@@ -1203,7 +1203,7 @@ Symbols
     ;
 \end{Verbatim}
 
-An action literal is any string of characters enclosed in "<<" ">>". The contents of the action literal is invoke as an expression when the associated production body has been recognised by the parser. The action expression must return a tuple of type \verb| (interface{}, error)|. If the second parameter is not \verb|nil| the parser terminates and returns the error to its caller. If the second parameter is \verb|nil| the parser associates first parameter with the recognise syntax production as its attribute.
+An action literal is any string of characters enclosed in \verb|"<<"| \verb|">>"|. The contents of the action literal is invoke as an expression when the associated production body has been recognised by the parser. The action expression must return a tuple of type \verb| (interface{}, error)|. If the second parameter is not \verb|nil| the parser terminates and returns the error to its caller. If the second parameter is \verb|nil| the parser associates first parameter with the recognise syntax production as its attribute.
 
 \begin{Verbatim}[frame=single]
 g_sdt_lit
