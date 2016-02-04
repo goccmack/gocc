@@ -18,6 +18,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"go/build"
 	"os"
 	"path"
 	"strings"
@@ -173,7 +174,7 @@ func (this *ConfigRecord) getFlags() error {
 	flag.Parse()
 
 	if *this.noLexer && *this.debugLexer {
-		return errors.New("no-lexer and debug_lexer cannot both be set")
+		return errors.New("no_lexer and debug_lexer cannot both be set")
 	}
 
 	this.outDir = getOutDir(this.outDir, this.workingDir)
@@ -198,10 +199,14 @@ func getOutDir(outDirSpec, wd string) string {
 }
 
 func defaultPackage(wd string) string {
-	srcPath := path.Join(os.Getenv("GOPATH"), "src")
-	pkg := strings.Replace(wd, srcPath, "", -1)
-	if strings.HasPrefix(pkg, "/") {
-		pkg = pkg[1:]
+	for _, srcDir := range build.Default.SrcDirs() {
+		if strings.HasPrefix(wd, srcDir) {
+			pkg := strings.Replace(wd, srcDir, "", -1)
+			if strings.HasPrefix(pkg, "/") {
+				pkg = pkg[1:]
+			}
+			return pkg
+		}
 	}
-	return pkg
+	return wd
 }
