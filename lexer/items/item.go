@@ -18,10 +18,11 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/lexer/symbols"
 	"github.com/goccmack/gocc/util"
-	"io"
 )
 
 type Item struct {

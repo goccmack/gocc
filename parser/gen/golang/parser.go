@@ -16,13 +16,14 @@ package golang
 
 import (
 	"bytes"
+	"path"
+	"text/template"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/config"
 	"github.com/goccmack/gocc/io"
 	"github.com/goccmack/gocc/parser/lr1/items"
 	"github.com/goccmack/gocc/parser/symbols"
-	"path"
-	"text/template"
 )
 
 func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) {

@@ -17,13 +17,14 @@ package golang
 import (
 	"bytes"
 	"fmt"
+	"path"
+	"text/template"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/io"
 	"github.com/goccmack/gocc/parser/lr1/items"
 	"github.com/goccmack/gocc/parser/symbols"
 	"github.com/goccmack/gocc/token"
-	"path"
-	"text/template"
 )
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,

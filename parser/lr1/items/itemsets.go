@@ -17,6 +17,7 @@ package items
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/parser/first"
 	"github.com/goccmack/gocc/parser/symbols"

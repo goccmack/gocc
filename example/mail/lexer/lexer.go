@@ -5,9 +5,10 @@ import (
 	// "fmt"
 	// "github.com/goccmack/gocc/example/mail/util"
 
-	"github.com/goccmack/gocc/example/mail/token"
 	"io/ioutil"
 	"unicode/utf8"
+
+	"github.com/goccmack/gocc/example/mail/token"
 )
 
 const (

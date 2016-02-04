@@ -16,11 +16,12 @@ package golang
 
 import (
 	"bytes"
+	"path"
+	"text/template"
+
 	"github.com/goccmack/gocc/io"
 	"github.com/goccmack/gocc/parser/lr1/items"
 	"github.com/goccmack/gocc/parser/symbols"
-	"path"
-	"text/template"
 )
 
 func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols) {

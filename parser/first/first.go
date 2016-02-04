@@ -17,6 +17,7 @@ package first
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/parser/symbols"
 )

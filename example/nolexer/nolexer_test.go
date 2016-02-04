@@ -1,9 +1,10 @@
 package nolexer
 
 import (
+	"testing"
+
 	"github.com/goccmack/gocc/example/nolexer/parser"
 	"github.com/goccmack/gocc/example/nolexer/scanner"
-	"testing"
 )
 
 func Test1(t *testing.T) {

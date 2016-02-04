@@ -2,11 +2,12 @@ package astx
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/goccmack/gocc/example/errorrecovery/ast"
 	"github.com/goccmack/gocc/example/errorrecovery/errors"
 	"github.com/goccmack/gocc/example/errorrecovery/lexer"
 	"github.com/goccmack/gocc/example/errorrecovery/parser"
-	"testing"
 )
 
 func TestFail(t *testing.T) {

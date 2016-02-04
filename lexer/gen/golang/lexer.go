@@ -16,11 +16,12 @@ package golang
 
 import (
 	"bytes"
+	"path"
+	"text/template"
+
 	"github.com/goccmack/gocc/config"
 	"github.com/goccmack/gocc/io"
 	"github.com/goccmack/gocc/lexer/items"
-	"path"
-	"text/template"
 )
 
 func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) {

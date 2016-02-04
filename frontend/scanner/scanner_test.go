@@ -2,8 +2,9 @@ package scanner
 
 import (
 	"fmt"
-	"github.com/goccmack/gocc/frontend/token"
 	"testing"
+
+	"github.com/goccmack/gocc/frontend/token"
 )
 
 type testRecord struct {

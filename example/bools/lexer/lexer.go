@@ -5,9 +5,10 @@ import (
 	// "fmt"
 	// "github.com/goccmack/gocc/example/bools/util"
 
-	"github.com/goccmack/gocc/example/bools/token"
 	"io/ioutil"
 	"unicode/utf8"
+
+	"github.com/goccmack/gocc/example/bools/token"
 )
 
 const (

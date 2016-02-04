@@ -15,9 +15,10 @@ package golang
 
 import (
 	"bytes"
-	"github.com/goccmack/gocc/io"
 	"path"
 	"text/template"
+
+	"github.com/goccmack/gocc/io"
 )
 
 func GenErrors(pkg, outDir string) {

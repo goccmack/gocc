@@ -16,12 +16,13 @@ package golang
 
 import (
 	"bytes"
+	"path"
+	"text/template"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/io"
 	"github.com/goccmack/gocc/parser/lr1/items"
 	"github.com/goccmack/gocc/token"
-	"path"
-	"text/template"
 )
 
 func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {

@@ -17,10 +17,11 @@ package golang
 import (
 	"bytes"
 	"fmt"
-	"github.com/goccmack/gocc/io"
-	"github.com/goccmack/gocc/lexer/items"
 	"path"
 	"text/template"
+
+	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/lexer/items"
 )
 
 func genTransitionTable(pkg, outDir, header string, itemSets *items.ItemSets) {

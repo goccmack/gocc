@@ -17,11 +17,12 @@ package golang
 import (
 	"bytes"
 	"fmt"
+	"text/template"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/parser/lr1/action"
 	"github.com/goccmack/gocc/parser/lr1/items"
 	"github.com/goccmack/gocc/token"
-	"text/template"
 )
 
 func genActionRow(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *token.TokenMap) (string, items.RowConflicts) {

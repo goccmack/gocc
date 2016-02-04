@@ -17,10 +17,11 @@ package golang
 import (
 	"bytes"
 	"fmt"
-	"github.com/goccmack/gocc/io"
-	"github.com/goccmack/gocc/token"
 	"path"
 	"text/template"
+
+	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/token"
 )
 
 func GenToken(pkg, outdir string, tokMap *token.TokenMap) {

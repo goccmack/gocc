@@ -16,10 +16,11 @@ package golang
 
 import (
 	"bytes"
-	"github.com/goccmack/gocc/io"
-	"github.com/goccmack/gocc/lexer/symbols"
 	"path"
 	"text/template"
+
+	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/lexer/symbols"
 )
 
 func genAsciiTable(outDir string, symbols *symbols.Symbols) {

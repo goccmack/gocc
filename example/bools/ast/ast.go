@@ -15,10 +15,11 @@
 package ast
 
 import (
-	"github.com/goccmack/gocc/example/bools/token"
-	"github.com/goccmack/gocc/example/bools/util"
 	"strconv"
 	"strings"
+
+	"github.com/goccmack/gocc/example/bools/token"
+	"github.com/goccmack/gocc/example/bools/util"
 )
 
 type Attrib interface{}

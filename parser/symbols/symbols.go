@@ -20,6 +20,7 @@ package symbols
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/goccmack/gocc/ast"
 )
 

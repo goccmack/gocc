@@ -5,9 +5,10 @@ import (
 	// "fmt"
 	// "github.com/goccmack/gocc/example/errorrecovery/util"
 
-	"github.com/goccmack/gocc/example/errorrecovery/token"
 	"io/ioutil"
 	"unicode/utf8"
+
+	"github.com/goccmack/gocc/example/errorrecovery/token"
 )
 
 const (

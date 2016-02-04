@@ -16,11 +16,12 @@ package golang
 
 import (
 	"bytes"
+	"path"
+	"text/template"
+
 	"github.com/goccmack/gocc/io"
 	"github.com/goccmack/gocc/lexer/items"
 	"github.com/goccmack/gocc/token"
-	"path"
-	"text/template"
 )
 
 func genActionTable(pkg, outDir string, itemsets *items.ItemSets, tokMap *token.TokenMap) {

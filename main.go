@@ -20,6 +20,10 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/config"
 	"github.com/goccmack/gocc/frontend/parser"
@@ -35,12 +39,10 @@ import (
 	outToken "github.com/goccmack/gocc/token"
 	genToken "github.com/goccmack/gocc/token/gen"
 	genUtil "github.com/goccmack/gocc/util/gen"
-	"io/ioutil"
-	"os"
-	"path"
 	// "runtime/pprof"
-	genParser "github.com/goccmack/gocc/parser/gen"
 	"time"
+
+	genParser "github.com/goccmack/gocc/parser/gen"
 )
 
 var cfg config.Config
