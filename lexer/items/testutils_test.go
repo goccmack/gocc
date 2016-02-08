@@ -16,11 +16,12 @@ package items
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/frontend/parser"
 	"github.com/goccmack/gocc/frontend/scanner"
 	"github.com/goccmack/gocc/frontend/token"
-	"testing"
 )
 
 func findSet(sets *ItemSets, items []string) *ItemSet {

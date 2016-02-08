@@ -1,9 +1,10 @@
 package t1
 
 import (
+	"testing"
+
 	"github.com/goccmack/gocc/test/t1/lexer"
 	"github.com/goccmack/gocc/test/t1/parser"
-	"testing"
 )
 
 func Test1(t *testing.T) {

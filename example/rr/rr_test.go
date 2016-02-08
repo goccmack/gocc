@@ -16,9 +16,10 @@ package rr
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/goccmack/gocc/example/rr/lexer"
 	"github.com/goccmack/gocc/example/rr/parser"
-	"testing"
 )
 
 func parse(src string) (ast string, err error) {

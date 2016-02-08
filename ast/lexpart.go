@@ -64,14 +64,14 @@ func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 
 			switch p1 := p.(type) {
 			case *LexTokDef:
-				//TODO: decide whether to handle in separate symantic check
+				//TODO: decide whether to handle in separate semantic check
 				if _, exist := lexPart.TokDefs[pid]; exist {
 					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
 				}
 				lexPart.TokDefs[pid] = p1
 				lexPart.TokDefsList = append(lexPart.TokDefsList, p1)
 			case *LexRegDef:
-				//TODO: decide whether to handle in separate symantic check
+				//TODO: decide whether to handle in separate semantic check
 				if _, exist := lexPart.RegDefs[pid]; exist {
 					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
 				}

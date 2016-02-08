@@ -16,8 +16,9 @@ package items
 
 import (
 	// "fmt"
-	"github.com/goccmack/gocc/ast"
 	"testing"
+
+	"github.com/goccmack/gocc/ast"
 	// "unicode"
 )
 

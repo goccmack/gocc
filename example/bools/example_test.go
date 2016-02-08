@@ -15,10 +15,11 @@
 package example
 
 import (
+	"testing"
+
 	"github.com/goccmack/gocc/example/bools/ast"
 	"github.com/goccmack/gocc/example/bools/lexer"
 	"github.com/goccmack/gocc/example/bools/parser"
-	"testing"
 )
 
 func testEval(t *testing.T, exampleStr string, output bool) {

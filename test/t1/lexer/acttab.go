@@ -2,6 +2,7 @@ package lexer
 
 import (
 	"fmt"
+
 	"github.com/goccmack/gocc/test/t1/token"
 )
 

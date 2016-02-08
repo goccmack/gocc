@@ -16,9 +16,10 @@ package golang
 
 import (
 	"bytes"
+	"text/template"
+
 	"github.com/goccmack/gocc/parser/lr1/items"
 	"github.com/goccmack/gocc/parser/symbols"
-	"text/template"
 )
 
 func genGotoRow(itemSet *items.ItemSet, sym *symbols.Symbols) string {

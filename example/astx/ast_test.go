@@ -2,10 +2,11 @@ package astx
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/goccmack/gocc/example/astx/ast"
 	"github.com/goccmack/gocc/example/astx/lexer"
 	"github.com/goccmack/gocc/example/astx/parser"
-	"testing"
 )
 
 func TestPass(t *testing.T) {

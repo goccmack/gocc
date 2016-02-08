@@ -16,6 +16,7 @@ package ast
 
 import (
 	"fmt"
+
 	"github.com/goccmack/gocc/frontend/token"
 )
 

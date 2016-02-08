@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+
 	parseError "github.com/goccmack/gocc/example/nolexer/errors"
 	"github.com/goccmack/gocc/example/nolexer/token"
 )

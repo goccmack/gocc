@@ -20,12 +20,13 @@ import (
 	"path"
 )
 
-const Perm = 0777
+const PermDir = 0777
+const PermFile = 0666
 
 func WriteFile(fpath string, data []byte) {
 	dir, _ := path.Split(fpath)
-	os.MkdirAll(dir, Perm)
-	ioutil.WriteFile(fpath, data, Perm)
+	os.MkdirAll(dir, PermDir)
+	ioutil.WriteFile(fpath, data, PermFile)
 }
 
 func WriteFileString(fpath string, data string) {
