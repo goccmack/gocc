@@ -21,6 +21,7 @@ import (
 	"go/build"
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 )
 
@@ -202,11 +203,16 @@ func defaultPackage(wd string) string {
 	for _, srcDir := range build.Default.SrcDirs() {
 		if strings.HasPrefix(wd, srcDir) {
 			pkg := strings.Replace(wd, srcDir, "", -1)
-			if strings.HasPrefix(pkg, "/") {
-				pkg = pkg[1:]
-			}
-			return pkg
+			return sanitizePackage(pkg)
 		}
 	}
-	return wd
+	return sanitizePackage(wd)
+}
+
+func sanitizePackage(pkg string) string {
+	pkg = filepath.ToSlash(pkg)
+	if strings.HasPrefix(pkg, "/") {
+		pkg = pkg[1:]
+	}
+	return pkg
 }
