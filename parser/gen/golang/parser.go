@@ -63,7 +63,6 @@ package parser
 
 import(
 	"bytes"
-	"errors"
 	"fmt"
 	parseError "{{.ErrorImport}}"
 	"{{.TokenImport}}"
@@ -217,20 +216,18 @@ func (P *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
 }
 
 func (P *Parser) newError(err error) error {
-	w := new(bytes.Buffer)
-	fmt.Fprintf(w, "Error in S%d: %s, %s", P.stack.top(), token.TokMap.TokenString(P.nextToken), P.nextToken.Pos.String())
-	if err != nil {
-		w.WriteString(err.Error())
-	} else {
-		w.WriteString(", expected one of: ")
-		actRow := actionTab[P.stack.top()]
-		for i, t := range actRow.actions {
-			if t != nil {
-				fmt.Fprintf(w, "%s ", token.TokMap.Id(token.Type(i)))
-			}
+	e := &parseError.Error{
+		Err:        err,
+		StackTop:   P.stack.top(),
+		ErrorToken: P.nextToken,
+	}
+	actRow := actionTab[P.stack.top()]
+	for i, t := range actRow.actions {
+		if t != nil {
+			e.ExpectedTokens = append(e.ExpectedTokens, token.TokMap.Id(token.Type(i)))
 		}
 	}
-	return errors.New(w.String())
+	return e
 }
 
 func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
