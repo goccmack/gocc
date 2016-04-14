@@ -139,6 +139,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		case '\n':
 			this.line++
 			this.column = 1
+			end = this.pos
 		case '\r':
 			this.column = 1
 		case '\t':
