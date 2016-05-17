@@ -51,17 +51,20 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 		data.ProdTab[i].String = fmt.Sprintf("`%s`", prod.String())
 		data.ProdTab[i].Id = prod.Id
 		data.ProdTab[i].NTType = symbols.NTType(prod.Id)
-		if prod.Body.Symbols[0].SymbolString() == "empty" {
+		isEmpty := prod.Body.Symbols[0].SymbolString() == "empty"
+		if isEmpty {
 			data.ProdTab[i].NumSymbols = 0
-			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return nil, nil")
 		} else {
 			data.ProdTab[i].NumSymbols = len(prod.Body.Symbols)
-			switch {
-			case prod.Body.SDT != "":
-				data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", prod.Body.SDT)
-			default:
-				data.ProdTab[i].ReduceFunc = fmt.Sprintf("return X[0], nil")
-			}
+		}
+		switch {
+		case len(prod.Body.SDT) > 0:
+			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", prod.Body.SDT)
+		case isEmpty:
+			// Empty production with no semantic action.
+			data.ProdTab[i].ReduceFunc = "return nil, nil"
+		default:
+			data.ProdTab[i].ReduceFunc = "return X[0], nil"
 		}
 	}
 
