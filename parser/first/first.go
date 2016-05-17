@@ -110,7 +110,8 @@ func (this *FirstSets) GetSet(prodName string) SymbolSet {
 //Returns a string representing the FirstSets.
 func (this *FirstSets) String() string {
 	buf := new(bytes.Buffer)
-	for nt, set := range this.firstSets {
+	for _, nt := range this.symbols.NTList() {
+		set := this.firstSets[nt]
 		fmt.Fprintf(buf, "%s: %s\n", nt, set)
 	}
 	return buf.String()

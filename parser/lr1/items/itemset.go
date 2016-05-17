@@ -17,6 +17,7 @@ package items
 import (
 	"bytes"
 	"fmt"
+	"sort"
 
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/parser/first"
@@ -135,7 +136,7 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 				for pi, prod := range this.Prods {
 					if prod.Id == i.ExpectedSymbol {
 						first := first1(this.FS, i.Body[i.Pos+1:], i.FollowingSymbol)
-						for t := range first {
+						for _, t := range first {
 							if item := NewItem(pi, prod, 0, t); !c.Contain(item) {
 								c.AddItem(item)
 								again = true
@@ -179,8 +180,16 @@ func (this *ItemSet) Equal(that *ItemSet) bool {
 	return true
 }
 
-func first1(firstSets *first.FirstSets, symbols []string, following string) first.SymbolSet {
-	return first.FirstS(firstSets, append(symbols, following))
+// first1 returns the characters contained within the first set, sorted in
+// alphabetical order.
+func first1(firstSets *first.FirstSets, symbols []string, following string) []string {
+	firsts := first.FirstS(firstSets, append(symbols, following))
+	var keys []string
+	for key := range firsts {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	return keys
 }
 
 // Dragon book, 2nd ed, section 4.7.2, p261
@@ -213,9 +222,30 @@ func (this *ItemSet) String() string {
 	}
 	buf.WriteString("}\n")
 	fmt.Fprintf(buf, "Transitions:\n")
+	var keys transitions
 	for sym, set := range this.Transitions {
+		key := transition{symbol: sym, nextState: set}
+		keys = append(keys, key)
+	}
+	sort.Sort(keys)
+	for _, key := range keys {
+		sym, set := key.symbol, key.nextState
 		fmt.Fprintf(buf, "\t%s -> %d\n", sym, set)
 	}
 	fmt.Fprintf(buf, "\n")
 	return buf.String()
+}
+
+// transitions implements the sort.Sort interface, sorting transitions in
+// ascending order based on the next state.
+type transitions []transition
+
+func (ts transitions) Len() int           { return len(ts) }
+func (ts transitions) Swap(i, j int)      { ts[i], ts[j] = ts[j], ts[i] }
+func (ts transitions) Less(i, j int) bool { return ts[i].nextState < ts[j].nextState }
+
+// A transition represents a transition from a symbol to a given state.
+type transition struct {
+	symbol    string
+	nextState int
 }
