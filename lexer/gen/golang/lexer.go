@@ -135,17 +135,6 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			rune1, size = utf8.DecodeRune(this.src[this.pos:])
 			this.pos += size
 		}
-		switch rune1 {
-		case '\n':
-			this.line++
-			this.column = 1
-		case '\r':
-			this.column = 1
-		case '\t':
-			this.column += 4
-		default:
-			this.column++
-		}
 
 	{{if .Debug}}
 		// Production start
@@ -192,6 +181,19 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	{{end}}
 
 		if state != -1 {
+
+			switch rune1 {
+			case '\n':
+				this.line++
+				this.column = 1
+			case '\r':
+				this.column = 1
+			case '\t':
+				this.column += 4
+			default:
+				this.column++
+			}
+
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
