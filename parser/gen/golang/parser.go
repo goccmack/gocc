@@ -147,6 +147,7 @@ type Parser struct {
 
 type Scanner interface {
 	Scan() (tok *token.Token)
+	GetPosition(int) (int, int)
 }
 
 func NewParser() *Parser {
@@ -167,6 +168,9 @@ func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
+	errorAttrib.ErrorToken.Pos.Line, errorAttrib.ErrorToken.Pos.Column =
+		scanner.GetPosition(errorAttrib.ErrorToken.Pos.Offset)
+		
 	for t, action := range actionTab[P.stack.top()].actions {
 		if action != nil {
 			errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, token.TokMap.Id(token.Type(t)))

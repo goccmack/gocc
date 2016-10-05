@@ -81,6 +81,7 @@ const(
 	NoState = -1
 	NumStates = {{.NumStates}}
 	NumSymbols = {{.NumSymbols}}
+	DEFAULT_TABSIZE = 4
 )
 
 type Lexer struct {
@@ -88,14 +89,20 @@ type Lexer struct {
 	pos             int
 	line            int
 	column          int
+	tabsize			int
 }
 
 func NewLexer(src []byte) *Lexer {
+	return NewLexerTabSize(src, DEFAULT_TABSIZE)
+}
+
+func NewLexerTabSize(src []byte, tabsize int) *Lexer {
 	lexer := &Lexer{
-		src:    src,
-		pos:    0,
-		line:   1,
-		column: 1,
+		src:     src,
+		pos:     0,
+		line:    1,
+		column:  1,
+		tabsize: tabsize,
 	}
 	return lexer
 }
@@ -106,6 +113,29 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 		return nil, err
 	}
 	return NewLexer(src), nil
+}
+
+/*
+Return (line, column) of offset in this.src given this.tabsize.
+line and column have range 1..n
+*/
+func (this *Lexer) GetPosition(offset int) (line, column int) {
+	line, column = 1, 1
+	for o := 0; o < offset && o < len(this.src); {
+		rune1, size := utf8.DecodeRune(this.src[o:])
+		o += size
+		switch rune1 {
+		case '\n':
+			line++
+			column = 1
+		case '\t':
+			column += this.tabsize
+		default:
+			column++
+		}
+
+	}
+	return
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
