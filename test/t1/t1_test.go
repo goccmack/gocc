@@ -3,6 +3,7 @@ package t1
 import (
 	"testing"
 
+	"github.com/goccmack/gocc/test/t1/errors"
 	"github.com/goccmack/gocc/test/t1/lexer"
 	"github.com/goccmack/gocc/test/t1/parser"
 )
@@ -55,6 +56,21 @@ func Test2(t *testing.T) {
 			if str != "c" {
 				t.Fatal(`str != "c"`)
 			}
+		}
+	}
+}
+
+func Test3(t *testing.T) {
+	toks := lexer.NewLexer([]byte(`c b`))
+	_, err := parser.NewParser().Parse(toks)
+	if err == nil {
+		t.Fatal("No error for erronous input.")
+	}
+	if errs, ok := err.(*errors.Error); !ok {
+		t.Fatal("Incompatible error type for erronous input.")
+	} else {
+		if errs.ErrorToken.Column != 3 {
+			t.Fatal("errs.ErrorToken.Column = ", errs.ErrorToken.Column, " != 3")
 		}
 	}
 }
