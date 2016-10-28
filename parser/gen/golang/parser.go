@@ -147,7 +147,6 @@ type Parser struct {
 
 type Scanner interface {
 	Scan() (tok *token.Token)
-	GetPosition(int) (int, int)
 }
 
 func NewParser() *Parser {
@@ -168,9 +167,6 @@ func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		ErrorSymbols:   P.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
-	errorAttrib.ErrorToken.Pos.Line, errorAttrib.ErrorToken.Pos.Column =
-		scanner.GetPosition(errorAttrib.ErrorToken.Pos.Offset)
-		
 	for t, action := range actionTab[P.stack.top()].actions {
 		if action != nil {
 			errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, token.TokMap.Id(token.Type(t)))
@@ -219,14 +215,12 @@ func (P *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
 	return
 }
 
-func (P *Parser) newError(err error, scanner Scanner) error {
+func (P *Parser) newError(err error) error {
 	e := &parseError.Error{
 		Err:        err,
 		StackTop:   P.stack.top(),
 		ErrorToken: P.nextToken,
 	}
-	e.ErrorToken.Pos.Line, e.ErrorToken.Pos.Column =
-		scanner.GetPosition(e.ErrorToken.Pos.Offset)
 	actRow := actionTab[P.stack.top()]
 	for i, t := range actRow.actions {
 		if t != nil {
@@ -244,7 +238,7 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 		if action == nil {
 			if recovered, errAttrib := this.Error(nil, scanner); !recovered {
 				this.nextToken = errAttrib.ErrorToken
-				return nil, this.newError(nil, scanner)
+				return nil, this.newError(nil)
 			}
 			if action = actionTab[this.stack.top()].actions[this.nextToken.Type]; action == nil {
 				panic("Error recovery led to invalid action")
@@ -267,7 +261,7 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 			prod := productionsTable[int(act)]
 			attrib, err := prod.ReduceFunc(this.stack.popN(prod.NumSymbols))
 			if err != nil {
-				return nil, this.newError(err, scanner)
+				return nil, this.newError(err)
 			} else {
 				this.stack.push(gotoTab[this.stack.top()][prod.NTType], attrib)
 			}

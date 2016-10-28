@@ -81,7 +81,6 @@ const(
 	NoState = -1
 	NumStates = {{.NumStates}}
 	NumSymbols = {{.NumSymbols}}
-	DEFAULT_TABSIZE = 4
 )
 
 type Lexer struct {
@@ -89,20 +88,14 @@ type Lexer struct {
 	pos             int
 	line            int
 	column          int
-	tabsize			int
 }
 
 func NewLexer(src []byte) *Lexer {
-	return NewLexerTabSize(src, DEFAULT_TABSIZE)
-}
-
-func NewLexerTabSize(src []byte, tabsize int) *Lexer {
 	lexer := &Lexer{
-		src:     src,
-		pos:     0,
-		line:    1,
-		column:  1,
-		tabsize: tabsize,
+		src:    src,
+		pos:    0,
+		line:   1,
+		column: 1,
 	}
 	return lexer
 }
@@ -113,29 +106,6 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 		return nil, err
 	}
 	return NewLexer(src), nil
-}
-
-/*
-Return (line, column) of offset in this.src given this.tabsize.
-line and column have range 1..n
-*/
-func (this *Lexer) GetPosition(offset int) (line, column int) {
-	line, column = 1, 1
-	for o := 0; o < offset && o < len(this.src); {
-		rune1, size := utf8.DecodeRune(this.src[o:])
-		o += size
-		switch rune1 {
-		case '\n':
-			line++
-			column = 1
-		case '\t':
-			column += this.tabsize
-		default:
-			column++
-		}
-
-	}
-	return
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
@@ -150,7 +120,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = this.pos, this.line, this.column
 		return
 	}
-	start, end := this.pos, 0
+	start, startLine, startColumn, end := this.pos, this.line, this.column, 0
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
@@ -164,17 +134,6 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		} else {
 			rune1, size = utf8.DecodeRune(this.src[this.pos:])
 			this.pos += size
-		}
-		switch rune1 {
-		case '\n':
-			this.line++
-			this.column = 1
-		case '\r':
-			this.column = 1
-		case '\t':
-			this.column += 4
-		default:
-			this.column++
 		}
 
 	{{if .Debug}}
@@ -222,6 +181,19 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	{{end}}
 
 		if state != -1 {
+
+			switch rune1 {
+			case '\n':
+				this.line++
+				this.column = 1
+			case '\r':
+				this.column = 1
+			case '\t':
+				this.column += 4
+			default:
+				this.column++
+			}
+
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
@@ -229,7 +201,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 				end = this.pos
 			case ActTab[state].Ignore != "":
 				// fmt.Printf("\t Ignore(%s)\n", string(act))
-				start = this.pos
+				start, startLine, startColumn = this.pos, this.line, this.column
 				state = 0
 				if start >= len(this.src) {
 					tok.Type = token.EOF
@@ -248,9 +220,14 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	} else {
 		tok.Lit = []byte{}
 	}
-	tok.Pos.Offset = start
-	tok.Pos.Column = this.column
-	tok.Pos.Line = this.line
+	tok.Pos.Offset, tok.Pos.Line ,tok.Pos.Column = start, startLine, startColumn
+
+	{{if .Debug}}
+	fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
+	{{else}}
+	// fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
+	{{end}}
+
 	return
 }
 
