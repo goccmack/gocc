@@ -16,11 +16,13 @@ package golang
 
 import (
 	"bytes"
+	"fmt"
 	"path"
 	"text/template"
 
 	"github.com/goccmack/gocc/ast"
 	"github.com/goccmack/gocc/io"
+	"github.com/goccmack/gocc/parser/lr1/action"
 	"github.com/goccmack/gocc/parser/lr1/items"
 	"github.com/goccmack/gocc/token"
 )
@@ -38,22 +40,56 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 }
 
 type actionTableData struct {
-	Rows []string
+	Rows []*actRow
 }
 
 func getActionTableData(prods ast.SyntaxProdList, itemSets *items.ItemSets,
 	tokMap *token.TokenMap) (actTab *actionTableData, conflicts map[int]items.RowConflicts) {
 
 	actTab = &actionTableData{
-		Rows: make([]string, itemSets.Size()),
+		Rows: make([]*actRow, itemSets.Size()),
 	}
 	conflicts = make(map[int]items.RowConflicts)
-	row, cnflcts := "", items.RowConflicts{}
+	var row *actRow
+	cnflcts := items.RowConflicts{}
 	for i := range actTab.Rows {
-		if row, cnflcts = genActionRow(prods, itemSets.Set(i), tokMap); len(cnflcts) > 0 {
+		if row, cnflcts = getActionRowData(prods, itemSets.Set(i), tokMap); len(cnflcts) > 0 {
 			conflicts[i] = cnflcts
 		}
 		actTab.Rows[i] = row
+	}
+	return
+}
+
+type actRow struct {
+	CanRecover bool
+	Actions    []string
+}
+
+func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *token.TokenMap) (data *actRow, conflicts items.RowConflicts) {
+	data = &actRow{
+		CanRecover: set.CanRecover(),
+		Actions:    make([]string, len(tokMap.TypeMap)),
+	}
+	conflicts = make(items.RowConflicts)
+	for i, sym := range tokMap.TypeMap {
+		act, symConflicts := set.Action(sym)
+		if len(symConflicts) > 0 {
+			conflicts[sym] = symConflicts
+		}
+
+		switch act1 := act.(type) {
+		case action.Accept:
+			data.Actions[i] = fmt.Sprintf("accept(true),\t\t/* %s */", sym)
+		case action.Error:
+			data.Actions[i] = fmt.Sprintf("nil,\t\t/* %s */", sym)
+		case action.Reduce:
+			data.Actions[i] = fmt.Sprintf("reduce(%d),\t\t/* %s, reduce: %s */", int(act1), sym, prods[int(act1)].Id)
+		case action.Shift:
+			data.Actions[i] = fmt.Sprintf("shift(%d),\t\t/* %s */", int(act1), sym)
+		default:
+			panic(fmt.Sprintf("Unknown action type: %T", act1))
+		}
 	}
 	return
 }
@@ -73,7 +109,11 @@ type(
 
 var actionTab = actionTable{
 	{{range $i, $r := .Rows}}actionRow{ // S{{$i}}
-		{{$r}}
+		canRecover: {{printf "%t" .CanRecover}},
+		actions: [numSymbols]action{
+			{{range $a := .Actions}}{{$a}}
+			{{end}}
+		},
 	},
 	{{end}}
 }
