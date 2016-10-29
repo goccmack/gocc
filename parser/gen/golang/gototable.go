@@ -24,6 +24,16 @@ import (
 	"github.com/goccmack/gocc/parser/symbols"
 )
 
+type gotoTableData struct {
+	NumNTSymbols int
+	Rows         [][]gotoRowElement
+}
+
+type gotoRowElement struct {
+	NT    string
+	State int
+}
+
 func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols) {
 	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc)
 	if err != nil {
@@ -37,17 +47,21 @@ func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols)
 func getGotoTableData(itemSets *items.ItemSets, sym *symbols.Symbols) *gotoTableData {
 	data := &gotoTableData{
 		NumNTSymbols: sym.NumNTSymbols(),
-		Rows:         make([]string, itemSets.Size()),
+		Rows:         make([][]gotoRowElement, itemSets.Size()),
 	}
 	for i, set := range itemSets.List() {
-		data.Rows[i] = genGotoRow(set, sym)
+		data.Rows[i] = getGotoRowData(set, sym)
 	}
 	return data
 }
 
-type gotoTableData struct {
-	NumNTSymbols int
-	Rows         []string
+func getGotoRowData(itemSet *items.ItemSet, sym *symbols.Symbols) []gotoRowElement {
+	row := make([]gotoRowElement, sym.NumNTSymbols())
+	for i, nt := range sym.NTList() {
+		row[i].NT = nt
+		row[i].State = itemSet.NextSetIndex(nt)
+	}
+	return row
 }
 
 const gotoTableSrc = `
@@ -63,7 +77,8 @@ type(
 
 var gotoTab = gotoTable{
 	{{range $i, $r := .Rows}}gotoRow{ // S{{$i}}
-		{{$r}}
+		{{range $j, $gto := .}}{{$gto.State}}, // {{$gto.NT}}
+		{{end}}
 	},
 	{{end}}
 }
