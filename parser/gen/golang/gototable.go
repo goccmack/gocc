@@ -90,19 +90,11 @@ var gotoTab = gotoTable{
 }
 `
 
-func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols) {
-	numNTSymbols := sym.NumNTSymbols()
-	rows := make([][]int, itemSets.Size())
-	for i, set := range itemSets.List() {
-		rows[i] = make([]int, numNTSymbols)
-		for j, nt := range sym.NTList() {
-			rows[i][j] = set.NextSetIndex(nt)
-		}
-	}
+func genEnc(v interface{}) string {
 	buf := bytes.NewBuffer(nil)
 	z := gzip.NewWriter(buf)
 	enc := gob.NewEncoder(z)
-	if err := enc.Encode(rows); err != nil {
+	if err := enc.Encode(v); err != nil {
 		panic(err)
 	}
 	if err := z.Close(); err != nil {
@@ -123,7 +115,19 @@ func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symb
 		b = b[n:]
 	}
 	strBuf.WriteString("}")
-	bytesStr := string(strBuf.Bytes())
+	return string(strBuf.Bytes())
+}
+
+func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols) {
+	numNTSymbols := sym.NumNTSymbols()
+	rows := make([][]int, itemSets.Size())
+	for i, set := range itemSets.List() {
+		rows[i] = make([]int, numNTSymbols)
+		for j, nt := range sym.NTList() {
+			rows[i][j] = set.NextSetIndex(nt)
+		}
+	}
+	bytesStr := genEnc(rows)
 	v := struct {
 		NumNTSymbols int
 		Bytes        string
