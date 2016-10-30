@@ -27,9 +27,10 @@ import (
 	"github.com/goccmack/gocc/token"
 )
 
-func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {
-	return GenCompActionTable(outDir, prods, itemSets, tokMap)
-	//TODO make this configurable with a flag
+func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap, zip bool) map[int]items.RowConflicts {
+	if zip {
+		return GenCompActionTable(outDir, prods, itemSets, tokMap)
+	}
 	tmpl, err := template.New("parser action table").Parse(actionTableSrc)
 	if err != nil {
 		panic(err)

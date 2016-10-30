@@ -37,10 +37,11 @@ type gotoRowElement struct {
 	State int
 }
 
-func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols) {
-	//TODO make GenCompTable optional using a flag
-	GenCompGotoTable(outDir, itemSets, sym)
-	return
+func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols, zip bool) {
+	if zip {
+		GenCompGotoTable(outDir, itemSets, sym)
+		return
+	}
 	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc)
 	if err != nil {
 		panic(err)

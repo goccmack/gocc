@@ -28,6 +28,7 @@ import (
 type Config interface {
 	Help() bool
 	Verbose() bool
+	Zip() bool
 	AllowUnreachable() bool
 	AutoResolveLRConf() bool
 	// Profile() bool
@@ -63,6 +64,7 @@ type ConfigRecord struct {
 	// profile           *bool
 	srcFile string
 	verbose *bool
+	zip     *bool
 }
 
 func New() (Config, error) {
@@ -89,6 +91,10 @@ func (this *ConfigRecord) Help() bool {
 
 func (this *ConfigRecord) Verbose() bool {
 	return *this.verbose
+}
+
+func (this *ConfigRecord) Zip() bool {
+	return *this.zip
 }
 
 func (this *ConfigRecord) AllowUnreachable() bool {
@@ -158,6 +164,7 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-p             = %v\n", this.pkg)
 	fmt.Printf("-u             = %v\n", *this.allowUnreachable)
 	fmt.Printf("-v             = %v\n", *this.verbose)
+	fmt.Printf("-zip          = %v\n", *this.zip)
 }
 
 /*** Utility routines ***/
@@ -172,6 +179,7 @@ func (this *ConfigRecord) getFlags() error {
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
+	this.zip = flag.Bool("zip", false, "zip the actiontable and gototable (experimental)")
 	flag.Parse()
 
 	if *this.noLexer && *this.debugLexer {
