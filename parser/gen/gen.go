@@ -30,9 +30,9 @@ func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.
 	itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config) (conflicts map[int]items.RowConflicts) {
 
 	golang.GenAction(outDir)
-	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap)
+	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap, cfg.Zip())
 	golang.GenErrors(pkg, outDir)
-	golang.GenGotoTable(outDir, itemsets, symbols)
+	golang.GenGotoTable(outDir, itemsets, symbols, cfg.Zip())
 	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg)
 	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap)
 
