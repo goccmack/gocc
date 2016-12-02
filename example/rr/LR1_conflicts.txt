@@ -1,5 +1,0 @@
-1 LR-1 conflicts: 
-	S4
-		symbol: $
-			Reduce(4:A : a	<< "A0 ", nil >>)
-			Reduce(3:B : a	<< "B ", nil >>)
