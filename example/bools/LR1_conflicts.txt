@@ -1,0 +1,29 @@
+4 LR-1 conflicts: 
+	S27
+		symbol: &
+			Reduce(3:BoolExpr1 : BoolExpr "&" BoolExpr1	<< ast.NewBoolAndExpr(X[0], X[2]) >>)
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
+		symbol: |
+			Reduce(3:BoolExpr1 : BoolExpr "&" BoolExpr1	<< ast.NewBoolAndExpr(X[0], X[2]) >>)
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
+	S28
+		symbol: &
+			Reduce(4:BoolExpr1 : BoolExpr "|" BoolExpr1	<< ast.NewBoolOrExpr(X[0], X[2]) >>)
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
+		symbol: |
+			Reduce(4:BoolExpr1 : BoolExpr "|" BoolExpr1	<< ast.NewBoolOrExpr(X[0], X[2]) >>)
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
+	S40
+		symbol: &
+			Reduce(3:BoolExpr1 : BoolExpr "&" BoolExpr1	<< ast.NewBoolAndExpr(X[0], X[2]) >>)
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
+		symbol: |
+			Reduce(3:BoolExpr1 : BoolExpr "&" BoolExpr1	<< ast.NewBoolAndExpr(X[0], X[2]) >>)
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
+	S41
+		symbol: &
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
+			Reduce(4:BoolExpr1 : BoolExpr "|" BoolExpr1	<< ast.NewBoolOrExpr(X[0], X[2]) >>)
+		symbol: |
+			Reduce(4:BoolExpr1 : BoolExpr "|" BoolExpr1	<< ast.NewBoolOrExpr(X[0], X[2]) >>)
+			Reduce(1:BoolExpr : BoolExpr1	<< X[0], nil >>)
