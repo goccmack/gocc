@@ -1,5 +1,0 @@
-1 LR-1 conflicts: 
-	S13
-		symbol: else
-			Reduce(1:Stmt : "if" id "then" Stmt	<< ast.NewIf(X[1], X[3]), nil >>)
-			Shift(14)
