@@ -8,6 +8,7 @@ test:
 
 gofmt:
 	gofmt -l -s -w .
+	goimports -w .
 
 govet:
 	go tool vet -methods=false .
