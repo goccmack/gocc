@@ -4,6 +4,7 @@ package parser
 
 import (
 	"fmt"
+
 	"github.com/goccmack/gocc/example/nolexer/token"
 )
 
