@@ -29,7 +29,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S1
@@ -38,7 +37,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S2
@@ -47,7 +45,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S3
@@ -56,6 +53,5 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 }

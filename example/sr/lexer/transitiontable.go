@@ -43,7 +43,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S1
@@ -52,7 +51,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S2
@@ -69,7 +67,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S3
@@ -86,7 +83,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S4
@@ -107,7 +103,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S5
@@ -128,7 +123,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S6
@@ -149,7 +143,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S7
@@ -166,7 +159,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S8
@@ -183,7 +175,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S9
@@ -200,7 +191,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S10
@@ -221,7 +211,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S11
@@ -238,7 +227,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S12
@@ -259,7 +247,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S13
@@ -280,7 +267,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S14
@@ -301,7 +287,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S15
@@ -318,7 +303,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S16
@@ -335,6 +319,5 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 }

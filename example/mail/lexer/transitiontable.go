@@ -73,7 +73,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S1
@@ -82,7 +81,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S2
@@ -141,7 +139,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S3
@@ -208,7 +205,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S5
@@ -263,7 +259,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S6
@@ -346,7 +341,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S9
@@ -403,7 +397,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S10
@@ -428,7 +421,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S12
@@ -493,7 +485,6 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 
 	// S14
@@ -550,6 +541,5 @@ var TransTab = TransitionTable{
 
 		}
 		return NoState
-
 	},
 }
