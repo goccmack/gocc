@@ -64,6 +64,7 @@ package parser
 import(
 	"bytes"
 	"fmt"
+
 	parseError "{{.ErrorImport}}"
 	"{{.TokenImport}}"
 )

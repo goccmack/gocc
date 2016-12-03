@@ -3,13 +3,12 @@
 package lexer
 
 import (
-
 	// "fmt"
-	// "github.com/goccmack/gocc/test/t1/util"
-
-	"github.com/goccmack/gocc/test/t1/token"
 	"io/ioutil"
 	"unicode/utf8"
+
+	// "github.com/goccmack/gocc/test/t1/util"
+	"github.com/goccmack/gocc/test/t1/token"
 )
 
 const (

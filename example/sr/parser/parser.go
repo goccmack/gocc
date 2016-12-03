@@ -5,6 +5,7 @@ package parser
 import (
 	"bytes"
 	"fmt"
+
 	parseError "github.com/goccmack/gocc/example/sr/errors"
 	"github.com/goccmack/gocc/example/sr/token"
 )

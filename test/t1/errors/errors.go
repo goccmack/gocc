@@ -5,6 +5,7 @@ package errors
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/goccmack/gocc/test/t1/token"
 )
 

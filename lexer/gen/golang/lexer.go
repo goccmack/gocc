@@ -65,15 +65,11 @@ const lexerSrc string = `
 package lexer
 
 import (
-	{{if .Debug}}
-	"fmt"
-	"{{.UtilImport}}"
-	{{else}}
-	// "fmt"
-	// "{{.UtilImport}}"
-	{{end}}
+	{{if .Debug}}"fmt"{{else}}// "fmt"{{end}}
 	"io/ioutil"
 	"unicode/utf8"
+
+	{{if .Debug}}"{{.UtilImport}}"{{else}}// "{{.UtilImport}}"{{end}}
 	"{{.TokenImport}}"
 )
 

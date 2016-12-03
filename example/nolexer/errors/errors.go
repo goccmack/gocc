@@ -5,6 +5,7 @@ package errors
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/goccmack/gocc/example/nolexer/token"
 )
 

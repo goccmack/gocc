@@ -5,6 +5,7 @@ package parser
 import (
 	"bytes"
 	"fmt"
+
 	parseError "github.com/goccmack/gocc/example/errorrecovery/errors"
 	"github.com/goccmack/gocc/example/errorrecovery/token"
 )

@@ -72,6 +72,7 @@ package lexer
 
 import(
 	"fmt"
+
 	"{{.TokenImport}}"
 )
 
