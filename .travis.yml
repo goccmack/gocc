@@ -1,5 +1,8 @@
 script:
   - echo $TRAVIS_GO_VERSION
+  - mkdir -p /home/travis/gopath/src/github.com/goccmack
+  - mv /home/travis/gopath/src/github.com/awalterschulze/gocc /home/travis/gopath/src/github.com/goccmack/gocc
+  - cd /home/travis/gopath/src/github.com/goccmack/gocc
   - PATH=/home/travis/bin:$PATH make travis
   
 language: go
