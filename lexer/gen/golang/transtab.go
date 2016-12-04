@@ -134,8 +134,7 @@ var TransTab = TransitionTable{
 			}
 			{{else}}
 			}
-			return NoState
-			{{end}}
+			return NoState{{end}}
 		},
 	{{end}}
 }
