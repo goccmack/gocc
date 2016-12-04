@@ -1,6 +1,6 @@
 # Gocc
 
-[![Build Status](https://drone.io/github.com/goccmack/gocc/status.png)](https://drone.io/github.com/goccmack/gocc/latest)
+[![Build Status](https://travis-ci.org/goccmack/gocc.svg?branch=master)](https://travis-ci.org/goccmack/gocc)
 
 ## Introduction
 
