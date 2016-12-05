@@ -17,3 +17,11 @@ regenerate:
 	(cd example && make regenerate)
 	(cd test && make regenerate)
 	make gofmt
+
+travis:
+	make install
+	make regenerate
+	make gofmt
+	go get golang.org/x/tools/cmd/goimports
+	goimports -w .
+	git diff --exit-code .
