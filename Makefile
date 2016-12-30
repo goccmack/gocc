@@ -24,4 +24,9 @@ travis:
 	make gofmt
 	go get golang.org/x/tools/cmd/goimports
 	goimports -w .
+	make errcheck
 	git diff --exit-code .
+
+errcheck:
+	go get github.com/kisielk/errcheck
+	errcheck ./...

@@ -153,7 +153,7 @@ func (this *DisjunctRangeSet) Size() int {
 
 func (this *DisjunctRangeSet) String() string {
 	w := new(bytes.Buffer)
-	w.WriteString("{")
+	fmt.Fprintf(w, "{")
 	for i, rng := range this.set {
 		if i > 0 {
 			fmt.Fprintf(w, ", %s", rng.String())
@@ -161,6 +161,6 @@ func (this *DisjunctRangeSet) String() string {
 			fmt.Fprintf(w, "%s", rng.String())
 		}
 	}
-	w.WriteString("}")
+	fmt.Fprintf(w, "}")
 	return w.String()
 }

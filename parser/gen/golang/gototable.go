@@ -47,7 +47,9 @@ func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols,
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, getGotoTableData(itemSets, sym))
+	if err := tmpl.Execute(wr, getGotoTableData(itemSets, sym)); err != nil {
+		panic(err)
+	}
 	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), wr.Bytes())
 }
 
@@ -102,7 +104,7 @@ func genEnc(v interface{}) string {
 		panic(err)
 	}
 	strBuf := bytes.NewBuffer(nil)
-	strBuf.WriteString("[]byte{\n")
+	fmt.Fprintf(strBuf, "[]byte{\n")
 	b := buf.Bytes()
 	for len(b) > 0 {
 		n := 16
@@ -110,12 +112,12 @@ func genEnc(v interface{}) string {
 			n = len(b)
 		}
 		for _, c := range b[:n] {
-			strBuf.WriteString(fmt.Sprintf("0x%02x,", c))
+			fmt.Fprintf(strBuf, "0x%02x,", c)
 		}
-		strBuf.WriteString("\n")
+		fmt.Fprintf(strBuf, "\n")
 		b = b[n:]
 	}
-	strBuf.WriteString("}")
+	fmt.Fprintf(strBuf, "}")
 	return string(strBuf.Bytes())
 }
 
@@ -141,7 +143,9 @@ func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symb
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, v)
+	if err := tmpl.Execute(wr, v); err != nil {
+		panic(err)
+	}
 	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), wr.Bytes())
 }
 

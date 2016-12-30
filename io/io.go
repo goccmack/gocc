@@ -25,8 +25,12 @@ const PermFile = 0666
 
 func WriteFile(fpath string, data []byte) {
 	dir, _ := path.Split(fpath)
-	os.MkdirAll(dir, PermDir)
-	ioutil.WriteFile(fpath, data, PermFile)
+	if err := os.MkdirAll(dir, PermDir); err != nil {
+		panic(err)
+	}
+	if err := ioutil.WriteFile(fpath, data, PermFile); err != nil {
+		panic(err)
+	}
 }
 
 func WriteFileString(fpath string, data string) {

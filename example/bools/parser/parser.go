@@ -74,7 +74,7 @@ func (S *stack) String() string {
 		} else {
 			fmt.Fprintf(w, "%v", S.attrib[i])
 		}
-		w.WriteString("\n")
+		fmt.Fprintf(w, "\n")
 	}
 	return w.String()
 }

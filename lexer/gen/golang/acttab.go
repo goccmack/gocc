@@ -31,7 +31,9 @@ func genActionTable(pkg, outDir string, itemsets *items.ItemSets, tokMap *token.
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, getActTab(pkg, itemsets, tokMap))
+	if err := tmpl.Execute(wr, getActTab(pkg, itemsets, tokMap)); err != nil {
+		panic(err)
+	}
 	io.WriteFile(fname, wr.Bytes())
 }
 

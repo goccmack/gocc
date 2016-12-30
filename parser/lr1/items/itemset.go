@@ -216,11 +216,11 @@ func (this *ItemSet) Size() int {
 
 func (this *ItemSet) String() string {
 	buf := new(bytes.Buffer)
-	buf.WriteString("{\n")
+	fmt.Fprintf(buf, "{\n")
 	for _, item := range this.Items {
 		fmt.Fprintf(buf, "\t%s\n", item)
 	}
-	buf.WriteString("}\n")
+	fmt.Fprintf(buf, "}\n")
 	fmt.Fprintf(buf, "Transitions:\n")
 	var keys transitions
 	for sym, set := range this.Transitions {

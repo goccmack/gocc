@@ -37,7 +37,9 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 	}
 	wr := new(bytes.Buffer)
 	data, conflicts := getActionTableData(prods, itemSets, tokMap)
-	tmpl.Execute(wr, data)
+	if err := tmpl.Execute(wr, data); err != nil {
+		panic(err)
+	}
 	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), wr.Bytes())
 	return conflicts
 }
@@ -177,7 +179,9 @@ func GenCompActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, bytesStr)
+	if err := tmpl.Execute(wr, bytesStr); err != nil {
+		panic(err)
+	}
 	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), wr.Bytes())
 	return conflictss
 }

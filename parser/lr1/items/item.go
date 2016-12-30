@@ -127,20 +127,20 @@ func (this *Item) getString() string {
 	buf := new(bytes.Buffer)
 	fmt.Fprintf(buf, "%s : ", this.Id)
 	if this.Len == 0 {
-		buf.WriteString("empty")
+		fmt.Fprintf(buf, "empty")
 	} else {
 		for i, s := range this.Body {
 			if this.Pos == i {
-				buf.WriteString("•")
+				fmt.Fprintf(buf, "•")
 			}
-			buf.WriteString(s)
+			fmt.Fprintf(buf, s)
 			if i < this.Len-1 {
-				buf.WriteString(" ")
+				fmt.Fprintf(buf, " ")
 			}
 		}
 	}
 	if this.Pos == this.Len {
-		buf.WriteString("•")
+		fmt.Fprintf(buf, "•")
 	}
 	fmt.Fprintf(buf, " «%s»", this.FollowingSymbol)
 	return buf.String()

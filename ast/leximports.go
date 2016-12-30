@@ -53,10 +53,10 @@ func (this *LexImports) Add(lexImport *LexImport) (*LexImports, error) {
 
 func (this *LexImports) String() string {
 	w := new(bytes.Buffer)
-	w.WriteString("import(\n")
+	fmt.Fprintf(w, "import(\n")
 	for _, imp := range this.Imports {
 		fmt.Fprintf(w, "\t%s\n", imp.String())
 	}
-	w.WriteString(")")
+	fmt.Fprintf(w, ")")
 	return w.String()
 }

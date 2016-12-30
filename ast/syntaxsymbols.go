@@ -16,6 +16,7 @@ package ast
 
 import (
 	"bytes"
+	"fmt"
 )
 
 type SyntaxSymbols []SyntaxSymbol
@@ -32,9 +33,9 @@ func (this SyntaxSymbols) String() string {
 	w := new(bytes.Buffer)
 	for i, sym := range this {
 		if i > 0 {
-			w.WriteString(" ")
+			fmt.Fprintf(w, " ")
 		}
-		w.WriteString(sym.String())
+		fmt.Fprintf(w, sym.String())
 	}
 	return w.String()
 }
