@@ -189,11 +189,11 @@ func (this *ItemSet) Size() int {
 
 func (this *ItemSet) String() string {
 	buf := new(bytes.Buffer)
-	buf.WriteString("{\n")
+	fmt.Fprintf(buf, "{\n")
 	for _, i := range this.Items {
 		fmt.Fprintf(buf, "\t%s\n", i)
 	}
-	buf.WriteString("}\n")
+	fmt.Fprintf(buf, "}\n")
 	fmt.Fprintf(buf, "Transitions:\n")
 	for rng, setNo := range this.Transitions {
 		fmt.Fprintf(buf, "\t%s -> S%d\n", this.SymbolClasses.Range(rng), setNo)
@@ -204,10 +204,10 @@ func (this *ItemSet) String() string {
 
 func (this *ItemSet) StringItems() string {
 	buf := new(bytes.Buffer)
-	buf.WriteString("{\n")
+	fmt.Fprintf(buf, "{\n")
 	for _, i := range this.Items {
 		fmt.Fprintf(buf, "\t%s\n", i)
 	}
-	buf.WriteString("}\n")
+	fmt.Fprintf(buf, "}\n")
 	return buf.String()
 }

@@ -32,7 +32,9 @@ func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, getParserData(pkg, prods, itemSets, symbols, cfg))
+	if err := tmpl.Execute(wr, getParserData(pkg, prods, itemSets, symbols, cfg)); err != nil {
+		panic(err)
+	}
 	io.WriteFile(path.Join(outDir, "parser", "parser.go"), wr.Bytes())
 }
 
@@ -133,7 +135,7 @@ func (S *stack) String() string {
 		} else {
 			fmt.Fprintf(w, "%v", S.attrib[i])
 		}
-		w.WriteString("\n")
+		fmt.Fprintf(w, "\n")
 	}
 	return w.String()
 }

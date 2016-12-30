@@ -36,7 +36,9 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	tmpl.Execute(wr, getProdsTab(header, prods, symbols, itemsets, tokMap))
+	if err := tmpl.Execute(wr, getProdsTab(header, prods, symbols, itemsets, tokMap)); err != nil {
+		panic(err)
+	}
 	io.WriteFile(fname, wr.Bytes())
 }
 
