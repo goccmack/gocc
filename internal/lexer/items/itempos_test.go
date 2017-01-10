@@ -16,7 +16,7 @@ package items
 
 import (
 	// "fmt"
-	// "github.com/goccmack/gocc/ast"
+	// "github.com/goccmack/gocc/internal/ast"
 	"testing"
 )
 
