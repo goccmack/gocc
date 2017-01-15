@@ -14,8 +14,8 @@ govet:
 
 regenerate:
 	make install
-	(cd example && make regenerate)
-	(cd test && make regenerate)
+	make -C example regenerate
+	make -C internal/test regenerate
 	make gofmt
 
 travis:
