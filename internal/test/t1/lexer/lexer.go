@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"unicode/utf8"
 
-	// "github.com/goccmack/gocc/test/t1/util"
-	"github.com/goccmack/gocc/test/t1/token"
+	// "github.com/goccmack/gocc/internal/test/t1/util"
+	"github.com/goccmack/gocc/internal/test/t1/token"
 )
 
 const (
