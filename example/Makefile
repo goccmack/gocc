@@ -1,9 +1,9 @@
 regenerate:
-	(cd astx && make regenerate)
-	(cd bools && make regenerate)
-	(cd calc && make regenerate)
-	(cd errorrecovery && make regenerate)
-	(cd mail && make regenerate)
-	(cd nolexer && make regenerate)
-	(cd rr && make regenerate)
-	(cd sr && make regenerate)
+	make -C astx regenerate
+	make -C bools regenerate
+	make -C calc regenerate
+	make -C errorrecovery regenerate
+	make -C mail regenerate
+	make -C nolexer regenerate
+	make -C rr regenerate
+	make -C sr regenerate

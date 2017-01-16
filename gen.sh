@@ -1,1 +1,2 @@
-gocc -o frontend -p "github.com/goccmack/gocc/frontend" spec/gocc2.ebnf
+#!/bin/bash
+gocc -o internal/frontend -p "github.com/goccmack/gocc/internal/frontend" spec/gocc2.ebnf
