@@ -592,20 +592,34 @@
 	When we run \gocc on \verb|$GOPATH/src/github.com/goccmack/gocc/example/rr/rr.bnf| we discover a reduce/reduce conflict:
 
 	\begin{verbatim}
-		> gocc -v rr.bnf
-		LR(1) conflict: S4 Reduce:3(B) / Reduce:4(A)
-		ABORTING: 1 LR(1) conflicts
+> gocc -v rr.bnf
+-a             = false
+-debug_lexer   = false
+-debug_parser  = false
+-h             = false
+-no_lexer      = false
+-o             = /home/src/github.com/goccmack/gocc/example/rr
+-p             = github.com/goccmack/gocc/example/rr
+-u             = false
+-v             = true
+Error: 1 LR-1 conflicts
 	\end{verbatim}
 
-	\gocc does not generate code because the default for automatic LR(1) conflict resolution is \verb|off|. From the output we see that \gocc could reduce either of production \verb|B| or \verb|A| in state \verb|4|.
+	\gocc does not generate code because the default for automatic LR(1) conflict resolution is \verb|off|.  
 
-	\gocc generates a number of informational files, and at this point we turn to
+	When run with \verb|-v|, \gocc generates a number of informational files, we can inspect the file \verb|LR1_conflicts.txt|
+	
+	\begin{verbatim}
+	1 LR-1 conflicts: 
+	    S4
+	        symbol: $
+	            Reduce(4:A : a	<< "A0 ", nil >>)
+	            Reduce(3:B : a	<< "B ", nil >>)
+	\end{verbatim}
+	
+	From the output we see that \gocc could reduce either of production \verb|B| or \verb|A| in state \verb|4|.and at this point we turn to
 
-	\verb|$GOPATH/src/github.com/goccmack/gocc/example/rr/sm_sets.txt|
-
-	to analyse the conflict.
-
-	\verb|sm_set.txt| contains the LR(1) sets, which will be translated into the states of the parser. Each state contains a set of {\em LR(1)  items}, which specifies what the parser expects in that state.
+	We can use \verb|LR1_sets.txt| to analyse the conflict.	\verb|LR1_sets.txt| contains the LR(1) sets, which will be translated into the states of the parser. Each state contains a set of {\em LR(1)  items}, which specifies what the parser expects in that state.
 
 	An LR(1) item is a production alternative with the position of the parser marked by a $\bullet$, and the next symbol expected after this production body, in double angle brackets. Alternatives of a production are in  separate items. For example:
 
@@ -613,7 +627,7 @@
 
 	indicates that the compiler has recognised the production alternative, \verb|A : a| and  next expects to see the end of input character, \verb|$|.
 
-	Getting back to our R/R conflict, \verb|S4|  in \verb|sm_states.txt| represents state 4 and contains the following items:
+	Getting back to our R/R conflict, \verb|S4|  in \verb|LR1_sets.txt| represents state 4 and contains the following items:
 
 	\[
 		\begin{array}{ll}
@@ -631,8 +645,9 @@
 
 	\begin{verbatim}
 		> gocc -a rr.bnf
-		Resolved 0 shift/reduce, 1 reduce/reduce conflicts
 	\end{verbatim}
+	No errors are reported. 
+
 
 \section{Example: Shift/reduce conflict handling} \label{sec:example sr}
 	The source code of the following example can be found at
@@ -652,15 +667,26 @@
 
 	\begin{verbatim}
 		> gocc -v sr.bnf
-		LR(1) conflict: S11 Shift:12 / Reduce:1(Stmt)
-		ABORTING: 1 LR(1) conflicts
+		[...]
+		Error: 1 LR-1 conflicts
 	\end{verbatim}
 
-	The problem is in the last two items of state 11, where the next symbol is \verb|else| and the parser can both shift and reduce:
+	Inspecting \verb|LR1_conflicts.txt| we see:
+
+	\begin{verbatim}
+1 LR-1 conflicts: 
+    S13
+        symbol: else
+            Shift(14)
+            Reduce(1:Stmt : "if" id "then" Stmt	<< ast.NewIf(X[1], X[3]), nil >>)	
+	\end{verbatim}
+	
+
+	The problem is in the last two items of state 13, where the next symbol is \verb|else| and the parser can both shift and reduce:
 
 	\[
 		\begin{array}{ll}
-			S11 \{ \\
+			S13 \{ \\
 			  & Stmt : if\ expr\ then\ Stmt\bullet\ <<\$>> \\
 			  & Stmt : if\ expr\ then\ Stmt\ \bullet else\ Stmt\ <<\$>> \\
 			  & Stmt : if\ expr\ then\ Stmt \bullet\ <<else>> \\
@@ -750,25 +776,15 @@
 
 	\begin{verbatim}
 		> go test -v .
-		warning: building out-of-date packages:
-		        github.com/goccmack/gocc/example/astx/token
-		        github.com/goccmack/gocc/example/astx/ast
-		        github.com/goccmack/gocc/example/astx/errors
-		        github.com/goccmack/gocc/example/astx/parser
-		        github.com/goccmack/gocc/example/astx/lexer
-		installing these packages with 'go test -i .' will speed future tests.
-
-		=== RUN TestPass
+		=== RUN   TestPass
 		input: a b c d e f
 		output: [a b c d e f]
-		--- PASS: TestPass (0.00 seconds)
-		=== RUN TestFail
+		--- PASS: TestPass (0.00s)
+		=== RUN   TestFail
 		input: a b ; d e f
-		--- FAIL: TestFail (0.00 seconds)
-		ast_test.go:23: 	Error: illegal -1(-1) ; @ 1:5, expected one of: id $
-		        FAIL
-		exit status 1
-		FAIL	github.com/goccmack/gocc/example/astx	0.015s	\end{verbatim}
+		--- PASS: TestFail (0.00s)
+		PASS
+		ok      github.com/goccmack/gocc/example/astx   0.006s	\end{verbatim}
 
 	The first test, \verb"TestPass", has a valid input string, \verb|"a b c d e f"|; and parses successfully; and returns the expected StmtList, \verb|[a b c d e f]|.
 
