@@ -21,6 +21,8 @@ func TestFail(t *testing.T) {
 	_, err := test([]byte("a b ; d e f"))
 	if err == nil {
 		t.Fatal("expected parse error")
+	} else {
+		fmt.Printf("Parsing failed as expected: %v\n", err)
 	}
 }
 
