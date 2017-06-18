@@ -18,7 +18,6 @@ var actionTab = actionTable{
 			nil,      /* $ */
 			shift(4), /* a */
 			shift(5), /* c */
-
 		},
 	},
 	actionRow{ // S1
@@ -28,7 +27,6 @@ var actionTab = actionTable{
 			accept(true), /* $ */
 			nil,          /* a */
 			nil,          /* c */
-
 		},
 	},
 	actionRow{ // S2
@@ -38,7 +36,6 @@ var actionTab = actionTable{
 			reduce(1), /* $, reduce: RR */
 			shift(6),  /* a */
 			nil,       /* c */
-
 		},
 	},
 	actionRow{ // S3
@@ -48,7 +45,6 @@ var actionTab = actionTable{
 			reduce(2), /* $, reduce: RR */
 			nil,       /* a */
 			nil,       /* c */
-
 		},
 	},
 	actionRow{ // S4
@@ -58,7 +54,6 @@ var actionTab = actionTable{
 			reduce(3), /* $, reduce: B */
 			reduce(4), /* a, reduce: A */
 			nil,       /* c */
-
 		},
 	},
 	actionRow{ // S5
@@ -68,7 +63,6 @@ var actionTab = actionTable{
 			reduce(6), /* $, reduce: A */
 			reduce(6), /* a, reduce: A */
 			nil,       /* c */
-
 		},
 	},
 	actionRow{ // S6
@@ -78,7 +72,6 @@ var actionTab = actionTable{
 			reduce(5), /* $, reduce: A */
 			reduce(5), /* a, reduce: A */
 			nil,       /* c */
-
 		},
 	},
 }

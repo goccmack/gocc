@@ -27,7 +27,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(10), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S1
@@ -46,7 +45,6 @@ var actionTab = actionTable{
 			nil,          /* > */
 			nil,          /* string_lit */
 			nil,          /* in */
-
 		},
 	},
 	actionRow{ // S2
@@ -65,7 +63,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S3
@@ -84,7 +81,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S4
@@ -103,7 +99,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(22), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S5
@@ -122,7 +117,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S6
@@ -141,7 +135,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S7
@@ -160,7 +153,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S8
@@ -179,7 +171,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S9
@@ -198,7 +189,6 @@ var actionTab = actionTable{
 			shift(24), /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S10
@@ -217,7 +207,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			shift(25), /* in */
-
 		},
 	},
 	actionRow{ // S11
@@ -236,7 +225,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(10), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S12
@@ -255,7 +243,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(10), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S13
@@ -274,7 +261,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S14
@@ -293,7 +279,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S15
@@ -312,7 +297,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S16
@@ -331,7 +315,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(22), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S17
@@ -350,7 +333,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S18
@@ -369,7 +351,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S19
@@ -388,7 +369,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S20
@@ -407,7 +387,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S21
@@ -426,7 +405,6 @@ var actionTab = actionTable{
 			shift(34), /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S22
@@ -445,7 +423,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			shift(35), /* in */
-
 		},
 	},
 	actionRow{ // S23
@@ -464,7 +441,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S24
@@ -483,7 +459,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S25
@@ -502,7 +477,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(38), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S26
@@ -521,7 +495,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S27
@@ -540,7 +513,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S28
@@ -559,7 +531,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S29
@@ -578,7 +549,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(22), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S30
@@ -597,7 +567,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(22), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S31
@@ -616,7 +585,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S32
@@ -635,7 +603,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S33
@@ -654,7 +621,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S34
@@ -673,7 +639,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S35
@@ -692,7 +657,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			shift(45), /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S36
@@ -711,7 +675,6 @@ var actionTab = actionTable{
 			nil,        /* > */
 			nil,        /* string_lit */
 			nil,        /* in */
-
 		},
 	},
 	actionRow{ // S37
@@ -730,7 +693,6 @@ var actionTab = actionTable{
 			nil,        /* > */
 			nil,        /* string_lit */
 			nil,        /* in */
-
 		},
 	},
 	actionRow{ // S38
@@ -749,7 +711,6 @@ var actionTab = actionTable{
 			nil,        /* > */
 			nil,        /* string_lit */
 			nil,        /* in */
-
 		},
 	},
 	actionRow{ // S39
@@ -768,7 +729,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S40
@@ -787,7 +747,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S41
@@ -806,7 +765,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S42
@@ -825,7 +783,6 @@ var actionTab = actionTable{
 			nil,       /* > */
 			nil,       /* string_lit */
 			nil,       /* in */
-
 		},
 	},
 	actionRow{ // S43
@@ -844,7 +801,6 @@ var actionTab = actionTable{
 			nil,        /* > */
 			nil,        /* string_lit */
 			nil,        /* in */
-
 		},
 	},
 	actionRow{ // S44
@@ -863,7 +819,6 @@ var actionTab = actionTable{
 			nil,        /* > */
 			nil,        /* string_lit */
 			nil,        /* in */
-
 		},
 	},
 	actionRow{ // S45
@@ -882,7 +837,6 @@ var actionTab = actionTable{
 			nil,        /* > */
 			nil,        /* string_lit */
 			nil,        /* in */
-
 		},
 	},
 }

@@ -43,9 +43,7 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -56,16 +54,13 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
 			rune1, size = utf8.DecodeRune(this.src[this.pos:])
 			this.pos += size
 		}
-
 		// Production start
 		if rune1 != -1 {
 			state = TransTab[state](rune1)
@@ -128,7 +123,6 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		tok.Lit = []byte{}
 	}
 	tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = start, startLine, startColumn
-
 	// fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
 
 	return
@@ -141,15 +135,25 @@ func (this *Lexer) Reset() {
 /*
 Lexer symbols:
 0: '+'
+
 1: '*'
+
 2: '('
+
 3: ')'
+
 4: ' '
+
 5: '\t'
+
 6: '\n'
+
 7: '\r'
+
 8: '1'-'9'
+
 9: '0'-'9'
+
 10: .
 
 */
