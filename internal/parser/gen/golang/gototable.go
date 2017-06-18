@@ -19,6 +19,7 @@ import (
 	"compress/gzip"
 	"encoding/gob"
 	"fmt"
+	"go/format"
 	"path"
 	"text/template"
 
@@ -50,7 +51,12 @@ func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols,
 	if err := tmpl.Execute(wr, getGotoTableData(itemSets, sym)); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), wr.Bytes())
+	// Use go/format to indent the gotoTab literal correctly.
+	source, err := format.Source(wr.Bytes())
+	if err != nil {
+		panic(err)
+	}
+	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), source)
 }
 
 func getGotoTableData(itemSets *items.ItemSets, sym *symbols.Symbols) *gotoTableData {
@@ -79,17 +85,20 @@ const gotoTableSrc = `
 package parser
 
 const numNTSymbols = {{.NumNTSymbols}}
-type(
+
+type (
 	gotoTable [numStates]gotoRow
-	gotoRow	[numNTSymbols] int
+	gotoRow   [numNTSymbols]int
 )
 
 var gotoTab = gotoTable{
-	{{range $i, $r := .Rows}}gotoRow{ // S{{$i}}
-		{{range $j, $gto := .}}{{$gto.State}}, // {{$gto.NT}}
-		{{end}}
+{{- range $i, $r := .Rows }}
+	gotoRow{ // S{{$i}}
+	{{- range $j, $gto := . }}
+		{{$gto.State}}, // {{$gto.NT}}
+	{{- end }}
 	},
-	{{end}}
+{{- end }}
 }
 `
 

@@ -14,30 +14,25 @@ var gotoTab = gotoTable{
 		-1, // S'
 		1,  // A
 		2,  // B
-
 	},
 	gotoRow{ // S1
 		-1, // S'
 		-1, // A
 		-1, // B
-
 	},
 	gotoRow{ // S2
 		-1, // S'
 		-1, // A
 		-1, // B
-
 	},
 	gotoRow{ // S3
 		-1, // S'
 		-1, // A
 		-1, // B
-
 	},
 	gotoRow{ // S4
 		-1, // S'
 		-1, // A
 		-1, // B
-
 	},
 }

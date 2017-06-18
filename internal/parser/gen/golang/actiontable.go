@@ -17,6 +17,7 @@ package golang
 import (
 	"bytes"
 	"fmt"
+	"go/format"
 	"path"
 	"text/template"
 
@@ -40,7 +41,12 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 	if err := tmpl.Execute(wr, data); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), wr.Bytes())
+	// Use go/format to indent the actions literal correctly.
+	source, err := format.Source(wr.Bytes())
+	if err != nil {
+		panic(err)
+	}
+	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), source)
 	return conflicts
 }
 

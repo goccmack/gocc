@@ -34,11 +34,11 @@ func GenToken(pkg, outdir string, tokMap *token.TokenMap) {
 	buf := new(bytes.Buffer)
 	err = tmpl.Execute(buf, TokenData{TypMap: tokMap.TypeMap, IdMap: typeMap(tokMap)})
 	// Use go/format to indent the idMap literal correctly.
-	data, err := format.Source(buf.Bytes())
+	source, err := format.Source(buf.Bytes())
 	if err != nil {
 		panic(err)
 	}
-	io.WriteFile(tokenPath, data)
+	io.WriteFile(tokenPath, source)
 }
 
 func typeMap(tokMap *token.TokenMap) []string {
