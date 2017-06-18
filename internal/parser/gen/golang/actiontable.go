@@ -31,7 +31,7 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 	if zip {
 		return GenCompActionTable(outDir, prods, itemSets, tokMap)
 	}
-	tmpl, err := template.New("parser action table").Parse(actionTableSrc)
+	tmpl, err := template.New("parser action table").Parse(actionTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -104,25 +104,26 @@ const actionTableSrc = `
 
 package parser
 
-type(
+type (
 	actionTable [numStates]actionRow
-	actionRow struct {
+	actionRow   struct {
 		canRecover bool
-		actions [numSymbols]action
+		actions    [numSymbols]action
 	}
 )
 
 var actionTab = actionTable{
-	{{range $i, $r := .Rows}}actionRow{ // S{{$i}}
+	{{- range $i, $r := .Rows }}
+	actionRow{ // S{{$i}}
 		canRecover: {{printf "%t" .CanRecover}},
 		actions: [numSymbols]action{
-			{{range $a := .Actions}}{{$a}}
-			{{end}}
+			{{- range $a := .Actions }}
+			{{$a}}
+			{{- end }}
 		},
 	},
-	{{end}}
+	{{- end }}
 }
-
 `
 
 func GenCompActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {
@@ -174,7 +175,7 @@ func GenCompActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items
 		}
 	}
 	bytesStr := genEnc(tab)
-	tmpl, err := template.New("parser action table").Parse(actionCompTableSrc)
+	tmpl, err := template.New("parser action table").Parse(actionCompTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -192,16 +193,16 @@ const actionCompTableSrc = `
 package parser
 
 import (
-	"encoding/gob"
 	"bytes"
 	"compress/gzip"
+	"encoding/gob"
 )
 
-type(
+type (
 	actionTable [numStates]actionRow
-	actionRow struct {
+	actionRow   struct {
 		canRecover bool
-		actions [numSymbols]action
+		actions    [numSymbols]action
 	}
 )
 
@@ -240,5 +241,4 @@ func init() {
 		}
 	}
 }
-
 `

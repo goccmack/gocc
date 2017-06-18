@@ -17,6 +17,7 @@ package golang
 import (
 	"bytes"
 	"fmt"
+	"go/format"
 	"path"
 	"text/template"
 
@@ -26,13 +27,18 @@ import (
 
 func GenToken(pkg, outdir string, tokMap *token.TokenMap) {
 	tokenPath := path.Join(outdir, "token", "token.go")
-	tmpl, err := template.New("token").Parse(TokenMapSrc)
+	tmpl, err := template.New("token").Parse(TokenMapSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
 	err = tmpl.Execute(buf, TokenData{TypMap: tokMap.TypeMap, IdMap: typeMap(tokMap)})
-	io.WriteFile(tokenPath, buf.Bytes())
+	// Use go/format to indent the idMap literal correctly.
+	data, err := format.Source(buf.Bytes())
+	if err != nil {
+		panic(err)
+	}
+	io.WriteFile(tokenPath, data)
 }
 
 func typeMap(tokMap *token.TokenMap) []string {
@@ -53,7 +59,7 @@ const TokenMapSrc string = `
 
 package token
 
-import(
+import (
 	"fmt"
 )
 
@@ -65,14 +71,14 @@ type Token struct {
 
 type Type int
 
-const(
+const (
 	INVALID Type = iota
 	EOF
 )
 
 type Pos struct {
 	Offset int
-	Line int
+	Line   int
 	Column int
 }
 
@@ -81,8 +87,8 @@ func (this Pos) String() string {
 }
 
 type TokenMap struct {
-	typeMap  []string
-	idMap map[string]Type
+	typeMap []string
+	idMap   map[string]Type
 }
 
 func (this TokenMap) Id(tok Type) string {
@@ -110,10 +116,15 @@ func (this TokenMap) StringType(typ Type) string {
 
 var TokMap = TokenMap{
 	typeMap: []string{
-{{range .TypMap}}{{"\t\t"}}"{{printf "%s" .}}",{{"\n"}}{{end}}{{"\t"}}},
+{{- range .TypMap }}
+		{{printf "%q" .}},
+{{- end }}
+	},
 
-	idMap: map[string]Type {
-{{range .IdMap}}{{"\t\t"}}{{printf "%s" .}},{{"\n"}}{{end}}{{"\t"}}},
+	idMap: map[string]Type{
+{{- range .IdMap }}
+		{{printf "%s" .}},
+{{- end }}
+	},
 }
-
 `

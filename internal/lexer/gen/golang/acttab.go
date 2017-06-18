@@ -26,7 +26,7 @@ import (
 
 func genActionTable(pkg, outDir string, itemsets *items.ItemSets, tokMap *token.TokenMap) {
 	fname := path.Join(outDir, "lexer", "acttab.go")
-	tmpl, err := template.New("action table").Parse(actionTableSrc)
+	tmpl, err := template.New("action table").Parse(actionTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -72,13 +72,13 @@ const actionTableSrc = `
 
 package lexer
 
-import(
+import (
 	"fmt"
 
 	"{{.TokenImport}}"
 )
 
-type ActionTable [NumStates] ActionRow
+type ActionTable [NumStates]ActionRow
 
 type ActionRow struct {
 	Accept token.Type
@@ -90,10 +90,11 @@ func (this ActionRow) String() string {
 }
 
 var ActTab = ActionTable{
-	{{range $s, $act := .Actions}}ActionRow{ // S{{$s}}
+	{{- range $s, $act := .Actions}}
+	ActionRow{ // S{{$s}}
 		Accept: {{$act.Accept}},
 		Ignore: "{{$act.Ignore}}",
 	},
-	{{end}}
+	{{- end}}
 }
 `

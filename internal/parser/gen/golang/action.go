@@ -21,7 +21,7 @@ import (
 )
 
 func GenAction(outDir string) {
-	io.WriteFileString(path.Join(outDir, "parser", "action.go"), actionSrc)
+	io.WriteFileString(path.Join(outDir, "parser", "action.go"), actionSrc[1:])
 }
 
 const actionSrc = `

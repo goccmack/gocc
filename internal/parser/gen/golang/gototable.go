@@ -111,13 +111,17 @@ func genEnc(v interface{}) string {
 		if n > len(b) {
 			n = len(b)
 		}
-		for _, c := range b[:n] {
+		fmt.Fprintf(strBuf, "\t\t")
+		for i, c := range b[:n] {
+			if i != 0 {
+				strBuf.WriteString(" ")
+			}
 			fmt.Fprintf(strBuf, "0x%02x,", c)
 		}
 		fmt.Fprintf(strBuf, "\n")
 		b = b[n:]
 	}
-	fmt.Fprintf(strBuf, "}")
+	fmt.Fprintf(strBuf, "\t}")
 	return string(strBuf.Bytes())
 }
 
@@ -138,7 +142,7 @@ func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symb
 		NumNTSymbols: numNTSymbols,
 		Bytes:        bytesStr,
 	}
-	tmpl, err := template.New("parser goto table").Parse(gotoTableCompSrc)
+	tmpl, err := template.New("parser goto table").Parse(gotoTableCompSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -155,15 +159,16 @@ const gotoTableCompSrc = `
 package parser
 
 import (
-	"encoding/gob"
 	"bytes"
 	"compress/gzip"
+	"encoding/gob"
 )
 
 const numNTSymbols = {{.NumNTSymbols}}
-type(
+
+type (
 	gotoTable [numStates]gotoRow
-	gotoRow	[numNTSymbols] int
+	gotoRow   [numNTSymbols]int
 )
 
 var gotoTab = gotoTable{}

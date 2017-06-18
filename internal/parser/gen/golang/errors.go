@@ -22,7 +22,7 @@ import (
 )
 
 func GenErrors(pkg, outDir string) {
-	tmpl, err := template.New("parser errors").Parse(errorsSrc)
+	tmpl, err := template.New("parser errors").Parse(errorsSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -38,10 +38,10 @@ const errorsSrc = `
 
 package errors
 
-import(
+import (
 	"bytes"
 	"fmt"
-	
+
 	"{{.}}"
 )
 
