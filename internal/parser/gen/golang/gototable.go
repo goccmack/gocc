@@ -19,7 +19,6 @@ import (
 	"compress/gzip"
 	"encoding/gob"
 	"fmt"
-	"go/format"
 	"path"
 	"text/template"
 
@@ -36,6 +35,7 @@ type gotoTableData struct {
 type gotoRowElement struct {
 	NT    string
 	State int
+	Pad   int
 }
 
 func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols, zip bool) {
@@ -43,7 +43,7 @@ func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols,
 		GenCompGotoTable(outDir, itemSets, sym)
 		return
 	}
-	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc)
+	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -51,12 +51,7 @@ func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols,
 	if err := tmpl.Execute(wr, getGotoTableData(itemSets, sym)); err != nil {
 		panic(err)
 	}
-	// Use go/format to indent the gotoTab literal correctly.
-	source, err := format.Source(wr.Bytes())
-	if err != nil {
-		panic(err)
-	}
-	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), source)
+	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), wr.Bytes())
 }
 
 func getGotoTableData(itemSets *items.ItemSets, sym *symbols.Symbols) *gotoTableData {
@@ -72,9 +67,18 @@ func getGotoTableData(itemSets *items.ItemSets, sym *symbols.Symbols) *gotoTable
 
 func getGotoRowData(itemSet *items.ItemSet, sym *symbols.Symbols) []gotoRowElement {
 	row := make([]gotoRowElement, sym.NumNTSymbols())
+	var max int
 	for i, nt := range sym.NTList() {
 		row[i].NT = nt
 		row[i].State = itemSet.NextSetIndex(nt)
+		n := nbytes(row[i].State)
+		if n > max {
+			max = n
+		}
+	}
+	// Calculate padding.
+	for i := range row {
+		row[i].Pad = max + 1 - nbytes(row[i].State)
 	}
 	return row
 }
@@ -95,7 +99,7 @@ var gotoTab = gotoTable{
 {{- range $i, $r := .Rows }}
 	gotoRow{ // S{{$i}}
 	{{- range $j, $gto := . }}
-		{{$gto.State}}, // {{$gto.NT}}
+		{{ printf "%d,%*c// %s" $gto.State $gto.Pad ' ' $gto.NT }}
 	{{- end }}
 	},
 {{- end }}

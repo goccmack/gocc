@@ -17,7 +17,7 @@ package golang
 import (
 	"bytes"
 	"fmt"
-	"go/format"
+	"math"
 	"path"
 	"text/template"
 
@@ -41,12 +41,7 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 	if err := tmpl.Execute(wr, data); err != nil {
 		panic(err)
 	}
-	// Use go/format to indent the actions literal correctly.
-	source, err := format.Source(wr.Bytes())
-	if err != nil {
-		panic(err)
-	}
-	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), source)
+	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), wr.Bytes())
 	return conflicts
 }
 
@@ -83,21 +78,53 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 		Actions:    make([]string, len(tokMap.TypeMap)),
 	}
 	conflicts = make(items.RowConflicts)
+	var max int
+	// calculate padding.
+	for _, sym := range tokMap.TypeMap {
+		act, _ := set.Action(sym)
+		switch act1 := act.(type) {
+		case action.Accept:
+			n := len("accept(true),")
+			if n > max {
+				max = n
+			}
+		case action.Error:
+			n := len("nil,")
+			if n > max {
+				max = n
+			}
+		case action.Reduce:
+			n := len("reduce(") + nbytes(int(act1)) + len("),")
+			if n > max {
+				max = n
+			}
+		case action.Shift:
+			n := len("shift(") + nbytes(int(act1)) + len("),")
+			if n > max {
+				max = n
+			}
+		default:
+			panic(fmt.Sprintf("Unknown action type: %T", act1))
+		}
+	}
 	for i, sym := range tokMap.TypeMap {
 		act, symConflicts := set.Action(sym)
 		if len(symConflicts) > 0 {
 			conflicts[sym] = symConflicts
 		}
-
 		switch act1 := act.(type) {
 		case action.Accept:
-			data.Actions[i] = fmt.Sprintf("accept(true),\t\t/* %s */", sym)
+			pad := max + 1 - len("accept(true),")
+			data.Actions[i] = fmt.Sprintf("accept(true),%*c/* %s */", pad, ' ', sym)
 		case action.Error:
-			data.Actions[i] = fmt.Sprintf("nil,\t\t/* %s */", sym)
+			pad := max + 1 - len("nil,")
+			data.Actions[i] = fmt.Sprintf("nil,%*c/* %s */", pad, ' ', sym)
 		case action.Reduce:
-			data.Actions[i] = fmt.Sprintf("reduce(%d),\t\t/* %s, reduce: %s */", int(act1), sym, prods[int(act1)].Id)
+			pad := max + 1 - (len("reduce(") + nbytes(int(act1)) + len("),"))
+			data.Actions[i] = fmt.Sprintf("reduce(%d),%*c/* %s, reduce: %s */", int(act1), pad, ' ', sym, prods[int(act1)].Id)
 		case action.Shift:
-			data.Actions[i] = fmt.Sprintf("shift(%d),\t\t/* %s */", int(act1), sym)
+			pad := max + 1 - (len("shift(") + nbytes(int(act1)) + len("),"))
+			data.Actions[i] = fmt.Sprintf("shift(%d),%*c/* %s */", int(act1), pad, ' ', sym)
 		default:
 			panic(fmt.Sprintf("Unknown action type: %T", act1))
 		}
@@ -248,3 +275,17 @@ func init() {
 	}
 }
 `
+
+// nbytes returns the number of bytes required to output the integer x.
+func nbytes(x int) int {
+	if x == 0 {
+		return 1
+	}
+	n := 0
+	if x < 0 {
+		x = -x
+		n++
+	}
+	n += int(math.Log10(float64(x))) + 1
+	return n
+}
