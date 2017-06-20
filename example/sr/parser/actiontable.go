@@ -20,7 +20,6 @@ var actionTab = actionTable{
 			shift(3), /* id */
 			nil,      /* then */
 			nil,      /* else */
-
 		},
 	},
 	actionRow{ // S1
@@ -32,7 +31,6 @@ var actionTab = actionTable{
 			nil,          /* id */
 			nil,          /* then */
 			nil,          /* else */
-
 		},
 	},
 	actionRow{ // S2
@@ -44,7 +42,6 @@ var actionTab = actionTable{
 			shift(4), /* id */
 			nil,      /* then */
 			nil,      /* else */
-
 		},
 	},
 	actionRow{ // S3
@@ -56,7 +53,6 @@ var actionTab = actionTable{
 			nil,       /* id */
 			nil,       /* then */
 			nil,       /* else */
-
 		},
 	},
 	actionRow{ // S4
@@ -68,7 +64,6 @@ var actionTab = actionTable{
 			nil,      /* id */
 			shift(5), /* then */
 			nil,      /* else */
-
 		},
 	},
 	actionRow{ // S5
@@ -80,7 +75,6 @@ var actionTab = actionTable{
 			shift(8), /* id */
 			nil,      /* then */
 			nil,      /* else */
-
 		},
 	},
 	actionRow{ // S6
@@ -92,7 +86,6 @@ var actionTab = actionTable{
 			nil,       /* id */
 			nil,       /* then */
 			shift(9),  /* else */
-
 		},
 	},
 	actionRow{ // S7
@@ -104,7 +97,6 @@ var actionTab = actionTable{
 			shift(10), /* id */
 			nil,       /* then */
 			nil,       /* else */
-
 		},
 	},
 	actionRow{ // S8
@@ -116,7 +108,6 @@ var actionTab = actionTable{
 			nil,       /* id */
 			nil,       /* then */
 			reduce(3), /* else, reduce: Stmt */
-
 		},
 	},
 	actionRow{ // S9
@@ -128,7 +119,6 @@ var actionTab = actionTable{
 			shift(3), /* id */
 			nil,      /* then */
 			nil,      /* else */
-
 		},
 	},
 	actionRow{ // S10
@@ -140,7 +130,6 @@ var actionTab = actionTable{
 			nil,       /* id */
 			shift(12), /* then */
 			nil,       /* else */
-
 		},
 	},
 	actionRow{ // S11
@@ -152,7 +141,6 @@ var actionTab = actionTable{
 			nil,       /* id */
 			nil,       /* then */
 			nil,       /* else */
-
 		},
 	},
 	actionRow{ // S12
@@ -164,7 +152,6 @@ var actionTab = actionTable{
 			shift(8), /* id */
 			nil,      /* then */
 			nil,      /* else */
-
 		},
 	},
 	actionRow{ // S13
@@ -176,7 +163,6 @@ var actionTab = actionTable{
 			nil,       /* id */
 			nil,       /* then */
 			shift(14), /* else */
-
 		},
 	},
 	actionRow{ // S14
@@ -188,7 +174,6 @@ var actionTab = actionTable{
 			shift(8), /* id */
 			nil,      /* then */
 			nil,      /* else */
-
 		},
 	},
 	actionRow{ // S15
@@ -200,7 +185,6 @@ var actionTab = actionTable{
 			nil,       /* id */
 			nil,       /* then */
 			reduce(2), /* else, reduce: Stmt */
-
 		},
 	},
 }

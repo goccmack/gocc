@@ -21,7 +21,6 @@ var actionTab = actionTable{
 			shift(5), /* ( */
 			nil,      /* ) */
 			shift(6), /* int64 */
-
 		},
 	},
 	actionRow{ // S1
@@ -34,7 +33,6 @@ var actionTab = actionTable{
 			nil,          /* ( */
 			nil,          /* ) */
 			nil,          /* int64 */
-
 		},
 	},
 	actionRow{ // S2
@@ -47,7 +45,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			nil,       /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S3
@@ -60,7 +57,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			nil,       /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S4
@@ -73,7 +69,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			nil,       /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S5
@@ -86,7 +81,6 @@ var actionTab = actionTable{
 			shift(12), /* ( */
 			nil,       /* ) */
 			shift(13), /* int64 */
-
 		},
 	},
 	actionRow{ // S6
@@ -99,7 +93,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			nil,       /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S7
@@ -112,7 +105,6 @@ var actionTab = actionTable{
 			shift(5), /* ( */
 			nil,      /* ) */
 			shift(6), /* int64 */
-
 		},
 	},
 	actionRow{ // S8
@@ -125,7 +117,6 @@ var actionTab = actionTable{
 			shift(5), /* ( */
 			nil,      /* ) */
 			shift(6), /* int64 */
-
 		},
 	},
 	actionRow{ // S9
@@ -138,7 +129,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			shift(17), /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S10
@@ -151,7 +141,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			reduce(3), /* ), reduce: Expr */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S11
@@ -164,7 +153,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			reduce(5), /* ), reduce: Term */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S12
@@ -177,7 +165,6 @@ var actionTab = actionTable{
 			shift(12), /* ( */
 			nil,       /* ) */
 			shift(13), /* int64 */
-
 		},
 	},
 	actionRow{ // S13
@@ -190,7 +177,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			reduce(7), /* ), reduce: Factor */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S14
@@ -203,7 +189,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			nil,       /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S15
@@ -216,7 +201,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			nil,       /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S16
@@ -229,7 +213,6 @@ var actionTab = actionTable{
 			shift(12), /* ( */
 			nil,       /* ) */
 			shift(13), /* int64 */
-
 		},
 	},
 	actionRow{ // S17
@@ -242,7 +225,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			nil,       /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S18
@@ -255,7 +237,6 @@ var actionTab = actionTable{
 			shift(12), /* ( */
 			nil,       /* ) */
 			shift(13), /* int64 */
-
 		},
 	},
 	actionRow{ // S19
@@ -268,7 +249,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			shift(22), /* ) */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S20
@@ -281,7 +261,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			reduce(2), /* ), reduce: Expr */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S21
@@ -294,7 +273,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			reduce(4), /* ), reduce: Term */
 			nil,       /* int64 */
-
 		},
 	},
 	actionRow{ // S22
@@ -307,7 +285,6 @@ var actionTab = actionTable{
 			nil,       /* ( */
 			reduce(6), /* ), reduce: Factor */
 			nil,       /* int64 */
-
 		},
 	},
 }

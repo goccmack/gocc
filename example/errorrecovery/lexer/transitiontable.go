@@ -10,7 +10,6 @@ transitionTable[s](r) returns the next state.
 type TransitionTable [NumStates]func(rune) int
 
 var TransTab = TransitionTable{
-
 	// S0
 	func(r rune) int {
 		switch {
@@ -28,19 +27,15 @@ var TransTab = TransitionTable{
 			return 3
 		case 97 <= r && r <= 122: // ['a','z']
 			return 2
-
 		}
 		return NoState
 	},
-
 	// S1
 	func(r rune) int {
 		switch {
-
 		}
 		return NoState
 	},
-
 	// S2
 	func(r rune) int {
 		switch {
@@ -52,11 +47,9 @@ var TransTab = TransitionTable{
 			return 6
 		case 97 <= r && r <= 122: // ['a','z']
 			return 5
-
 		}
 		return NoState
 	},
-
 	// S3
 	func(r rune) int {
 		switch {
@@ -68,11 +61,9 @@ var TransTab = TransitionTable{
 			return 6
 		case 97 <= r && r <= 122: // ['a','z']
 			return 5
-
 		}
 		return NoState
 	},
-
 	// S4
 	func(r rune) int {
 		switch {
@@ -84,11 +75,9 @@ var TransTab = TransitionTable{
 			return 6
 		case 97 <= r && r <= 122: // ['a','z']
 			return 5
-
 		}
 		return NoState
 	},
-
 	// S5
 	func(r rune) int {
 		switch {
@@ -100,11 +89,9 @@ var TransTab = TransitionTable{
 			return 6
 		case 97 <= r && r <= 122: // ['a','z']
 			return 5
-
 		}
 		return NoState
 	},
-
 	// S6
 	func(r rune) int {
 		switch {
@@ -116,7 +103,6 @@ var TransTab = TransitionTable{
 			return 6
 		case 97 <= r && r <= 122: // ['a','z']
 			return 5
-
 		}
 		return NoState
 	},

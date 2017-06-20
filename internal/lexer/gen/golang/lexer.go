@@ -25,7 +25,7 @@ import (
 )
 
 func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) {
-	tmpl, err := template.New("lexer").Parse(lexerSrc)
+	tmpl, err := template.New("lexer").Parse(lexerSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -73,17 +73,17 @@ import (
 	"{{.TokenImport}}"
 )
 
-const(
-	NoState = -1
-	NumStates = {{.NumStates}}
+const (
+	NoState    = -1
+	NumStates  = {{.NumStates}}
 	NumSymbols = {{.NumSymbols}}
 )
 
 type Lexer struct {
-	src             []byte
-	pos             int
-	line            int
-	column          int
+	src    []byte
+	pos    int
+	line   int
+	column int
 }
 
 func NewLexer(src []byte) *Lexer {
@@ -105,11 +105,11 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (this *Lexer) Scan() (tok *token.Token) {
-	{{if .Debug}}
+	{{- if .Debug}}
 	fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-	{{else}}
+	{{- else}}
 	// fmt.Printf("Lexer.Scan() pos=%d\n", this.pos)
-	{{end}}
+	{{- end}}
 	tok = new(token.Token)
 	if this.pos >= len(this.src) {
 		tok.Type = token.EOF
@@ -120,11 +120,11 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-	{{if .Debug}}
+	{{- if .Debug}}
 		fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-	{{else}}
+	{{- else}}
 		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", this.pos, this.line, this.column, state)
-	{{end}}
+	{{- end}}
 		if this.pos >= len(this.src) {
 			rune1 = -1
 		} else {
@@ -132,7 +132,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 			this.pos += size
 		}
 
-	{{if .Debug}}
+	{{- if .Debug}}
 		// Production start
 		// if rune1 != -1 {
 		// 	state = TransTab[state](rune1)
@@ -153,7 +153,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		}
 		state = nextState
 		// Debug end
-	{{else}}
+	{{- else}}
 		// Production start
 		if rune1 != -1 {
 			state = TransTab[state](rune1)
@@ -174,7 +174,7 @@ func (this *Lexer) Scan() (tok *token.Token) {
 		// }
 		// state = nextState
 		// Debug end
-	{{end}}
+	{{- end}}
 
 		if state != -1 {
 
@@ -216,13 +216,13 @@ func (this *Lexer) Scan() (tok *token.Token) {
 	} else {
 		tok.Lit = []byte{}
 	}
-	tok.Pos.Offset, tok.Pos.Line ,tok.Pos.Column = start, startLine, startColumn
+	tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = start, startLine, startColumn
 
-	{{if .Debug}}
+	{{- if .Debug}}
 	fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
-	{{else}}
+	{{- else}}
 	// fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
-	{{end}}
+	{{- end}}
 
 	return
 }
@@ -233,6 +233,8 @@ func (this *Lexer) Reset() {
 
 /*
 Lexer symbols:
-{{range $i, $sym := .Symbols}}{{printf "%d: %s" $i $sym}}{{"\n"}}{{end}}
+{{- range $i, $sym := .Symbols}}
+{{printf "%d: %s\n" $i $sym}}
+{{- end}}
 */
 `

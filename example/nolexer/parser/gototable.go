@@ -14,36 +14,30 @@ var gotoTab = gotoTable{
 		-1, // S'
 		1,  // Hello
 		2,  // Saying
-
 	},
 	gotoRow{ // S1
 		-1, // S'
 		-1, // Hello
 		-1, // Saying
-
 	},
 	gotoRow{ // S2
 		-1, // S'
 		-1, // Hello
 		-1, // Saying
-
 	},
 	gotoRow{ // S3
 		-1, // S'
 		-1, // Hello
 		-1, // Saying
-
 	},
 	gotoRow{ // S4
 		-1, // S'
 		-1, // Hello
 		-1, // Saying
-
 	},
 	gotoRow{ // S5
 		-1, // S'
 		-1, // Hello
 		-1, // Saying
-
 	},
 }

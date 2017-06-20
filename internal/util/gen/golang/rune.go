@@ -7,7 +7,7 @@ import (
 )
 
 func GenRune(outDir string) {
-	io.WriteFileString(path.Join(outDir, "util", "rune.go"), runeSrc)
+	io.WriteFileString(path.Join(outDir, "util", "rune.go"), runeSrc[1:])
 }
 
 var runeSrc = `

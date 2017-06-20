@@ -19,7 +19,6 @@ var actionTab = actionTable{
 			nil,      /* name */
 			shift(3), /* hello */
 			shift(4), /* hiya */
-
 		},
 	},
 	actionRow{ // S1
@@ -30,7 +29,6 @@ var actionTab = actionTable{
 			nil,          /* name */
 			nil,          /* hello */
 			nil,          /* hiya */
-
 		},
 	},
 	actionRow{ // S2
@@ -41,7 +39,6 @@ var actionTab = actionTable{
 			shift(5), /* name */
 			nil,      /* hello */
 			nil,      /* hiya */
-
 		},
 	},
 	actionRow{ // S3
@@ -52,7 +49,6 @@ var actionTab = actionTable{
 			reduce(2), /* name, reduce: Saying */
 			nil,       /* hello */
 			nil,       /* hiya */
-
 		},
 	},
 	actionRow{ // S4
@@ -63,7 +59,6 @@ var actionTab = actionTable{
 			reduce(3), /* name, reduce: Saying */
 			nil,       /* hello */
 			nil,       /* hiya */
-
 		},
 	},
 	actionRow{ // S5
@@ -74,7 +69,6 @@ var actionTab = actionTable{
 			nil,       /* name */
 			nil,       /* hello */
 			nil,       /* hiya */
-
 		},
 	},
 }

@@ -19,7 +19,6 @@ var actionTab = actionTable{
 			reduce(2), /* c, reduce: B */
 			nil,       /* empty */
 			shift(3),  /* b */
-
 		},
 	},
 	actionRow{ // S1
@@ -30,7 +29,6 @@ var actionTab = actionTable{
 			nil,          /* c */
 			nil,          /* empty */
 			nil,          /* b */
-
 		},
 	},
 	actionRow{ // S2
@@ -41,7 +39,6 @@ var actionTab = actionTable{
 			shift(4), /* c */
 			nil,      /* empty */
 			nil,      /* b */
-
 		},
 	},
 	actionRow{ // S3
@@ -52,7 +49,6 @@ var actionTab = actionTable{
 			reduce(3), /* c, reduce: B */
 			nil,       /* empty */
 			nil,       /* b */
-
 		},
 	},
 	actionRow{ // S4
@@ -63,7 +59,6 @@ var actionTab = actionTable{
 			nil,       /* c */
 			nil,       /* empty */
 			nil,       /* b */
-
 		},
 	},
 }

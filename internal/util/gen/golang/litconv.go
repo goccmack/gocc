@@ -7,7 +7,7 @@ import (
 )
 
 func GenLitConv(outDir string) {
-	io.WriteFileString(path.Join(outDir, "util", "litconv.go"), litConvSrc)
+	io.WriteFileString(path.Join(outDir, "util", "litconv.go"), litConvSrc[1:])
 }
 
 const litConvSrc = `

@@ -27,7 +27,7 @@ import (
 )
 
 func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) {
-	tmpl, err := template.New("parser").Parse(parserSrc)
+	tmpl, err := template.New("parser").Parse(parserSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -63,7 +63,7 @@ const parserSrc = `
 
 package parser
 
-import(
+import (
 	"bytes"
 	"fmt"
 
@@ -80,16 +80,17 @@ const (
 // Stack
 
 type stack struct {
-	state []int
-	attrib	[]Attrib
+	state  []int
+	attrib []Attrib
 }
 
 const iNITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
-	return &stack{ 	state: 	make([]int, 0, iNITIAL_STACK_SIZE),
-					attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
-			}
+	return &stack{
+		state:  make([]int, 0, iNITIAL_STACK_SIZE),
+		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+	}
 }
 
 func (this *stack) reset() {
@@ -102,8 +103,8 @@ func (this *stack) push(s int, a Attrib) {
 	this.attrib = append(this.attrib, a)
 }
 
-func(this *stack) top() int {
-	return this.state[len(this.state) - 1]
+func (this *stack) top() int {
+	return this.state[len(this.state)-1]
 }
 
 func (this *stack) peek(pos int) int {
@@ -115,9 +116,9 @@ func (this *stack) topIndex() int {
 }
 
 func (this *stack) popN(items int) []Attrib {
-	lo, hi := len(this.state) - items, len(this.state)
+	lo, hi := len(this.state)-items, len(this.state)
 
-	attrib := this.attrib[lo: hi]
+	attrib := this.attrib[lo:hi]
 
 	this.state = this.state[:lo]
 	this.attrib = this.attrib[:lo]
@@ -247,11 +248,11 @@ func (this *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				panic("Error recovery led to invalid action")
 			}
 		}
-		{{if .Debug}}
+		{{- if .Debug }}
 		fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
-		{{else}}
+		{{- else }}
 		// fmt.Printf("S%d %s %s\n", this.stack.top(), token.TokMap.TokenString(this.nextToken), action.String())
-		{{end}}
+		{{- end }}
 
 		switch act := action.(type) {
 		case accept:

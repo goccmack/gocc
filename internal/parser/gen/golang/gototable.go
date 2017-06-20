@@ -35,6 +35,7 @@ type gotoTableData struct {
 type gotoRowElement struct {
 	NT    string
 	State int
+	Pad   int
 }
 
 func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols, zip bool) {
@@ -42,7 +43,7 @@ func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols,
 		GenCompGotoTable(outDir, itemSets, sym)
 		return
 	}
-	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc)
+	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -66,9 +67,18 @@ func getGotoTableData(itemSets *items.ItemSets, sym *symbols.Symbols) *gotoTable
 
 func getGotoRowData(itemSet *items.ItemSet, sym *symbols.Symbols) []gotoRowElement {
 	row := make([]gotoRowElement, sym.NumNTSymbols())
+	var max int
 	for i, nt := range sym.NTList() {
 		row[i].NT = nt
 		row[i].State = itemSet.NextSetIndex(nt)
+		n := nbytes(row[i].State)
+		if n > max {
+			max = n
+		}
+	}
+	// Calculate padding.
+	for i := range row {
+		row[i].Pad = max + 1 - nbytes(row[i].State)
 	}
 	return row
 }
@@ -79,17 +89,20 @@ const gotoTableSrc = `
 package parser
 
 const numNTSymbols = {{.NumNTSymbols}}
-type(
+
+type (
 	gotoTable [numStates]gotoRow
-	gotoRow	[numNTSymbols] int
+	gotoRow   [numNTSymbols]int
 )
 
 var gotoTab = gotoTable{
-	{{range $i, $r := .Rows}}gotoRow{ // S{{$i}}
-		{{range $j, $gto := .}}{{$gto.State}}, // {{$gto.NT}}
-		{{end}}
+{{- range $i, $r := .Rows }}
+	gotoRow{ // S{{$i}}
+	{{- range $j, $gto := . }}
+		{{ printf "%d,%*c// %s" $gto.State $gto.Pad ' ' $gto.NT }}
+	{{- end }}
 	},
-	{{end}}
+{{- end }}
 }
 `
 
@@ -111,13 +124,17 @@ func genEnc(v interface{}) string {
 		if n > len(b) {
 			n = len(b)
 		}
-		for _, c := range b[:n] {
+		fmt.Fprintf(strBuf, "\t\t")
+		for i, c := range b[:n] {
+			if i != 0 {
+				strBuf.WriteString(" ")
+			}
 			fmt.Fprintf(strBuf, "0x%02x,", c)
 		}
 		fmt.Fprintf(strBuf, "\n")
 		b = b[n:]
 	}
-	fmt.Fprintf(strBuf, "}")
+	fmt.Fprintf(strBuf, "\t}")
 	return string(strBuf.Bytes())
 }
 
@@ -138,7 +155,7 @@ func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symb
 		NumNTSymbols: numNTSymbols,
 		Bytes:        bytesStr,
 	}
-	tmpl, err := template.New("parser goto table").Parse(gotoTableCompSrc)
+	tmpl, err := template.New("parser goto table").Parse(gotoTableCompSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -155,15 +172,16 @@ const gotoTableCompSrc = `
 package parser
 
 import (
-	"encoding/gob"
 	"bytes"
 	"compress/gzip"
+	"encoding/gob"
 )
 
 const numNTSymbols = {{.NumNTSymbols}}
-type(
+
+type (
 	gotoTable [numStates]gotoRow
-	gotoRow	[numNTSymbols] int
+	gotoRow   [numNTSymbols]int
 )
 
 var gotoTab = gotoTable{}

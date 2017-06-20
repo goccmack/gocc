@@ -31,7 +31,7 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 	itemsets *items.ItemSets, tokMap *token.TokenMap) {
 
 	fname := path.Join(outDir, "parser", "productionstable.go")
-	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc)
+	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -100,7 +100,7 @@ type (
 		String     string
 		Id         string
 		NTType     int
-		Index int
+		Index      int
 		NumSymbols int
 		ReduceFunc func([]Attrib) (Attrib, error)
 	}
@@ -108,17 +108,18 @@ type (
 	}
 )
 
-var productionsTable = ProdTab {
-	{{range $i, $entry := .ProdTab}}ProdTabEntry{
+var productionsTable = ProdTab{
+	{{- range $i, $entry := .ProdTab }}
+	ProdTabEntry{
 		String: {{$entry.String}},
-		Id: "{{$entry.Id}}",
-		NTType: {{$entry.NTType}},
-		Index: {{$i}},
+		Id:         "{{$entry.Id}}",
+		NTType:     {{$entry.NTType}},
+		Index:      {{$i}},
 		NumSymbols: {{$entry.NumSymbols}},
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			{{$entry.ReduceFunc}}
 		},
 	},
-	{{end}}
+	{{- end }}
 }
 `

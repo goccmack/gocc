@@ -17,6 +17,7 @@ package golang
 import (
 	"bytes"
 	"fmt"
+	"math"
 	"path"
 	"text/template"
 
@@ -31,7 +32,7 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 	if zip {
 		return GenCompActionTable(outDir, prods, itemSets, tokMap)
 	}
-	tmpl, err := template.New("parser action table").Parse(actionTableSrc)
+	tmpl, err := template.New("parser action table").Parse(actionTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -77,21 +78,53 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 		Actions:    make([]string, len(tokMap.TypeMap)),
 	}
 	conflicts = make(items.RowConflicts)
+	var max int
+	// calculate padding.
+	for _, sym := range tokMap.TypeMap {
+		act, _ := set.Action(sym)
+		switch act1 := act.(type) {
+		case action.Accept:
+			n := len("accept(true),")
+			if n > max {
+				max = n
+			}
+		case action.Error:
+			n := len("nil,")
+			if n > max {
+				max = n
+			}
+		case action.Reduce:
+			n := len("reduce(") + nbytes(int(act1)) + len("),")
+			if n > max {
+				max = n
+			}
+		case action.Shift:
+			n := len("shift(") + nbytes(int(act1)) + len("),")
+			if n > max {
+				max = n
+			}
+		default:
+			panic(fmt.Sprintf("Unknown action type: %T", act1))
+		}
+	}
 	for i, sym := range tokMap.TypeMap {
 		act, symConflicts := set.Action(sym)
 		if len(symConflicts) > 0 {
 			conflicts[sym] = symConflicts
 		}
-
 		switch act1 := act.(type) {
 		case action.Accept:
-			data.Actions[i] = fmt.Sprintf("accept(true),\t\t/* %s */", sym)
+			pad := max + 1 - len("accept(true),")
+			data.Actions[i] = fmt.Sprintf("accept(true),%*c/* %s */", pad, ' ', sym)
 		case action.Error:
-			data.Actions[i] = fmt.Sprintf("nil,\t\t/* %s */", sym)
+			pad := max + 1 - len("nil,")
+			data.Actions[i] = fmt.Sprintf("nil,%*c/* %s */", pad, ' ', sym)
 		case action.Reduce:
-			data.Actions[i] = fmt.Sprintf("reduce(%d),\t\t/* %s, reduce: %s */", int(act1), sym, prods[int(act1)].Id)
+			pad := max + 1 - (len("reduce(") + nbytes(int(act1)) + len("),"))
+			data.Actions[i] = fmt.Sprintf("reduce(%d),%*c/* %s, reduce: %s */", int(act1), pad, ' ', sym, prods[int(act1)].Id)
 		case action.Shift:
-			data.Actions[i] = fmt.Sprintf("shift(%d),\t\t/* %s */", int(act1), sym)
+			pad := max + 1 - (len("shift(") + nbytes(int(act1)) + len("),"))
+			data.Actions[i] = fmt.Sprintf("shift(%d),%*c/* %s */", int(act1), pad, ' ', sym)
 		default:
 			panic(fmt.Sprintf("Unknown action type: %T", act1))
 		}
@@ -104,25 +137,26 @@ const actionTableSrc = `
 
 package parser
 
-type(
+type (
 	actionTable [numStates]actionRow
-	actionRow struct {
+	actionRow   struct {
 		canRecover bool
-		actions [numSymbols]action
+		actions    [numSymbols]action
 	}
 )
 
 var actionTab = actionTable{
-	{{range $i, $r := .Rows}}actionRow{ // S{{$i}}
+	{{- range $i, $r := .Rows }}
+	actionRow{ // S{{$i}}
 		canRecover: {{printf "%t" .CanRecover}},
 		actions: [numSymbols]action{
-			{{range $a := .Actions}}{{$a}}
-			{{end}}
+			{{- range $a := .Actions }}
+			{{$a}}
+			{{- end }}
 		},
 	},
-	{{end}}
+	{{- end }}
 }
-
 `
 
 func GenCompActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {
@@ -174,7 +208,7 @@ func GenCompActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items
 		}
 	}
 	bytesStr := genEnc(tab)
-	tmpl, err := template.New("parser action table").Parse(actionCompTableSrc)
+	tmpl, err := template.New("parser action table").Parse(actionCompTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
@@ -192,16 +226,16 @@ const actionCompTableSrc = `
 package parser
 
 import (
-	"encoding/gob"
 	"bytes"
 	"compress/gzip"
+	"encoding/gob"
 )
 
-type(
+type (
 	actionTable [numStates]actionRow
-	actionRow struct {
+	actionRow   struct {
 		canRecover bool
-		actions [numSymbols]action
+		actions    [numSymbols]action
 	}
 )
 
@@ -240,5 +274,18 @@ func init() {
 		}
 	}
 }
-
 `
+
+// nbytes returns the number of bytes required to output the integer x.
+func nbytes(x int) int {
+	if x == 0 {
+		return 1
+	}
+	n := 0
+	if x < 0 {
+		x = -x
+		n++
+	}
+	n += int(math.Log10(float64(x))) + 1
+	return n
+}
