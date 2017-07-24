@@ -234,7 +234,7 @@ func (this *Lexer) Reset() {
 /*
 Lexer symbols:
 {{- range $i, $sym := .Symbols}}
-{{printf "%d: %s\n" $i $sym}}
+{{- printf "\n%d: %s" $i $sym}}
 {{- end}}
 */
 `

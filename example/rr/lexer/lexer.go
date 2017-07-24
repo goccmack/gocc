@@ -135,17 +135,10 @@ func (this *Lexer) Reset() {
 /*
 Lexer symbols:
 0: 'a'
-
 1: 'c'
-
 2: ' '
-
 3: '\t'
-
 4: '\n'
-
 5: '\r'
-
 6: .
-
 */
