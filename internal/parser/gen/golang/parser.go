@@ -250,8 +250,6 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 		}
 		{{- if .Debug }}
 		fmt.Printf("S%d %s %s\n", p.stack.top(), token.TokMap.TokenString(p.nextToken), action)
-		{{- else }}
-		// fmt.Printf("S%d %s %s\n", p.stack.top(), token.TokMap.TokenString(p.nextToken), action)
 		{{- end }}
 
 		switch act := action.(type) {

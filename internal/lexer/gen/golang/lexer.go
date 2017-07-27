@@ -65,12 +65,12 @@ const lexerSrc string = `
 package lexer
 
 import (
-	{{if .Debug}}"fmt"{{else}}// "fmt"{{end}}
-	"io/ioutil"
+{{if .Debug}}	"fmt"
+{{end}}	"io/ioutil"
 	"unicode/utf8"
 
-	{{if .Debug}}"{{.UtilImport}}"{{else}}// "{{.UtilImport}}"{{end}}
-	"{{.TokenImport}}"
+{{if .Debug}}	"{{.UtilImport}}"
+{{end}}	"{{.TokenImport}}"
 )
 
 const (
@@ -107,8 +107,6 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 func (l *Lexer) Scan() (tok *token.Token) {
 	{{- if .Debug}}
 	fmt.Printf("Lexer.Scan() pos=%d\n", l.pos)
-	{{- else}}
-	// fmt.Printf("Lexer.Scan() pos=%d\n", l.pos)
 	{{- end}}
 	tok = new(token.Token)
 	if l.pos >= len(l.src) {
@@ -120,11 +118,9 @@ func (l *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-	{{- if .Debug}}
+		{{- if .Debug}}
 		fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.pos, l.line, l.column, state)
-	{{- else}}
-		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.pos, l.line, l.column, state)
-	{{- end}}
+		{{- end}}
 		if l.pos >= len(l.src) {
 			rune1 = -1
 		} else {
@@ -132,49 +128,18 @@ func (l *Lexer) Scan() (tok *token.Token) {
 			l.pos += size
 		}
 
-	{{- if .Debug}}
-		// Production start
-		// if rune1 != -1 {
-		// 	state = TransTab[state](rune1)
-		// } else {
-		// 	state = -1
-		// }
-		// Production end
-
-		// Debug start
 		nextState := -1
 		if rune1 != -1 {
 			nextState = TransTab[state](rune1)
 		}
+		{{- if .Debug}}
 		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
 		fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", l.pos, size, start, end)
 		if nextState != -1 {
 			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		}
+		{{- end}}
 		state = nextState
-		// Debug end
-	{{- else}}
-		// Production start
-		if rune1 != -1 {
-			state = TransTab[state](rune1)
-		} else {
-			state = -1
-		}
-		// Production end
-
-		// Debug start
-		// nextState := -1
-		// if rune1 != -1 {
-		// 	nextState = TransTab[state](rune1)
-		// }
-		// fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
-		// fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", l.pos, size, start, end)
-		// if nextState != -1 {
-		// 	fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
-		// }
-		// state = nextState
-		// Debug end
-	{{- end}}
 
 		if state != -1 {
 
@@ -193,10 +158,8 @@ func (l *Lexer) Scan() (tok *token.Token) {
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
-				// fmt.Printf("\t Accept(%s), %s(%d)\n", string(act), token.TokMap.Id(tok), tok)
 				end = l.pos
 			case ActTab[state].Ignore != "":
-				// fmt.Printf("\t Ignore(%s)\n", string(act))
 				start, startLine, startColumn = l.pos, l.line, l.column
 				state = 0
 				if start >= len(l.src) {
@@ -220,8 +183,6 @@ func (l *Lexer) Scan() (tok *token.Token) {
 
 	{{- if .Debug}}
 	fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
-	{{- else}}
-	// fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
 	{{- end}}
 
 	return
