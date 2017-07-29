@@ -187,7 +187,6 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 				panic("Error recovery led to invalid action")
 			}
 		}
-		// fmt.Printf("S%d %s %s\n", p.stack.top(), token.TokMap.TokenString(p.nextToken), action)
 
 		switch act := action.(type) {
 		case accept:

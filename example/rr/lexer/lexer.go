@@ -3,11 +3,9 @@
 package lexer
 
 import (
-	// "fmt"
 	"io/ioutil"
 	"unicode/utf8"
 
-	// "github.com/goccmack/gocc/example/rr/util"
 	"github.com/goccmack/gocc/example/rr/token"
 )
 
@@ -43,7 +41,6 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (l *Lexer) Scan() (tok *token.Token) {
-	// fmt.Printf("Lexer.Scan() pos=%d\n", l.pos)
 	tok = new(token.Token)
 	if l.pos >= len(l.src) {
 		tok.Type = token.EOF
@@ -54,33 +51,18 @@ func (l *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-		// fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.pos, l.line, l.column, state)
 		if l.pos >= len(l.src) {
 			rune1 = -1
 		} else {
 			rune1, size = utf8.DecodeRune(l.src[l.pos:])
 			l.pos += size
 		}
-		// Production start
-		if rune1 != -1 {
-			state = TransTab[state](rune1)
-		} else {
-			state = -1
-		}
-		// Production end
 
-		// Debug start
-		// nextState := -1
-		// if rune1 != -1 {
-		// 	nextState = TransTab[state](rune1)
-		// }
-		// fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
-		// fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", l.pos, size, start, end)
-		// if nextState != -1 {
-		// 	fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
-		// }
-		// state = nextState
-		// Debug end
+		nextState := -1
+		if rune1 != -1 {
+			nextState = TransTab[state](rune1)
+		}
+		state = nextState
 
 		if state != -1 {
 
@@ -99,10 +81,8 @@ func (l *Lexer) Scan() (tok *token.Token) {
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
-				// fmt.Printf("\t Accept(%s), %s(%d)\n", string(act), token.TokMap.Id(tok), tok)
 				end = l.pos
 			case ActTab[state].Ignore != "":
-				// fmt.Printf("\t Ignore(%s)\n", string(act))
 				start, startLine, startColumn = l.pos, l.line, l.column
 				state = 0
 				if start >= len(l.src) {
@@ -123,7 +103,6 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		tok.Lit = []byte{}
 	}
 	tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = start, startLine, startColumn
-	// fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
 
 	return
 }
