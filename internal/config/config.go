@@ -31,7 +31,7 @@ type Config interface {
 	Zip() bool
 	AllowUnreachable() bool
 	AutoResolveLRConf() bool
-	// Profile() bool
+	Profile() bool
 	SourceFile() string
 	OutDir() string
 
@@ -61,10 +61,10 @@ type ConfigRecord struct {
 	noLexer           *bool
 	outDir            string
 	pkg               string
-	// profile           *bool
-	srcFile string
-	verbose *bool
-	zip     *bool
+	profile           *bool
+	srcFile           string
+	verbose           *bool
+	zip               *bool
 }
 
 func New() (Config, error) {
@@ -117,9 +117,9 @@ func (this *ConfigRecord) DebugParser() bool {
 	return *this.debugParser
 }
 
-// func (this *ConfigRecord) Profile() bool {
-// 	return *this.profile
-// }
+func (this *ConfigRecord) Profile() bool {
+	return *this.profile
+}
 
 func (this *ConfigRecord) SourceFile() string {
 	return this.srcFile
@@ -162,9 +162,10 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-no_lexer      = %v\n", *this.noLexer)
 	fmt.Printf("-o             = %v\n", this.outDir)
 	fmt.Printf("-p             = %v\n", this.pkg)
+	fmt.Printf("-profile       = %v\n", *this.profile)
 	fmt.Printf("-u             = %v\n", *this.allowUnreachable)
 	fmt.Printf("-v             = %v\n", *this.verbose)
-	fmt.Printf("-zip          = %v\n", *this.zip)
+	fmt.Printf("-zip           = %v\n", *this.zip)
 }
 
 /*** Utility routines ***/
@@ -177,6 +178,7 @@ func (this *ConfigRecord) getFlags() error {
 	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
 	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
+	this.profile = flag.Bool("profile", false, "enable profiling")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
 	this.zip = flag.Bool("zip", false, "zip the actiontable and gototable (experimental)")
