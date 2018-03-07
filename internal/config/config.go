@@ -31,7 +31,6 @@ type Config interface {
 	Zip() bool
 	AllowUnreachable() bool
 	AutoResolveLRConf() bool
-	// Profile() bool
 	SourceFile() string
 	OutDir() string
 
@@ -61,10 +60,9 @@ type ConfigRecord struct {
 	noLexer           *bool
 	outDir            string
 	pkg               string
-	// profile           *bool
-	srcFile string
-	verbose *bool
-	zip     *bool
+	srcFile           string
+	verbose           *bool
+	zip               *bool
 }
 
 func New() (Config, error) {
@@ -117,10 +115,6 @@ func (this *ConfigRecord) DebugParser() bool {
 	return *this.debugParser
 }
 
-// func (this *ConfigRecord) Profile() bool {
-// 	return *this.profile
-// }
-
 func (this *ConfigRecord) SourceFile() string {
 	return this.srcFile
 }
@@ -164,7 +158,7 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-p             = %v\n", this.pkg)
 	fmt.Printf("-u             = %v\n", *this.allowUnreachable)
 	fmt.Printf("-v             = %v\n", *this.verbose)
-	fmt.Printf("-zip          = %v\n", *this.zip)
+	fmt.Printf("-zip           = %v\n", *this.zip)
 }
 
 /*** Utility routines ***/

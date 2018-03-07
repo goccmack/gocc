@@ -64,11 +64,6 @@ func main() {
 		flag.Usage()
 	}
 
-	// if *profile {
-	// 	startProfiler()
-	// 	defer pprof.StopCPUProfile()
-	// }
-
 	scanner := &scanner.Scanner{}
 	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
 	if err != nil {
@@ -192,12 +187,3 @@ func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
 	}
 	io.WriteFile(path.Join(cfg.OutDir(), "terminals.txt"), buf.Bytes())
 }
-
-// func startProfiler() {
-// 	f, err := os.Create("cpu.prof")
-// 	if err != nil {
-// 		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
-// 		os.Exit(1)
-// 	}
-// 	pprof.StartCPUProfile(f)
-// }

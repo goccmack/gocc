@@ -137,7 +137,7 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 
 func (p *Parser) popNonRecoveryStates() (removedAttribs []parseError.ErrorSymbol) {
 	if rs, ok := p.firstRecoveryState(); ok {
-		errorSymbols := p.stack.popN(int(p.stack.topIndex() - rs))
+		errorSymbols := p.stack.popN(p.stack.topIndex() - rs)
 		removedAttribs = make([]parseError.ErrorSymbol, len(errorSymbols))
 		for i, e := range errorSymbols {
 			removedAttribs[i] = e
