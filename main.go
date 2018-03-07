@@ -23,7 +23,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"runtime/pprof"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/config"
@@ -63,11 +62,6 @@ func main() {
 
 	if cfg.Help() {
 		flag.Usage()
-	}
-
-	if cfg.Profile() {
-		startProfiler()
-		defer pprof.StopCPUProfile()
 	}
 
 	scanner := &scanner.Scanner{}
@@ -192,13 +186,4 @@ func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
 		fmt.Fprintf(buf, "%s\n", t)
 	}
 	io.WriteFile(path.Join(cfg.OutDir(), "terminals.txt"), buf.Bytes())
-}
-
-func startProfiler() {
-	f, err := os.Create("cpu.prof")
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
-		os.Exit(1)
-	}
-	pprof.StartCPUProfile(f)
 }
