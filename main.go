@@ -23,6 +23,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"runtime/pprof"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/config"
@@ -64,10 +65,10 @@ func main() {
 		flag.Usage()
 	}
 
-	// if *profile {
-	// 	startProfiler()
-	// 	defer pprof.StopCPUProfile()
-	// }
+	if cfg.Profile() {
+		startProfiler()
+		defer pprof.StopCPUProfile()
+	}
 
 	scanner := &scanner.Scanner{}
 	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
@@ -193,11 +194,11 @@ func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
 	io.WriteFile(path.Join(cfg.OutDir(), "terminals.txt"), buf.Bytes())
 }
 
-// func startProfiler() {
-// 	f, err := os.Create("cpu.prof")
-// 	if err != nil {
-// 		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
-// 		os.Exit(1)
-// 	}
-// 	pprof.StartCPUProfile(f)
-// }
+func startProfiler() {
+	f, err := os.Create("cpu.prof")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "ABORT: cannot create cpu profile file, \"%s\"\n", err)
+		os.Exit(1)
+	}
+	pprof.StartCPUProfile(f)
+}
