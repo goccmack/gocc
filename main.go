@@ -141,14 +141,13 @@ func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg c
 	if len(conflicts) <= 0 {
 		return
 	}
-	switch {
-	case !cfg.AutoResolveLRConf():
-		fmt.Printf("Error: %d LR-1 conflicts\n", len(conflicts))
-		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
-		os.Exit(1)
-	case cfg.Verbose():
+	if cfg.Verbose() {
 		fmt.Printf("%d LR-1 conflicts \n", len(conflicts))
 		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
+	}
+	if !cfg.AutoResolveLRConf() {
+		fmt.Printf("Error: %d LR-1 conflicts \n", len(conflicts))
+		os.Exit(1)
 	}
 }
 
