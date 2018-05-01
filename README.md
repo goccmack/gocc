@@ -182,3 +182,9 @@ panic: string_lit "A" conflicts with production name A
 ```
 
 This issue will be properly resolved in a future release.
+
+## Users
+
+These projects use gocc:
+
+* [gogo](https://github.com/shivansh/gogo) - [BNF file](https://github.com/shivansh/gogo/blob/master/src/lang.bnf) - a Go to MIPS compiler written in Go
