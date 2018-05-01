@@ -188,3 +188,6 @@ This issue will be properly resolved in a future release.
 These projects use gocc:
 
 * [gogo](https://github.com/shivansh/gogo) - [BNF file](https://github.com/shivansh/gogo/blob/master/src/lang.bnf) - a Go to MIPS compiler written in Go
+* [gonum/gonum](https://github.com/gonum/gonum) - [BNF file](https://github.com/gonum/gonum/blob/master/graph/formats/dot/internal/dot.bnf) - DOT decoder (part of the graph library of Gonum)
+* [llir/llvm](https://github.com/llir/llvm) - [BNF file](https://github.com/llir/llvm/blob/master/asm/internal/ll.bnf) - LLVM IR library in pure Go
+* [mewmew/uc](https://github.com/mewmew/uc) - [BNF file](https://github.com/mewmew/uc/blob/master/gocc/uc.bnf) - A compiler for the µC language
