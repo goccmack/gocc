@@ -45,15 +45,12 @@ import (
 	genParser "github.com/goccmack/gocc/internal/parser/gen"
 )
 
-var cfg config.Config
-
 func main() {
 	flag.Usage = usage
-	if cfg1, err := config.New(); err != nil {
+	cfg, err := config.New()
+	if err != nil {
 		fmt.Printf("Error reading configuration: %s\n", err)
 		flag.Usage()
-	} else {
-		cfg = cfg1
 	}
 
 	if cfg.Verbose() {
