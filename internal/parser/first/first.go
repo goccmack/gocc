@@ -139,6 +139,9 @@ Returns First of the string, xyz, e.g.: for the item,
 */
 func FirstS(firstSets *FirstSets, symbols []string) (first SymbolSet) {
 	first = make(SymbolSet)
+	if len(symbols) == 0 {
+		return
+	}
 	fst := First(firstSets, symbols[0])
 	first.AddSet(fst)
 	_, containEmpty := fst["empty"]
