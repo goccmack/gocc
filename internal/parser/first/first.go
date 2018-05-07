@@ -43,7 +43,7 @@ func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
 		return firstSets
 	}
 
-	for i, again := 1, true; again; i++ {
+	for again := true; again; {
 		again = false
 		for _, prod := range g.SyntaxPart.ProdList {
 			switch {
