@@ -69,11 +69,16 @@ func (s *stack) String() string {
 	w := new(bytes.Buffer)
 	fmt.Fprintf(w, "stack:\n")
 	for i, st := range s.state {
-		fmt.Fprintf(w, "\t%d:%d , ", i, st)
+		fmt.Fprintf(w, "\t%d: %d , ", i, st)
 		if s.attrib[i] == nil {
 			fmt.Fprintf(w, "nil")
 		} else {
-			fmt.Fprintf(w, "%v", s.attrib[i])
+			switch attr := s.attrib[i].(type) {
+			case *token.Token:
+				fmt.Fprintf(w, "%s", attr.Lit)
+			default:
+				fmt.Fprintf(w, "%v", attr)
+			}
 		}
 		fmt.Fprintf(w, "\n")
 	}
