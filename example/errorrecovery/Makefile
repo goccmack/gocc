@@ -1,2 +1,2 @@
 regenerate:
-	gocc er.bnf
+	gocc -v -debug_parser er.bnf

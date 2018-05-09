@@ -183,6 +183,12 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 	}
 
 	if action := actionTab[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
+		{{- if .Debug }}
+		fmt.Printf("Next input symbol: %s\n", p.nextToken.Lit)
+		// NOTE: In this case we push the errorAttrib and not the
+		// invalid symbol.
+		fmt.Println("Pushing errorAttrib, look below for modified stack top\n")
+		{{- end }}
 		p.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
 	} else {
 		return
@@ -203,6 +209,9 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 
 func (p *Parser) popNonRecoveryStates() (removedAttribs []parseError.ErrorSymbol) {
 	if rs, ok := p.firstRecoveryState(); ok {
+		{{- if .Debug }}
+		fmt.Printf("Number of pops performed to reach the next recovery state: %d\n", p.stack.topIndex() - rs)
+		{{- end }}
 		errorSymbols := p.stack.popN(p.stack.topIndex() - rs)
 		removedAttribs = make([]parseError.ErrorSymbol, len(errorSymbols))
 		for i, e := range errorSymbols {
@@ -211,6 +220,19 @@ func (p *Parser) popNonRecoveryStates() (removedAttribs []parseError.ErrorSymbol
 	} else {
 		removedAttribs = []parseError.ErrorSymbol{}
 	}
+
+	{{- if .Debug }}
+	fmt.Printf("Attribute corresponding to the popped non-recovery states: ")
+	for _, v := range removedAttribs {
+		switch attr := v.(type) {
+		case *token.Token:
+			fmt.Printf("%s ", attr.Lit)
+		default:
+			fmt.Printf("%v ", attr)
+		}
+	}
+	fmt.Println()
+	{{- end }}
 	return
 }
 
@@ -221,6 +243,7 @@ func (p *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
 		recoveryState--
 		canRecover = actionTab[p.stack.peek(recoveryState)].canRecover
 	}
+	fmt.Printf("Next recovery state: %d\n", recoveryState)
 	return
 }
 
@@ -243,8 +266,14 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 	p.Reset()
 	p.nextToken = scanner.Scan()
 	for acc := false; !acc; {
+		{{- if .Debug }}
+		fmt.Println(p.stack.String())
+		{{- end }}
 		action := actionTab[p.stack.top()].actions[p.nextToken.Type]
 		if action == nil {
+			{{- if .Debug }}
+			fmt.Println("~~ No action exists for the current stack top and next input symbol ~~")
+			{{- end }}
 			if recovered, errAttrib := p.Error(nil, scanner); !recovered {
 				p.nextToken = errAttrib.ErrorToken
 				return nil, p.newError(nil)
