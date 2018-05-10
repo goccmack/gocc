@@ -173,7 +173,7 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 	errorAttrib = &parseError.Error{
 		Err:            err,
 		ErrorToken:     p.nextToken,
-		ErrorSymbols:   p.popNonRecoveryStates(),
+		ErrorSymbols:   []parseError.ErrorSymbol{},
 		ExpectedTokens: make([]string, 0, 8),
 	}
 	for t, action := range actionTab[p.stack.top()].actions {
@@ -182,14 +182,56 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		}
 	}
 
+	lostSymbols := []*token.Token{}
+	// The current input symbol is invalid. Keep scanning the input symbols
+	// until the next valid symbol is encountered.
+	for i := 0; ; i++ {
+		if action := actionTab[p.stack.top()].actions[p.nextToken.Type]; action != nil {
+			break
+		} else {
+			if i > 0 {
+				lostSymbols = append(lostSymbols, p.nextToken)
+			}
+			p.nextToken = scanner.Scan()
+		}
+	}
+	{{- if .Debug }}
+	fmt.Printf("Lost %d error symbol(s)\n", len(lostSymbols))
+	fmt.Printf("Next input symbol: %s\n", p.nextToken.Lit)
+	{{- end }}
+
+	// If the action corresponding to the found valid input symbol is a
+	// reduce, perform it. If it is a shift, defer performing the action
+	// until the error attribute is pushed to the stack.
+	for breakHere := false; !breakHere; {
+		action := actionTab[p.stack.top()].actions[p.nextToken.Type]
+		switch act := action.(type) {
+		case reduce:
+			prod := productionsTable[int(act)]
+			attrib, err := prod.ReduceFunc(p.stack.popN(prod.NumSymbols))
+			if err != nil {
+				return false, errorAttrib
+			} else {
+				p.stack.push(gotoTab[p.stack.top()][prod.NTType], attrib)
+			}
+		case shift:
+			// Defer pushing the valid input symbol.
+			breakHere = true
+		case accept:
+			breakHere = true
+			// TODO: Combine the above two case clauses.
+		}
+	}
+
+
 	if action := actionTab[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
 		{{- if .Debug }}
-		fmt.Printf("Next input symbol: %s\n", p.nextToken.Lit)
 		// NOTE: In this case we push the errorAttrib and not the
 		// invalid symbol.
 		fmt.Println("Pushing errorAttrib, look below for modified stack top\n")
 		{{- end }}
-		p.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
+		// Action corresponding to errorAttrib can only be a shift.
+		p.stack.push(int(action.(shift)), errorAttrib)
 	} else {
 		return
 	}
@@ -210,7 +252,7 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 func (p *Parser) popNonRecoveryStates() (removedAttribs []parseError.ErrorSymbol) {
 	if rs, ok := p.firstRecoveryState(); ok {
 		{{- if .Debug }}
-		fmt.Printf("Number of pops performed to reach the next recovery state: %d\n", p.stack.topIndex() - rs)
+		fmt.Printf("Number of pops performed to reach the next recovery state: %d\n", p.stack.topIndex()-rs)
 		{{- end }}
 		errorSymbols := p.stack.popN(p.stack.topIndex() - rs)
 		removedAttribs = make([]parseError.ErrorSymbol, len(errorSymbols))
