@@ -185,26 +185,28 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 	lostSymbols := []*token.Token{}
 	// The current input symbol is invalid. Keep scanning the input symbols
 	// until the next valid symbol is encountered.
-	for i := 0; ; i++ {
+	p.nextToken = scanner.Scan()
+	for len(p.nextToken.Lit) > 0 {
 		if action := actionTab[p.stack.top()].actions[p.nextToken.Type]; action != nil {
 			break
 		} else {
-			if i > 0 {
-				lostSymbols = append(lostSymbols, p.nextToken)
-			}
+			lostSymbols = append(lostSymbols, p.nextToken)
 			p.nextToken = scanner.Scan()
 		}
 	}
 	{{- if .Debug }}
 	fmt.Printf("Lost %d error symbol(s)\n", len(lostSymbols))
-	fmt.Printf("Next input symbol: %s\n", p.nextToken.Lit)
+	fmt.Printf("Next valid input symbol: %s\n", p.nextToken.Lit)
 	{{- end }}
 
 	// If the action corresponding to the found valid input symbol is a
 	// reduce, perform it. If it is a shift, defer performing the action
 	// until the error attribute is pushed to the stack.
-	for breakHere := false; !breakHere; {
+	for again := true; again; {
 		action := actionTab[p.stack.top()].actions[p.nextToken.Type]
+		if action == nil {
+			break
+		}
 		switch act := action.(type) {
 		case reduce:
 			prod := productionsTable[int(act)]
@@ -216,13 +218,13 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 			}
 		case shift:
 			// Defer pushing the valid input symbol.
-			breakHere = true
+			again = false
 		case accept:
-			breakHere = true
-			// TODO: Combine the above two case clauses.
+			again = false
+		default:
+			panic("unknown action: " + action.String())
 		}
 	}
-
 
 	if action := actionTab[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
 		{{- if .Debug }}
