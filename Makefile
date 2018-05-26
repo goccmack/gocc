@@ -12,6 +12,10 @@ gofmt:
 govet:
 	go tool vet -methods=false .
 
+goimports:
+	go get golang.org/x/tools/cmd/goimports
+	goimports -w .
+
 regenerate:
 	make install
 	make -C example regenerate
@@ -21,12 +25,11 @@ regenerate:
 travis:
 	make install
 	make regenerate
-	make gofmt
-	go get golang.org/x/tools/cmd/goimports
-	goimports -w .
+	make govet
+	make goimports
 	make errcheck
 	git diff --exit-code .
 
 errcheck:
 	go get github.com/kisielk/errcheck
-	errcheck ./...
+	errcheck -exclude .errcheck-ignore ./...
