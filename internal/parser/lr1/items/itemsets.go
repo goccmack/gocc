@@ -31,22 +31,22 @@ type ItemSets struct {
 // TODO: optimise loop
 // g is a BNF grammar. Items returns the sets of Items of the grammar g.
 func GetItemSets(g *ast.Grammar, s *symbols.Symbols, firstSets *first.FirstSets) *ItemSets {
-	C := &ItemSets{
+	S := &ItemSets{
 		sets: []*ItemSet{InitialItemSet(g, s, firstSets).Closure()},
 	}
 	symbols := s.List()
 	included := -1
 	for again := true; again; {
 		again = false
-		for i, I := range C.sets {
+		for i, I := range S.sets {
 			if i > included {
 				for _, X := range symbols {
 					gto := I.Goto(X)
 					if gto.Size() > 0 {
-						idx := C.GetIndex(gto)
+						idx := S.GetIndex(gto)
 						if idx == -1 {
-							C.sets, again = append(C.sets, gto), true
-							idx = len(C.sets) - 1
+							S.sets, again = append(S.sets, gto), true
+							idx = len(S.sets) - 1
 							gto.SetNo = idx
 						}
 						I.AddTransition(X, idx)
@@ -56,7 +56,7 @@ func GetItemSets(g *ast.Grammar, s *symbols.Symbols, firstSets *first.FirstSets)
 			}
 		}
 	}
-	return C
+	return S
 }
 
 //Returns whether the list of a list of items contains the list of items.
