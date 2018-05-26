@@ -21,7 +21,6 @@ regenerate:
 travis:
 	make install
 	make regenerate
-	make gofmt
 	go get golang.org/x/tools/cmd/goimports
 	goimports -w .
 	make errcheck
