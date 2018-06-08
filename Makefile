@@ -28,6 +28,7 @@ travis:
 	make govet
 	make goimports
 	make errcheck
+	make test
 	git diff --exit-code .
 
 errcheck:

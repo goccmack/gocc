@@ -56,6 +56,9 @@ func consistent(g *Grammar) (err error) {
 		defs[tok.id] = true
 	}
 	for _, prod := range g.SyntaxPart.ProdList {
+		if len(prod.Body.Symbols) == 0 {
+			return fmt.Errorf("empty production alternative: Maybe you are missing the \"empty\" keyword in %q", prod)
+		}
 		defs[prod.Id] = true
 		for _, s := range prod.Body.Symbols {
 			if s.String()[0] == '"' {
