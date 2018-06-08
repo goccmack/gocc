@@ -29,6 +29,7 @@ travis:
 	make goimports
 	make errcheck
 	git diff --exit-code .
+	make test
 
 errcheck:
 	go get github.com/kisielk/errcheck
