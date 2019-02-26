@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/frontend/token"
 )
@@ -39,7 +39,7 @@ func (*LexIgnoredTokDef) RegDef() bool {
 }
 
 func (this *LexIgnoredTokDef) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "%s : %s", this.id, this.pattern.String())
 	return buf.String()
 }

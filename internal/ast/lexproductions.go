@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 )
 
 type LexProductions struct {
@@ -42,7 +42,7 @@ func AppendLexProduction(lexProds, prod interface{}) (*LexProductions, error) {
 }
 
 func (this *LexProductions) String() string {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	for _, prod := range this.Productions {
 		fmt.Fprintf(w, "%s ;", prod.String())
 	}

@@ -15,10 +15,10 @@
 package ast
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 // All maps are indexed by production id
@@ -134,7 +134,7 @@ func (this *LexPart) UpdateStringLitTokens(tokens []string) {
 }
 
 func (this *LexPart) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "LexPart.ProdMap:\n")
 	if this.ProdList != nil {
 		for i, p := range this.ProdList.Productions {

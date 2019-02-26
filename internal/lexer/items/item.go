@@ -15,10 +15,10 @@
 package items
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/lexer/symbols"
@@ -217,7 +217,7 @@ func (this *Item) eMovesRepPattern(nt *ast.LexRepPattern, pos int) (items []inte
 }
 
 func (this *Item) getHashKey() {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	fmt.Fprintf(w, "%d:", this.ProdIndex)
 	for i, stackElem := range this.pos.stack {
 		if i < len(this.pos.stack)-1 {
@@ -347,7 +347,7 @@ func (this *Item) Reduce() bool {
 }
 
 func (this *Item) getString() {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	fmt.Fprintf(w, "%s : ", this.Prod.Id())
 	if this.Reduce() {
 		le, _ := this.pos.top()

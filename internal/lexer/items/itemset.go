@@ -15,8 +15,8 @@
 package items
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/lexer/symbols"
@@ -188,7 +188,7 @@ func (this *ItemSet) Size() int {
 }
 
 func (this *ItemSet) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "{\n")
 	for _, i := range this.Items {
 		fmt.Fprintf(buf, "\t%s\n", i)
@@ -203,7 +203,7 @@ func (this *ItemSet) String() string {
 }
 
 func (this *ItemSet) StringItems() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "{\n")
 	for _, i := range this.Items {
 		fmt.Fprintf(buf, "\t%s\n", i)

@@ -15,9 +15,9 @@
 package ast
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
+	"strings"
 )
 
 type LexImports struct {
@@ -52,7 +52,7 @@ func (this *LexImports) Add(lexImport *LexImport) (*LexImports, error) {
 }
 
 func (this *LexImports) String() string {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	fmt.Fprintf(w, "import(\n")
 	for _, imp := range this.Imports {
 		fmt.Fprintf(w, "\t%s\n", imp.String())

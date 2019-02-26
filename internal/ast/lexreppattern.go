@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 )
 
 type LexRepPattern struct {
@@ -34,7 +34,7 @@ func (this *LexRepPattern) IsTerminal() bool {
 }
 
 func (this *LexRepPattern) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "{%s}", this.LexPattern.String())
 	return buf.String()
 }
