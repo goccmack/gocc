@@ -115,21 +115,30 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 		switch act1 := act.(type) {
 		case action.Accept:
 			pad := max + 1 - len("accept(true),")
-			data.Actions[i] = fmt.Sprintf("accept(true),%*c/* %s */", pad, ' ', sym)
+			data.Actions[i] = fmt.Sprintf("accept(true),%*c/* %s */", pad, ' ', safeSym(sym))
 		case action.Error:
 			pad := max + 1 - len("nil,")
-			data.Actions[i] = fmt.Sprintf("nil,%*c/* %s */", pad, ' ', sym)
+			data.Actions[i] = fmt.Sprintf("nil,%*c/* %s */", pad, ' ', safeSym(sym))
 		case action.Reduce:
 			pad := max + 1 - (len("reduce(") + nbytes(int(act1)) + len("),"))
-			data.Actions[i] = fmt.Sprintf("reduce(%d),%*c/* %s, reduce: %s */", int(act1), pad, ' ', sym, prods[int(act1)].Id)
+			data.Actions[i] = fmt.Sprintf("reduce(%d),%*c/* %s, reduce: %s */", int(act1), pad, ' ', safeSym(sym), prods[int(act1)].Id)
 		case action.Shift:
 			pad := max + 1 - (len("shift(") + nbytes(int(act1)) + len("),"))
-			data.Actions[i] = fmt.Sprintf("shift(%d),%*c/* %s */", int(act1), pad, ' ', sym)
+			data.Actions[i] = fmt.Sprintf("shift(%d),%*c/* %s */", int(act1), pad, ' ', safeSym(sym))
 		default:
 			panic(fmt.Sprintf("Unknown action type: %T", act1))
 		}
 	}
 	return
+}
+
+func safeSym(sym string) string {
+	switch sym {
+	case `*/`:
+		return "special case: closing multiline comment sequence"
+	}
+
+	return sym
 }
 
 const actionTableSrc = `

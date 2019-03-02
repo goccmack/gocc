@@ -107,7 +107,7 @@ func (m TokenMap) Type(tok string) Type {
 
 func (m TokenMap) TokenString(tok *Token) string {
 	//TODO: refactor to print pos & token string properly
-	return fmt.Sprintf("%s(%d,%s)", m.Id(tok.Type), tok.Type, tok.Lit)
+	return fmt.Sprintf("%s(%d,%q)", m.Id(tok.Type), tok.Type, tok.Lit)
 }
 
 func (m TokenMap) StringType(typ Type) string {
