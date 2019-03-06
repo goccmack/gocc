@@ -15,8 +15,8 @@
 package items
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 )
@@ -110,7 +110,7 @@ func (this *itemPos) equal(that *itemPos) bool {
 }
 
 func (this *itemPos) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	for i := 0; i < len(this.stack); i++ {
 		fmt.Fprintf(buf, "\t%T:%v; pos %d\n", (*this).stack[i].node, (*this).stack[i].node, this.stack[i].pos)
 	}

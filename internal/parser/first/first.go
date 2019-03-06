@@ -15,8 +15,8 @@
 package first
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/parser/symbols"
@@ -109,7 +109,7 @@ func (this *FirstSets) GetSet(prodName string) SymbolSet {
 
 //Returns a string representing the FirstSets.
 func (this *FirstSets) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	for _, nt := range this.symbols.NTList() {
 		set := this.firstSets[nt]
 		fmt.Fprintf(buf, "%s: %s\n", nt, set)

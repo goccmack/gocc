@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 )
 
 type LexGroupPattern struct {
@@ -32,7 +32,7 @@ func (this *LexGroupPattern) IsTerminal() bool {
 }
 
 func (this *LexGroupPattern) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "(%s)", this.LexPattern.String())
 	return buf.String()
 }

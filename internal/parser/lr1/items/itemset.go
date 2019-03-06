@@ -15,9 +15,9 @@
 package items
 
 import (
-	"bytes"
 	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/parser/first"
@@ -215,7 +215,7 @@ func (this *ItemSet) Size() int {
 }
 
 func (this *ItemSet) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "{\n")
 	for _, item := range this.Items {
 		fmt.Fprintf(buf, "\t%s\n", item)

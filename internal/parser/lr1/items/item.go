@@ -15,8 +15,8 @@
 package items
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/parser/lr1/action"
@@ -124,7 +124,7 @@ func (this *Item) Symbol(i int) string {
 }
 
 func (this *Item) getString() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "%s : ", this.Id)
 	if this.Len == 0 {
 		fmt.Fprintf(buf, "empty")

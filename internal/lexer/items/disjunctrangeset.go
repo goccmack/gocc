@@ -15,8 +15,8 @@
 package items
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 )
@@ -152,7 +152,7 @@ func (this *DisjunctRangeSet) Size() int {
 }
 
 func (this *DisjunctRangeSet) String() string {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	fmt.Fprintf(w, "{")
 	for i, rng := range this.set {
 		if i > 0 {

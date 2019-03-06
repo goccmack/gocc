@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 )
 
 type LexPattern struct {
@@ -36,7 +36,7 @@ func AppendLexAlt(lexPattern, lexAlt interface{}) (*LexPattern, error) {
 }
 
 func (this *LexPattern) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	for i, alt := range this.Alternatives {
 		if i > 0 {
 			fmt.Fprintf(buf, " | ")
