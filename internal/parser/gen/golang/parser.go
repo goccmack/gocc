@@ -64,8 +64,8 @@ const parserSrc = `
 package parser
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	parseError "{{.ErrorImport}}"
 	"{{.TokenImport}}"
