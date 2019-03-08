@@ -23,6 +23,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/config"
@@ -149,7 +150,7 @@ func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg c
 }
 
 func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int, prods ast.SyntaxProdList) string {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	fmt.Fprintf(w, "%d LR-1 conflicts: \n", len(conflicts))
 	for i := 0; i < numSets; i++ {
 		if cnf, exist := conflicts[i]; exist {

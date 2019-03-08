@@ -15,9 +15,9 @@
 package first
 
 import (
-	"bytes"
 	"fmt"
 	"sort"
+	"strings"
 )
 
 /*
@@ -44,7 +44,7 @@ func (this SymbolSet) Equal(that SymbolSet) bool {
 }
 
 func (this SymbolSet) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "{\n")
 	var keys []string
 	for key := range this {

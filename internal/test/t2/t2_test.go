@@ -1,14 +1,13 @@
 package t2
 
 import (
-	"bytes"
 	"os/exec"
 	"strings"
 	"testing"
 )
 
 func TestEmptyKeyword(t *testing.T) {
-	var buf = new(bytes.Buffer)
+	var buf = new(strings.Builder)
 	cmd := exec.Command("gocc", "t2.bnf")
 	cmd.Stdout = buf
 	err := cmd.Run()

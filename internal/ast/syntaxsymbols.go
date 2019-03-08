@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 )
 
 type SyntaxSymbols []SyntaxSymbol
@@ -30,7 +30,7 @@ func AddSyntaxSymbol(symbols, symbol interface{}) (SyntaxSymbols, error) {
 }
 
 func (this SyntaxSymbols) String() string {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	for i, sym := range this {
 		if i > 0 {
 			fmt.Fprintf(w, " ")

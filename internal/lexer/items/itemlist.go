@@ -15,9 +15,9 @@
 package items
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 	"github.com/goccmack/gocc/internal/lexer/symbols"
@@ -120,7 +120,7 @@ func (this ItemList) Remove(item *Item) ItemList {
 }
 
 func (this ItemList) PrefixString(prefix string) string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	for _, item := range this {
 		fmt.Fprintf(buf, "%s%s\n", prefix, item.String())
 	}

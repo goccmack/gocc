@@ -15,8 +15,8 @@
 package symbols
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 )
@@ -118,7 +118,7 @@ func (this *Symbols) Visit(n ast.LexNode) ast.LexNodeVisitor {
 }
 
 func (this *Symbols) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "Lexical Symbols = { ")
 	for i, sym := range this.List() {
 		if i > 0 {

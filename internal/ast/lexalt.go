@@ -15,8 +15,8 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 )
 
 type LexAlt struct {
@@ -45,7 +45,7 @@ func (this *LexAlt) Contain(term LexTerm) bool {
 }
 
 func (this *LexAlt) String() string {
-	buf := new(bytes.Buffer)
+	buf := new(strings.Builder)
 	for i, term := range this.Terms {
 		if i > 0 {
 			fmt.Fprintf(buf, " ")

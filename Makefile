@@ -10,7 +10,7 @@ gofmt:
 	gofmt -l -s -w .
 
 govet:
-	go tool vet -methods=false .
+	go vet -methods=false .
 
 goimports:
 	go get golang.org/x/tools/cmd/goimports

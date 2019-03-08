@@ -18,8 +18,8 @@ Support for the symbols of the language defined by the input grammar, G. This pa
 package symbols
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"github.com/goccmack/gocc/internal/ast"
 )
@@ -172,7 +172,7 @@ func (this *Symbols) NumSymbols() int {
 }
 
 func (this *Symbols) String() string {
-	w := new(bytes.Buffer)
+	w := new(strings.Builder)
 	for i, sym := range this.typeMap {
 		fmt.Fprintf(w, "%3d: %s\n", i, sym)
 	}
