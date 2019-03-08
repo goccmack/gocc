@@ -134,6 +134,7 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 
 func safeSym(sym string) string {
 	switch sym {
+	// avoid `/* */ */` comment causing compilation error
 	case `*/`:
 		return "special case: closing multiline comment sequence"
 	}
