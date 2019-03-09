@@ -92,12 +92,22 @@ func (T *Token) UintValue() (uint64, error) {
 }
 
 var (
-	sdtPlaceholders = regexp.MustCompile(`\$(\d+)`)
-	sdtReplacement  = []byte("X[$1]")
+	sdtPlaceholdersNum = regexp.MustCompile(`\$(\d+)`)
+	sdtReplacementNum  = []byte(`X[$1]`)
+	sdtPlaceholdersAll = regexp.MustCompile(`\$\*`)
+	sdtReplacementAll  = []byte(`attribsSliceToEmpyInterfaceSlice(X)...`)
 )
 
 func (T *Token) SDTVal() string {
-	res := string(sdtPlaceholders.ReplaceAll(T.Lit, sdtReplacement))
+	res := string(
+		sdtPlaceholdersNum.ReplaceAll(
+			sdtPlaceholdersAll.ReplaceAll(
+				T.Lit,
+				sdtReplacementAll,
+			),
+			sdtReplacementNum,
+		),
+	)
 
 	return strings.TrimSpace(res[2 : len(res)-2])
 }

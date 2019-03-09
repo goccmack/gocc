@@ -128,4 +128,12 @@ var productionsTable = ProdTab{
 	},
 	{{- end }}
 }
+
+func attribsSliceToEmpyInterfaceSlice(X []Attrib) []interface{} {
+	res := make([]interface{}, 0, len(X))
+	for _, attrib := range X {
+		res = append(res, attrib)
+	}
+	return res
+}
 `
