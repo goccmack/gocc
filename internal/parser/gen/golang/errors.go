@@ -39,8 +39,8 @@ const errorsSrc = `
 package errors
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 
 	"{{.}}"
 )
