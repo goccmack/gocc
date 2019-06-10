@@ -34,17 +34,13 @@ import (
 	genLexer "github.com/goccmack/gocc/internal/lexer/gen/golang"
 	lexItems "github.com/goccmack/gocc/internal/lexer/items"
 	"github.com/goccmack/gocc/internal/parser/first"
+	genParser "github.com/goccmack/gocc/internal/parser/gen"
 	lr1Action "github.com/goccmack/gocc/internal/parser/lr1/action"
 	lr1Items "github.com/goccmack/gocc/internal/parser/lr1/items"
 	"github.com/goccmack/gocc/internal/parser/symbols"
 	outToken "github.com/goccmack/gocc/internal/token"
 	genToken "github.com/goccmack/gocc/internal/token/gen"
 	genUtil "github.com/goccmack/gocc/internal/util/gen"
-
-	// "runtime/pprof"
-	"time"
-
-	genParser "github.com/goccmack/gocc/internal/parser/gen"
 )
 
 func main() {
@@ -126,16 +122,6 @@ func usage() {
 	os.Exit(1)
 }
 
-func errorMsg(msg string) {
-	fmt.Println("Error:", msg)
-	flag.Usage()
-}
-
-func error1(msg string, err error) {
-	fmt.Println(msg, err)
-	os.Exit(1)
-}
-
 func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config, prods ast.SyntaxProdList) {
 	if len(conflicts) <= 0 {
 		return
@@ -171,10 +157,6 @@ func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int, prods 
 		}
 	}
 	return w.String()
-}
-
-func printTime(from time.Time, msg string) {
-	fmt.Printf("%s: elapsed time%s\n", msg, time.Since(from))
 }
 
 func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
