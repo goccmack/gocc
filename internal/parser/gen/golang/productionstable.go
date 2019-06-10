@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"fmt"
 	"path"
+	"regexp"
 	"text/template"
 
 	"github.com/goccmack/gocc/internal/ast"
@@ -42,6 +43,8 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 	io.WriteFile(fname, wr.Bytes())
 }
 
+var sdtTokenName = regexp.MustCompile(`\$§`)
+
 func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
 	itemsets *items.ItemSets, tokMap *token.TokenMap) *prodsTabData {
 
@@ -61,7 +64,10 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 		}
 		switch {
 		case len(prod.Body.SDT) > 0:
-			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", prod.Body.SDT)
+			data.ProdTab[i].ReduceFunc = fmt.Sprintf(
+				"return %s",
+				sdtTokenName.ReplaceAllString(prod.Body.SDT, fmt.Sprintf("%q", prod.Id)),
+			)
 		case isEmpty:
 			// Empty production with no semantic action.
 			data.ProdTab[i].ReduceFunc = "return nil, nil"
@@ -121,5 +127,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	{{- end }}
+}
+
+func attribsSliceToEmpyInterfaceSlice(X []Attrib) []interface{} {
+	res := make([]interface{}, 0, len(X))
+	for _, attrib := range X {
+		res = append(res, attrib)
+	}
+	return res
 }
 `

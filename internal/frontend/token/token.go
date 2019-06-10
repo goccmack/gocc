@@ -91,33 +91,24 @@ func (T *Token) UintValue() (uint64, error) {
 	return strconv.ParseUint(string(T.Lit), 10, 64)
 }
 
+var (
+	sdtPlaceholdersNum = regexp.MustCompile(`\$(\d+)`)
+	sdtReplacementNum  = []byte(`X[$1]`)
+	sdtPlaceholdersAll = regexp.MustCompile(`\$\*`)
+	sdtReplacementAll  = []byte(`attribsSliceToEmpyInterfaceSlice(X)...`)
+)
+
 func (T *Token) SDTVal() string {
-	sdt := string(T.Lit)
-	rex, err := regexp.Compile("\\$[0-9]+")
-	if err != nil {
-		panic(err)
-	}
-	idx := rex.FindAllStringIndex(sdt, -1)
-	res := ""
-	if len(idx) <= 0 {
-		res = sdt
-	} else {
-		for i, loc := range idx {
-			if loc[0] > 0 {
-				if i > 0 {
-					res += sdt[idx[i-1][1]:loc[0]]
-				} else {
-					res += sdt[0:loc[0]]
-				}
-			}
-			res += "X["
-			res += sdt[loc[0]+1 : loc[1]]
-			res += "]"
-		}
-		if idx[len(idx)-1][1] < len(sdt) {
-			res += sdt[idx[len(idx)-1][1]:]
-		}
-	}
+	res := string(
+		sdtPlaceholdersNum.ReplaceAll(
+			sdtPlaceholdersAll.ReplaceAll(
+				T.Lit,
+				sdtReplacementAll,
+			),
+			sdtReplacementNum,
+		),
+	)
+
 	return strings.TrimSpace(res[2 : len(res)-2])
 }
 
