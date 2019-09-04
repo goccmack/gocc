@@ -1,7 +1,3 @@
-script:
-  - echo $TRAVIS_GO_VERSION
-  - PATH=/home/travis/bin:$PATH make travis
-
 language: go
 
 go:
