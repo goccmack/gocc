@@ -40,6 +40,7 @@ import (
 	outToken "github.com/goccmack/gocc/internal/token"
 	genToken "github.com/goccmack/gocc/internal/token/gen"
 	genUtil "github.com/goccmack/gocc/internal/util/gen"
+	"github.com/goccmack/gocc/internal/util/md"
 
 	// "runtime/pprof"
 	"time"
@@ -64,11 +65,7 @@ func main() {
 	}
 
 	scanner := &scanner.Scanner{}
-	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	srcBuffer := getSource(cfg)
 
 	scanner.Init(srcBuffer, token.FRONTENDTokens)
 	parser := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.FRONTENDTokens)
@@ -116,6 +113,23 @@ func main() {
 	genToken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
 	genUtil.Gen(cfg.OutDir())
 
+}
+
+func getSource(cfg config.Config) []byte {
+	if strings.HasSuffix(cfg.SourceFile(), ".md") {
+		str, err := md.GetSource(cfg.SourceFile())
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		return []byte(str)
+	}
+	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return srcBuffer
 }
 
 func usage() {
