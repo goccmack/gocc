@@ -1,3 +1,5 @@
+# New
+Have a look at [https://github.com/goccmack/gogll](https://github.com/goccmack/gogll) for scannerless GLL parser generation.
 # Gocc
 
 [![Build Status](https://travis-ci.org/goccmack/gocc.svg?branch=master)](https://travis-ci.org/goccmack/gocc)
