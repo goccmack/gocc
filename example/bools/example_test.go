@@ -17,9 +17,9 @@ package example
 import (
 	"testing"
 
-	"github.com/goccmack/gocc/example/bools/ast"
-	"github.com/goccmack/gocc/example/bools/lexer"
-	"github.com/goccmack/gocc/example/bools/parser"
+	"github.com/maxcalandrelli/gocc/example/bools/ast"
+	"github.com/maxcalandrelli/gocc/example/bools/lexer"
+	"github.com/maxcalandrelli/gocc/example/bools/parser"
 )
 
 func testEval(t *testing.T, exampleStr string, output bool) {

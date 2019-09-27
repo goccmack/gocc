@@ -17,7 +17,7 @@ package ast
 import (
 	"fmt"
 
-	"github.com/goccmack/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/frontend/token"
 )
 
 type SyntaxBody struct {
@@ -34,7 +34,7 @@ func NewSyntaxBody(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 		syntaxBody.Symbols = symbols.(SyntaxSymbols)
 	}
 	if sdtLit != nil {
-		syntaxBody.SDT = sdtLit.(*token.Token).SDTVal()
+		syntaxBody.SDT = SDTVal(sdtLit.(*token.Token))
 	}
 	return syntaxBody, nil
 }

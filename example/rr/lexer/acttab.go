@@ -5,7 +5,7 @@ package lexer
 import (
 	"fmt"
 
-	"github.com/goccmack/gocc/example/rr/token"
+	"github.com/maxcalandrelli/gocc/example/rr/token"
 )
 
 type ActionTable [NumStates]ActionRow

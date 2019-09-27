@@ -1,7 +1,7 @@
 package gen
 
 import (
-	"github.com/goccmack/gocc/internal/util/gen/golang"
+	"github.com/maxcalandrelli/gocc/internal/util/gen/golang"
 )
 
 func Gen(outDir string) {

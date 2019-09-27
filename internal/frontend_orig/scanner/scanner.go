@@ -14,7 +14,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 )
-import "github.com/goccmack/gocc/internal/frontend/token"
+import "github.com/maxcalandrelli/gocc/internal/frontend/token"
 
 // A Scanner holds the scanner's internal state while processing
 // a given text.  It can be allocated as part of another data
@@ -533,6 +533,8 @@ scanAgain:
 			}
 		case '.':
 			tok = S.tokenMap.Type(".")
+		case '~':
+			tok = S.tokenMap.Type("~")
 		default:
 			S.error(pos, "illegal character "+charString(ch))
 		}

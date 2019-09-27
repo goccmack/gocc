@@ -15,27 +15,29 @@
 package ast
 
 import (
-	"github.com/goccmack/gocc/internal/frontend/token"
-	"github.com/goccmack/gocc/internal/util"
+	"github.com/maxcalandrelli/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/util"
 )
 
 type LexCharLit struct {
-	Val rune
-	Lit []byte
-	s   string
+	Val    rune
+	Lit    []byte
+	s      string
+	Negate bool
 }
 
-func NewLexCharLit(tok interface{}) (*LexCharLit, error) {
-	return newLexCharLit(tok), nil
+func NewLexCharLit(tok interface{}, negate bool) (*LexCharLit, error) {
+	return newLexCharLit(tok, negate), nil
 }
 
-func newLexCharLit(tok interface{}) *LexCharLit {
+func newLexCharLit(tok interface{}, negate bool) *LexCharLit {
 	c := new(LexCharLit)
 	t := tok.(*token.Token)
 
 	c.Val = util.LitToRune(t.Lit)
 	c.Lit = t.Lit
 	c.s = util.RuneToString(c.Val)
+	c.Negate = negate
 
 	return c
 }

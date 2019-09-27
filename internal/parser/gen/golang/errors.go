@@ -18,7 +18,7 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
 func GenErrors(pkg, outDir string) {

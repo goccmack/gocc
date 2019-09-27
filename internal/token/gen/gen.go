@@ -15,8 +15,8 @@
 package gen
 
 import (
-	"github.com/goccmack/gocc/internal/token"
-	"github.com/goccmack/gocc/internal/token/gen/golang"
+	"github.com/maxcalandrelli/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/token/gen/golang"
 )
 
 func Gen(pkg, outdir string, tokenMap *token.TokenMap) {

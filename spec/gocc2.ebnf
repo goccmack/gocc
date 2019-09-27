@@ -12,9 +12,116 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+
+!comment : _lineComment | _blockComment ;
+_lineComment : '/' '/' {.} '\n' ;
+_blockComment : '/' '*' {. | '*'} '*' '/' ;
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+
+tokId : _tokId ;
+
+_tokId : _lowcase {_id_char} ;
+
+_lowcase : 'a'-'z' ;
+
+_id_char : _upcase | _lowcase | '_' | _digit ;
+
+_upcase : 'A'-'Z' ;
+
+_digit : '0'  '9' ;
+
+regDefId : '_' {_id_char} ;
+
+ignoredTokId : '!' _tokId ;
+
+char_lit : '\'' (_unicode_value | _byte_value) '\''    ;
+
+_unicode_value
+    : .                   // Any UTF-8 character literal
+    | _little_u_value
+    | _big_u_value
+    | _escaped_char
+    ;
+
+_byte_value
+    : _octal_byte_value
+    | _hex_byte_value
+    ;
+
+_little_u_value
+    : '\\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
+    ;
+
+_big_u_value
+    : '\\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit
+               _hex_digit _hex_digit _hex_digit _hex_digit
+    ;
+
+_escaped_char
+    : '\\' ( 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\\' | '\'' | '"' )
+    ;
+
+_octal_byte_value
+    : '\\' _octal_digit _octal_digit _octal_digit
+    ;
+
+_hex_byte_value
+    : '\\' 'x' _hex_digit _hex_digit
+    ;
+
+_octal_digit
+    : '0' - '7'
+    ;
+
+_hex_digit
+    : '0' - '9'
+    | 'A' - 'F'
+    | 'a' - 'f'
+    ;
+
+
+_hex_digit_alt
+    : '0' - '9'
+    | 'A' - 'F'
+    | 'a' - 'z'
+    | ~ ( 'g' - 'z')
+    ;
+
+prodId
+    : _upcase {_id_char}
+    ;
+
+g_sdt_lit
+    : '<' '<' . {.} '>' '>'
+    ;
+
+
+string_lit
+    : _raw_string
+    | _interpreted_string
+    ;
+
+_raw_string
+    : '`' {.} '`'
+    ;
+
+_interpreted_string
+    : '"' { _unicode_value | _byte_value } '"'
+    ;
+
+
+
+
+
+
+
+
+
+
+
 /*** Syntactic items ***/
 
-<< import "github.com/goccmack/gocc/internal/ast" >>
+<< import "github.com/maxcalandrelli/gocc/internal/ast" >>
 
 Grammar : LexicalPart SyntaxPart 							<< ast.NewGrammar($0, $1) >>
 		| LexicalPart 										<< ast.NewGrammar($0, nil) >>
@@ -43,15 +150,17 @@ LexAlt 	: LexTerm											<< ast.NewLexAlt($0) >>
 		;
 
 LexTerm : "."												<< ast.LexDOT, nil >>
-		| char_lit 											<< ast.NewLexCharLit($0) >>
-		| char_lit "-" char_lit 							<< ast.NewLexCharRange($0, $2) >>
+		| char_lit 											<< ast.NewLexCharLit($0, false) >>
+		| "~" char_lit 										<< ast.NewLexCharLit($0, true) >>
+		| char_lit "-" char_lit 								<< ast.NewLexCharRange($0, $2, false) >>
+		| "~" "(" char_lit "-" char_lit ")" 					<< ast.NewLexCharRange($2, $4, true) >>
 		| regDefId											<< ast.NewLexRegDefId($0) >>
 		| "[" LexPattern "]" 								<< ast.NewLexOptPattern($1) >>
 		| "{" LexPattern "}" 								<< ast.NewLexRepPattern($1) >>
-		| "(" LexPattern ")"								<< ast.NewLexGroupPattern($1) >>
+		| "(" LexPattern ")"									<< ast.NewLexGroupPattern($1) >>
 		;
 
-SyntaxPart	: FileHeader SyntaxProdList 					<< ast.NewSyntaxPart($0, $1) >>
+SyntaxPart	: FileHeader SyntaxProdList 						<< ast.NewSyntaxPart($0, $1) >>
 			| SyntaxProdList 								<< ast.NewSyntaxPart(nil, $0) >>
 			;
 
@@ -86,36 +195,3 @@ Symbol	: prodId											<< ast.NewSyntaxProdId($0) >>
 		| string_lit										<< ast.NewStringLit($0) >>
 		;
 
-/********
-Lexical items
-The basic unit of input to the lexical analyser is a UTF-8 encoded Unicode code point, defined as:
-
-_unicode_char : < any Unicode code point > .
-
-_letter : 'A' ... 'Z' | 'a' ... 'z' | '_' ;
-
-_digit : '0' ... '9' ;
-
-char : "'" ( _unicode_value | _byte_value ) "'" ;
-
-_unicode_value    : _unicode_char | _little_u_value | _big_u_value | _escaped_char ;
-_byte_value       : _octal_byte_value | _hex_byte_value ;
-_octal_byte_value : `\` _octal_digit _octal_digit _octal_digit ;
-_hex_byte_value   : `\` "x" _hex_digit _hex_digit ;
-_little_u_value   : `\` "u" _hex_digit _hex_digit _hex_digit _hex_digit ;
-_big_u_value      : `\` "U" _hex_digit _hex_digit _hex_digit _hex_digit
-                            _hex_digit _hex_digit _hex_digit _hex_digit ;
-_escaped_char     : `\` ( "a" | "b" | "f" | "n" | "r" | "t" | "v" | `\` | `'` | `"` ) ;
-
-id : _letter (_letter | _digit)* ;
-
-string : _raw_string | _interpreted_string ;
-_raw_string : "`" _unicode_char* "`" ;
-_interpreted_string : `"` ( _unicode_value | byte_value )* `"` ;
-
-g_sdt_lit	: '<' '<' _unicode_char+ '>' '>'
-**********/
-
-/*** TODO: ***
-1. Handle reserved words correctly so that user cannot write reserved words in his grammar. E.g.: string_lit, prodId, etc.
-***/

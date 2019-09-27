@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/ast"
 )
 
 type Symbols struct {

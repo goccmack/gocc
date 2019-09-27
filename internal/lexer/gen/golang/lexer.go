@@ -19,9 +19,9 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/lexer/items"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/lexer/items"
 )
 
 func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) {
@@ -79,20 +79,20 @@ const (
 	NumSymbols = {{.NumSymbols}}
 )
 
-type Lexer struct {
-	src    []byte
+type Position struct {
 	pos    int
 	line   int
 	column int
 }
 
+type Lexer struct {
+  Position
+	src    []byte
+}
+
 func NewLexer(src []byte) *Lexer {
-	lexer := &Lexer{
-		src:    src,
-		pos:    0,
-		line:   1,
-		column: 1,
-	}
+	lexer := &Lexer{ src: src }
+  lexer.Position.Reset()
 	return lexer
 }
 
@@ -189,7 +189,42 @@ func (l *Lexer) Scan() (tok *token.Token) {
 }
 
 func (l *Lexer) Reset() {
-	l.pos = 0
+  l.Position.Reset()
+}
+
+func (l *Lexer) Reposition(p Position) {
+  l.Position = p
+}
+
+func (l Lexer) CurrentPosition() Position {
+  return l.Position
+}
+
+func (l Lexer) Source() []byte {
+  return l.src
+}
+
+func (l Lexer) Remaining() []byte {
+  return l.src[l.pos:]
+}
+
+
+func (p Position) Offset() int {
+  return p.pos
+}
+
+func (p Position) Line() int {
+  return p.line
+}
+
+func (p Position) Column() int {
+  return p.column
+}
+
+func (p *Position) Reset()  {
+	p.pos = 0
+  p.line = 1
+  p.column = 1
 }
 
 /*

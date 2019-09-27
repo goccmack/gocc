@@ -18,7 +18,7 @@ import (
 	// "fmt"
 	"testing"
 
-	"github.com/goccmack/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/ast"
 	// "unicode"
 )
 
@@ -410,5 +410,32 @@ func TestDisjunctSets14(t *testing.T) {
 	set.AddLexTNode(ast.LexDOT)
 	if len(set.set) != 2 {
 		t.Fatalf("len(set.set) == %d", len(set.set))
+	}
+}
+
+func TestDisjunctSets15(t *testing.T) {
+	set := NewDisjunctRangeSet()
+	subtract := func(a, b rune) {
+		t.Logf("current set:   %s; subtracting <%c-%c>\n", set.String(), a, b)
+		set.SubtractRange(a, b)
+		t.Logf("resulting set: %s\n", set.String())
+	}
+	set.AddRange('D', 'F')
+	set.AddRange('J', 'L')
+	set.AddRange('Q', 'Z')
+	set.AddRange('5', '8')
+	set.AddRange('a', 'z')
+	subtract('0', '4')
+	subtract('A', 'D')
+	subtract('E', 'M')
+	subtract('S', '^')
+	subtract('K', 'C')
+	subtract('c', 'f')
+	subtract('w', 'w')
+	set.AddLexTNode(ast.LexDOT)
+	expect := "{['5','8'], ['J','L'], ['Q','R'], ['a','b'], ['g','v'], ['x','z']}"
+	if expect != set.String() {
+		t.Fatalf("expected set: %s\n", expect)
+		t.Fatalf("actual set:   %s\n", set.String())
 	}
 }

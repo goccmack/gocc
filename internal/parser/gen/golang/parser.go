@@ -19,11 +19,11 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/parser/lr1/items"
+	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
 )
 
 func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) {
@@ -149,9 +149,10 @@ func (s *stack) String() string {
 // Parser
 
 type Parser struct {
-	stack     *stack
-	nextToken *token.Token
-	pos       int
+	stack       *stack
+	nextToken   *token.Token
+	pos         int
+  UserContext interface{}
 }
 
 type Scanner interface {

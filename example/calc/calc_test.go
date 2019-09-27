@@ -3,8 +3,8 @@ package calc
 import (
 	"testing"
 
-	"github.com/goccmack/gocc/example/calc/lexer"
-	"github.com/goccmack/gocc/example/calc/parser"
+	"github.com/maxcalandrelli/gocc/example/calc/lexer"
+	"github.com/maxcalandrelli/gocc/example/calc/parser"
 )
 
 type TI struct {

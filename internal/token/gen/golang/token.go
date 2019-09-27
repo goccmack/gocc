@@ -21,8 +21,8 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
 func GenToken(pkg, outdir string, tokMap *token.TokenMap) {
@@ -63,10 +63,18 @@ import (
 	"fmt"
 )
 
+type UserContext interface {}
+
+type ParseContext struct {
+  Remaining []byte
+}
+
 type Token struct {
 	Type
-	Lit []byte
+	Lit     []byte
 	Pos
+  Context *ParseContext
+  User    UserContext
 }
 
 type Type int

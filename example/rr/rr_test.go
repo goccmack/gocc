@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/goccmack/gocc/example/rr/lexer"
-	"github.com/goccmack/gocc/example/rr/parser"
+	"github.com/maxcalandrelli/gocc/example/rr/lexer"
+	"github.com/maxcalandrelli/gocc/example/rr/parser"
 )
 
 func parse(src string) (ast string, err error) {

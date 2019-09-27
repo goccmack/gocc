@@ -5,9 +5,9 @@ import (
 	"strconv"
 )
 
-import errs "github.com/goccmack/gocc/internal/frontend/errors"
+import errs "github.com/maxcalandrelli/gocc/internal/frontend/errors"
 
-import "github.com/goccmack/gocc/internal/frontend/token"
+import "github.com/maxcalandrelli/gocc/internal/frontend/token"
 
 // ParserUTab
 

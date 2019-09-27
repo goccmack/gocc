@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "github.com/goccmack/gocc/example/rr/errors"
-	"github.com/goccmack/gocc/example/rr/token"
+	parseError "github.com/maxcalandrelli/gocc/example/rr/errors"
+	"github.com/maxcalandrelli/gocc/example/rr/token"
 )
 
 const (

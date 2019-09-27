@@ -1,0 +1,2 @@
+regenerate:
+	gocc ctx.bnf

@@ -2,7 +2,7 @@
 
 package parser
 
-import "github.com/goccmack/gocc/example/sr/ast"
+import "github.com/maxcalandrelli/gocc/example/sr/ast"
 
 type (
 	//TODO: change type and variable names to be consistent with other tables

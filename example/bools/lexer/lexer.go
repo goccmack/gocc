@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"unicode/utf8"
 
-	"github.com/goccmack/gocc/example/bools/token"
+	"github.com/maxcalandrelli/gocc/example/bools/token"
 )
 
 const (

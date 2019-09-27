@@ -3,7 +3,7 @@ package golang
 import (
 	"path"
 
-	"github.com/goccmack/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
 func GenLitConv(outDir string) {

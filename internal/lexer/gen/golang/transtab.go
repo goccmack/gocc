@@ -20,8 +20,8 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/lexer/items"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/lexer/items"
 )
 
 func genTransitionTable(pkg, outDir, header string, itemSets *items.ItemSets) {

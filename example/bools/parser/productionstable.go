@@ -3,7 +3,7 @@
 package parser
 
 import (
-	"github.com/goccmack/gocc/example/bools/ast"
+	"github.com/maxcalandrelli/gocc/example/bools/ast"
 )
 
 type (

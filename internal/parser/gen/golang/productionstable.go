@@ -20,11 +20,11 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/parser/lr1/items"
+	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
+	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
@@ -69,6 +69,7 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 			data.ProdTab[i].ReduceFunc = "return X[0], nil"
 		}
 	}
+  data.TokenImport= path.Join(pkg, "token"),
 
 	return data
 }
@@ -84,6 +85,7 @@ type prodTabEntry struct {
 	NTType     int
 	NumSymbols int
 	ReduceFunc string
+	TokenImport    string
 }
 
 const prodsTabSrc = `
@@ -92,6 +94,12 @@ const prodsTabSrc = `
 package parser
 
 {{.Header}}
+
+import (
+	"{{.TokenImport}}"
+)
+
+
 
 type (
 	//TODO: change type and variable names to be consistent with other tables

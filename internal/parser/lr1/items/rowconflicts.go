@@ -15,7 +15,7 @@
 package items
 
 import (
-	"github.com/goccmack/gocc/internal/parser/lr1/action"
+	"github.com/maxcalandrelli/gocc/internal/parser/lr1/action"
 )
 
 /*

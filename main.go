@@ -13,7 +13,34 @@
 //   limitations under the License.
 
 //Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
-//Please see https://github.com/goccmack/gocc/ for more documentation.
+//Please see https://github.com/maxcalandrelli/gocc/ for more documentation.
+
+/*
+   Modified by: Massimiliano Calandrelli <max@maxcalandrelli.it>
+
+  Changes:
+    changed all go files using import from
+      https://github.com/maxcalandrelli/gocc
+    to import from
+      https://github.com/maxcalandrelli/gocc
+    use original gocc (https://github.com/maxcalandrelli/gocc) to reproduce
+    the initial (handwritten?) parser
+      added file internal/ast/sdthlp.go
+      changed file spec/gocc.bnf
+    add negative char and char ranges to lexer
+      changed file internal/lexer/items/disjunctrangeset.go
+      changed file internal/ast/lexcharlit.go
+      changed file internal/ast/lexcharrange.go
+    added support for a simple form of context-sensitive parsing by
+    providing the ability to store/restore scanner position and invoke
+    a different lexer/parser pair while scanning
+      changed template for token generation in internal/lexer/gen/token.go
+      changed template for lexer generation in internal/lexer/gen/lexer.go
+      changed template for parser generation in internal/lexer/gen/parse.go
+      changed template for parser generation in internal/lexer/gen/productionstable.go
+
+*/
+
 package main
 
 import (
@@ -25,22 +52,22 @@ import (
 	"path"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/frontend/parser"
-	"github.com/goccmack/gocc/internal/frontend/scanner"
-	"github.com/goccmack/gocc/internal/frontend/token"
-	"github.com/goccmack/gocc/internal/io"
-	genLexer "github.com/goccmack/gocc/internal/lexer/gen/golang"
-	lexItems "github.com/goccmack/gocc/internal/lexer/items"
-	"github.com/goccmack/gocc/internal/parser/first"
-	genParser "github.com/goccmack/gocc/internal/parser/gen"
-	lr1Action "github.com/goccmack/gocc/internal/parser/lr1/action"
-	lr1Items "github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
-	outToken "github.com/goccmack/gocc/internal/token"
-	genToken "github.com/goccmack/gocc/internal/token/gen"
-	genUtil "github.com/goccmack/gocc/internal/util/gen"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/frontend/lexer"
+	"github.com/maxcalandrelli/gocc/internal/frontend/parser"
+	_ "github.com/maxcalandrelli/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	genLexer "github.com/maxcalandrelli/gocc/internal/lexer/gen/golang"
+	lexItems "github.com/maxcalandrelli/gocc/internal/lexer/items"
+	"github.com/maxcalandrelli/gocc/internal/parser/first"
+	genParser "github.com/maxcalandrelli/gocc/internal/parser/gen"
+	lr1Action "github.com/maxcalandrelli/gocc/internal/parser/lr1/action"
+	lr1Items "github.com/maxcalandrelli/gocc/internal/parser/lr1/items"
+	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
+	outToken "github.com/maxcalandrelli/gocc/internal/token"
+	genToken "github.com/maxcalandrelli/gocc/internal/token/gen"
+	genUtil "github.com/maxcalandrelli/gocc/internal/util/gen"
 )
 
 func main() {
@@ -59,16 +86,21 @@ func main() {
 		flag.Usage()
 	}
 
-	scanner := &scanner.Scanner{}
+	/*
+		scanner := &scanner.Scanner{}
+			scanner.Init(srcBuffer, token.FRONTENDTokens)
+
+			parser := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.FRONTENDTokens)
+	*/
+
 	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	scanner.Init(srcBuffer, token.FRONTENDTokens)
-	parser := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.FRONTENDTokens)
-	grammar, err := parser.Parse(scanner)
+	scanner := lexer.NewLexer(srcBuffer)
+	p := parser.NewParser()
+	grammar, err := p.Parse(scanner)
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err)
 		os.Exit(1)
