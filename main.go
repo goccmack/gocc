@@ -57,6 +57,7 @@ import (
 	"strings"
 
 	"github.com/maxcalandrelli/gocc/internal/ast"
+	genBase "github.com/maxcalandrelli/gocc/internal/base/gen"
 	"github.com/maxcalandrelli/gocc/internal/config"
 	newscanner "github.com/maxcalandrelli/gocc/internal/fe2/lexer"
 	newparser "github.com/maxcalandrelli/gocc/internal/fe2/parser"
@@ -148,6 +149,7 @@ func main() {
 
 	genToken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
 	genUtil.Gen(cfg.OutDir())
+	genBase.Gen(cfg.Package(), cfg.OutDir())
 }
 
 func usage() {

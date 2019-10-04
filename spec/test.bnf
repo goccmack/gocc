@@ -1,6 +1,10 @@
 
 
-hexdigit : '0'-'F' ;// ~(':'-'@') ;
+hexdigit : '0'-'F'  ~(':'-'@') ;
+
+Test :
+		Test1
+;
 
 Test1:
  "try" Test2
