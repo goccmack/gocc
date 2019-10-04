@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 type Token struct {
@@ -33,7 +35,7 @@ func (this *Token) Equals(that *Token) bool {
 func (this *Token) String() string {
 	str := ""
 	if this.Type == EOF {
-		str += "\"$\""
+		str += fmt.Sprintf("\"%s\"", config.SYMBOL_EOF)
 	} else {
 		str += "\"" + string(this.Lit) + "\""
 	}
@@ -130,7 +132,7 @@ type TokenMap struct {
 
 func NewMap() *TokenMap {
 	tm := &TokenMap{make([]string, 0, 10), make(map[string]Type)}
-	tm.AddToken("$")
+	tm.AddToken(config.SYMBOL_EOF)
 	// tm.AddToken("ε")
 	return tm
 }

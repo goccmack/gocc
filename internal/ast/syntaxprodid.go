@@ -14,21 +14,20 @@
 
 package ast
 
-import (
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
-)
-
 // Id or name of a grammar(syntax) production
-type SyntaxProdId string
+type SyntaxProdId struct {
+	string
+	StdSyntaxSymbol
+}
 
 func NewSyntaxProdId(tok interface{}) (SyntaxProdId, error) {
-	return SyntaxProdId(string(tok.(*token.Token).Lit)), nil
+	return SyntaxProdId{getString(tok), StdSyntaxSymbol{}}, nil
 }
 
 func (this SyntaxProdId) SymbolString() string {
-	return string(this)
+	return this.string
 }
 
 func (this SyntaxProdId) String() string {
-	return string(this)
+	return this.string
 }

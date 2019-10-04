@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 import errs "github.com/maxcalandrelli/gocc/internal/frontend/errors"
@@ -196,7 +198,7 @@ func (P *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, P.tokenMap.TokenString(t))
 	}
 
-	action, ok := P.actTab[P.stack.Top()].Actions[P.tokenMap.Type("error")]
+	action, ok := P.actTab[P.stack.Top()].Actions[P.tokenMap.Type(config.SYMBOL_ERROR)]
 	if !ok {
 		return
 	}

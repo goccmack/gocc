@@ -18,8 +18,6 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
-
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
 )
 
 type LexTokDef struct {
@@ -29,7 +27,7 @@ type LexTokDef struct {
 
 func NewLexTokDef(tokId, lexPattern interface{}) (*LexTokDef, error) {
 	tokDef := &LexTokDef{
-		id:      string(tokId.(*token.Token).Lit),
+		id:      getString(tokId),
 		pattern: lexPattern.(*LexPattern),
 	}
 	return tokDef, nil

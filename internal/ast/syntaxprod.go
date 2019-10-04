@@ -16,8 +16,6 @@ package ast
 
 import (
 	"fmt"
-
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
 )
 
 type SyntaxProd struct {
@@ -26,7 +24,7 @@ type SyntaxProd struct {
 }
 
 func NewSyntaxProd(prodId, alts interface{}) ([]*SyntaxProd, error) {
-	pid := string(prodId.(*token.Token).Lit)
+	pid := getString(prodId)
 	alts1 := alts.(SyntaxAlts)
 	prods := make([]*SyntaxProd, len(alts1))
 	for i, body := range alts1 {
@@ -35,6 +33,7 @@ func NewSyntaxProd(prodId, alts interface{}) ([]*SyntaxProd, error) {
 			Body: body,
 		}
 	}
+	//fmt.Printf("      NewProd(%s)\n----------------\n", pid)
 	return prods, nil
 }
 

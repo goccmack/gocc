@@ -16,8 +16,6 @@ package ast
 
 import (
 	"fmt"
-
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
 )
 
 type LexImport struct {
@@ -27,7 +25,7 @@ type LexImport struct {
 
 func NewLexImport(regDefId, extFunc interface{}) (*LexImport, error) {
 	return &LexImport{
-		Id:      string(regDefId.(*token.Token).Lit),
+		Id:      getString(regDefId),
 		ExtFunc: getExtFunc(extFunc),
 	}, nil
 }
@@ -41,6 +39,6 @@ func (this *LexImport) String() string {
 }
 
 func getExtFunc(strLit interface{}) string {
-	lit := strLit.(*token.Token).Lit
+	lit := getString(strLit)
 	return string(lit[1 : len(lit)-1])
 }

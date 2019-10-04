@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "github.com/maxcalandrelli/gocc/internal/frontend/errors"
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
+	parseError "github.com/maxcalandrelli/gocc/internal/fe2/errors"
+	"github.com/maxcalandrelli/gocc/internal/fe2/token"
 )
 
 const (
-	numProductions = 42
-	numStates      = 147
-	numSymbols     = 39
+	numProductions = 47
+	numStates      = 153
+	numSymbols     = 43
 )
 
 // Stack
@@ -88,9 +88,10 @@ func (s *stack) String() string {
 // Parser
 
 type Parser struct {
-	stack     *stack
-	nextToken *token.Token
-	pos       int
+	stack       *stack
+	nextToken   *token.Token
+	pos         int
+  UserContext interface{}
 }
 
 type Scanner interface {

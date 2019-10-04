@@ -20,8 +20,15 @@ All syntax symbols are types of string
 type SyntaxSymbol interface {
 	SymbolString() string
 	String() string
+	IsError() bool
+	IsEpsilon() bool
 	gSymbol()
 }
+
+type StdSyntaxSymbol struct{}
+
+func (StdSyntaxSymbol) IsError() bool   { return false }
+func (StdSyntaxSymbol) IsEpsilon() bool { return false }
 
 func (SyntaxEmpty) gSymbol()     {}
 func (SyntaxEof) gSymbol()       {}

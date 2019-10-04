@@ -1,5 +1,9 @@
 package token
 
+import (
+	"github.com/maxcalandrelli/gocc/internal/config"
+)
+
 var FRONTENDTokens = NewMapFromStrings([]string{
 	"id",
 	"tokId",
@@ -19,7 +23,7 @@ var FRONTENDTokens = NewMapFromStrings([]string{
 	")",
 	"prodId",
 	"g_sdt_lit",
-	"error",
-	"empty",
+	config.SYMBOL_ERROR,
+	config.SYMBOL_EMPTY,
 	"string_lit",
 })

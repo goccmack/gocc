@@ -14,12 +14,19 @@
 
 package ast
 
+import (
+	"fmt"
+)
+
 type SyntaxAlts []*SyntaxBody
+type stringer fmt.GoStringer
 
 func NewSyntaxAlts(body interface{}) (SyntaxAlts, error) {
+	//fmt.Printf("    NewFirstAlt(%v)\n", body)
 	return SyntaxAlts{(body.(*SyntaxBody))}, nil
 }
 
 func AddSyntaxAlt(alts, body interface{}) (SyntaxAlts, error) {
+	//fmt.Printf("    NewAlt(%v)\n", body)
 	return append(alts.(SyntaxAlts), body.(*SyntaxBody)), nil
 }

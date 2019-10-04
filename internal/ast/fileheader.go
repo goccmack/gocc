@@ -16,8 +16,6 @@ package ast
 
 import (
 	"fmt"
-
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
 )
 
 type FileHeader struct {
@@ -27,7 +25,7 @@ type FileHeader struct {
 
 func NewFileHeader(sdtLit interface{}) (*FileHeader, error) {
 	sh := &FileHeader{
-		SDTLit: SDTVal(sdtLit.(*token.Token)),
+		SDTLit: SDTVal(getString(sdtLit)),
 	}
 	sh.str = fmt.Sprintf("<< %s >>", sh.SDTLit)
 	return sh, nil

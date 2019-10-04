@@ -1,7 +1,3 @@
-//
-//go:generate go run stock/main.go -a -v -o internal/fe2 spec/gocc2.ebnf
-//
-
 //Copyright 2013 Vastech SA (PTY) LTD
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,32 +15,6 @@
 //Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
 //Please see https://github.com/goccmack/gocc/ for more documentation.
 
-/*
-   Modified by: Massimiliano Calandrelli <max@maxcalandrelli.it>
-
-  Changes:
-    changed all go files using import from
-      https://github.com/goccmack/gocc
-    to import from
-      https://github.com/maxcalandrelli/gocc
-    use original gocc (https://github.com/goccmack/gocc) to reproduce
-    the initial (handwritten?) parser
-      added file internal/ast/sdthlp.go
-      changed file spec/gocc.bnf
-    add negative char and char ranges to lexer
-      changed file internal/lexer/items/disjunctrangeset.go
-      changed file internal/ast/lexcharlit.go
-      changed file internal/ast/lexcharrange.go
-    added support for a simple form of context-sensitive parsing by
-    providing the ability to store/restore scanner position and invoke
-    a different lexer/parser pair while scanning
-      changed template for token generation in internal/lexer/gen/token.go
-      changed template for lexer generation in internal/lexer/gen/lexer.go
-      changed template for parser generation in internal/lexer/gen/parse.go
-      changed template for parser generation in internal/lexer/gen/productionstable.go
-
-*/
-
 package main
 
 import (
@@ -58,9 +28,9 @@ import (
 
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	"github.com/maxcalandrelli/gocc/internal/config"
-	newscanner "github.com/maxcalandrelli/gocc/internal/fe2/lexer"
-	newparser "github.com/maxcalandrelli/gocc/internal/fe2/parser"
-	"github.com/maxcalandrelli/gocc/internal/fe2/token"
+	oldparser "github.com/maxcalandrelli/gocc/internal/frontend/parser"
+	oldscanner "github.com/maxcalandrelli/gocc/internal/frontend/scanner"
+	oldtoken "github.com/maxcalandrelli/gocc/internal/frontend/token"
 	"github.com/maxcalandrelli/gocc/internal/io"
 	genLexer "github.com/maxcalandrelli/gocc/internal/lexer/gen/golang"
 	lexItems "github.com/maxcalandrelli/gocc/internal/lexer/items"
@@ -87,7 +57,7 @@ func main() {
 	}
 
 	if cfg.Help() {
-		fmt.Fprintf(os.Stderr, "gocc version 1.1.0006\n")
+		fmt.Fprintf(os.Stderr, "gocc base version\n")
 		flag.Usage()
 	}
 
@@ -102,10 +72,11 @@ func main() {
 	var (
 		grammar interface{}
 	)
-	ast.StringGetter = func(v interface{}) string { return string(v.(*token.Token).Lit) }
-	scanner := newscanner.NewLexer(srcBuffer)
-	p := newparser.NewParser()
-	grammar, err = p.Parse(scanner)
+	ast.StringGetter = func(v interface{}) string { return string(v.(*oldtoken.Token).Lit) }
+	scanner := &oldscanner.Scanner{}
+	scanner.Init(srcBuffer, oldtoken.FRONTENDTokens)
+	parser := oldparser.NewParser(oldparser.ActionTable, oldparser.GotoTable, oldparser.ProductionsTable, oldtoken.FRONTENDTokens)
+	grammar, err = parser.Parse(scanner)
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err)
 		os.Exit(1)

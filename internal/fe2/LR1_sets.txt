@@ -1,0 +1,5250 @@
+S0{
+	S' : •Grammar «Ω<EOF>»
+	Grammar : •LexicalPart SyntaxPart «Ω<EOF>»
+	Grammar : •LexicalPart «Ω<EOF>»
+	Grammar : •SyntaxPart «Ω<EOF>»
+	LexicalPart : •LexProductions «g_sdt_lit»
+	LexicalPart : •LexProductions «prodId»
+	LexicalPart : •LexProductions «Ω<EOF>»
+	SyntaxPart : •FileHeader SyntaxProdList «Ω<EOF>»
+	SyntaxPart : •SyntaxProdList «Ω<EOF>»
+	LexProductions : •LexProduction «g_sdt_lit»
+	LexProductions : •LexProductions LexProduction «g_sdt_lit»
+	LexProductions : •LexProduction «prodId»
+	LexProductions : •LexProductions LexProduction «prodId»
+	LexProductions : •LexProduction «Ω<EOF>»
+	LexProductions : •LexProductions LexProduction «Ω<EOF>»
+	FileHeader : •g_sdt_lit «prodId»
+	SyntaxProdList : •SyntaxProduction «Ω<EOF>»
+	SyntaxProdList : •SyntaxProdList SyntaxProduction «Ω<EOF>»
+	LexProduction : •tokId : LexPattern ; «g_sdt_lit»
+	LexProduction : •regDefId : LexPattern ; «g_sdt_lit»
+	LexProduction : •ignoredTokId : LexPattern ; «g_sdt_lit»
+	LexProductions : •LexProduction «ignoredTokId»
+	LexProductions : •LexProduction «regDefId»
+	LexProductions : •LexProduction «tokId»
+	LexProductions : •LexProductions LexProduction «ignoredTokId»
+	LexProductions : •LexProductions LexProduction «regDefId»
+	LexProductions : •LexProductions LexProduction «tokId»
+	LexProduction : •tokId : LexPattern ; «prodId»
+	LexProduction : •regDefId : LexPattern ; «prodId»
+	LexProduction : •ignoredTokId : LexPattern ; «prodId»
+	LexProduction : •tokId : LexPattern ; «Ω<EOF>»
+	LexProduction : •regDefId : LexPattern ; «Ω<EOF>»
+	LexProduction : •ignoredTokId : LexPattern ; «Ω<EOF>»
+	SyntaxProduction : •prodId : Alternatives ; «Ω<EOF>»
+	SyntaxProdList : •SyntaxProduction «prodId»
+	SyntaxProdList : •SyntaxProdList SyntaxProduction «prodId»
+	LexProduction : •tokId : LexPattern ; «ignoredTokId»
+	LexProduction : •regDefId : LexPattern ; «ignoredTokId»
+	LexProduction : •ignoredTokId : LexPattern ; «ignoredTokId»
+	LexProduction : •tokId : LexPattern ; «regDefId»
+	LexProduction : •regDefId : LexPattern ; «regDefId»
+	LexProduction : •ignoredTokId : LexPattern ; «regDefId»
+	LexProduction : •tokId : LexPattern ; «tokId»
+	LexProduction : •regDefId : LexPattern ; «tokId»
+	LexProduction : •ignoredTokId : LexPattern ; «tokId»
+	SyntaxProduction : •prodId : Alternatives ; «prodId»
+}
+Transitions:
+	Grammar -> 1
+	LexicalPart -> 2
+	SyntaxPart -> 3
+	LexProductions -> 4
+	LexProduction -> 5
+	tokId -> 6
+	regDefId -> 7
+	ignoredTokId -> 8
+	FileHeader -> 9
+	SyntaxProdList -> 10
+	g_sdt_lit -> 11
+	SyntaxProduction -> 12
+	prodId -> 13
+
+
+S1{
+	S' : Grammar• «Ω<EOF>»
+}
+Transitions:
+
+
+S2{
+	Grammar : LexicalPart •SyntaxPart «Ω<EOF>»
+	Grammar : LexicalPart• «Ω<EOF>»
+	SyntaxPart : •FileHeader SyntaxProdList «Ω<EOF>»
+	SyntaxPart : •SyntaxProdList «Ω<EOF>»
+	FileHeader : •g_sdt_lit «prodId»
+	SyntaxProdList : •SyntaxProduction «Ω<EOF>»
+	SyntaxProdList : •SyntaxProdList SyntaxProduction «Ω<EOF>»
+	SyntaxProduction : •prodId : Alternatives ; «Ω<EOF>»
+	SyntaxProdList : •SyntaxProduction «prodId»
+	SyntaxProdList : •SyntaxProdList SyntaxProduction «prodId»
+	SyntaxProduction : •prodId : Alternatives ; «prodId»
+}
+Transitions:
+	FileHeader -> 9
+	SyntaxProdList -> 10
+	g_sdt_lit -> 11
+	SyntaxProduction -> 12
+	prodId -> 13
+	SyntaxPart -> 14
+
+
+S3{
+	Grammar : SyntaxPart• «Ω<EOF>»
+}
+Transitions:
+
+
+S4{
+	LexicalPart : LexProductions• «g_sdt_lit»
+	LexicalPart : LexProductions• «prodId»
+	LexicalPart : LexProductions• «Ω<EOF>»
+	LexProductions : LexProductions •LexProduction «g_sdt_lit»
+	LexProductions : LexProductions •LexProduction «prodId»
+	LexProductions : LexProductions •LexProduction «Ω<EOF>»
+	LexProductions : LexProductions •LexProduction «ignoredTokId»
+	LexProductions : LexProductions •LexProduction «regDefId»
+	LexProductions : LexProductions •LexProduction «tokId»
+	LexProduction : •tokId : LexPattern ; «g_sdt_lit»
+	LexProduction : •regDefId : LexPattern ; «g_sdt_lit»
+	LexProduction : •ignoredTokId : LexPattern ; «g_sdt_lit»
+	LexProduction : •tokId : LexPattern ; «prodId»
+	LexProduction : •regDefId : LexPattern ; «prodId»
+	LexProduction : •ignoredTokId : LexPattern ; «prodId»
+	LexProduction : •tokId : LexPattern ; «Ω<EOF>»
+	LexProduction : •regDefId : LexPattern ; «Ω<EOF>»
+	LexProduction : •ignoredTokId : LexPattern ; «Ω<EOF>»
+	LexProduction : •tokId : LexPattern ; «ignoredTokId»
+	LexProduction : •regDefId : LexPattern ; «ignoredTokId»
+	LexProduction : •ignoredTokId : LexPattern ; «ignoredTokId»
+	LexProduction : •tokId : LexPattern ; «regDefId»
+	LexProduction : •regDefId : LexPattern ; «regDefId»
+	LexProduction : •ignoredTokId : LexPattern ; «regDefId»
+	LexProduction : •tokId : LexPattern ; «tokId»
+	LexProduction : •regDefId : LexPattern ; «tokId»
+	LexProduction : •ignoredTokId : LexPattern ; «tokId»
+}
+Transitions:
+	tokId -> 6
+	regDefId -> 7
+	ignoredTokId -> 8
+	LexProduction -> 15
+
+
+S5{
+	LexProductions : LexProduction• «g_sdt_lit»
+	LexProductions : LexProduction• «prodId»
+	LexProductions : LexProduction• «Ω<EOF>»
+	LexProductions : LexProduction• «ignoredTokId»
+	LexProductions : LexProduction• «regDefId»
+	LexProductions : LexProduction• «tokId»
+}
+Transitions:
+
+
+S6{
+	LexProduction : tokId •: LexPattern ; «g_sdt_lit»
+	LexProduction : tokId •: LexPattern ; «prodId»
+	LexProduction : tokId •: LexPattern ; «Ω<EOF>»
+	LexProduction : tokId •: LexPattern ; «ignoredTokId»
+	LexProduction : tokId •: LexPattern ; «regDefId»
+	LexProduction : tokId •: LexPattern ; «tokId»
+}
+Transitions:
+	: -> 16
+
+
+S7{
+	LexProduction : regDefId •: LexPattern ; «g_sdt_lit»
+	LexProduction : regDefId •: LexPattern ; «prodId»
+	LexProduction : regDefId •: LexPattern ; «Ω<EOF>»
+	LexProduction : regDefId •: LexPattern ; «ignoredTokId»
+	LexProduction : regDefId •: LexPattern ; «regDefId»
+	LexProduction : regDefId •: LexPattern ; «tokId»
+}
+Transitions:
+	: -> 17
+
+
+S8{
+	LexProduction : ignoredTokId •: LexPattern ; «g_sdt_lit»
+	LexProduction : ignoredTokId •: LexPattern ; «prodId»
+	LexProduction : ignoredTokId •: LexPattern ; «Ω<EOF>»
+	LexProduction : ignoredTokId •: LexPattern ; «ignoredTokId»
+	LexProduction : ignoredTokId •: LexPattern ; «regDefId»
+	LexProduction : ignoredTokId •: LexPattern ; «tokId»
+}
+Transitions:
+	: -> 18
+
+
+S9{
+	SyntaxPart : FileHeader •SyntaxProdList «Ω<EOF>»
+	SyntaxProdList : •SyntaxProduction «Ω<EOF>»
+	SyntaxProdList : •SyntaxProdList SyntaxProduction «Ω<EOF>»
+	SyntaxProduction : •prodId : Alternatives ; «Ω<EOF>»
+	SyntaxProdList : •SyntaxProduction «prodId»
+	SyntaxProdList : •SyntaxProdList SyntaxProduction «prodId»
+	SyntaxProduction : •prodId : Alternatives ; «prodId»
+}
+Transitions:
+	SyntaxProduction -> 12
+	prodId -> 13
+	SyntaxProdList -> 19
+
+
+S10{
+	SyntaxPart : SyntaxProdList• «Ω<EOF>»
+	SyntaxProdList : SyntaxProdList •SyntaxProduction «Ω<EOF>»
+	SyntaxProdList : SyntaxProdList •SyntaxProduction «prodId»
+	SyntaxProduction : •prodId : Alternatives ; «Ω<EOF>»
+	SyntaxProduction : •prodId : Alternatives ; «prodId»
+}
+Transitions:
+	prodId -> 13
+	SyntaxProduction -> 20
+
+
+S11{
+	FileHeader : g_sdt_lit• «prodId»
+}
+Transitions:
+
+
+S12{
+	SyntaxProdList : SyntaxProduction• «Ω<EOF>»
+	SyntaxProdList : SyntaxProduction• «prodId»
+}
+Transitions:
+
+
+S13{
+	SyntaxProduction : prodId •: Alternatives ; «Ω<EOF>»
+	SyntaxProduction : prodId •: Alternatives ; «prodId»
+}
+Transitions:
+	: -> 21
+
+
+S14{
+	Grammar : LexicalPart SyntaxPart• «Ω<EOF>»
+}
+Transitions:
+
+
+S15{
+	LexProductions : LexProductions LexProduction• «g_sdt_lit»
+	LexProductions : LexProductions LexProduction• «prodId»
+	LexProductions : LexProductions LexProduction• «Ω<EOF>»
+	LexProductions : LexProductions LexProduction• «ignoredTokId»
+	LexProductions : LexProductions LexProduction• «regDefId»
+	LexProductions : LexProductions LexProduction• «tokId»
+}
+Transitions:
+
+
+S16{
+	LexProduction : tokId : •LexPattern ; «g_sdt_lit»
+	LexProduction : tokId : •LexPattern ; «prodId»
+	LexProduction : tokId : •LexPattern ; «Ω<EOF>»
+	LexProduction : tokId : •LexPattern ; «ignoredTokId»
+	LexProduction : tokId : •LexPattern ; «regDefId»
+	LexProduction : tokId : •LexPattern ; «tokId»
+	LexPattern : •LexAlt «;»
+	LexPattern : •LexPattern | LexAlt «;»
+	LexAlt : •LexTerm «;»
+	LexAlt : •LexAlt LexTerm «;»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «;»
+	LexTerm : •char_lit «;»
+	LexTerm : •char_lit - char_lit «;»
+	LexTerm : •~ char_lit «;»
+	LexTerm : •~ ( char_lit - char_lit ) «;»
+	LexTerm : •regDefId «;»
+	LexTerm : •[ LexPattern ] «;»
+	LexTerm : •{ LexPattern } «;»
+	LexTerm : •( LexPattern ) «;»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	LexPattern -> 22
+	regDefId -> 23
+	LexAlt -> 24
+	LexTerm -> 25
+	. -> 26
+	char_lit -> 27
+	~ -> 28
+	( -> 29
+	[ -> 30
+	{ -> 31
+
+
+S17{
+	LexProduction : regDefId : •LexPattern ; «g_sdt_lit»
+	LexProduction : regDefId : •LexPattern ; «prodId»
+	LexProduction : regDefId : •LexPattern ; «Ω<EOF>»
+	LexProduction : regDefId : •LexPattern ; «ignoredTokId»
+	LexProduction : regDefId : •LexPattern ; «regDefId»
+	LexProduction : regDefId : •LexPattern ; «tokId»
+	LexPattern : •LexAlt «;»
+	LexPattern : •LexPattern | LexAlt «;»
+	LexAlt : •LexTerm «;»
+	LexAlt : •LexAlt LexTerm «;»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «;»
+	LexTerm : •char_lit «;»
+	LexTerm : •char_lit - char_lit «;»
+	LexTerm : •~ char_lit «;»
+	LexTerm : •~ ( char_lit - char_lit ) «;»
+	LexTerm : •regDefId «;»
+	LexTerm : •[ LexPattern ] «;»
+	LexTerm : •{ LexPattern } «;»
+	LexTerm : •( LexPattern ) «;»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 23
+	LexAlt -> 24
+	LexTerm -> 25
+	. -> 26
+	char_lit -> 27
+	~ -> 28
+	( -> 29
+	[ -> 30
+	{ -> 31
+	LexPattern -> 32
+
+
+S18{
+	LexProduction : ignoredTokId : •LexPattern ; «g_sdt_lit»
+	LexProduction : ignoredTokId : •LexPattern ; «prodId»
+	LexProduction : ignoredTokId : •LexPattern ; «Ω<EOF>»
+	LexProduction : ignoredTokId : •LexPattern ; «ignoredTokId»
+	LexProduction : ignoredTokId : •LexPattern ; «regDefId»
+	LexProduction : ignoredTokId : •LexPattern ; «tokId»
+	LexPattern : •LexAlt «;»
+	LexPattern : •LexPattern | LexAlt «;»
+	LexAlt : •LexTerm «;»
+	LexAlt : •LexAlt LexTerm «;»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «;»
+	LexTerm : •char_lit «;»
+	LexTerm : •char_lit - char_lit «;»
+	LexTerm : •~ char_lit «;»
+	LexTerm : •~ ( char_lit - char_lit ) «;»
+	LexTerm : •regDefId «;»
+	LexTerm : •[ LexPattern ] «;»
+	LexTerm : •{ LexPattern } «;»
+	LexTerm : •( LexPattern ) «;»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 23
+	LexAlt -> 24
+	LexTerm -> 25
+	. -> 26
+	char_lit -> 27
+	~ -> 28
+	( -> 29
+	[ -> 30
+	{ -> 31
+	LexPattern -> 33
+
+
+S19{
+	SyntaxPart : FileHeader SyntaxProdList• «Ω<EOF>»
+	SyntaxProdList : SyntaxProdList •SyntaxProduction «Ω<EOF>»
+	SyntaxProdList : SyntaxProdList •SyntaxProduction «prodId»
+	SyntaxProduction : •prodId : Alternatives ; «Ω<EOF>»
+	SyntaxProduction : •prodId : Alternatives ; «prodId»
+}
+Transitions:
+	prodId -> 13
+	SyntaxProduction -> 20
+
+
+S20{
+	SyntaxProdList : SyntaxProdList SyntaxProduction• «Ω<EOF>»
+	SyntaxProdList : SyntaxProdList SyntaxProduction• «prodId»
+}
+Transitions:
+
+
+S21{
+	SyntaxProduction : prodId : •Alternatives ; «Ω<EOF>»
+	SyntaxProduction : prodId : •Alternatives ; «prodId»
+	Alternatives : •SyntaxBody «;»
+	Alternatives : •Alternatives | SyntaxBody «;»
+	SyntaxBody : •Symbols «;»
+	SyntaxBody : •Symbols g_sdt_lit «;»
+	SyntaxBody : •ErrorSymbol «;»
+	SyntaxBody : •ErrorSymbol Symbols «;»
+	SyntaxBody : •ErrorSymbol Symbols g_sdt_lit «;»
+	SyntaxBody : •ErrorSymbol g_sdt_lit «;»
+	SyntaxBody : •EpsilonSymbol «;»
+	Alternatives : •SyntaxBody «|»
+	Alternatives : •Alternatives | SyntaxBody «|»
+	Symbols : •Symbol «;»
+	Symbols : •Symbols Symbol «;»
+	Symbols : •Symbol «g_sdt_lit»
+	Symbols : •Symbols Symbol «g_sdt_lit»
+	ErrorSymbol : •errore «;»
+	ErrorSymbol : •λ «;»
+	ErrorSymbol : •errore «prodId»
+	ErrorSymbol : •errore «string_lit»
+	ErrorSymbol : •errore «tokId»
+	ErrorSymbol : •λ «prodId»
+	ErrorSymbol : •λ «string_lit»
+	ErrorSymbol : •λ «tokId»
+	ErrorSymbol : •errore «g_sdt_lit»
+	ErrorSymbol : •λ «g_sdt_lit»
+	EpsilonSymbol : •empty «;»
+	EpsilonSymbol : •ε «;»
+	SyntaxBody : •Symbols «|»
+	SyntaxBody : •Symbols g_sdt_lit «|»
+	SyntaxBody : •ErrorSymbol «|»
+	SyntaxBody : •ErrorSymbol Symbols «|»
+	SyntaxBody : •ErrorSymbol Symbols g_sdt_lit «|»
+	SyntaxBody : •ErrorSymbol g_sdt_lit «|»
+	SyntaxBody : •EpsilonSymbol «|»
+	Symbol : •prodId «;»
+	Symbol : •tokId «;»
+	Symbol : •string_lit «;»
+	Symbols : •Symbol «prodId»
+	Symbols : •Symbol «string_lit»
+	Symbols : •Symbol «tokId»
+	Symbols : •Symbols Symbol «prodId»
+	Symbols : •Symbols Symbol «string_lit»
+	Symbols : •Symbols Symbol «tokId»
+	Symbol : •prodId «g_sdt_lit»
+	Symbol : •tokId «g_sdt_lit»
+	Symbol : •string_lit «g_sdt_lit»
+	Symbols : •Symbol «|»
+	Symbols : •Symbols Symbol «|»
+	ErrorSymbol : •errore «|»
+	ErrorSymbol : •λ «|»
+	EpsilonSymbol : •empty «|»
+	EpsilonSymbol : •ε «|»
+	Symbol : •prodId «prodId»
+	Symbol : •tokId «prodId»
+	Symbol : •string_lit «prodId»
+	Symbol : •prodId «string_lit»
+	Symbol : •tokId «string_lit»
+	Symbol : •string_lit «string_lit»
+	Symbol : •prodId «tokId»
+	Symbol : •tokId «tokId»
+	Symbol : •string_lit «tokId»
+	Symbol : •prodId «|»
+	Symbol : •tokId «|»
+	Symbol : •string_lit «|»
+}
+Transitions:
+	tokId -> 34
+	prodId -> 35
+	Alternatives -> 36
+	SyntaxBody -> 37
+	Symbols -> 38
+	ErrorSymbol -> 39
+	EpsilonSymbol -> 40
+	Symbol -> 41
+	string_lit -> 42
+	errore -> 43
+	λ -> 44
+	empty -> 45
+	ε -> 46
+
+
+S22{
+	LexProduction : tokId : LexPattern •; «g_sdt_lit»
+	LexProduction : tokId : LexPattern •; «prodId»
+	LexProduction : tokId : LexPattern •; «Ω<EOF>»
+	LexProduction : tokId : LexPattern •; «ignoredTokId»
+	LexProduction : tokId : LexPattern •; «regDefId»
+	LexProduction : tokId : LexPattern •; «tokId»
+	LexPattern : LexPattern •| LexAlt «;»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	; -> 47
+	| -> 48
+
+
+S23{
+	LexTerm : regDefId• «;»
+	LexTerm : regDefId• «(»
+	LexTerm : regDefId• «.»
+	LexTerm : regDefId• «[»
+	LexTerm : regDefId• «char_lit»
+	LexTerm : regDefId• «regDefId»
+	LexTerm : regDefId• «{»
+	LexTerm : regDefId• «~»
+	LexTerm : regDefId• «|»
+}
+Transitions:
+
+
+S24{
+	LexPattern : LexAlt• «;»
+	LexAlt : LexAlt •LexTerm «;»
+	LexPattern : LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexAlt : LexAlt •LexTerm «|»
+	LexTerm : •. «;»
+	LexTerm : •char_lit «;»
+	LexTerm : •char_lit - char_lit «;»
+	LexTerm : •~ char_lit «;»
+	LexTerm : •~ ( char_lit - char_lit ) «;»
+	LexTerm : •regDefId «;»
+	LexTerm : •[ LexPattern ] «;»
+	LexTerm : •{ LexPattern } «;»
+	LexTerm : •( LexPattern ) «;»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 23
+	. -> 26
+	char_lit -> 27
+	~ -> 28
+	( -> 29
+	[ -> 30
+	{ -> 31
+	LexTerm -> 49
+
+
+S25{
+	LexAlt : LexTerm• «;»
+	LexAlt : LexTerm• «(»
+	LexAlt : LexTerm• «.»
+	LexAlt : LexTerm• «[»
+	LexAlt : LexTerm• «char_lit»
+	LexAlt : LexTerm• «regDefId»
+	LexAlt : LexTerm• «{»
+	LexAlt : LexTerm• «~»
+	LexAlt : LexTerm• «|»
+}
+Transitions:
+
+
+S26{
+	LexTerm : .• «;»
+	LexTerm : .• «(»
+	LexTerm : .• «.»
+	LexTerm : .• «[»
+	LexTerm : .• «char_lit»
+	LexTerm : .• «regDefId»
+	LexTerm : .• «{»
+	LexTerm : .• «~»
+	LexTerm : .• «|»
+}
+Transitions:
+
+
+S27{
+	LexTerm : char_lit• «;»
+	LexTerm : char_lit •- char_lit «;»
+	LexTerm : char_lit• «(»
+	LexTerm : char_lit •- char_lit «(»
+	LexTerm : char_lit• «.»
+	LexTerm : char_lit •- char_lit «.»
+	LexTerm : char_lit• «[»
+	LexTerm : char_lit •- char_lit «[»
+	LexTerm : char_lit• «char_lit»
+	LexTerm : char_lit •- char_lit «char_lit»
+	LexTerm : char_lit• «regDefId»
+	LexTerm : char_lit •- char_lit «regDefId»
+	LexTerm : char_lit• «{»
+	LexTerm : char_lit •- char_lit «{»
+	LexTerm : char_lit• «~»
+	LexTerm : char_lit •- char_lit «~»
+	LexTerm : char_lit• «|»
+	LexTerm : char_lit •- char_lit «|»
+}
+Transitions:
+	- -> 50
+
+
+S28{
+	LexTerm : ~ •char_lit «;»
+	LexTerm : ~ •( char_lit - char_lit ) «;»
+	LexTerm : ~ •char_lit «(»
+	LexTerm : ~ •( char_lit - char_lit ) «(»
+	LexTerm : ~ •char_lit «.»
+	LexTerm : ~ •( char_lit - char_lit ) «.»
+	LexTerm : ~ •char_lit «[»
+	LexTerm : ~ •( char_lit - char_lit ) «[»
+	LexTerm : ~ •char_lit «char_lit»
+	LexTerm : ~ •( char_lit - char_lit ) «char_lit»
+	LexTerm : ~ •char_lit «regDefId»
+	LexTerm : ~ •( char_lit - char_lit ) «regDefId»
+	LexTerm : ~ •char_lit «{»
+	LexTerm : ~ •( char_lit - char_lit ) «{»
+	LexTerm : ~ •char_lit «~»
+	LexTerm : ~ •( char_lit - char_lit ) «~»
+	LexTerm : ~ •char_lit «|»
+	LexTerm : ~ •( char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 51
+	( -> 52
+
+
+S29{
+	LexTerm : ( •LexPattern ) «;»
+	LexTerm : ( •LexPattern ) «(»
+	LexTerm : ( •LexPattern ) «.»
+	LexTerm : ( •LexPattern ) «[»
+	LexTerm : ( •LexPattern ) «char_lit»
+	LexTerm : ( •LexPattern ) «regDefId»
+	LexTerm : ( •LexPattern ) «{»
+	LexTerm : ( •LexPattern ) «~»
+	LexTerm : ( •LexPattern ) «|»
+	LexPattern : •LexAlt «)»
+	LexPattern : •LexPattern | LexAlt «)»
+	LexAlt : •LexTerm «)»
+	LexAlt : •LexAlt LexTerm «)»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «)»
+	LexTerm : •char_lit «)»
+	LexTerm : •char_lit - char_lit «)»
+	LexTerm : •~ char_lit «)»
+	LexTerm : •~ ( char_lit - char_lit ) «)»
+	LexTerm : •regDefId «)»
+	LexTerm : •[ LexPattern ] «)»
+	LexTerm : •{ LexPattern } «)»
+	LexTerm : •( LexPattern ) «)»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	LexPattern -> 53
+	regDefId -> 54
+	LexAlt -> 55
+	LexTerm -> 56
+	. -> 57
+	char_lit -> 58
+	~ -> 59
+	( -> 60
+	[ -> 61
+	{ -> 62
+
+
+S30{
+	LexTerm : [ •LexPattern ] «;»
+	LexTerm : [ •LexPattern ] «(»
+	LexTerm : [ •LexPattern ] «.»
+	LexTerm : [ •LexPattern ] «[»
+	LexTerm : [ •LexPattern ] «char_lit»
+	LexTerm : [ •LexPattern ] «regDefId»
+	LexTerm : [ •LexPattern ] «{»
+	LexTerm : [ •LexPattern ] «~»
+	LexTerm : [ •LexPattern ] «|»
+	LexPattern : •LexAlt «]»
+	LexPattern : •LexPattern | LexAlt «]»
+	LexAlt : •LexTerm «]»
+	LexAlt : •LexAlt LexTerm «]»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «]»
+	LexTerm : •char_lit «]»
+	LexTerm : •char_lit - char_lit «]»
+	LexTerm : •~ char_lit «]»
+	LexTerm : •~ ( char_lit - char_lit ) «]»
+	LexTerm : •regDefId «]»
+	LexTerm : •[ LexPattern ] «]»
+	LexTerm : •{ LexPattern } «]»
+	LexTerm : •( LexPattern ) «]»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	LexPattern -> 63
+	regDefId -> 64
+	LexAlt -> 65
+	LexTerm -> 66
+	. -> 67
+	char_lit -> 68
+	~ -> 69
+	( -> 70
+	[ -> 71
+	{ -> 72
+
+
+S31{
+	LexTerm : { •LexPattern } «;»
+	LexTerm : { •LexPattern } «(»
+	LexTerm : { •LexPattern } «.»
+	LexTerm : { •LexPattern } «[»
+	LexTerm : { •LexPattern } «char_lit»
+	LexTerm : { •LexPattern } «regDefId»
+	LexTerm : { •LexPattern } «{»
+	LexTerm : { •LexPattern } «~»
+	LexTerm : { •LexPattern } «|»
+	LexPattern : •LexAlt «}»
+	LexPattern : •LexPattern | LexAlt «}»
+	LexAlt : •LexTerm «}»
+	LexAlt : •LexAlt LexTerm «}»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «}»
+	LexTerm : •char_lit «}»
+	LexTerm : •char_lit - char_lit «}»
+	LexTerm : •~ char_lit «}»
+	LexTerm : •~ ( char_lit - char_lit ) «}»
+	LexTerm : •regDefId «}»
+	LexTerm : •[ LexPattern ] «}»
+	LexTerm : •{ LexPattern } «}»
+	LexTerm : •( LexPattern ) «}»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	LexPattern -> 73
+	regDefId -> 74
+	LexAlt -> 75
+	LexTerm -> 76
+	. -> 77
+	char_lit -> 78
+	~ -> 79
+	( -> 80
+	[ -> 81
+	{ -> 82
+
+
+S32{
+	LexProduction : regDefId : LexPattern •; «g_sdt_lit»
+	LexProduction : regDefId : LexPattern •; «prodId»
+	LexProduction : regDefId : LexPattern •; «Ω<EOF>»
+	LexProduction : regDefId : LexPattern •; «ignoredTokId»
+	LexProduction : regDefId : LexPattern •; «regDefId»
+	LexProduction : regDefId : LexPattern •; «tokId»
+	LexPattern : LexPattern •| LexAlt «;»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 48
+	; -> 83
+
+
+S33{
+	LexProduction : ignoredTokId : LexPattern •; «g_sdt_lit»
+	LexProduction : ignoredTokId : LexPattern •; «prodId»
+	LexProduction : ignoredTokId : LexPattern •; «Ω<EOF>»
+	LexProduction : ignoredTokId : LexPattern •; «ignoredTokId»
+	LexProduction : ignoredTokId : LexPattern •; «regDefId»
+	LexProduction : ignoredTokId : LexPattern •; «tokId»
+	LexPattern : LexPattern •| LexAlt «;»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 48
+	; -> 84
+
+
+S34{
+	Symbol : tokId• «;»
+	Symbol : tokId• «g_sdt_lit»
+	Symbol : tokId• «prodId»
+	Symbol : tokId• «string_lit»
+	Symbol : tokId• «tokId»
+	Symbol : tokId• «|»
+}
+Transitions:
+
+
+S35{
+	Symbol : prodId• «;»
+	Symbol : prodId• «g_sdt_lit»
+	Symbol : prodId• «prodId»
+	Symbol : prodId• «string_lit»
+	Symbol : prodId• «tokId»
+	Symbol : prodId• «|»
+}
+Transitions:
+
+
+S36{
+	SyntaxProduction : prodId : Alternatives •; «Ω<EOF>»
+	SyntaxProduction : prodId : Alternatives •; «prodId»
+	Alternatives : Alternatives •| SyntaxBody «;»
+	Alternatives : Alternatives •| SyntaxBody «|»
+}
+Transitions:
+	; -> 85
+	| -> 86
+
+
+S37{
+	Alternatives : SyntaxBody• «;»
+	Alternatives : SyntaxBody• «|»
+}
+Transitions:
+
+
+S38{
+	SyntaxBody : Symbols• «;»
+	SyntaxBody : Symbols •g_sdt_lit «;»
+	Symbols : Symbols •Symbol «;»
+	Symbols : Symbols •Symbol «g_sdt_lit»
+	SyntaxBody : Symbols• «|»
+	SyntaxBody : Symbols •g_sdt_lit «|»
+	Symbols : Symbols •Symbol «prodId»
+	Symbols : Symbols •Symbol «string_lit»
+	Symbols : Symbols •Symbol «tokId»
+	Symbols : Symbols •Symbol «|»
+	Symbol : •prodId «;»
+	Symbol : •tokId «;»
+	Symbol : •string_lit «;»
+	Symbol : •prodId «g_sdt_lit»
+	Symbol : •tokId «g_sdt_lit»
+	Symbol : •string_lit «g_sdt_lit»
+	Symbol : •prodId «prodId»
+	Symbol : •tokId «prodId»
+	Symbol : •string_lit «prodId»
+	Symbol : •prodId «string_lit»
+	Symbol : •tokId «string_lit»
+	Symbol : •string_lit «string_lit»
+	Symbol : •prodId «tokId»
+	Symbol : •tokId «tokId»
+	Symbol : •string_lit «tokId»
+	Symbol : •prodId «|»
+	Symbol : •tokId «|»
+	Symbol : •string_lit «|»
+}
+Transitions:
+	tokId -> 34
+	prodId -> 35
+	string_lit -> 42
+	g_sdt_lit -> 87
+	Symbol -> 88
+
+
+S39{
+	SyntaxBody : ErrorSymbol• «;»
+	SyntaxBody : ErrorSymbol •Symbols «;»
+	SyntaxBody : ErrorSymbol •Symbols g_sdt_lit «;»
+	SyntaxBody : ErrorSymbol •g_sdt_lit «;»
+	SyntaxBody : ErrorSymbol• «|»
+	SyntaxBody : ErrorSymbol •Symbols «|»
+	SyntaxBody : ErrorSymbol •Symbols g_sdt_lit «|»
+	SyntaxBody : ErrorSymbol •g_sdt_lit «|»
+	Symbols : •Symbol «;»
+	Symbols : •Symbols Symbol «;»
+	Symbols : •Symbol «g_sdt_lit»
+	Symbols : •Symbols Symbol «g_sdt_lit»
+	Symbols : •Symbol «|»
+	Symbols : •Symbols Symbol «|»
+	Symbol : •prodId «;»
+	Symbol : •tokId «;»
+	Symbol : •string_lit «;»
+	Symbols : •Symbol «prodId»
+	Symbols : •Symbol «string_lit»
+	Symbols : •Symbol «tokId»
+	Symbols : •Symbols Symbol «prodId»
+	Symbols : •Symbols Symbol «string_lit»
+	Symbols : •Symbols Symbol «tokId»
+	Symbol : •prodId «g_sdt_lit»
+	Symbol : •tokId «g_sdt_lit»
+	Symbol : •string_lit «g_sdt_lit»
+	Symbol : •prodId «|»
+	Symbol : •tokId «|»
+	Symbol : •string_lit «|»
+	Symbol : •prodId «prodId»
+	Symbol : •tokId «prodId»
+	Symbol : •string_lit «prodId»
+	Symbol : •prodId «string_lit»
+	Symbol : •tokId «string_lit»
+	Symbol : •string_lit «string_lit»
+	Symbol : •prodId «tokId»
+	Symbol : •tokId «tokId»
+	Symbol : •string_lit «tokId»
+}
+Transitions:
+	tokId -> 34
+	prodId -> 35
+	Symbol -> 41
+	string_lit -> 42
+	g_sdt_lit -> 89
+	Symbols -> 90
+
+
+S40{
+	SyntaxBody : EpsilonSymbol• «;»
+	SyntaxBody : EpsilonSymbol• «|»
+}
+Transitions:
+
+
+S41{
+	Symbols : Symbol• «;»
+	Symbols : Symbol• «g_sdt_lit»
+	Symbols : Symbol• «prodId»
+	Symbols : Symbol• «string_lit»
+	Symbols : Symbol• «tokId»
+	Symbols : Symbol• «|»
+}
+Transitions:
+
+
+S42{
+	Symbol : string_lit• «;»
+	Symbol : string_lit• «g_sdt_lit»
+	Symbol : string_lit• «prodId»
+	Symbol : string_lit• «string_lit»
+	Symbol : string_lit• «tokId»
+	Symbol : string_lit• «|»
+}
+Transitions:
+
+
+S43{
+	ErrorSymbol : errore• «;»
+	ErrorSymbol : errore• «prodId»
+	ErrorSymbol : errore• «string_lit»
+	ErrorSymbol : errore• «tokId»
+	ErrorSymbol : errore• «g_sdt_lit»
+	ErrorSymbol : errore• «|»
+}
+Transitions:
+
+
+S44{
+	ErrorSymbol : λ• «;»
+	ErrorSymbol : λ• «prodId»
+	ErrorSymbol : λ• «string_lit»
+	ErrorSymbol : λ• «tokId»
+	ErrorSymbol : λ• «g_sdt_lit»
+	ErrorSymbol : λ• «|»
+}
+Transitions:
+
+
+S45{
+	EpsilonSymbol : empty• «;»
+	EpsilonSymbol : empty• «|»
+}
+Transitions:
+
+
+S46{
+	EpsilonSymbol : ε• «;»
+	EpsilonSymbol : ε• «|»
+}
+Transitions:
+
+
+S47{
+	LexProduction : tokId : LexPattern ;• «g_sdt_lit»
+	LexProduction : tokId : LexPattern ;• «prodId»
+	LexProduction : tokId : LexPattern ;• «Ω<EOF>»
+	LexProduction : tokId : LexPattern ;• «ignoredTokId»
+	LexProduction : tokId : LexPattern ;• «regDefId»
+	LexProduction : tokId : LexPattern ;• «tokId»
+}
+Transitions:
+
+
+S48{
+	LexPattern : LexPattern | •LexAlt «;»
+	LexPattern : LexPattern | •LexAlt «|»
+	LexAlt : •LexTerm «;»
+	LexAlt : •LexAlt LexTerm «;»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «;»
+	LexTerm : •char_lit «;»
+	LexTerm : •char_lit - char_lit «;»
+	LexTerm : •~ char_lit «;»
+	LexTerm : •~ ( char_lit - char_lit ) «;»
+	LexTerm : •regDefId «;»
+	LexTerm : •[ LexPattern ] «;»
+	LexTerm : •{ LexPattern } «;»
+	LexTerm : •( LexPattern ) «;»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 23
+	LexTerm -> 25
+	. -> 26
+	char_lit -> 27
+	~ -> 28
+	( -> 29
+	[ -> 30
+	{ -> 31
+	LexAlt -> 91
+
+
+S49{
+	LexAlt : LexAlt LexTerm• «;»
+	LexAlt : LexAlt LexTerm• «(»
+	LexAlt : LexAlt LexTerm• «.»
+	LexAlt : LexAlt LexTerm• «[»
+	LexAlt : LexAlt LexTerm• «char_lit»
+	LexAlt : LexAlt LexTerm• «regDefId»
+	LexAlt : LexAlt LexTerm• «{»
+	LexAlt : LexAlt LexTerm• «~»
+	LexAlt : LexAlt LexTerm• «|»
+}
+Transitions:
+
+
+S50{
+	LexTerm : char_lit - •char_lit «;»
+	LexTerm : char_lit - •char_lit «(»
+	LexTerm : char_lit - •char_lit «.»
+	LexTerm : char_lit - •char_lit «[»
+	LexTerm : char_lit - •char_lit «char_lit»
+	LexTerm : char_lit - •char_lit «regDefId»
+	LexTerm : char_lit - •char_lit «{»
+	LexTerm : char_lit - •char_lit «~»
+	LexTerm : char_lit - •char_lit «|»
+}
+Transitions:
+	char_lit -> 92
+
+
+S51{
+	LexTerm : ~ char_lit• «;»
+	LexTerm : ~ char_lit• «(»
+	LexTerm : ~ char_lit• «.»
+	LexTerm : ~ char_lit• «[»
+	LexTerm : ~ char_lit• «char_lit»
+	LexTerm : ~ char_lit• «regDefId»
+	LexTerm : ~ char_lit• «{»
+	LexTerm : ~ char_lit• «~»
+	LexTerm : ~ char_lit• «|»
+}
+Transitions:
+
+
+S52{
+	LexTerm : ~ ( •char_lit - char_lit ) «;»
+	LexTerm : ~ ( •char_lit - char_lit ) «(»
+	LexTerm : ~ ( •char_lit - char_lit ) «.»
+	LexTerm : ~ ( •char_lit - char_lit ) «[»
+	LexTerm : ~ ( •char_lit - char_lit ) «char_lit»
+	LexTerm : ~ ( •char_lit - char_lit ) «regDefId»
+	LexTerm : ~ ( •char_lit - char_lit ) «{»
+	LexTerm : ~ ( •char_lit - char_lit ) «~»
+	LexTerm : ~ ( •char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 93
+
+
+S53{
+	LexTerm : ( LexPattern •) «;»
+	LexTerm : ( LexPattern •) «(»
+	LexTerm : ( LexPattern •) «.»
+	LexTerm : ( LexPattern •) «[»
+	LexTerm : ( LexPattern •) «char_lit»
+	LexTerm : ( LexPattern •) «regDefId»
+	LexTerm : ( LexPattern •) «{»
+	LexTerm : ( LexPattern •) «~»
+	LexTerm : ( LexPattern •) «|»
+	LexPattern : LexPattern •| LexAlt «)»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 94
+	) -> 95
+
+
+S54{
+	LexTerm : regDefId• «)»
+	LexTerm : regDefId• «(»
+	LexTerm : regDefId• «.»
+	LexTerm : regDefId• «[»
+	LexTerm : regDefId• «char_lit»
+	LexTerm : regDefId• «regDefId»
+	LexTerm : regDefId• «{»
+	LexTerm : regDefId• «~»
+	LexTerm : regDefId• «|»
+}
+Transitions:
+
+
+S55{
+	LexPattern : LexAlt• «)»
+	LexAlt : LexAlt •LexTerm «)»
+	LexPattern : LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexAlt : LexAlt •LexTerm «|»
+	LexTerm : •. «)»
+	LexTerm : •char_lit «)»
+	LexTerm : •char_lit - char_lit «)»
+	LexTerm : •~ char_lit «)»
+	LexTerm : •~ ( char_lit - char_lit ) «)»
+	LexTerm : •regDefId «)»
+	LexTerm : •[ LexPattern ] «)»
+	LexTerm : •{ LexPattern } «)»
+	LexTerm : •( LexPattern ) «)»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 54
+	. -> 57
+	char_lit -> 58
+	~ -> 59
+	( -> 60
+	[ -> 61
+	{ -> 62
+	LexTerm -> 96
+
+
+S56{
+	LexAlt : LexTerm• «)»
+	LexAlt : LexTerm• «(»
+	LexAlt : LexTerm• «.»
+	LexAlt : LexTerm• «[»
+	LexAlt : LexTerm• «char_lit»
+	LexAlt : LexTerm• «regDefId»
+	LexAlt : LexTerm• «{»
+	LexAlt : LexTerm• «~»
+	LexAlt : LexTerm• «|»
+}
+Transitions:
+
+
+S57{
+	LexTerm : .• «)»
+	LexTerm : .• «(»
+	LexTerm : .• «.»
+	LexTerm : .• «[»
+	LexTerm : .• «char_lit»
+	LexTerm : .• «regDefId»
+	LexTerm : .• «{»
+	LexTerm : .• «~»
+	LexTerm : .• «|»
+}
+Transitions:
+
+
+S58{
+	LexTerm : char_lit• «)»
+	LexTerm : char_lit •- char_lit «)»
+	LexTerm : char_lit• «(»
+	LexTerm : char_lit •- char_lit «(»
+	LexTerm : char_lit• «.»
+	LexTerm : char_lit •- char_lit «.»
+	LexTerm : char_lit• «[»
+	LexTerm : char_lit •- char_lit «[»
+	LexTerm : char_lit• «char_lit»
+	LexTerm : char_lit •- char_lit «char_lit»
+	LexTerm : char_lit• «regDefId»
+	LexTerm : char_lit •- char_lit «regDefId»
+	LexTerm : char_lit• «{»
+	LexTerm : char_lit •- char_lit «{»
+	LexTerm : char_lit• «~»
+	LexTerm : char_lit •- char_lit «~»
+	LexTerm : char_lit• «|»
+	LexTerm : char_lit •- char_lit «|»
+}
+Transitions:
+	- -> 97
+
+
+S59{
+	LexTerm : ~ •char_lit «)»
+	LexTerm : ~ •( char_lit - char_lit ) «)»
+	LexTerm : ~ •char_lit «(»
+	LexTerm : ~ •( char_lit - char_lit ) «(»
+	LexTerm : ~ •char_lit «.»
+	LexTerm : ~ •( char_lit - char_lit ) «.»
+	LexTerm : ~ •char_lit «[»
+	LexTerm : ~ •( char_lit - char_lit ) «[»
+	LexTerm : ~ •char_lit «char_lit»
+	LexTerm : ~ •( char_lit - char_lit ) «char_lit»
+	LexTerm : ~ •char_lit «regDefId»
+	LexTerm : ~ •( char_lit - char_lit ) «regDefId»
+	LexTerm : ~ •char_lit «{»
+	LexTerm : ~ •( char_lit - char_lit ) «{»
+	LexTerm : ~ •char_lit «~»
+	LexTerm : ~ •( char_lit - char_lit ) «~»
+	LexTerm : ~ •char_lit «|»
+	LexTerm : ~ •( char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 98
+	( -> 99
+
+
+S60{
+	LexTerm : ( •LexPattern ) «)»
+	LexTerm : ( •LexPattern ) «(»
+	LexTerm : ( •LexPattern ) «.»
+	LexTerm : ( •LexPattern ) «[»
+	LexTerm : ( •LexPattern ) «char_lit»
+	LexTerm : ( •LexPattern ) «regDefId»
+	LexTerm : ( •LexPattern ) «{»
+	LexTerm : ( •LexPattern ) «~»
+	LexTerm : ( •LexPattern ) «|»
+	LexPattern : •LexAlt «)»
+	LexPattern : •LexPattern | LexAlt «)»
+	LexAlt : •LexTerm «)»
+	LexAlt : •LexAlt LexTerm «)»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «)»
+	LexTerm : •char_lit «)»
+	LexTerm : •char_lit - char_lit «)»
+	LexTerm : •~ char_lit «)»
+	LexTerm : •~ ( char_lit - char_lit ) «)»
+	LexTerm : •regDefId «)»
+	LexTerm : •[ LexPattern ] «)»
+	LexTerm : •{ LexPattern } «)»
+	LexTerm : •( LexPattern ) «)»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 54
+	LexAlt -> 55
+	LexTerm -> 56
+	. -> 57
+	char_lit -> 58
+	~ -> 59
+	( -> 60
+	[ -> 61
+	{ -> 62
+	LexPattern -> 100
+
+
+S61{
+	LexTerm : [ •LexPattern ] «)»
+	LexTerm : [ •LexPattern ] «(»
+	LexTerm : [ •LexPattern ] «.»
+	LexTerm : [ •LexPattern ] «[»
+	LexTerm : [ •LexPattern ] «char_lit»
+	LexTerm : [ •LexPattern ] «regDefId»
+	LexTerm : [ •LexPattern ] «{»
+	LexTerm : [ •LexPattern ] «~»
+	LexTerm : [ •LexPattern ] «|»
+	LexPattern : •LexAlt «]»
+	LexPattern : •LexPattern | LexAlt «]»
+	LexAlt : •LexTerm «]»
+	LexAlt : •LexAlt LexTerm «]»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «]»
+	LexTerm : •char_lit «]»
+	LexTerm : •char_lit - char_lit «]»
+	LexTerm : •~ char_lit «]»
+	LexTerm : •~ ( char_lit - char_lit ) «]»
+	LexTerm : •regDefId «]»
+	LexTerm : •[ LexPattern ] «]»
+	LexTerm : •{ LexPattern } «]»
+	LexTerm : •( LexPattern ) «]»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 64
+	LexAlt -> 65
+	LexTerm -> 66
+	. -> 67
+	char_lit -> 68
+	~ -> 69
+	( -> 70
+	[ -> 71
+	{ -> 72
+	LexPattern -> 101
+
+
+S62{
+	LexTerm : { •LexPattern } «)»
+	LexTerm : { •LexPattern } «(»
+	LexTerm : { •LexPattern } «.»
+	LexTerm : { •LexPattern } «[»
+	LexTerm : { •LexPattern } «char_lit»
+	LexTerm : { •LexPattern } «regDefId»
+	LexTerm : { •LexPattern } «{»
+	LexTerm : { •LexPattern } «~»
+	LexTerm : { •LexPattern } «|»
+	LexPattern : •LexAlt «}»
+	LexPattern : •LexPattern | LexAlt «}»
+	LexAlt : •LexTerm «}»
+	LexAlt : •LexAlt LexTerm «}»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «}»
+	LexTerm : •char_lit «}»
+	LexTerm : •char_lit - char_lit «}»
+	LexTerm : •~ char_lit «}»
+	LexTerm : •~ ( char_lit - char_lit ) «}»
+	LexTerm : •regDefId «}»
+	LexTerm : •[ LexPattern ] «}»
+	LexTerm : •{ LexPattern } «}»
+	LexTerm : •( LexPattern ) «}»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 74
+	LexAlt -> 75
+	LexTerm -> 76
+	. -> 77
+	char_lit -> 78
+	~ -> 79
+	( -> 80
+	[ -> 81
+	{ -> 82
+	LexPattern -> 102
+
+
+S63{
+	LexTerm : [ LexPattern •] «;»
+	LexTerm : [ LexPattern •] «(»
+	LexTerm : [ LexPattern •] «.»
+	LexTerm : [ LexPattern •] «[»
+	LexTerm : [ LexPattern •] «char_lit»
+	LexTerm : [ LexPattern •] «regDefId»
+	LexTerm : [ LexPattern •] «{»
+	LexTerm : [ LexPattern •] «~»
+	LexTerm : [ LexPattern •] «|»
+	LexPattern : LexPattern •| LexAlt «]»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 103
+	] -> 104
+
+
+S64{
+	LexTerm : regDefId• «]»
+	LexTerm : regDefId• «(»
+	LexTerm : regDefId• «.»
+	LexTerm : regDefId• «[»
+	LexTerm : regDefId• «char_lit»
+	LexTerm : regDefId• «regDefId»
+	LexTerm : regDefId• «{»
+	LexTerm : regDefId• «~»
+	LexTerm : regDefId• «|»
+}
+Transitions:
+
+
+S65{
+	LexPattern : LexAlt• «]»
+	LexAlt : LexAlt •LexTerm «]»
+	LexPattern : LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexAlt : LexAlt •LexTerm «|»
+	LexTerm : •. «]»
+	LexTerm : •char_lit «]»
+	LexTerm : •char_lit - char_lit «]»
+	LexTerm : •~ char_lit «]»
+	LexTerm : •~ ( char_lit - char_lit ) «]»
+	LexTerm : •regDefId «]»
+	LexTerm : •[ LexPattern ] «]»
+	LexTerm : •{ LexPattern } «]»
+	LexTerm : •( LexPattern ) «]»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 64
+	. -> 67
+	char_lit -> 68
+	~ -> 69
+	( -> 70
+	[ -> 71
+	{ -> 72
+	LexTerm -> 105
+
+
+S66{
+	LexAlt : LexTerm• «]»
+	LexAlt : LexTerm• «(»
+	LexAlt : LexTerm• «.»
+	LexAlt : LexTerm• «[»
+	LexAlt : LexTerm• «char_lit»
+	LexAlt : LexTerm• «regDefId»
+	LexAlt : LexTerm• «{»
+	LexAlt : LexTerm• «~»
+	LexAlt : LexTerm• «|»
+}
+Transitions:
+
+
+S67{
+	LexTerm : .• «]»
+	LexTerm : .• «(»
+	LexTerm : .• «.»
+	LexTerm : .• «[»
+	LexTerm : .• «char_lit»
+	LexTerm : .• «regDefId»
+	LexTerm : .• «{»
+	LexTerm : .• «~»
+	LexTerm : .• «|»
+}
+Transitions:
+
+
+S68{
+	LexTerm : char_lit• «]»
+	LexTerm : char_lit •- char_lit «]»
+	LexTerm : char_lit• «(»
+	LexTerm : char_lit •- char_lit «(»
+	LexTerm : char_lit• «.»
+	LexTerm : char_lit •- char_lit «.»
+	LexTerm : char_lit• «[»
+	LexTerm : char_lit •- char_lit «[»
+	LexTerm : char_lit• «char_lit»
+	LexTerm : char_lit •- char_lit «char_lit»
+	LexTerm : char_lit• «regDefId»
+	LexTerm : char_lit •- char_lit «regDefId»
+	LexTerm : char_lit• «{»
+	LexTerm : char_lit •- char_lit «{»
+	LexTerm : char_lit• «~»
+	LexTerm : char_lit •- char_lit «~»
+	LexTerm : char_lit• «|»
+	LexTerm : char_lit •- char_lit «|»
+}
+Transitions:
+	- -> 106
+
+
+S69{
+	LexTerm : ~ •char_lit «]»
+	LexTerm : ~ •( char_lit - char_lit ) «]»
+	LexTerm : ~ •char_lit «(»
+	LexTerm : ~ •( char_lit - char_lit ) «(»
+	LexTerm : ~ •char_lit «.»
+	LexTerm : ~ •( char_lit - char_lit ) «.»
+	LexTerm : ~ •char_lit «[»
+	LexTerm : ~ •( char_lit - char_lit ) «[»
+	LexTerm : ~ •char_lit «char_lit»
+	LexTerm : ~ •( char_lit - char_lit ) «char_lit»
+	LexTerm : ~ •char_lit «regDefId»
+	LexTerm : ~ •( char_lit - char_lit ) «regDefId»
+	LexTerm : ~ •char_lit «{»
+	LexTerm : ~ •( char_lit - char_lit ) «{»
+	LexTerm : ~ •char_lit «~»
+	LexTerm : ~ •( char_lit - char_lit ) «~»
+	LexTerm : ~ •char_lit «|»
+	LexTerm : ~ •( char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 107
+	( -> 108
+
+
+S70{
+	LexTerm : ( •LexPattern ) «]»
+	LexTerm : ( •LexPattern ) «(»
+	LexTerm : ( •LexPattern ) «.»
+	LexTerm : ( •LexPattern ) «[»
+	LexTerm : ( •LexPattern ) «char_lit»
+	LexTerm : ( •LexPattern ) «regDefId»
+	LexTerm : ( •LexPattern ) «{»
+	LexTerm : ( •LexPattern ) «~»
+	LexTerm : ( •LexPattern ) «|»
+	LexPattern : •LexAlt «)»
+	LexPattern : •LexPattern | LexAlt «)»
+	LexAlt : •LexTerm «)»
+	LexAlt : •LexAlt LexTerm «)»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «)»
+	LexTerm : •char_lit «)»
+	LexTerm : •char_lit - char_lit «)»
+	LexTerm : •~ char_lit «)»
+	LexTerm : •~ ( char_lit - char_lit ) «)»
+	LexTerm : •regDefId «)»
+	LexTerm : •[ LexPattern ] «)»
+	LexTerm : •{ LexPattern } «)»
+	LexTerm : •( LexPattern ) «)»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 54
+	LexAlt -> 55
+	LexTerm -> 56
+	. -> 57
+	char_lit -> 58
+	~ -> 59
+	( -> 60
+	[ -> 61
+	{ -> 62
+	LexPattern -> 109
+
+
+S71{
+	LexTerm : [ •LexPattern ] «]»
+	LexTerm : [ •LexPattern ] «(»
+	LexTerm : [ •LexPattern ] «.»
+	LexTerm : [ •LexPattern ] «[»
+	LexTerm : [ •LexPattern ] «char_lit»
+	LexTerm : [ •LexPattern ] «regDefId»
+	LexTerm : [ •LexPattern ] «{»
+	LexTerm : [ •LexPattern ] «~»
+	LexTerm : [ •LexPattern ] «|»
+	LexPattern : •LexAlt «]»
+	LexPattern : •LexPattern | LexAlt «]»
+	LexAlt : •LexTerm «]»
+	LexAlt : •LexAlt LexTerm «]»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «]»
+	LexTerm : •char_lit «]»
+	LexTerm : •char_lit - char_lit «]»
+	LexTerm : •~ char_lit «]»
+	LexTerm : •~ ( char_lit - char_lit ) «]»
+	LexTerm : •regDefId «]»
+	LexTerm : •[ LexPattern ] «]»
+	LexTerm : •{ LexPattern } «]»
+	LexTerm : •( LexPattern ) «]»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 64
+	LexAlt -> 65
+	LexTerm -> 66
+	. -> 67
+	char_lit -> 68
+	~ -> 69
+	( -> 70
+	[ -> 71
+	{ -> 72
+	LexPattern -> 110
+
+
+S72{
+	LexTerm : { •LexPattern } «]»
+	LexTerm : { •LexPattern } «(»
+	LexTerm : { •LexPattern } «.»
+	LexTerm : { •LexPattern } «[»
+	LexTerm : { •LexPattern } «char_lit»
+	LexTerm : { •LexPattern } «regDefId»
+	LexTerm : { •LexPattern } «{»
+	LexTerm : { •LexPattern } «~»
+	LexTerm : { •LexPattern } «|»
+	LexPattern : •LexAlt «}»
+	LexPattern : •LexPattern | LexAlt «}»
+	LexAlt : •LexTerm «}»
+	LexAlt : •LexAlt LexTerm «}»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «}»
+	LexTerm : •char_lit «}»
+	LexTerm : •char_lit - char_lit «}»
+	LexTerm : •~ char_lit «}»
+	LexTerm : •~ ( char_lit - char_lit ) «}»
+	LexTerm : •regDefId «}»
+	LexTerm : •[ LexPattern ] «}»
+	LexTerm : •{ LexPattern } «}»
+	LexTerm : •( LexPattern ) «}»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 74
+	LexAlt -> 75
+	LexTerm -> 76
+	. -> 77
+	char_lit -> 78
+	~ -> 79
+	( -> 80
+	[ -> 81
+	{ -> 82
+	LexPattern -> 111
+
+
+S73{
+	LexTerm : { LexPattern •} «;»
+	LexTerm : { LexPattern •} «(»
+	LexTerm : { LexPattern •} «.»
+	LexTerm : { LexPattern •} «[»
+	LexTerm : { LexPattern •} «char_lit»
+	LexTerm : { LexPattern •} «regDefId»
+	LexTerm : { LexPattern •} «{»
+	LexTerm : { LexPattern •} «~»
+	LexTerm : { LexPattern •} «|»
+	LexPattern : LexPattern •| LexAlt «}»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 112
+	} -> 113
+
+
+S74{
+	LexTerm : regDefId• «}»
+	LexTerm : regDefId• «(»
+	LexTerm : regDefId• «.»
+	LexTerm : regDefId• «[»
+	LexTerm : regDefId• «char_lit»
+	LexTerm : regDefId• «regDefId»
+	LexTerm : regDefId• «{»
+	LexTerm : regDefId• «~»
+	LexTerm : regDefId• «|»
+}
+Transitions:
+
+
+S75{
+	LexPattern : LexAlt• «}»
+	LexAlt : LexAlt •LexTerm «}»
+	LexPattern : LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexAlt : LexAlt •LexTerm «|»
+	LexTerm : •. «}»
+	LexTerm : •char_lit «}»
+	LexTerm : •char_lit - char_lit «}»
+	LexTerm : •~ char_lit «}»
+	LexTerm : •~ ( char_lit - char_lit ) «}»
+	LexTerm : •regDefId «}»
+	LexTerm : •[ LexPattern ] «}»
+	LexTerm : •{ LexPattern } «}»
+	LexTerm : •( LexPattern ) «}»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 74
+	. -> 77
+	char_lit -> 78
+	~ -> 79
+	( -> 80
+	[ -> 81
+	{ -> 82
+	LexTerm -> 114
+
+
+S76{
+	LexAlt : LexTerm• «}»
+	LexAlt : LexTerm• «(»
+	LexAlt : LexTerm• «.»
+	LexAlt : LexTerm• «[»
+	LexAlt : LexTerm• «char_lit»
+	LexAlt : LexTerm• «regDefId»
+	LexAlt : LexTerm• «{»
+	LexAlt : LexTerm• «~»
+	LexAlt : LexTerm• «|»
+}
+Transitions:
+
+
+S77{
+	LexTerm : .• «}»
+	LexTerm : .• «(»
+	LexTerm : .• «.»
+	LexTerm : .• «[»
+	LexTerm : .• «char_lit»
+	LexTerm : .• «regDefId»
+	LexTerm : .• «{»
+	LexTerm : .• «~»
+	LexTerm : .• «|»
+}
+Transitions:
+
+
+S78{
+	LexTerm : char_lit• «}»
+	LexTerm : char_lit •- char_lit «}»
+	LexTerm : char_lit• «(»
+	LexTerm : char_lit •- char_lit «(»
+	LexTerm : char_lit• «.»
+	LexTerm : char_lit •- char_lit «.»
+	LexTerm : char_lit• «[»
+	LexTerm : char_lit •- char_lit «[»
+	LexTerm : char_lit• «char_lit»
+	LexTerm : char_lit •- char_lit «char_lit»
+	LexTerm : char_lit• «regDefId»
+	LexTerm : char_lit •- char_lit «regDefId»
+	LexTerm : char_lit• «{»
+	LexTerm : char_lit •- char_lit «{»
+	LexTerm : char_lit• «~»
+	LexTerm : char_lit •- char_lit «~»
+	LexTerm : char_lit• «|»
+	LexTerm : char_lit •- char_lit «|»
+}
+Transitions:
+	- -> 115
+
+
+S79{
+	LexTerm : ~ •char_lit «}»
+	LexTerm : ~ •( char_lit - char_lit ) «}»
+	LexTerm : ~ •char_lit «(»
+	LexTerm : ~ •( char_lit - char_lit ) «(»
+	LexTerm : ~ •char_lit «.»
+	LexTerm : ~ •( char_lit - char_lit ) «.»
+	LexTerm : ~ •char_lit «[»
+	LexTerm : ~ •( char_lit - char_lit ) «[»
+	LexTerm : ~ •char_lit «char_lit»
+	LexTerm : ~ •( char_lit - char_lit ) «char_lit»
+	LexTerm : ~ •char_lit «regDefId»
+	LexTerm : ~ •( char_lit - char_lit ) «regDefId»
+	LexTerm : ~ •char_lit «{»
+	LexTerm : ~ •( char_lit - char_lit ) «{»
+	LexTerm : ~ •char_lit «~»
+	LexTerm : ~ •( char_lit - char_lit ) «~»
+	LexTerm : ~ •char_lit «|»
+	LexTerm : ~ •( char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 116
+	( -> 117
+
+
+S80{
+	LexTerm : ( •LexPattern ) «}»
+	LexTerm : ( •LexPattern ) «(»
+	LexTerm : ( •LexPattern ) «.»
+	LexTerm : ( •LexPattern ) «[»
+	LexTerm : ( •LexPattern ) «char_lit»
+	LexTerm : ( •LexPattern ) «regDefId»
+	LexTerm : ( •LexPattern ) «{»
+	LexTerm : ( •LexPattern ) «~»
+	LexTerm : ( •LexPattern ) «|»
+	LexPattern : •LexAlt «)»
+	LexPattern : •LexPattern | LexAlt «)»
+	LexAlt : •LexTerm «)»
+	LexAlt : •LexAlt LexTerm «)»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «)»
+	LexTerm : •char_lit «)»
+	LexTerm : •char_lit - char_lit «)»
+	LexTerm : •~ char_lit «)»
+	LexTerm : •~ ( char_lit - char_lit ) «)»
+	LexTerm : •regDefId «)»
+	LexTerm : •[ LexPattern ] «)»
+	LexTerm : •{ LexPattern } «)»
+	LexTerm : •( LexPattern ) «)»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 54
+	LexAlt -> 55
+	LexTerm -> 56
+	. -> 57
+	char_lit -> 58
+	~ -> 59
+	( -> 60
+	[ -> 61
+	{ -> 62
+	LexPattern -> 118
+
+
+S81{
+	LexTerm : [ •LexPattern ] «}»
+	LexTerm : [ •LexPattern ] «(»
+	LexTerm : [ •LexPattern ] «.»
+	LexTerm : [ •LexPattern ] «[»
+	LexTerm : [ •LexPattern ] «char_lit»
+	LexTerm : [ •LexPattern ] «regDefId»
+	LexTerm : [ •LexPattern ] «{»
+	LexTerm : [ •LexPattern ] «~»
+	LexTerm : [ •LexPattern ] «|»
+	LexPattern : •LexAlt «]»
+	LexPattern : •LexPattern | LexAlt «]»
+	LexAlt : •LexTerm «]»
+	LexAlt : •LexAlt LexTerm «]»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «]»
+	LexTerm : •char_lit «]»
+	LexTerm : •char_lit - char_lit «]»
+	LexTerm : •~ char_lit «]»
+	LexTerm : •~ ( char_lit - char_lit ) «]»
+	LexTerm : •regDefId «]»
+	LexTerm : •[ LexPattern ] «]»
+	LexTerm : •{ LexPattern } «]»
+	LexTerm : •( LexPattern ) «]»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 64
+	LexAlt -> 65
+	LexTerm -> 66
+	. -> 67
+	char_lit -> 68
+	~ -> 69
+	( -> 70
+	[ -> 71
+	{ -> 72
+	LexPattern -> 119
+
+
+S82{
+	LexTerm : { •LexPattern } «}»
+	LexTerm : { •LexPattern } «(»
+	LexTerm : { •LexPattern } «.»
+	LexTerm : { •LexPattern } «[»
+	LexTerm : { •LexPattern } «char_lit»
+	LexTerm : { •LexPattern } «regDefId»
+	LexTerm : { •LexPattern } «{»
+	LexTerm : { •LexPattern } «~»
+	LexTerm : { •LexPattern } «|»
+	LexPattern : •LexAlt «}»
+	LexPattern : •LexPattern | LexAlt «}»
+	LexAlt : •LexTerm «}»
+	LexAlt : •LexAlt LexTerm «}»
+	LexPattern : •LexAlt «|»
+	LexPattern : •LexPattern | LexAlt «|»
+	LexTerm : •. «}»
+	LexTerm : •char_lit «}»
+	LexTerm : •char_lit - char_lit «}»
+	LexTerm : •~ char_lit «}»
+	LexTerm : •~ ( char_lit - char_lit ) «}»
+	LexTerm : •regDefId «}»
+	LexTerm : •[ LexPattern ] «}»
+	LexTerm : •{ LexPattern } «}»
+	LexTerm : •( LexPattern ) «}»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+}
+Transitions:
+	regDefId -> 74
+	LexAlt -> 75
+	LexTerm -> 76
+	. -> 77
+	char_lit -> 78
+	~ -> 79
+	( -> 80
+	[ -> 81
+	{ -> 82
+	LexPattern -> 120
+
+
+S83{
+	LexProduction : regDefId : LexPattern ;• «g_sdt_lit»
+	LexProduction : regDefId : LexPattern ;• «prodId»
+	LexProduction : regDefId : LexPattern ;• «Ω<EOF>»
+	LexProduction : regDefId : LexPattern ;• «ignoredTokId»
+	LexProduction : regDefId : LexPattern ;• «regDefId»
+	LexProduction : regDefId : LexPattern ;• «tokId»
+}
+Transitions:
+
+
+S84{
+	LexProduction : ignoredTokId : LexPattern ;• «g_sdt_lit»
+	LexProduction : ignoredTokId : LexPattern ;• «prodId»
+	LexProduction : ignoredTokId : LexPattern ;• «Ω<EOF>»
+	LexProduction : ignoredTokId : LexPattern ;• «ignoredTokId»
+	LexProduction : ignoredTokId : LexPattern ;• «regDefId»
+	LexProduction : ignoredTokId : LexPattern ;• «tokId»
+}
+Transitions:
+
+
+S85{
+	SyntaxProduction : prodId : Alternatives ;• «Ω<EOF>»
+	SyntaxProduction : prodId : Alternatives ;• «prodId»
+}
+Transitions:
+
+
+S86{
+	Alternatives : Alternatives | •SyntaxBody «;»
+	Alternatives : Alternatives | •SyntaxBody «|»
+	SyntaxBody : •Symbols «;»
+	SyntaxBody : •Symbols g_sdt_lit «;»
+	SyntaxBody : •ErrorSymbol «;»
+	SyntaxBody : •ErrorSymbol Symbols «;»
+	SyntaxBody : •ErrorSymbol Symbols g_sdt_lit «;»
+	SyntaxBody : •ErrorSymbol g_sdt_lit «;»
+	SyntaxBody : •EpsilonSymbol «;»
+	SyntaxBody : •Symbols «|»
+	SyntaxBody : •Symbols g_sdt_lit «|»
+	SyntaxBody : •ErrorSymbol «|»
+	SyntaxBody : •ErrorSymbol Symbols «|»
+	SyntaxBody : •ErrorSymbol Symbols g_sdt_lit «|»
+	SyntaxBody : •ErrorSymbol g_sdt_lit «|»
+	SyntaxBody : •EpsilonSymbol «|»
+	Symbols : •Symbol «;»
+	Symbols : •Symbols Symbol «;»
+	Symbols : •Symbol «g_sdt_lit»
+	Symbols : •Symbols Symbol «g_sdt_lit»
+	ErrorSymbol : •errore «;»
+	ErrorSymbol : •λ «;»
+	ErrorSymbol : •errore «prodId»
+	ErrorSymbol : •errore «string_lit»
+	ErrorSymbol : •errore «tokId»
+	ErrorSymbol : •λ «prodId»
+	ErrorSymbol : •λ «string_lit»
+	ErrorSymbol : •λ «tokId»
+	ErrorSymbol : •errore «g_sdt_lit»
+	ErrorSymbol : •λ «g_sdt_lit»
+	EpsilonSymbol : •empty «;»
+	EpsilonSymbol : •ε «;»
+	Symbols : •Symbol «|»
+	Symbols : •Symbols Symbol «|»
+	ErrorSymbol : •errore «|»
+	ErrorSymbol : •λ «|»
+	EpsilonSymbol : •empty «|»
+	EpsilonSymbol : •ε «|»
+	Symbol : •prodId «;»
+	Symbol : •tokId «;»
+	Symbol : •string_lit «;»
+	Symbols : •Symbol «prodId»
+	Symbols : •Symbol «string_lit»
+	Symbols : •Symbol «tokId»
+	Symbols : •Symbols Symbol «prodId»
+	Symbols : •Symbols Symbol «string_lit»
+	Symbols : •Symbols Symbol «tokId»
+	Symbol : •prodId «g_sdt_lit»
+	Symbol : •tokId «g_sdt_lit»
+	Symbol : •string_lit «g_sdt_lit»
+	Symbol : •prodId «|»
+	Symbol : •tokId «|»
+	Symbol : •string_lit «|»
+	Symbol : •prodId «prodId»
+	Symbol : •tokId «prodId»
+	Symbol : •string_lit «prodId»
+	Symbol : •prodId «string_lit»
+	Symbol : •tokId «string_lit»
+	Symbol : •string_lit «string_lit»
+	Symbol : •prodId «tokId»
+	Symbol : •tokId «tokId»
+	Symbol : •string_lit «tokId»
+}
+Transitions:
+	tokId -> 34
+	prodId -> 35
+	Symbols -> 38
+	ErrorSymbol -> 39
+	EpsilonSymbol -> 40
+	Symbol -> 41
+	string_lit -> 42
+	errore -> 43
+	λ -> 44
+	empty -> 45
+	ε -> 46
+	SyntaxBody -> 121
+
+
+S87{
+	SyntaxBody : Symbols g_sdt_lit• «;»
+	SyntaxBody : Symbols g_sdt_lit• «|»
+}
+Transitions:
+
+
+S88{
+	Symbols : Symbols Symbol• «;»
+	Symbols : Symbols Symbol• «g_sdt_lit»
+	Symbols : Symbols Symbol• «prodId»
+	Symbols : Symbols Symbol• «string_lit»
+	Symbols : Symbols Symbol• «tokId»
+	Symbols : Symbols Symbol• «|»
+}
+Transitions:
+
+
+S89{
+	SyntaxBody : ErrorSymbol g_sdt_lit• «;»
+	SyntaxBody : ErrorSymbol g_sdt_lit• «|»
+}
+Transitions:
+
+
+S90{
+	SyntaxBody : ErrorSymbol Symbols• «;»
+	SyntaxBody : ErrorSymbol Symbols •g_sdt_lit «;»
+	SyntaxBody : ErrorSymbol Symbols• «|»
+	SyntaxBody : ErrorSymbol Symbols •g_sdt_lit «|»
+	Symbols : Symbols •Symbol «;»
+	Symbols : Symbols •Symbol «g_sdt_lit»
+	Symbols : Symbols •Symbol «|»
+	Symbols : Symbols •Symbol «prodId»
+	Symbols : Symbols •Symbol «string_lit»
+	Symbols : Symbols •Symbol «tokId»
+	Symbol : •prodId «;»
+	Symbol : •tokId «;»
+	Symbol : •string_lit «;»
+	Symbol : •prodId «g_sdt_lit»
+	Symbol : •tokId «g_sdt_lit»
+	Symbol : •string_lit «g_sdt_lit»
+	Symbol : •prodId «|»
+	Symbol : •tokId «|»
+	Symbol : •string_lit «|»
+	Symbol : •prodId «prodId»
+	Symbol : •tokId «prodId»
+	Symbol : •string_lit «prodId»
+	Symbol : •prodId «string_lit»
+	Symbol : •tokId «string_lit»
+	Symbol : •string_lit «string_lit»
+	Symbol : •prodId «tokId»
+	Symbol : •tokId «tokId»
+	Symbol : •string_lit «tokId»
+}
+Transitions:
+	tokId -> 34
+	prodId -> 35
+	string_lit -> 42
+	Symbol -> 88
+	g_sdt_lit -> 122
+
+
+S91{
+	LexPattern : LexPattern | LexAlt• «;»
+	LexPattern : LexPattern | LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «;»
+	LexAlt : LexAlt •LexTerm «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexTerm : •. «;»
+	LexTerm : •char_lit «;»
+	LexTerm : •char_lit - char_lit «;»
+	LexTerm : •~ char_lit «;»
+	LexTerm : •~ ( char_lit - char_lit ) «;»
+	LexTerm : •regDefId «;»
+	LexTerm : •[ LexPattern ] «;»
+	LexTerm : •{ LexPattern } «;»
+	LexTerm : •( LexPattern ) «;»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 23
+	. -> 26
+	char_lit -> 27
+	~ -> 28
+	( -> 29
+	[ -> 30
+	{ -> 31
+	LexTerm -> 49
+
+
+S92{
+	LexTerm : char_lit - char_lit• «;»
+	LexTerm : char_lit - char_lit• «(»
+	LexTerm : char_lit - char_lit• «.»
+	LexTerm : char_lit - char_lit• «[»
+	LexTerm : char_lit - char_lit• «char_lit»
+	LexTerm : char_lit - char_lit• «regDefId»
+	LexTerm : char_lit - char_lit• «{»
+	LexTerm : char_lit - char_lit• «~»
+	LexTerm : char_lit - char_lit• «|»
+}
+Transitions:
+
+
+S93{
+	LexTerm : ~ ( char_lit •- char_lit ) «;»
+	LexTerm : ~ ( char_lit •- char_lit ) «(»
+	LexTerm : ~ ( char_lit •- char_lit ) «.»
+	LexTerm : ~ ( char_lit •- char_lit ) «[»
+	LexTerm : ~ ( char_lit •- char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit •- char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit •- char_lit ) «{»
+	LexTerm : ~ ( char_lit •- char_lit ) «~»
+	LexTerm : ~ ( char_lit •- char_lit ) «|»
+}
+Transitions:
+	- -> 123
+
+
+S94{
+	LexPattern : LexPattern | •LexAlt «)»
+	LexPattern : LexPattern | •LexAlt «|»
+	LexAlt : •LexTerm «)»
+	LexAlt : •LexAlt LexTerm «)»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «)»
+	LexTerm : •char_lit «)»
+	LexTerm : •char_lit - char_lit «)»
+	LexTerm : •~ char_lit «)»
+	LexTerm : •~ ( char_lit - char_lit ) «)»
+	LexTerm : •regDefId «)»
+	LexTerm : •[ LexPattern ] «)»
+	LexTerm : •{ LexPattern } «)»
+	LexTerm : •( LexPattern ) «)»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 54
+	LexTerm -> 56
+	. -> 57
+	char_lit -> 58
+	~ -> 59
+	( -> 60
+	[ -> 61
+	{ -> 62
+	LexAlt -> 124
+
+
+S95{
+	LexTerm : ( LexPattern )• «;»
+	LexTerm : ( LexPattern )• «(»
+	LexTerm : ( LexPattern )• «.»
+	LexTerm : ( LexPattern )• «[»
+	LexTerm : ( LexPattern )• «char_lit»
+	LexTerm : ( LexPattern )• «regDefId»
+	LexTerm : ( LexPattern )• «{»
+	LexTerm : ( LexPattern )• «~»
+	LexTerm : ( LexPattern )• «|»
+}
+Transitions:
+
+
+S96{
+	LexAlt : LexAlt LexTerm• «)»
+	LexAlt : LexAlt LexTerm• «(»
+	LexAlt : LexAlt LexTerm• «.»
+	LexAlt : LexAlt LexTerm• «[»
+	LexAlt : LexAlt LexTerm• «char_lit»
+	LexAlt : LexAlt LexTerm• «regDefId»
+	LexAlt : LexAlt LexTerm• «{»
+	LexAlt : LexAlt LexTerm• «~»
+	LexAlt : LexAlt LexTerm• «|»
+}
+Transitions:
+
+
+S97{
+	LexTerm : char_lit - •char_lit «)»
+	LexTerm : char_lit - •char_lit «(»
+	LexTerm : char_lit - •char_lit «.»
+	LexTerm : char_lit - •char_lit «[»
+	LexTerm : char_lit - •char_lit «char_lit»
+	LexTerm : char_lit - •char_lit «regDefId»
+	LexTerm : char_lit - •char_lit «{»
+	LexTerm : char_lit - •char_lit «~»
+	LexTerm : char_lit - •char_lit «|»
+}
+Transitions:
+	char_lit -> 125
+
+
+S98{
+	LexTerm : ~ char_lit• «)»
+	LexTerm : ~ char_lit• «(»
+	LexTerm : ~ char_lit• «.»
+	LexTerm : ~ char_lit• «[»
+	LexTerm : ~ char_lit• «char_lit»
+	LexTerm : ~ char_lit• «regDefId»
+	LexTerm : ~ char_lit• «{»
+	LexTerm : ~ char_lit• «~»
+	LexTerm : ~ char_lit• «|»
+}
+Transitions:
+
+
+S99{
+	LexTerm : ~ ( •char_lit - char_lit ) «)»
+	LexTerm : ~ ( •char_lit - char_lit ) «(»
+	LexTerm : ~ ( •char_lit - char_lit ) «.»
+	LexTerm : ~ ( •char_lit - char_lit ) «[»
+	LexTerm : ~ ( •char_lit - char_lit ) «char_lit»
+	LexTerm : ~ ( •char_lit - char_lit ) «regDefId»
+	LexTerm : ~ ( •char_lit - char_lit ) «{»
+	LexTerm : ~ ( •char_lit - char_lit ) «~»
+	LexTerm : ~ ( •char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 126
+
+
+S100{
+	LexTerm : ( LexPattern •) «)»
+	LexTerm : ( LexPattern •) «(»
+	LexTerm : ( LexPattern •) «.»
+	LexTerm : ( LexPattern •) «[»
+	LexTerm : ( LexPattern •) «char_lit»
+	LexTerm : ( LexPattern •) «regDefId»
+	LexTerm : ( LexPattern •) «{»
+	LexTerm : ( LexPattern •) «~»
+	LexTerm : ( LexPattern •) «|»
+	LexPattern : LexPattern •| LexAlt «)»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 94
+	) -> 127
+
+
+S101{
+	LexTerm : [ LexPattern •] «)»
+	LexTerm : [ LexPattern •] «(»
+	LexTerm : [ LexPattern •] «.»
+	LexTerm : [ LexPattern •] «[»
+	LexTerm : [ LexPattern •] «char_lit»
+	LexTerm : [ LexPattern •] «regDefId»
+	LexTerm : [ LexPattern •] «{»
+	LexTerm : [ LexPattern •] «~»
+	LexTerm : [ LexPattern •] «|»
+	LexPattern : LexPattern •| LexAlt «]»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 103
+	] -> 128
+
+
+S102{
+	LexTerm : { LexPattern •} «)»
+	LexTerm : { LexPattern •} «(»
+	LexTerm : { LexPattern •} «.»
+	LexTerm : { LexPattern •} «[»
+	LexTerm : { LexPattern •} «char_lit»
+	LexTerm : { LexPattern •} «regDefId»
+	LexTerm : { LexPattern •} «{»
+	LexTerm : { LexPattern •} «~»
+	LexTerm : { LexPattern •} «|»
+	LexPattern : LexPattern •| LexAlt «}»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 112
+	} -> 129
+
+
+S103{
+	LexPattern : LexPattern | •LexAlt «]»
+	LexPattern : LexPattern | •LexAlt «|»
+	LexAlt : •LexTerm «]»
+	LexAlt : •LexAlt LexTerm «]»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «]»
+	LexTerm : •char_lit «]»
+	LexTerm : •char_lit - char_lit «]»
+	LexTerm : •~ char_lit «]»
+	LexTerm : •~ ( char_lit - char_lit ) «]»
+	LexTerm : •regDefId «]»
+	LexTerm : •[ LexPattern ] «]»
+	LexTerm : •{ LexPattern } «]»
+	LexTerm : •( LexPattern ) «]»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 64
+	LexTerm -> 66
+	. -> 67
+	char_lit -> 68
+	~ -> 69
+	( -> 70
+	[ -> 71
+	{ -> 72
+	LexAlt -> 130
+
+
+S104{
+	LexTerm : [ LexPattern ]• «;»
+	LexTerm : [ LexPattern ]• «(»
+	LexTerm : [ LexPattern ]• «.»
+	LexTerm : [ LexPattern ]• «[»
+	LexTerm : [ LexPattern ]• «char_lit»
+	LexTerm : [ LexPattern ]• «regDefId»
+	LexTerm : [ LexPattern ]• «{»
+	LexTerm : [ LexPattern ]• «~»
+	LexTerm : [ LexPattern ]• «|»
+}
+Transitions:
+
+
+S105{
+	LexAlt : LexAlt LexTerm• «]»
+	LexAlt : LexAlt LexTerm• «(»
+	LexAlt : LexAlt LexTerm• «.»
+	LexAlt : LexAlt LexTerm• «[»
+	LexAlt : LexAlt LexTerm• «char_lit»
+	LexAlt : LexAlt LexTerm• «regDefId»
+	LexAlt : LexAlt LexTerm• «{»
+	LexAlt : LexAlt LexTerm• «~»
+	LexAlt : LexAlt LexTerm• «|»
+}
+Transitions:
+
+
+S106{
+	LexTerm : char_lit - •char_lit «]»
+	LexTerm : char_lit - •char_lit «(»
+	LexTerm : char_lit - •char_lit «.»
+	LexTerm : char_lit - •char_lit «[»
+	LexTerm : char_lit - •char_lit «char_lit»
+	LexTerm : char_lit - •char_lit «regDefId»
+	LexTerm : char_lit - •char_lit «{»
+	LexTerm : char_lit - •char_lit «~»
+	LexTerm : char_lit - •char_lit «|»
+}
+Transitions:
+	char_lit -> 131
+
+
+S107{
+	LexTerm : ~ char_lit• «]»
+	LexTerm : ~ char_lit• «(»
+	LexTerm : ~ char_lit• «.»
+	LexTerm : ~ char_lit• «[»
+	LexTerm : ~ char_lit• «char_lit»
+	LexTerm : ~ char_lit• «regDefId»
+	LexTerm : ~ char_lit• «{»
+	LexTerm : ~ char_lit• «~»
+	LexTerm : ~ char_lit• «|»
+}
+Transitions:
+
+
+S108{
+	LexTerm : ~ ( •char_lit - char_lit ) «]»
+	LexTerm : ~ ( •char_lit - char_lit ) «(»
+	LexTerm : ~ ( •char_lit - char_lit ) «.»
+	LexTerm : ~ ( •char_lit - char_lit ) «[»
+	LexTerm : ~ ( •char_lit - char_lit ) «char_lit»
+	LexTerm : ~ ( •char_lit - char_lit ) «regDefId»
+	LexTerm : ~ ( •char_lit - char_lit ) «{»
+	LexTerm : ~ ( •char_lit - char_lit ) «~»
+	LexTerm : ~ ( •char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 132
+
+
+S109{
+	LexTerm : ( LexPattern •) «]»
+	LexTerm : ( LexPattern •) «(»
+	LexTerm : ( LexPattern •) «.»
+	LexTerm : ( LexPattern •) «[»
+	LexTerm : ( LexPattern •) «char_lit»
+	LexTerm : ( LexPattern •) «regDefId»
+	LexTerm : ( LexPattern •) «{»
+	LexTerm : ( LexPattern •) «~»
+	LexTerm : ( LexPattern •) «|»
+	LexPattern : LexPattern •| LexAlt «)»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 94
+	) -> 133
+
+
+S110{
+	LexTerm : [ LexPattern •] «]»
+	LexTerm : [ LexPattern •] «(»
+	LexTerm : [ LexPattern •] «.»
+	LexTerm : [ LexPattern •] «[»
+	LexTerm : [ LexPattern •] «char_lit»
+	LexTerm : [ LexPattern •] «regDefId»
+	LexTerm : [ LexPattern •] «{»
+	LexTerm : [ LexPattern •] «~»
+	LexTerm : [ LexPattern •] «|»
+	LexPattern : LexPattern •| LexAlt «]»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 103
+	] -> 134
+
+
+S111{
+	LexTerm : { LexPattern •} «]»
+	LexTerm : { LexPattern •} «(»
+	LexTerm : { LexPattern •} «.»
+	LexTerm : { LexPattern •} «[»
+	LexTerm : { LexPattern •} «char_lit»
+	LexTerm : { LexPattern •} «regDefId»
+	LexTerm : { LexPattern •} «{»
+	LexTerm : { LexPattern •} «~»
+	LexTerm : { LexPattern •} «|»
+	LexPattern : LexPattern •| LexAlt «}»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 112
+	} -> 135
+
+
+S112{
+	LexPattern : LexPattern | •LexAlt «}»
+	LexPattern : LexPattern | •LexAlt «|»
+	LexAlt : •LexTerm «}»
+	LexAlt : •LexAlt LexTerm «}»
+	LexAlt : •LexTerm «|»
+	LexAlt : •LexAlt LexTerm «|»
+	LexTerm : •. «}»
+	LexTerm : •char_lit «}»
+	LexTerm : •char_lit - char_lit «}»
+	LexTerm : •~ char_lit «}»
+	LexTerm : •~ ( char_lit - char_lit ) «}»
+	LexTerm : •regDefId «}»
+	LexTerm : •[ LexPattern ] «}»
+	LexTerm : •{ LexPattern } «}»
+	LexTerm : •( LexPattern ) «}»
+	LexAlt : •LexTerm «(»
+	LexAlt : •LexTerm «.»
+	LexAlt : •LexTerm «[»
+	LexAlt : •LexTerm «char_lit»
+	LexAlt : •LexTerm «regDefId»
+	LexAlt : •LexTerm «{»
+	LexAlt : •LexTerm «~»
+	LexAlt : •LexAlt LexTerm «(»
+	LexAlt : •LexAlt LexTerm «.»
+	LexAlt : •LexAlt LexTerm «[»
+	LexAlt : •LexAlt LexTerm «char_lit»
+	LexAlt : •LexAlt LexTerm «regDefId»
+	LexAlt : •LexAlt LexTerm «{»
+	LexAlt : •LexAlt LexTerm «~»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 74
+	LexTerm -> 76
+	. -> 77
+	char_lit -> 78
+	~ -> 79
+	( -> 80
+	[ -> 81
+	{ -> 82
+	LexAlt -> 136
+
+
+S113{
+	LexTerm : { LexPattern }• «;»
+	LexTerm : { LexPattern }• «(»
+	LexTerm : { LexPattern }• «.»
+	LexTerm : { LexPattern }• «[»
+	LexTerm : { LexPattern }• «char_lit»
+	LexTerm : { LexPattern }• «regDefId»
+	LexTerm : { LexPattern }• «{»
+	LexTerm : { LexPattern }• «~»
+	LexTerm : { LexPattern }• «|»
+}
+Transitions:
+
+
+S114{
+	LexAlt : LexAlt LexTerm• «}»
+	LexAlt : LexAlt LexTerm• «(»
+	LexAlt : LexAlt LexTerm• «.»
+	LexAlt : LexAlt LexTerm• «[»
+	LexAlt : LexAlt LexTerm• «char_lit»
+	LexAlt : LexAlt LexTerm• «regDefId»
+	LexAlt : LexAlt LexTerm• «{»
+	LexAlt : LexAlt LexTerm• «~»
+	LexAlt : LexAlt LexTerm• «|»
+}
+Transitions:
+
+
+S115{
+	LexTerm : char_lit - •char_lit «}»
+	LexTerm : char_lit - •char_lit «(»
+	LexTerm : char_lit - •char_lit «.»
+	LexTerm : char_lit - •char_lit «[»
+	LexTerm : char_lit - •char_lit «char_lit»
+	LexTerm : char_lit - •char_lit «regDefId»
+	LexTerm : char_lit - •char_lit «{»
+	LexTerm : char_lit - •char_lit «~»
+	LexTerm : char_lit - •char_lit «|»
+}
+Transitions:
+	char_lit -> 137
+
+
+S116{
+	LexTerm : ~ char_lit• «}»
+	LexTerm : ~ char_lit• «(»
+	LexTerm : ~ char_lit• «.»
+	LexTerm : ~ char_lit• «[»
+	LexTerm : ~ char_lit• «char_lit»
+	LexTerm : ~ char_lit• «regDefId»
+	LexTerm : ~ char_lit• «{»
+	LexTerm : ~ char_lit• «~»
+	LexTerm : ~ char_lit• «|»
+}
+Transitions:
+
+
+S117{
+	LexTerm : ~ ( •char_lit - char_lit ) «}»
+	LexTerm : ~ ( •char_lit - char_lit ) «(»
+	LexTerm : ~ ( •char_lit - char_lit ) «.»
+	LexTerm : ~ ( •char_lit - char_lit ) «[»
+	LexTerm : ~ ( •char_lit - char_lit ) «char_lit»
+	LexTerm : ~ ( •char_lit - char_lit ) «regDefId»
+	LexTerm : ~ ( •char_lit - char_lit ) «{»
+	LexTerm : ~ ( •char_lit - char_lit ) «~»
+	LexTerm : ~ ( •char_lit - char_lit ) «|»
+}
+Transitions:
+	char_lit -> 138
+
+
+S118{
+	LexTerm : ( LexPattern •) «}»
+	LexTerm : ( LexPattern •) «(»
+	LexTerm : ( LexPattern •) «.»
+	LexTerm : ( LexPattern •) «[»
+	LexTerm : ( LexPattern •) «char_lit»
+	LexTerm : ( LexPattern •) «regDefId»
+	LexTerm : ( LexPattern •) «{»
+	LexTerm : ( LexPattern •) «~»
+	LexTerm : ( LexPattern •) «|»
+	LexPattern : LexPattern •| LexAlt «)»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 94
+	) -> 139
+
+
+S119{
+	LexTerm : [ LexPattern •] «}»
+	LexTerm : [ LexPattern •] «(»
+	LexTerm : [ LexPattern •] «.»
+	LexTerm : [ LexPattern •] «[»
+	LexTerm : [ LexPattern •] «char_lit»
+	LexTerm : [ LexPattern •] «regDefId»
+	LexTerm : [ LexPattern •] «{»
+	LexTerm : [ LexPattern •] «~»
+	LexTerm : [ LexPattern •] «|»
+	LexPattern : LexPattern •| LexAlt «]»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 103
+	] -> 140
+
+
+S120{
+	LexTerm : { LexPattern •} «}»
+	LexTerm : { LexPattern •} «(»
+	LexTerm : { LexPattern •} «.»
+	LexTerm : { LexPattern •} «[»
+	LexTerm : { LexPattern •} «char_lit»
+	LexTerm : { LexPattern •} «regDefId»
+	LexTerm : { LexPattern •} «{»
+	LexTerm : { LexPattern •} «~»
+	LexTerm : { LexPattern •} «|»
+	LexPattern : LexPattern •| LexAlt «}»
+	LexPattern : LexPattern •| LexAlt «|»
+}
+Transitions:
+	| -> 112
+	} -> 141
+
+
+S121{
+	Alternatives : Alternatives | SyntaxBody• «;»
+	Alternatives : Alternatives | SyntaxBody• «|»
+}
+Transitions:
+
+
+S122{
+	SyntaxBody : ErrorSymbol Symbols g_sdt_lit• «;»
+	SyntaxBody : ErrorSymbol Symbols g_sdt_lit• «|»
+}
+Transitions:
+
+
+S123{
+	LexTerm : ~ ( char_lit - •char_lit ) «;»
+	LexTerm : ~ ( char_lit - •char_lit ) «(»
+	LexTerm : ~ ( char_lit - •char_lit ) «.»
+	LexTerm : ~ ( char_lit - •char_lit ) «[»
+	LexTerm : ~ ( char_lit - •char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit - •char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit - •char_lit ) «{»
+	LexTerm : ~ ( char_lit - •char_lit ) «~»
+	LexTerm : ~ ( char_lit - •char_lit ) «|»
+}
+Transitions:
+	char_lit -> 142
+
+
+S124{
+	LexPattern : LexPattern | LexAlt• «)»
+	LexPattern : LexPattern | LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «)»
+	LexAlt : LexAlt •LexTerm «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexTerm : •. «)»
+	LexTerm : •char_lit «)»
+	LexTerm : •char_lit - char_lit «)»
+	LexTerm : •~ char_lit «)»
+	LexTerm : •~ ( char_lit - char_lit ) «)»
+	LexTerm : •regDefId «)»
+	LexTerm : •[ LexPattern ] «)»
+	LexTerm : •{ LexPattern } «)»
+	LexTerm : •( LexPattern ) «)»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 54
+	. -> 57
+	char_lit -> 58
+	~ -> 59
+	( -> 60
+	[ -> 61
+	{ -> 62
+	LexTerm -> 96
+
+
+S125{
+	LexTerm : char_lit - char_lit• «)»
+	LexTerm : char_lit - char_lit• «(»
+	LexTerm : char_lit - char_lit• «.»
+	LexTerm : char_lit - char_lit• «[»
+	LexTerm : char_lit - char_lit• «char_lit»
+	LexTerm : char_lit - char_lit• «regDefId»
+	LexTerm : char_lit - char_lit• «{»
+	LexTerm : char_lit - char_lit• «~»
+	LexTerm : char_lit - char_lit• «|»
+}
+Transitions:
+
+
+S126{
+	LexTerm : ~ ( char_lit •- char_lit ) «)»
+	LexTerm : ~ ( char_lit •- char_lit ) «(»
+	LexTerm : ~ ( char_lit •- char_lit ) «.»
+	LexTerm : ~ ( char_lit •- char_lit ) «[»
+	LexTerm : ~ ( char_lit •- char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit •- char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit •- char_lit ) «{»
+	LexTerm : ~ ( char_lit •- char_lit ) «~»
+	LexTerm : ~ ( char_lit •- char_lit ) «|»
+}
+Transitions:
+	- -> 143
+
+
+S127{
+	LexTerm : ( LexPattern )• «)»
+	LexTerm : ( LexPattern )• «(»
+	LexTerm : ( LexPattern )• «.»
+	LexTerm : ( LexPattern )• «[»
+	LexTerm : ( LexPattern )• «char_lit»
+	LexTerm : ( LexPattern )• «regDefId»
+	LexTerm : ( LexPattern )• «{»
+	LexTerm : ( LexPattern )• «~»
+	LexTerm : ( LexPattern )• «|»
+}
+Transitions:
+
+
+S128{
+	LexTerm : [ LexPattern ]• «)»
+	LexTerm : [ LexPattern ]• «(»
+	LexTerm : [ LexPattern ]• «.»
+	LexTerm : [ LexPattern ]• «[»
+	LexTerm : [ LexPattern ]• «char_lit»
+	LexTerm : [ LexPattern ]• «regDefId»
+	LexTerm : [ LexPattern ]• «{»
+	LexTerm : [ LexPattern ]• «~»
+	LexTerm : [ LexPattern ]• «|»
+}
+Transitions:
+
+
+S129{
+	LexTerm : { LexPattern }• «)»
+	LexTerm : { LexPattern }• «(»
+	LexTerm : { LexPattern }• «.»
+	LexTerm : { LexPattern }• «[»
+	LexTerm : { LexPattern }• «char_lit»
+	LexTerm : { LexPattern }• «regDefId»
+	LexTerm : { LexPattern }• «{»
+	LexTerm : { LexPattern }• «~»
+	LexTerm : { LexPattern }• «|»
+}
+Transitions:
+
+
+S130{
+	LexPattern : LexPattern | LexAlt• «]»
+	LexPattern : LexPattern | LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «]»
+	LexAlt : LexAlt •LexTerm «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexTerm : •. «]»
+	LexTerm : •char_lit «]»
+	LexTerm : •char_lit - char_lit «]»
+	LexTerm : •~ char_lit «]»
+	LexTerm : •~ ( char_lit - char_lit ) «]»
+	LexTerm : •regDefId «]»
+	LexTerm : •[ LexPattern ] «]»
+	LexTerm : •{ LexPattern } «]»
+	LexTerm : •( LexPattern ) «]»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 64
+	. -> 67
+	char_lit -> 68
+	~ -> 69
+	( -> 70
+	[ -> 71
+	{ -> 72
+	LexTerm -> 105
+
+
+S131{
+	LexTerm : char_lit - char_lit• «]»
+	LexTerm : char_lit - char_lit• «(»
+	LexTerm : char_lit - char_lit• «.»
+	LexTerm : char_lit - char_lit• «[»
+	LexTerm : char_lit - char_lit• «char_lit»
+	LexTerm : char_lit - char_lit• «regDefId»
+	LexTerm : char_lit - char_lit• «{»
+	LexTerm : char_lit - char_lit• «~»
+	LexTerm : char_lit - char_lit• «|»
+}
+Transitions:
+
+
+S132{
+	LexTerm : ~ ( char_lit •- char_lit ) «]»
+	LexTerm : ~ ( char_lit •- char_lit ) «(»
+	LexTerm : ~ ( char_lit •- char_lit ) «.»
+	LexTerm : ~ ( char_lit •- char_lit ) «[»
+	LexTerm : ~ ( char_lit •- char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit •- char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit •- char_lit ) «{»
+	LexTerm : ~ ( char_lit •- char_lit ) «~»
+	LexTerm : ~ ( char_lit •- char_lit ) «|»
+}
+Transitions:
+	- -> 144
+
+
+S133{
+	LexTerm : ( LexPattern )• «]»
+	LexTerm : ( LexPattern )• «(»
+	LexTerm : ( LexPattern )• «.»
+	LexTerm : ( LexPattern )• «[»
+	LexTerm : ( LexPattern )• «char_lit»
+	LexTerm : ( LexPattern )• «regDefId»
+	LexTerm : ( LexPattern )• «{»
+	LexTerm : ( LexPattern )• «~»
+	LexTerm : ( LexPattern )• «|»
+}
+Transitions:
+
+
+S134{
+	LexTerm : [ LexPattern ]• «]»
+	LexTerm : [ LexPattern ]• «(»
+	LexTerm : [ LexPattern ]• «.»
+	LexTerm : [ LexPattern ]• «[»
+	LexTerm : [ LexPattern ]• «char_lit»
+	LexTerm : [ LexPattern ]• «regDefId»
+	LexTerm : [ LexPattern ]• «{»
+	LexTerm : [ LexPattern ]• «~»
+	LexTerm : [ LexPattern ]• «|»
+}
+Transitions:
+
+
+S135{
+	LexTerm : { LexPattern }• «]»
+	LexTerm : { LexPattern }• «(»
+	LexTerm : { LexPattern }• «.»
+	LexTerm : { LexPattern }• «[»
+	LexTerm : { LexPattern }• «char_lit»
+	LexTerm : { LexPattern }• «regDefId»
+	LexTerm : { LexPattern }• «{»
+	LexTerm : { LexPattern }• «~»
+	LexTerm : { LexPattern }• «|»
+}
+Transitions:
+
+
+S136{
+	LexPattern : LexPattern | LexAlt• «}»
+	LexPattern : LexPattern | LexAlt• «|»
+	LexAlt : LexAlt •LexTerm «}»
+	LexAlt : LexAlt •LexTerm «|»
+	LexAlt : LexAlt •LexTerm «(»
+	LexAlt : LexAlt •LexTerm «.»
+	LexAlt : LexAlt •LexTerm «[»
+	LexAlt : LexAlt •LexTerm «char_lit»
+	LexAlt : LexAlt •LexTerm «regDefId»
+	LexAlt : LexAlt •LexTerm «{»
+	LexAlt : LexAlt •LexTerm «~»
+	LexTerm : •. «}»
+	LexTerm : •char_lit «}»
+	LexTerm : •char_lit - char_lit «}»
+	LexTerm : •~ char_lit «}»
+	LexTerm : •~ ( char_lit - char_lit ) «}»
+	LexTerm : •regDefId «}»
+	LexTerm : •[ LexPattern ] «}»
+	LexTerm : •{ LexPattern } «}»
+	LexTerm : •( LexPattern ) «}»
+	LexTerm : •. «|»
+	LexTerm : •char_lit «|»
+	LexTerm : •char_lit - char_lit «|»
+	LexTerm : •~ char_lit «|»
+	LexTerm : •~ ( char_lit - char_lit ) «|»
+	LexTerm : •regDefId «|»
+	LexTerm : •[ LexPattern ] «|»
+	LexTerm : •{ LexPattern } «|»
+	LexTerm : •( LexPattern ) «|»
+	LexTerm : •. «(»
+	LexTerm : •char_lit «(»
+	LexTerm : •char_lit - char_lit «(»
+	LexTerm : •~ char_lit «(»
+	LexTerm : •~ ( char_lit - char_lit ) «(»
+	LexTerm : •regDefId «(»
+	LexTerm : •[ LexPattern ] «(»
+	LexTerm : •{ LexPattern } «(»
+	LexTerm : •( LexPattern ) «(»
+	LexTerm : •. «.»
+	LexTerm : •char_lit «.»
+	LexTerm : •char_lit - char_lit «.»
+	LexTerm : •~ char_lit «.»
+	LexTerm : •~ ( char_lit - char_lit ) «.»
+	LexTerm : •regDefId «.»
+	LexTerm : •[ LexPattern ] «.»
+	LexTerm : •{ LexPattern } «.»
+	LexTerm : •( LexPattern ) «.»
+	LexTerm : •. «[»
+	LexTerm : •char_lit «[»
+	LexTerm : •char_lit - char_lit «[»
+	LexTerm : •~ char_lit «[»
+	LexTerm : •~ ( char_lit - char_lit ) «[»
+	LexTerm : •regDefId «[»
+	LexTerm : •[ LexPattern ] «[»
+	LexTerm : •{ LexPattern } «[»
+	LexTerm : •( LexPattern ) «[»
+	LexTerm : •. «char_lit»
+	LexTerm : •char_lit «char_lit»
+	LexTerm : •char_lit - char_lit «char_lit»
+	LexTerm : •~ char_lit «char_lit»
+	LexTerm : •~ ( char_lit - char_lit ) «char_lit»
+	LexTerm : •regDefId «char_lit»
+	LexTerm : •[ LexPattern ] «char_lit»
+	LexTerm : •{ LexPattern } «char_lit»
+	LexTerm : •( LexPattern ) «char_lit»
+	LexTerm : •. «regDefId»
+	LexTerm : •char_lit «regDefId»
+	LexTerm : •char_lit - char_lit «regDefId»
+	LexTerm : •~ char_lit «regDefId»
+	LexTerm : •~ ( char_lit - char_lit ) «regDefId»
+	LexTerm : •regDefId «regDefId»
+	LexTerm : •[ LexPattern ] «regDefId»
+	LexTerm : •{ LexPattern } «regDefId»
+	LexTerm : •( LexPattern ) «regDefId»
+	LexTerm : •. «{»
+	LexTerm : •char_lit «{»
+	LexTerm : •char_lit - char_lit «{»
+	LexTerm : •~ char_lit «{»
+	LexTerm : •~ ( char_lit - char_lit ) «{»
+	LexTerm : •regDefId «{»
+	LexTerm : •[ LexPattern ] «{»
+	LexTerm : •{ LexPattern } «{»
+	LexTerm : •( LexPattern ) «{»
+	LexTerm : •. «~»
+	LexTerm : •char_lit «~»
+	LexTerm : •char_lit - char_lit «~»
+	LexTerm : •~ char_lit «~»
+	LexTerm : •~ ( char_lit - char_lit ) «~»
+	LexTerm : •regDefId «~»
+	LexTerm : •[ LexPattern ] «~»
+	LexTerm : •{ LexPattern } «~»
+	LexTerm : •( LexPattern ) «~»
+}
+Transitions:
+	regDefId -> 74
+	. -> 77
+	char_lit -> 78
+	~ -> 79
+	( -> 80
+	[ -> 81
+	{ -> 82
+	LexTerm -> 114
+
+
+S137{
+	LexTerm : char_lit - char_lit• «}»
+	LexTerm : char_lit - char_lit• «(»
+	LexTerm : char_lit - char_lit• «.»
+	LexTerm : char_lit - char_lit• «[»
+	LexTerm : char_lit - char_lit• «char_lit»
+	LexTerm : char_lit - char_lit• «regDefId»
+	LexTerm : char_lit - char_lit• «{»
+	LexTerm : char_lit - char_lit• «~»
+	LexTerm : char_lit - char_lit• «|»
+}
+Transitions:
+
+
+S138{
+	LexTerm : ~ ( char_lit •- char_lit ) «}»
+	LexTerm : ~ ( char_lit •- char_lit ) «(»
+	LexTerm : ~ ( char_lit •- char_lit ) «.»
+	LexTerm : ~ ( char_lit •- char_lit ) «[»
+	LexTerm : ~ ( char_lit •- char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit •- char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit •- char_lit ) «{»
+	LexTerm : ~ ( char_lit •- char_lit ) «~»
+	LexTerm : ~ ( char_lit •- char_lit ) «|»
+}
+Transitions:
+	- -> 145
+
+
+S139{
+	LexTerm : ( LexPattern )• «}»
+	LexTerm : ( LexPattern )• «(»
+	LexTerm : ( LexPattern )• «.»
+	LexTerm : ( LexPattern )• «[»
+	LexTerm : ( LexPattern )• «char_lit»
+	LexTerm : ( LexPattern )• «regDefId»
+	LexTerm : ( LexPattern )• «{»
+	LexTerm : ( LexPattern )• «~»
+	LexTerm : ( LexPattern )• «|»
+}
+Transitions:
+
+
+S140{
+	LexTerm : [ LexPattern ]• «}»
+	LexTerm : [ LexPattern ]• «(»
+	LexTerm : [ LexPattern ]• «.»
+	LexTerm : [ LexPattern ]• «[»
+	LexTerm : [ LexPattern ]• «char_lit»
+	LexTerm : [ LexPattern ]• «regDefId»
+	LexTerm : [ LexPattern ]• «{»
+	LexTerm : [ LexPattern ]• «~»
+	LexTerm : [ LexPattern ]• «|»
+}
+Transitions:
+
+
+S141{
+	LexTerm : { LexPattern }• «}»
+	LexTerm : { LexPattern }• «(»
+	LexTerm : { LexPattern }• «.»
+	LexTerm : { LexPattern }• «[»
+	LexTerm : { LexPattern }• «char_lit»
+	LexTerm : { LexPattern }• «regDefId»
+	LexTerm : { LexPattern }• «{»
+	LexTerm : { LexPattern }• «~»
+	LexTerm : { LexPattern }• «|»
+}
+Transitions:
+
+
+S142{
+	LexTerm : ~ ( char_lit - char_lit •) «;»
+	LexTerm : ~ ( char_lit - char_lit •) «(»
+	LexTerm : ~ ( char_lit - char_lit •) «.»
+	LexTerm : ~ ( char_lit - char_lit •) «[»
+	LexTerm : ~ ( char_lit - char_lit •) «char_lit»
+	LexTerm : ~ ( char_lit - char_lit •) «regDefId»
+	LexTerm : ~ ( char_lit - char_lit •) «{»
+	LexTerm : ~ ( char_lit - char_lit •) «~»
+	LexTerm : ~ ( char_lit - char_lit •) «|»
+}
+Transitions:
+	) -> 146
+
+
+S143{
+	LexTerm : ~ ( char_lit - •char_lit ) «)»
+	LexTerm : ~ ( char_lit - •char_lit ) «(»
+	LexTerm : ~ ( char_lit - •char_lit ) «.»
+	LexTerm : ~ ( char_lit - •char_lit ) «[»
+	LexTerm : ~ ( char_lit - •char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit - •char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit - •char_lit ) «{»
+	LexTerm : ~ ( char_lit - •char_lit ) «~»
+	LexTerm : ~ ( char_lit - •char_lit ) «|»
+}
+Transitions:
+	char_lit -> 147
+
+
+S144{
+	LexTerm : ~ ( char_lit - •char_lit ) «]»
+	LexTerm : ~ ( char_lit - •char_lit ) «(»
+	LexTerm : ~ ( char_lit - •char_lit ) «.»
+	LexTerm : ~ ( char_lit - •char_lit ) «[»
+	LexTerm : ~ ( char_lit - •char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit - •char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit - •char_lit ) «{»
+	LexTerm : ~ ( char_lit - •char_lit ) «~»
+	LexTerm : ~ ( char_lit - •char_lit ) «|»
+}
+Transitions:
+	char_lit -> 148
+
+
+S145{
+	LexTerm : ~ ( char_lit - •char_lit ) «}»
+	LexTerm : ~ ( char_lit - •char_lit ) «(»
+	LexTerm : ~ ( char_lit - •char_lit ) «.»
+	LexTerm : ~ ( char_lit - •char_lit ) «[»
+	LexTerm : ~ ( char_lit - •char_lit ) «char_lit»
+	LexTerm : ~ ( char_lit - •char_lit ) «regDefId»
+	LexTerm : ~ ( char_lit - •char_lit ) «{»
+	LexTerm : ~ ( char_lit - •char_lit ) «~»
+	LexTerm : ~ ( char_lit - •char_lit ) «|»
+}
+Transitions:
+	char_lit -> 149
+
+
+S146{
+	LexTerm : ~ ( char_lit - char_lit )• «;»
+	LexTerm : ~ ( char_lit - char_lit )• «(»
+	LexTerm : ~ ( char_lit - char_lit )• «.»
+	LexTerm : ~ ( char_lit - char_lit )• «[»
+	LexTerm : ~ ( char_lit - char_lit )• «char_lit»
+	LexTerm : ~ ( char_lit - char_lit )• «regDefId»
+	LexTerm : ~ ( char_lit - char_lit )• «{»
+	LexTerm : ~ ( char_lit - char_lit )• «~»
+	LexTerm : ~ ( char_lit - char_lit )• «|»
+}
+Transitions:
+
+
+S147{
+	LexTerm : ~ ( char_lit - char_lit •) «)»
+	LexTerm : ~ ( char_lit - char_lit •) «(»
+	LexTerm : ~ ( char_lit - char_lit •) «.»
+	LexTerm : ~ ( char_lit - char_lit •) «[»
+	LexTerm : ~ ( char_lit - char_lit •) «char_lit»
+	LexTerm : ~ ( char_lit - char_lit •) «regDefId»
+	LexTerm : ~ ( char_lit - char_lit •) «{»
+	LexTerm : ~ ( char_lit - char_lit •) «~»
+	LexTerm : ~ ( char_lit - char_lit •) «|»
+}
+Transitions:
+	) -> 150
+
+
+S148{
+	LexTerm : ~ ( char_lit - char_lit •) «]»
+	LexTerm : ~ ( char_lit - char_lit •) «(»
+	LexTerm : ~ ( char_lit - char_lit •) «.»
+	LexTerm : ~ ( char_lit - char_lit •) «[»
+	LexTerm : ~ ( char_lit - char_lit •) «char_lit»
+	LexTerm : ~ ( char_lit - char_lit •) «regDefId»
+	LexTerm : ~ ( char_lit - char_lit •) «{»
+	LexTerm : ~ ( char_lit - char_lit •) «~»
+	LexTerm : ~ ( char_lit - char_lit •) «|»
+}
+Transitions:
+	) -> 151
+
+
+S149{
+	LexTerm : ~ ( char_lit - char_lit •) «}»
+	LexTerm : ~ ( char_lit - char_lit •) «(»
+	LexTerm : ~ ( char_lit - char_lit •) «.»
+	LexTerm : ~ ( char_lit - char_lit •) «[»
+	LexTerm : ~ ( char_lit - char_lit •) «char_lit»
+	LexTerm : ~ ( char_lit - char_lit •) «regDefId»
+	LexTerm : ~ ( char_lit - char_lit •) «{»
+	LexTerm : ~ ( char_lit - char_lit •) «~»
+	LexTerm : ~ ( char_lit - char_lit •) «|»
+}
+Transitions:
+	) -> 152
+
+
+S150{
+	LexTerm : ~ ( char_lit - char_lit )• «)»
+	LexTerm : ~ ( char_lit - char_lit )• «(»
+	LexTerm : ~ ( char_lit - char_lit )• «.»
+	LexTerm : ~ ( char_lit - char_lit )• «[»
+	LexTerm : ~ ( char_lit - char_lit )• «char_lit»
+	LexTerm : ~ ( char_lit - char_lit )• «regDefId»
+	LexTerm : ~ ( char_lit - char_lit )• «{»
+	LexTerm : ~ ( char_lit - char_lit )• «~»
+	LexTerm : ~ ( char_lit - char_lit )• «|»
+}
+Transitions:
+
+
+S151{
+	LexTerm : ~ ( char_lit - char_lit )• «]»
+	LexTerm : ~ ( char_lit - char_lit )• «(»
+	LexTerm : ~ ( char_lit - char_lit )• «.»
+	LexTerm : ~ ( char_lit - char_lit )• «[»
+	LexTerm : ~ ( char_lit - char_lit )• «char_lit»
+	LexTerm : ~ ( char_lit - char_lit )• «regDefId»
+	LexTerm : ~ ( char_lit - char_lit )• «{»
+	LexTerm : ~ ( char_lit - char_lit )• «~»
+	LexTerm : ~ ( char_lit - char_lit )• «|»
+}
+Transitions:
+
+
+S152{
+	LexTerm : ~ ( char_lit - char_lit )• «}»
+	LexTerm : ~ ( char_lit - char_lit )• «(»
+	LexTerm : ~ ( char_lit - char_lit )• «.»
+	LexTerm : ~ ( char_lit - char_lit )• «[»
+	LexTerm : ~ ( char_lit - char_lit )• «char_lit»
+	LexTerm : ~ ( char_lit - char_lit )• «regDefId»
+	LexTerm : ~ ( char_lit - char_lit )• «{»
+	LexTerm : ~ ( char_lit - char_lit )• «~»
+	LexTerm : ~ ( char_lit - char_lit )• «|»
+}
+Transitions:
+
+

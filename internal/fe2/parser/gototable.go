@@ -2,7 +2,7 @@
 
 package parser
 
-const numNTSymbols = 16
+const numNTSymbols = 18
 
 type (
 	gotoTable [numStates]gotoRow
@@ -27,6 +27,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S1
 		-1, // S'
@@ -45,6 +47,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S2
 		-1, // S'
@@ -63,6 +67,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S3
 		-1, // S'
@@ -81,6 +87,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S4
 		-1, // S'
@@ -99,6 +107,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S5
 		-1, // S'
@@ -117,6 +127,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S6
 		-1, // S'
@@ -135,6 +147,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S7
 		-1, // S'
@@ -153,6 +167,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S8
 		-1, // S'
@@ -171,6 +187,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S9
 		-1, // S'
@@ -189,6 +207,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S10
 		-1, // S'
@@ -207,6 +227,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S11
 		-1, // S'
@@ -225,6 +247,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S12
 		-1, // S'
@@ -243,6 +267,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S13
 		-1, // S'
@@ -261,6 +287,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S14
 		-1, // S'
@@ -279,6 +307,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S15
 		-1, // S'
@@ -297,6 +327,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S16
 		-1, // S'
@@ -315,6 +347,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S17
 		-1, // S'
@@ -333,6 +367,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S18
 		-1, // S'
@@ -351,6 +387,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S19
 		-1, // S'
@@ -369,6 +407,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S20
 		-1, // S'
@@ -387,6 +427,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S21
 		-1, // S'
@@ -404,7 +446,9 @@ var gotoTab = gotoTable{
 		36, // Alternatives
 		37, // SyntaxBody
 		38, // Symbols
-		40, // Symbol
+		41, // Symbol
+		39, // ErrorSymbol
+		40, // EpsilonSymbol
 	},
 	gotoRow{ // S22
 		-1, // S'
@@ -423,6 +467,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S23
 		-1, // S'
@@ -441,6 +487,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S24
 		-1, // S'
@@ -450,7 +498,7 @@ var gotoTab = gotoTable{
 		-1, // LexProduction
 		-1, // LexPattern
 		-1, // LexAlt
-		44, // LexTerm
+		49, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -459,6 +507,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S25
 		-1, // S'
@@ -477,6 +527,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S26
 		-1, // S'
@@ -495,6 +547,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S27
 		-1, // S'
@@ -513,6 +567,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S28
 		-1, // S'
@@ -531,6 +587,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S29
 		-1, // S'
@@ -538,9 +596,9 @@ var gotoTab = gotoTable{
 		-1, // LexicalPart
 		-1, // LexProductions
 		-1, // LexProduction
-		48, // LexPattern
-		50, // LexAlt
-		51, // LexTerm
+		53, // LexPattern
+		55, // LexAlt
+		56, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -549,6 +607,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S30
 		-1, // S'
@@ -556,9 +616,9 @@ var gotoTab = gotoTable{
 		-1, // LexicalPart
 		-1, // LexProductions
 		-1, // LexProduction
-		58, // LexPattern
-		60, // LexAlt
-		61, // LexTerm
+		63, // LexPattern
+		65, // LexAlt
+		66, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -567,6 +627,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S31
 		-1, // S'
@@ -574,9 +636,9 @@ var gotoTab = gotoTable{
 		-1, // LexicalPart
 		-1, // LexProductions
 		-1, // LexProduction
-		68, // LexPattern
-		70, // LexAlt
-		71, // LexTerm
+		73, // LexPattern
+		75, // LexAlt
+		76, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -585,6 +647,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S32
 		-1, // S'
@@ -603,6 +667,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S33
 		-1, // S'
@@ -621,6 +687,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S34
 		-1, // S'
@@ -639,6 +707,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S35
 		-1, // S'
@@ -657,6 +727,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S36
 		-1, // S'
@@ -675,6 +747,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S37
 		-1, // S'
@@ -693,6 +767,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S38
 		-1, // S'
@@ -710,7 +786,9 @@ var gotoTab = gotoTable{
 		-1, // Alternatives
 		-1, // SyntaxBody
 		-1, // Symbols
-		83, // Symbol
+		88, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S39
 		-1, // S'
@@ -727,8 +805,10 @@ var gotoTab = gotoTable{
 		-1, // SyntaxProduction
 		-1, // Alternatives
 		-1, // SyntaxBody
-		84, // Symbols
-		40, // Symbol
+		90, // Symbols
+		41, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S40
 		-1, // S'
@@ -747,6 +827,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S41
 		-1, // S'
@@ -765,6 +847,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S42
 		-1, // S'
@@ -783,6 +867,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S43
 		-1, // S'
@@ -791,8 +877,8 @@ var gotoTab = gotoTable{
 		-1, // LexProductions
 		-1, // LexProduction
 		-1, // LexPattern
-		85, // LexAlt
-		25, // LexTerm
+		-1, // LexAlt
+		-1, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -801,6 +887,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S44
 		-1, // S'
@@ -819,6 +907,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S45
 		-1, // S'
@@ -837,6 +927,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S46
 		-1, // S'
@@ -855,6 +947,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S47
 		-1, // S'
@@ -873,6 +967,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S48
 		-1, // S'
@@ -881,8 +977,8 @@ var gotoTab = gotoTable{
 		-1, // LexProductions
 		-1, // LexProduction
 		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
+		91, // LexAlt
+		25, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -891,6 +987,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S49
 		-1, // S'
@@ -909,6 +1007,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S50
 		-1, // S'
@@ -918,7 +1018,7 @@ var gotoTab = gotoTable{
 		-1, // LexProduction
 		-1, // LexPattern
 		-1, // LexAlt
-		90, // LexTerm
+		-1, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -927,6 +1027,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S51
 		-1, // S'
@@ -945,6 +1047,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S52
 		-1, // S'
@@ -963,6 +1067,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S53
 		-1, // S'
@@ -981,6 +1087,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S54
 		-1, // S'
@@ -999,6 +1107,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S55
 		-1, // S'
@@ -1006,9 +1116,9 @@ var gotoTab = gotoTable{
 		-1, // LexicalPart
 		-1, // LexProductions
 		-1, // LexProduction
-		94, // LexPattern
-		50, // LexAlt
-		51, // LexTerm
+		-1, // LexPattern
+		-1, // LexAlt
+		96, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -1017,6 +1127,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S56
 		-1, // S'
@@ -1024,9 +1136,9 @@ var gotoTab = gotoTable{
 		-1, // LexicalPart
 		-1, // LexProductions
 		-1, // LexProduction
-		95, // LexPattern
-		60, // LexAlt
-		61, // LexTerm
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -1035,6 +1147,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S57
 		-1, // S'
@@ -1042,9 +1156,9 @@ var gotoTab = gotoTable{
 		-1, // LexicalPart
 		-1, // LexProductions
 		-1, // LexProduction
-		96, // LexPattern
-		70, // LexAlt
-		71, // LexTerm
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -1053,6 +1167,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S58
 		-1, // S'
@@ -1071,6 +1187,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S59
 		-1, // S'
@@ -1089,60 +1207,68 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S60
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		99, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		100, // LexPattern
+		55,  // LexAlt
+		56,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S61
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		101, // LexPattern
+		65,  // LexAlt
+		66,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S62
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		102, // LexPattern
+		75,  // LexAlt
+		76,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S63
 		-1, // S'
@@ -1161,6 +1287,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S64
 		-1, // S'
@@ -1179,6 +1307,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S65
 		-1,  // S'
@@ -1186,9 +1316,9 @@ var gotoTab = gotoTable{
 		-1,  // LexicalPart
 		-1,  // LexProductions
 		-1,  // LexProduction
-		103, // LexPattern
-		50,  // LexAlt
-		51,  // LexTerm
+		-1,  // LexPattern
+		-1,  // LexAlt
+		105, // LexTerm
 		-1,  // SyntaxPart
 		-1,  // FileHeader
 		-1,  // SyntaxProdList
@@ -1197,42 +1327,48 @@ var gotoTab = gotoTable{
 		-1,  // SyntaxBody
 		-1,  // Symbols
 		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S66
-		-1,  // S'
-		-1,  // Grammar
-		-1,  // LexicalPart
-		-1,  // LexProductions
-		-1,  // LexProduction
-		104, // LexPattern
-		60,  // LexAlt
-		61,  // LexTerm
-		-1,  // SyntaxPart
-		-1,  // FileHeader
-		-1,  // SyntaxProdList
-		-1,  // SyntaxProduction
-		-1,  // Alternatives
-		-1,  // SyntaxBody
-		-1,  // Symbols
-		-1,  // Symbol
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S67
-		-1,  // S'
-		-1,  // Grammar
-		-1,  // LexicalPart
-		-1,  // LexProductions
-		-1,  // LexProduction
-		105, // LexPattern
-		70,  // LexAlt
-		71,  // LexTerm
-		-1,  // SyntaxPart
-		-1,  // FileHeader
-		-1,  // SyntaxProdList
-		-1,  // SyntaxProduction
-		-1,  // Alternatives
-		-1,  // SyntaxBody
-		-1,  // Symbols
-		-1,  // Symbol
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S68
 		-1, // S'
@@ -1251,6 +1387,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S69
 		-1, // S'
@@ -1269,6 +1407,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S70
 		-1,  // S'
@@ -1276,9 +1416,9 @@ var gotoTab = gotoTable{
 		-1,  // LexicalPart
 		-1,  // LexProductions
 		-1,  // LexProduction
-		-1,  // LexPattern
-		-1,  // LexAlt
-		108, // LexTerm
+		109, // LexPattern
+		55,  // LexAlt
+		56,  // LexTerm
 		-1,  // SyntaxPart
 		-1,  // FileHeader
 		-1,  // SyntaxProdList
@@ -1287,42 +1427,48 @@ var gotoTab = gotoTable{
 		-1,  // SyntaxBody
 		-1,  // Symbols
 		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S71
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		110, // LexPattern
+		65,  // LexAlt
+		66,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S72
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		111, // LexPattern
+		75,  // LexAlt
+		76,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S73
 		-1, // S'
@@ -1341,6 +1487,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S74
 		-1, // S'
@@ -1359,6 +1507,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S75
 		-1,  // S'
@@ -1366,9 +1516,9 @@ var gotoTab = gotoTable{
 		-1,  // LexicalPart
 		-1,  // LexProductions
 		-1,  // LexProduction
-		112, // LexPattern
-		50,  // LexAlt
-		51,  // LexTerm
+		-1,  // LexPattern
+		-1,  // LexAlt
+		114, // LexTerm
 		-1,  // SyntaxPart
 		-1,  // FileHeader
 		-1,  // SyntaxProdList
@@ -1377,42 +1527,48 @@ var gotoTab = gotoTable{
 		-1,  // SyntaxBody
 		-1,  // Symbols
 		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S76
-		-1,  // S'
-		-1,  // Grammar
-		-1,  // LexicalPart
-		-1,  // LexProductions
-		-1,  // LexProduction
-		113, // LexPattern
-		60,  // LexAlt
-		61,  // LexTerm
-		-1,  // SyntaxPart
-		-1,  // FileHeader
-		-1,  // SyntaxProdList
-		-1,  // SyntaxProduction
-		-1,  // Alternatives
-		-1,  // SyntaxBody
-		-1,  // Symbols
-		-1,  // Symbol
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S77
-		-1,  // S'
-		-1,  // Grammar
-		-1,  // LexicalPart
-		-1,  // LexProductions
-		-1,  // LexProduction
-		114, // LexPattern
-		70,  // LexAlt
-		71,  // LexTerm
-		-1,  // SyntaxPart
-		-1,  // FileHeader
-		-1,  // SyntaxProdList
-		-1,  // SyntaxProduction
-		-1,  // Alternatives
-		-1,  // SyntaxBody
-		-1,  // Symbols
-		-1,  // Symbol
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S78
 		-1, // S'
@@ -1431,6 +1587,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S79
 		-1, // S'
@@ -1449,24 +1607,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S80
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		118, // LexPattern
+		55,  // LexAlt
+		56,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S81
 		-1,  // S'
@@ -1474,35 +1636,39 @@ var gotoTab = gotoTable{
 		-1,  // LexicalPart
 		-1,  // LexProductions
 		-1,  // LexProduction
-		-1,  // LexPattern
-		-1,  // LexAlt
-		-1,  // LexTerm
+		119, // LexPattern
+		65,  // LexAlt
+		66,  // LexTerm
 		-1,  // SyntaxPart
 		-1,  // FileHeader
 		-1,  // SyntaxProdList
 		-1,  // SyntaxProduction
 		-1,  // Alternatives
-		115, // SyntaxBody
-		38,  // Symbols
-		40,  // Symbol
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S82
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		120, // LexPattern
+		75,  // LexAlt
+		76,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S83
 		-1, // S'
@@ -1521,6 +1687,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S84
 		-1, // S'
@@ -1538,27 +1706,11 @@ var gotoTab = gotoTable{
 		-1, // Alternatives
 		-1, // SyntaxBody
 		-1, // Symbols
-		83, // Symbol
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S85
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		44, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
-	},
-	gotoRow{ // S86
 		-1, // S'
 		-1, // Grammar
 		-1, // LexicalPart
@@ -1575,6 +1727,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
+	},
+	gotoRow{ // S86
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		-1,  // LexPattern
+		-1,  // LexAlt
+		-1,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		121, // SyntaxBody
+		38,  // Symbols
+		41,  // Symbol
+		39,  // ErrorSymbol
+		40,  // EpsilonSymbol
 	},
 	gotoRow{ // S87
 		-1, // S'
@@ -1593,24 +1767,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S88
-		-1,  // S'
-		-1,  // Grammar
-		-1,  // LexicalPart
-		-1,  // LexProductions
-		-1,  // LexProduction
-		-1,  // LexPattern
-		118, // LexAlt
-		51,  // LexTerm
-		-1,  // SyntaxPart
-		-1,  // FileHeader
-		-1,  // SyntaxProdList
-		-1,  // SyntaxProduction
-		-1,  // Alternatives
-		-1,  // SyntaxBody
-		-1,  // Symbols
-		-1,  // Symbol
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S89
 		-1, // S'
@@ -1629,6 +1807,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S90
 		-1, // S'
@@ -1646,7 +1826,9 @@ var gotoTab = gotoTable{
 		-1, // Alternatives
 		-1, // SyntaxBody
 		-1, // Symbols
-		-1, // Symbol
+		88, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S91
 		-1, // S'
@@ -1656,7 +1838,7 @@ var gotoTab = gotoTable{
 		-1, // LexProduction
 		-1, // LexPattern
 		-1, // LexAlt
-		-1, // LexTerm
+		49, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -1665,6 +1847,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S92
 		-1, // S'
@@ -1683,6 +1867,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S93
 		-1, // S'
@@ -1701,24 +1887,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S94
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		-1,  // LexPattern
+		124, // LexAlt
+		56,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S95
 		-1, // S'
@@ -1737,6 +1927,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S96
 		-1, // S'
@@ -1755,24 +1947,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S97
-		-1,  // S'
-		-1,  // Grammar
-		-1,  // LexicalPart
-		-1,  // LexProductions
-		-1,  // LexProduction
-		-1,  // LexPattern
-		124, // LexAlt
-		61,  // LexTerm
-		-1,  // SyntaxPart
-		-1,  // FileHeader
-		-1,  // SyntaxProdList
-		-1,  // SyntaxProduction
-		-1,  // Alternatives
-		-1,  // SyntaxBody
-		-1,  // Symbols
-		-1,  // Symbol
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S98
 		-1, // S'
@@ -1791,6 +1987,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S99
 		-1, // S'
@@ -1809,6 +2007,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S100
 		-1, // S'
@@ -1827,6 +2027,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S101
 		-1, // S'
@@ -1845,6 +2047,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S102
 		-1, // S'
@@ -1863,24 +2067,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S103
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		-1,  // LexPattern
+		130, // LexAlt
+		66,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S104
 		-1, // S'
@@ -1899,6 +2107,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S105
 		-1, // S'
@@ -1917,24 +2127,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S106
-		-1,  // S'
-		-1,  // Grammar
-		-1,  // LexicalPart
-		-1,  // LexProductions
-		-1,  // LexProduction
-		-1,  // LexPattern
-		130, // LexAlt
-		71,  // LexTerm
-		-1,  // SyntaxPart
-		-1,  // FileHeader
-		-1,  // SyntaxProdList
-		-1,  // SyntaxProduction
-		-1,  // Alternatives
-		-1,  // SyntaxBody
-		-1,  // Symbols
-		-1,  // Symbol
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S107
 		-1, // S'
@@ -1953,6 +2167,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S108
 		-1, // S'
@@ -1971,6 +2187,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S109
 		-1, // S'
@@ -1989,6 +2207,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S110
 		-1, // S'
@@ -2007,6 +2227,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S111
 		-1, // S'
@@ -2025,24 +2247,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S112
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		-1,  // LexPattern
+		136, // LexAlt
+		76,  // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S113
 		-1, // S'
@@ -2061,6 +2287,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S114
 		-1, // S'
@@ -2079,6 +2307,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S115
 		-1, // S'
@@ -2097,6 +2327,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S116
 		-1, // S'
@@ -2115,6 +2347,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S117
 		-1, // S'
@@ -2133,6 +2367,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S118
 		-1, // S'
@@ -2142,7 +2378,7 @@ var gotoTab = gotoTable{
 		-1, // LexProduction
 		-1, // LexPattern
 		-1, // LexAlt
-		90, // LexTerm
+		-1, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -2151,6 +2387,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S119
 		-1, // S'
@@ -2169,6 +2407,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S120
 		-1, // S'
@@ -2187,6 +2427,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S121
 		-1, // S'
@@ -2205,6 +2447,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S122
 		-1, // S'
@@ -2223,6 +2467,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S123
 		-1, // S'
@@ -2241,6 +2487,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S124
 		-1, // S'
@@ -2250,7 +2498,7 @@ var gotoTab = gotoTable{
 		-1, // LexProduction
 		-1, // LexPattern
 		-1, // LexAlt
-		99, // LexTerm
+		96, // LexTerm
 		-1, // SyntaxPart
 		-1, // FileHeader
 		-1, // SyntaxProdList
@@ -2259,6 +2507,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S125
 		-1, // S'
@@ -2277,6 +2527,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S126
 		-1, // S'
@@ -2295,6 +2547,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S127
 		-1, // S'
@@ -2313,6 +2567,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S128
 		-1, // S'
@@ -2331,6 +2587,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S129
 		-1, // S'
@@ -2349,6 +2607,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S130
 		-1,  // S'
@@ -2358,7 +2618,7 @@ var gotoTab = gotoTable{
 		-1,  // LexProduction
 		-1,  // LexPattern
 		-1,  // LexAlt
-		108, // LexTerm
+		105, // LexTerm
 		-1,  // SyntaxPart
 		-1,  // FileHeader
 		-1,  // SyntaxProdList
@@ -2367,6 +2627,8 @@ var gotoTab = gotoTable{
 		-1,  // SyntaxBody
 		-1,  // Symbols
 		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S131
 		-1, // S'
@@ -2385,6 +2647,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S132
 		-1, // S'
@@ -2403,6 +2667,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S133
 		-1, // S'
@@ -2421,6 +2687,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S134
 		-1, // S'
@@ -2439,6 +2707,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S135
 		-1, // S'
@@ -2457,24 +2727,28 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S136
-		-1, // S'
-		-1, // Grammar
-		-1, // LexicalPart
-		-1, // LexProductions
-		-1, // LexProduction
-		-1, // LexPattern
-		-1, // LexAlt
-		-1, // LexTerm
-		-1, // SyntaxPart
-		-1, // FileHeader
-		-1, // SyntaxProdList
-		-1, // SyntaxProduction
-		-1, // Alternatives
-		-1, // SyntaxBody
-		-1, // Symbols
-		-1, // Symbol
+		-1,  // S'
+		-1,  // Grammar
+		-1,  // LexicalPart
+		-1,  // LexProductions
+		-1,  // LexProduction
+		-1,  // LexPattern
+		-1,  // LexAlt
+		114, // LexTerm
+		-1,  // SyntaxPart
+		-1,  // FileHeader
+		-1,  // SyntaxProdList
+		-1,  // SyntaxProduction
+		-1,  // Alternatives
+		-1,  // SyntaxBody
+		-1,  // Symbols
+		-1,  // Symbol
+		-1,  // ErrorSymbol
+		-1,  // EpsilonSymbol
 	},
 	gotoRow{ // S137
 		-1, // S'
@@ -2493,6 +2767,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S138
 		-1, // S'
@@ -2511,6 +2787,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S139
 		-1, // S'
@@ -2529,6 +2807,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S140
 		-1, // S'
@@ -2547,6 +2827,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S141
 		-1, // S'
@@ -2565,6 +2847,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S142
 		-1, // S'
@@ -2583,6 +2867,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S143
 		-1, // S'
@@ -2601,6 +2887,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S144
 		-1, // S'
@@ -2619,6 +2907,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S145
 		-1, // S'
@@ -2637,6 +2927,8 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 	gotoRow{ // S146
 		-1, // S'
@@ -2655,5 +2947,127 @@ var gotoTab = gotoTable{
 		-1, // SyntaxBody
 		-1, // Symbols
 		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
+	},
+	gotoRow{ // S147
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
+	},
+	gotoRow{ // S148
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
+	},
+	gotoRow{ // S149
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
+	},
+	gotoRow{ // S150
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
+	},
+	gotoRow{ // S151
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
+	},
+	gotoRow{ // S152
+		-1, // S'
+		-1, // Grammar
+		-1, // LexicalPart
+		-1, // LexProductions
+		-1, // LexProduction
+		-1, // LexPattern
+		-1, // LexAlt
+		-1, // LexTerm
+		-1, // SyntaxPart
+		-1, // FileHeader
+		-1, // SyntaxProdList
+		-1, // SyntaxProduction
+		-1, // Alternatives
+		-1, // SyntaxBody
+		-1, // Symbols
+		-1, // Symbol
+		-1, // ErrorSymbol
+		-1, // EpsilonSymbol
 	},
 }

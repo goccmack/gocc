@@ -25,7 +25,11 @@ type LexCharRange struct {
 	Negate bool
 }
 
-func NewLexCharRange(from, to interface{}, negate bool) (*LexCharRange, error) {
+func NewLexCharRange(from, to interface{}) (*LexCharRange, error) {
+	return NewLexCharRangeExt(from, to, false)
+}
+
+func NewLexCharRangeExt(from, to interface{}, negate bool) (*LexCharRange, error) {
 	cr := &LexCharRange{
 		From:   newLexCharLit(from, negate),
 		To:     newLexCharLit(to, negate),

@@ -25,45 +25,64 @@ import (
 	"strings"
 )
 
-type Config interface {
-	Help() bool
-	Verbose() bool
-	Zip() bool
-	AllowUnreachable() bool
-	AutoResolveLRConf() bool
-	SourceFile() string
-	OutDir() string
+const (
+	DISPLAY_SYMBOL_EMPTY   = "ε"
+	DISPLAY_SYMBOL_ERROR   = "λ(λάθος)"
+	DISPLAY_SYMBOL_INVALID = "ά(άκυρος)"
+	DISPLAY_SYMBOL_EOF     = "Ω"
+	SYMBOL_EMPTY           = "empty"
+	SYMBOL_ERROR           = "error"
+	SYMBOL_INVALID         = "<INVALID>"
+	SYMBOL_EOF             = "Ω<EOF>"
+)
 
-	NoLexer() bool
-	DebugLexer() bool
-	DebugParser() bool
+type (
+	Config interface {
+		Help() bool
+		Verbose() bool
+		Zip() bool
+		AllowUnreachable() bool
+		AutoResolveLRConf() bool
+		SourceFile() string
+		OutDir() string
 
-	ErrorsDir() string
-	ParserDir() string
-	ScannerDir() string
-	TokenDir() string
+		NoLexer() bool
+		DebugLexer() bool
+		DebugParser() bool
+		StockCompiler() bool
 
-	ProjectName() string
-	Package() string
+		ErrorsDir() string
+		ParserDir() string
+		ScannerDir() string
+		TokenDir() string
 
-	PrintParams()
-}
+		ProjectName() string
+		Package() string
 
-type ConfigRecord struct {
-	workingDir string
+		PrintParams()
+	}
 
-	allowUnreachable  *bool
-	autoResolveLRConf *bool
-	debugLexer        *bool
-	debugParser       *bool
-	help              *bool
-	noLexer           *bool
-	outDir            string
-	pkg               string
-	srcFile           string
-	verbose           *bool
-	zip               *bool
-}
+	ConfigRecord struct {
+		workingDir string
+
+		allowUnreachable  *bool
+		autoResolveLRConf *bool
+		debugLexer        *bool
+		debugParser       *bool
+		help              *bool
+		noLexer           *bool
+		outDir            string
+		pkg               string
+		srcFile           string
+		verbose           *bool
+		zip               *bool
+		stockCompiler     *bool
+	}
+)
+
+var (
+	CurrentConfiguration Config
+)
 
 func New() (Config, error) {
 	wd, err := os.Getwd()
@@ -113,6 +132,10 @@ func (this *ConfigRecord) DebugLexer() bool {
 
 func (this *ConfigRecord) DebugParser() bool {
 	return *this.debugParser
+}
+
+func (this *ConfigRecord) StockCompiler() bool {
+	return *this.stockCompiler
 }
 
 func (this *ConfigRecord) SourceFile() string {
@@ -174,6 +197,7 @@ func (this *ConfigRecord) getFlags() error {
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
 	this.zip = flag.Bool("zip", false, "zip the actiontable and gototable (experimental)")
+	this.stockCompiler = flag.Bool("stock", false, "use the stock compiler from original gocc")
 	flag.Parse()
 
 	if *this.noLexer && *this.debugLexer {

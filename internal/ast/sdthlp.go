@@ -7,12 +7,9 @@ package ast
 import (
 	"regexp"
 	"strings"
-
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
 )
 
-func SDTVal(T *token.Token) string {
-	sdt := string(T.Lit)
+func SDTVal(sdt string) string {
 	rex, err := regexp.Compile("\\$[0-9]+")
 	if err != nil {
 		panic(err)

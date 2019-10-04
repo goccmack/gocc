@@ -3,6 +3,8 @@ package parser
 import (
 	"errors"
 	"strconv"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 import errs "github.com/maxcalandrelli/gocc/internal/frontend/errors"
@@ -54,7 +56,7 @@ func (P *ParserUTab) Error(err error, scanner Scanner) (recovered bool, errorAtt
 		}
 	}
 
-	action := P.actTab[P.stack.Top()][P.tokenMap.Type("error")]
+	action := P.actTab[P.stack.Top()][P.tokenMap.Type(config.SYMBOL_ERROR)]
 	if action == nil {
 		return
 	}

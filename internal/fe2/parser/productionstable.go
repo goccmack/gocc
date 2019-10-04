@@ -4,6 +4,8 @@ package parser
 
 import "github.com/maxcalandrelli/gocc/internal/ast"
 
+
+
 type (
 	//TODO: change type and variable names to be consistent with other tables
 	ProdTab      [numProductions]ProdTabEntry
@@ -171,43 +173,43 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `LexTerm : char_lit	<< ast.NewLexCharLit(X[0], false) >>`,
+		String: `LexTerm : char_lit	<< ast.NewLexCharLitExt(X[0],false) >>`,
 		Id:         "LexTerm",
 		NTType:     7,
 		Index:      15,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewLexCharLit(X[0], false)
+			return ast.NewLexCharLitExt(X[0],false)
 		},
 	},
 	ProdTabEntry{
-		String: `LexTerm : "~" char_lit	<< ast.NewLexCharLit(X[0], true) >>`,
+		String: `LexTerm : char_lit "-" char_lit	<< ast.NewLexCharRangeExt(X[0], X[2],false) >>`,
 		Id:         "LexTerm",
 		NTType:     7,
 		Index:      16,
-		NumSymbols: 2,
+		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewLexCharLit(X[0], true)
+			return ast.NewLexCharRangeExt(X[0], X[2],false)
 		},
 	},
 	ProdTabEntry{
-		String: `LexTerm : char_lit "-" char_lit	<< ast.NewLexCharRange(X[0], X[2], false) >>`,
+		String: `LexTerm : "~" char_lit	<< ast.NewLexCharLitExt(X[0], true) >>`,
 		Id:         "LexTerm",
 		NTType:     7,
 		Index:      17,
-		NumSymbols: 3,
+		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewLexCharRange(X[0], X[2], false)
+			return ast.NewLexCharLitExt(X[0], true)
 		},
 	},
 	ProdTabEntry{
-		String: `LexTerm : "~" "(" char_lit "-" char_lit ")"	<< ast.NewLexCharRange(X[2], X[4], true) >>`,
+		String: `LexTerm : "~" "(" char_lit "-" char_lit ")"	<< ast.NewLexCharRangeExt(X[2], X[4], true) >>`,
 		Id:         "LexTerm",
 		NTType:     7,
 		Index:      18,
 		NumSymbols: 6,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewLexCharRange(X[2], X[4], true)
+			return ast.NewLexCharRangeExt(X[2], X[4], true)
 		},
 	},
 	ProdTabEntry{
@@ -331,70 +333,80 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `SyntaxBody : Symbols	<< ast.NewSyntaxBody(X[0], nil) >>`,
+		String: `SyntaxBody : Symbols	<< ast.NewSyntaxBodyGen(X[0], nil) >>`,
 		Id:         "SyntaxBody",
 		NTType:     13,
 		Index:      31,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewSyntaxBody(X[0], nil)
+			return ast.NewSyntaxBodyGen(X[0], nil)
 		},
 	},
 	ProdTabEntry{
-		String: `SyntaxBody : Symbols g_sdt_lit	<< ast.NewSyntaxBody(X[0], X[1]) >>`,
+		String: `SyntaxBody : Symbols g_sdt_lit	<< ast.NewSyntaxBodyGen(X[0], X[1]) >>`,
 		Id:         "SyntaxBody",
 		NTType:     13,
 		Index:      32,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewSyntaxBody(X[0], X[1])
+			return ast.NewSyntaxBodyGen(X[0], X[1])
 		},
 	},
 	ProdTabEntry{
-		String: `SyntaxBody : "error"	<< ast.NewErrorBody(nil, nil) >>`,
+		String: `SyntaxBody : ErrorSymbol	<< ast.NewErrorBodyGen(nil, nil) >>`,
 		Id:         "SyntaxBody",
 		NTType:     13,
 		Index:      33,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewErrorBody(nil, nil)
+			return ast.NewErrorBodyGen(nil, nil)
 		},
 	},
 	ProdTabEntry{
-		String: `SyntaxBody : "error" Symbols	<< ast.NewErrorBody(X[1], nil) >>`,
+		String: `SyntaxBody : ErrorSymbol Symbols	<< ast.NewErrorBodyGen(X[1], nil) >>`,
 		Id:         "SyntaxBody",
 		NTType:     13,
 		Index:      34,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewErrorBody(X[1], nil)
+			return ast.NewErrorBodyGen(X[1], nil)
 		},
 	},
 	ProdTabEntry{
-		String: `SyntaxBody : "error" Symbols g_sdt_lit	<< ast.NewErrorBody(X[1], X[2]) >>`,
+		String: `SyntaxBody : ErrorSymbol Symbols g_sdt_lit	<< ast.NewErrorBodyGen(X[1], X[2]) >>`,
 		Id:         "SyntaxBody",
 		NTType:     13,
 		Index:      35,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewErrorBody(X[1], X[2])
+			return ast.NewErrorBodyGen(X[1], X[2])
 		},
 	},
 	ProdTabEntry{
-		String: `SyntaxBody : "empty"	<< ast.NewEmptyBody() >>`,
+		String: `SyntaxBody : ErrorSymbol g_sdt_lit	<< ast.NewErrorBodyGen(nil, X[1]) >>`,
 		Id:         "SyntaxBody",
 		NTType:     13,
 		Index:      36,
-		NumSymbols: 0,
+		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewEmptyBody()
+			return ast.NewErrorBodyGen(nil, X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `SyntaxBody : EpsilonSymbol	<< ast.NewEmptyBodyGen() >>`,
+		Id:         "SyntaxBody",
+		NTType:     13,
+		Index:      37,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.NewEmptyBodyGen()
 		},
 	},
 	ProdTabEntry{
 		String: `Symbols : Symbol	<< ast.NewSyntaxSymbols(X[0]) >>`,
 		Id:         "Symbols",
 		NTType:     14,
-		Index:      37,
+		Index:      38,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxSymbols(X[0])
@@ -404,7 +416,7 @@ var productionsTable = ProdTab{
 		String: `Symbols : Symbols Symbol	<< ast.AddSyntaxSymbol(X[0], X[1]) >>`,
 		Id:         "Symbols",
 		NTType:     14,
-		Index:      38,
+		Index:      39,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.AddSyntaxSymbol(X[0], X[1])
@@ -414,7 +426,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : prodId	<< ast.NewSyntaxProdId(X[0]) >>`,
 		Id:         "Symbol",
 		NTType:     15,
-		Index:      39,
+		Index:      40,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxProdId(X[0])
@@ -424,7 +436,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : tokId	<< ast.NewTokId(X[0]) >>`,
 		Id:         "Symbol",
 		NTType:     15,
-		Index:      40,
+		Index:      41,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewTokId(X[0])
@@ -434,10 +446,50 @@ var productionsTable = ProdTab{
 		String: `Symbol : string_lit	<< ast.NewStringLit(X[0]) >>`,
 		Id:         "Symbol",
 		NTType:     15,
-		Index:      41,
+		Index:      42,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStringLit(X[0])
+		},
+	},
+	ProdTabEntry{
+		String: `ErrorSymbol : "errore"	<<  >>`,
+		Id:         "ErrorSymbol",
+		NTType:     16,
+		Index:      43,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `ErrorSymbol : "λ"	<<  >>`,
+		Id:         "ErrorSymbol",
+		NTType:     16,
+		Index:      44,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `EpsilonSymbol : "empty"	<<  >>`,
+		Id:         "EpsilonSymbol",
+		NTType:     17,
+		Index:      45,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `EpsilonSymbol : "ε"	<<  >>`,
+		Id:         "EpsilonSymbol",
+		NTType:     17,
+		Index:      46,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return X[0], nil
 		},
 	},
 }

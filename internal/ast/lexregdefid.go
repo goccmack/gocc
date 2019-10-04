@@ -14,17 +14,13 @@
 
 package ast
 
-import (
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
-)
-
 type LexRegDefId struct {
 	Id string
 }
 
 func NewLexRegDefId(regDefId interface{}) (*LexRegDefId, error) {
 	return &LexRegDefId{
-		Id: string(regDefId.(*token.Token).Lit),
+		Id: getString(regDefId),
 	}, nil
 }
 

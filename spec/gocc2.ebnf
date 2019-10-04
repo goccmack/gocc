@@ -13,30 +13,22 @@
 //   limitations under the License.
 
 
+
+
 !comment : _lineComment | _blockComment ;
-_lineComment : '/' '/' {.} '\n' ;
-_blockComment : '/' '*' {. | '*'} '*' '/' ;
 !whitespace : ' ' | '\t' | '\n' | '\r' ;
 
-tokId : _tokId ;
-
+_lineComment : '/' '/' {.} '\n' ;
+_blockComment : '/' '*' {. | '*'} '*' '/' ;
 _tokId : _lowcase {_id_char} ;
-
 _lowcase : 'a'-'z' ;
-
 _id_char : _upcase | _lowcase | '_' | _digit ;
-
 _upcase : 'A'-'Z' ;
+_digit : '0'-'9' ;
 
-_digit : '0'  '9' ;
-
-regDefId : '_' {_id_char} ;
-
-ignoredTokId : '!' _tokId ;
-
-char_lit : '\'' (_unicode_value | _byte_value) '\''    ;
 
 _unicode_value
+
     : .                   // Any UTF-8 character literal
     | _little_u_value
     | _big_u_value
@@ -79,13 +71,23 @@ _hex_digit
     | 'a' - 'f'
     ;
 
-
-_hex_digit_alt
-    : '0' - '9'
-    | 'A' - 'F'
-    | 'a' - 'z'
-    | ~ ( 'g' - 'z')
+_raw_string
+    : '`' {.} '`'
     ;
+
+_interpreted_string
+    : '"' { _unicode_value | _byte_value } '"'
+    ;
+
+
+
+tokId : _tokId ;
+
+regDefId : '_' {_id_char} ;
+
+ignoredTokId : '!' _tokId ;
+
+char_lit : '\'' (_unicode_value | _byte_value) '\''    ;
 
 prodId
     : _upcase {_id_char}
@@ -101,97 +103,205 @@ string_lit
     | _interpreted_string
     ;
 
-_raw_string
-    : '`' {.} '`'
-    ;
-
-_interpreted_string
-    : '"' { _unicode_value | _byte_value } '"'
-    ;
-
-
-
-
-
-
-
-
-
 
 
 /*** Syntactic items ***/
 
 << import "github.com/maxcalandrelli/gocc/internal/ast" >>
 
-Grammar : LexicalPart SyntaxPart 							<< ast.NewGrammar($0, $1) >>
-		| LexicalPart 										<< ast.NewGrammar($0, nil) >>
-		| SyntaxPart										<< ast.NewGrammar(nil, $0) >>
-		;
+Grammar :
+		LexicalPart
+		SyntaxPart
+			<< ast.NewGrammar($0, $1) >>
+	|
+		LexicalPart
+			<< ast.NewGrammar($0, nil) >>
+	|
+		SyntaxPart
+			<< ast.NewGrammar(nil, $0) >>
+;
 
-LexicalPart	: LexProductions 								<< ast.NewLexPart(nil, nil, $0) >>
-			;
+LexicalPart	:
+		LexProductions
+			<< ast.NewLexPart(nil, nil, $0) >>
+;
 
+LexProductions :
+		LexProduction
+			<< ast.NewLexProductions($0) >>
+	|
+		LexProductions
+		LexProduction
+			<< ast.AppendLexProduction($0, $1) >>
+;
 
-LexProductions	: LexProduction 							<< ast.NewLexProductions($0) >>
-				| LexProductions LexProduction 				<< ast.AppendLexProduction($0, $1) >>
-				;
+LexProduction :
+		tokId
+		":"
+		LexPattern
+		";"
+			<< ast.NewLexTokDef($0, $2) >>
+	|
+		regDefId
+		":"
+		LexPattern
+		";"
+			<< ast.NewLexRegDef($0, $2) >>
+	|
+		ignoredTokId
+		":"
+		LexPattern
+		";"
+			<< ast.NewLexIgnoredTokDef($0, $2) >>
+;
 
-LexProduction 	: tokId ":" LexPattern ";" 					<< ast.NewLexTokDef($0, $2) >>
-				| regDefId ":" LexPattern ";" 				<< ast.NewLexRegDef($0, $2) >>
-				| ignoredTokId ":" LexPattern ";"			<< ast.NewLexIgnoredTokDef($0, $2) >>
-				;
+LexPattern :
+		LexAlt
+			<< ast.NewLexPattern($0) >>
+	|
+		LexPattern
+		"|"
+		LexAlt
+			<< ast.AppendLexAlt($0, $2) >>
+;
 
-LexPattern 	: LexAlt 										<< ast.NewLexPattern($0) >>
-			| LexPattern "|" LexAlt 						<< ast.AppendLexAlt($0, $2) >>
-			;
+LexAlt :
+		LexTerm
+			<< ast.NewLexAlt($0) >>
+	|
+		LexAlt
+		LexTerm
+			<< ast.AppendLexTerm($0, $1) >>
+;
 
-LexAlt 	: LexTerm											<< ast.NewLexAlt($0) >>
-		| LexAlt LexTerm 									<< ast.AppendLexTerm($0, $1) >>
-		;
+LexTerm :
+		"."
+			<< ast.LexDOT, nil >>
+	|
+		char_lit
+			<< ast.NewLexCharLitExt($0,false) >>
+	|
+		char_lit "-" char_lit
+			<< ast.NewLexCharRangeExt($0, $2,false) >>
+	|
+		"~" char_lit
+			<< ast.NewLexCharLitExt($0, true) >>
+	|
+		"~" "(" char_lit "-" char_lit ")"
+			<< ast.NewLexCharRangeExt($2, $4, true) >>
+	|
+		regDefId
+			<< ast.NewLexRegDefId($0) >>
+	|
+		"["
+		LexPattern
+		"]"
+			<< ast.NewLexOptPattern($1) >>
+	|
+		"{"
+		LexPattern
+		"}"
+			<< ast.NewLexRepPattern($1) >>
+	|
+		"("
+		LexPattern
+		")"
+			<< ast.NewLexGroupPattern($1) >>
+;
 
-LexTerm : "."												<< ast.LexDOT, nil >>
-		| char_lit 											<< ast.NewLexCharLit($0, false) >>
-		| "~" char_lit 										<< ast.NewLexCharLit($0, true) >>
-		| char_lit "-" char_lit 								<< ast.NewLexCharRange($0, $2, false) >>
-		| "~" "(" char_lit "-" char_lit ")" 					<< ast.NewLexCharRange($2, $4, true) >>
-		| regDefId											<< ast.NewLexRegDefId($0) >>
-		| "[" LexPattern "]" 								<< ast.NewLexOptPattern($1) >>
-		| "{" LexPattern "}" 								<< ast.NewLexRepPattern($1) >>
-		| "(" LexPattern ")"									<< ast.NewLexGroupPattern($1) >>
-		;
+SyntaxPart :
+		FileHeader
+		SyntaxProdList
+			<< ast.NewSyntaxPart($0, $1) >>
+	|
+		SyntaxProdList
+			<< ast.NewSyntaxPart(nil, $0) >>
+;
 
-SyntaxPart	: FileHeader SyntaxProdList 						<< ast.NewSyntaxPart($0, $1) >>
-			| SyntaxProdList 								<< ast.NewSyntaxPart(nil, $0) >>
-			;
+FileHeader :
+		g_sdt_lit
+			<< ast.NewFileHeader($0) >>
+;
 
-FileHeader 	: g_sdt_lit										<< ast.NewFileHeader($0) >>
-			;
+SyntaxProdList :
+		SyntaxProduction
+			<< ast.NewSyntaxProdList($0) >>
+	|
+		SyntaxProdList
+		SyntaxProduction
+			<< ast.AddSyntaxProds($0, $1) >>
+;
 
-SyntaxProdList	: SyntaxProduction							<< ast.NewSyntaxProdList($0) >>
-				| SyntaxProdList SyntaxProduction 			<< ast.AddSyntaxProds($0, $1) >>
-				;
+SyntaxProduction	:
+		prodId
+		":"
+		Alternatives
+		";"
+			<< ast.NewSyntaxProd($0, $2) >>
+;
 
-SyntaxProduction	: prodId ":" Alternatives ";"			<< ast.NewSyntaxProd($0, $2) >>
-					;
+Alternatives	:
+		SyntaxBody
+			<< ast.NewSyntaxAlts($0) >>
+	|
+		Alternatives
+		"|"
+		SyntaxBody
+			<< ast.AddSyntaxAlt($0, $2) >>
+;
 
-Alternatives	:	SyntaxBody								<< ast.NewSyntaxAlts($0) >>
-				|	Alternatives "|" SyntaxBody				<< ast.AddSyntaxAlt($0, $2) >>
-				;
+SyntaxBody :
+		Symbols
+			<< ast.NewSyntaxBodyGen($0, nil) >>
+	|
+		Symbols g_sdt_lit
+			<< ast.NewSyntaxBodyGen($0, $1) >>
+	|
+		ErrorSymbol
+			<< ast.NewErrorBodyGen(nil, nil) >>
+	|
+		ErrorSymbol Symbols
+			<< ast.NewErrorBodyGen($1, nil) >>
+	|
+		ErrorSymbol Symbols g_sdt_lit
+			<< ast.NewErrorBodyGen($1, $2) >>
+	|
+		ErrorSymbol g_sdt_lit
+			<< ast.NewErrorBodyGen(nil, $1) >>
+	|
+		EpsilonSymbol
+			<< ast.NewEmptyBodyGen() >>
+;
 
-SyntaxBody	: Symbols										<< ast.NewSyntaxBody($0, nil) >>
-			| Symbols g_sdt_lit								<< ast.NewSyntaxBody($0, $1) >>
-			| "error"										<< ast.NewErrorBody(nil, nil) >>
-			| "error" Symbols								<< ast.NewErrorBody($1, nil) >>
-			| "error" Symbols g_sdt_lit						<< ast.NewErrorBody($1, $2) >>
-			| "empty"										<< ast.NewEmptyBody() >>
-			;
+Symbols :
+		Symbol
+			<< ast.NewSyntaxSymbols($0) >>
+	|
+		Symbols
+		Symbol
+			<< ast.AddSyntaxSymbol($0, $1) >>
+;
 
-Symbols	: Symbol											<< ast.NewSyntaxSymbols($0) >>
-		| Symbols Symbol									<< ast.AddSyntaxSymbol($0, $1) >>
-		;
+Symbol :
+		prodId
+			<< ast.NewSyntaxProdId($0) >>
+	|
+		tokId
+			<< ast.NewTokId($0) >>
+	|
+		string_lit
+			<< ast.NewStringLit($0) >>
+;
 
-Symbol	: prodId											<< ast.NewSyntaxProdId($0) >>
-		| tokId												<< ast.NewTokId($0) >>
-		| string_lit										<< ast.NewStringLit($0) >>
-		;
+ErrorSymbol :
+		"error"
+	|
+		"λ"
+;
+
+EpsilonSymbol :
+		"empty"
+	|
+		"ε"
+;
 

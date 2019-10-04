@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/fe2/token"
 )
 
 type ErrorSymbol interface {

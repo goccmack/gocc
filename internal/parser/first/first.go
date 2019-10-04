@@ -18,6 +18,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/maxcalandrelli/gocc/internal/config"
+
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
 )
@@ -29,8 +31,6 @@ type FirstSets struct {
 	firstSets map[string]SymbolSet
 	symbols   *symbols.Symbols
 }
-
-const EMPTY = "empty"
 
 //Returns the FirstSets of the Grammar.
 func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
@@ -47,8 +47,8 @@ func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
 		again = false
 		for _, prod := range g.SyntaxPart.ProdList {
 			switch {
-			case len(prod.Body.Symbols) == 0:
-				if firstSets.AddToken(prod.Id, EMPTY) {
+			case prod.Body.Empty():
+				if firstSets.AddToken(prod.Id, config.SYMBOL_EMPTY) {
 					again = true
 				}
 			case symbols.IsTerminal(prod.Body.Symbols[0].SymbolString()):
@@ -144,14 +144,14 @@ func FirstS(firstSets *FirstSets, symbols []string) (first SymbolSet) {
 	}
 	fst := First(firstSets, symbols[0])
 	first.AddSet(fst)
-	_, containEmpty := fst["empty"]
+	_, containEmpty := fst[config.SYMBOL_EMPTY]
 	for i := 1; i < len(symbols) && containEmpty; i++ {
 		fst = First(firstSets, symbols[i])
 		first.AddSet(fst)
-		_, containEmpty = fst["empty"]
+		_, containEmpty = fst[config.SYMBOL_EMPTY]
 	}
 	if !containEmpty {
-		delete(first, "empty")
+		delete(first, config.SYMBOL_EMPTY)
 	}
 	return
 }

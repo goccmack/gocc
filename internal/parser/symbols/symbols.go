@@ -21,6 +21,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/maxcalandrelli/gocc/internal/config"
+
 	"github.com/maxcalandrelli/gocc/internal/ast"
 )
 
@@ -54,8 +56,8 @@ func NewSymbols(grammar *ast.Grammar) *Symbols {
 		stringLitList:  make([]string, 0, 16),
 	}
 
-	symbols.Add("INVALID")
-	symbols.Add("$")
+	symbols.Add(config.SYMBOL_INVALID)
+	symbols.Add(config.SYMBOL_EOF)
 
 	if grammar.SyntaxPart == nil {
 		return symbols

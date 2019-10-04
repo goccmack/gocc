@@ -18,6 +18,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/maxcalandrelli/gocc/internal/config"
+
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	"github.com/maxcalandrelli/gocc/internal/parser/lr1/action"
 )
@@ -46,7 +48,7 @@ func NewItem(prodIdx int, prod *ast.SyntaxProd, pos int, followingSymbol string)
 		Pos:             pos,
 		FollowingSymbol: followingSymbol,
 	}
-	if prod.Body.Symbols[0].SymbolString() == "empty" {
+	if prod.Body.Empty() {
 		item.Len = 0
 	} else {
 		item.Len = len(prod.Body.Symbols)
@@ -72,8 +74,8 @@ func NewItem(prodIdx int, prod *ast.SyntaxProd, pos int, followingSymbol string)
 func (this *Item) accept(sym string) bool {
 	return this.ProdIdx == 0 &&
 		this.Pos >= this.Len &&
-		this.FollowingSymbol == "$" &&
-		sym == "$"
+		config.SYMBOL_EOF == this.FollowingSymbol &&
+		config.SYMBOL_EOF == sym
 }
 
 /*
@@ -81,7 +83,7 @@ If the action is shift the next state is nextState
 */
 func (this *Item) action(sym string, nextState int) action.Action {
 	switch {
-	case sym == "INVALID":
+	case config.SYMBOL_INVALID == sym:
 		return action.ERROR
 	case this.accept(sym):
 		return action.ACCEPT
@@ -94,7 +96,7 @@ func (this *Item) action(sym string, nextState int) action.Action {
 }
 
 func (this *Item) canRecover() bool {
-	return this.Len > 0 && this.Body[0] == "error"
+	return this.Len > 0 && config.SYMBOL_ERROR == this.Body[0]
 }
 
 //Returns whether two Items are equal based on their ProdIdx, Pos and NextToken.
@@ -127,7 +129,7 @@ func (this *Item) getString() string {
 	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "%s : ", this.Id)
 	if this.Len == 0 {
-		fmt.Fprintf(buf, "empty")
+		fmt.Fprintf(buf, config.SYMBOL_EMPTY)
 	} else {
 		for i, s := range this.Body {
 			if this.Pos == i {

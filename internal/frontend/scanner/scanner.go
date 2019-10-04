@@ -13,6 +13,8 @@ import (
 	"strconv"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 import "github.com/maxcalandrelli/gocc/internal/frontend/token"
 
@@ -480,7 +482,7 @@ scanAgain:
 		S.next() // always make progress
 		switch ch {
 		case -1:
-			tok = S.tokenMap.Type("$")
+			tok = S.tokenMap.Type(config.SYMBOL_EOF)
 		case '"':
 			tok = S.tokenMap.Type("string_lit")
 			S.scanString(pos)

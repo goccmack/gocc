@@ -18,6 +18,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 type Grammar struct {
@@ -56,7 +58,7 @@ func consistent(g *Grammar) (err error) {
 		defs[tok.id] = true
 	}
 	for _, prod := range g.SyntaxPart.ProdList {
-		if len(prod.Body.Symbols) == 0 {
+		if prod.Body.Missing() {
 			return fmt.Errorf("empty production alternative: Maybe you are missing the \"empty\" keyword in %q", prod)
 		}
 		defs[prod.Id] = true
@@ -77,7 +79,8 @@ func consistent(g *Grammar) (err error) {
 	}
 	for s, in := range used {
 		if _, ok := defs[s]; !ok {
-			if s == "empty" || s == "error" {
+			switch s {
+			case config.SYMBOL_EMPTY, config.SYMBOL_ERROR:
 				continue
 			}
 			if s[0] >= 'A' && s[0] <= 'Z' {

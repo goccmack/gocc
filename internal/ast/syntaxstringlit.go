@@ -16,25 +16,26 @@ package ast
 
 import (
 	"fmt"
-
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
 )
 
-type SyntaxStringLit string
+type SyntaxStringLit struct {
+	string
+	StdSyntaxSymbol
+}
 
 func NewStringLit(tok interface{}) (SyntaxStringLit, error) {
-	lit := tok.(*token.Token).Lit
-	return SyntaxStringLit(lit[1 : len(lit)-1]), nil
+	lit := getString(tok)
+	return SyntaxStringLit{lit[1 : len(lit)-1], StdSyntaxSymbol{}}, nil
 }
 
 func (this SyntaxStringLit) SymbolString() string {
-	return string(this)
+	return this.string
 }
 
 func (this SyntaxStringLit) String() string {
-	return fmt.Sprintf("\"%s\"", string(this))
+	return fmt.Sprintf("\"%s\"", this.string)
 }
 
 func (this SyntaxStringLit) Bytes() []byte {
-	return []byte(this)
+	return []byte(this.string)
 }

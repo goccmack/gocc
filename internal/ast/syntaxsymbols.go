@@ -17,6 +17,8 @@ package ast
 import (
 	"fmt"
 	"strings"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 type SyntaxSymbols []SyntaxSymbol
@@ -38,4 +40,15 @@ func (this SyntaxSymbols) String() string {
 		fmt.Fprintf(w, sym.String())
 	}
 	return w.String()
+}
+
+func NewSyntaxSymbolsFromToken(tok interface{}) (SyntaxSymbols, error) {
+	switch getString(tok) {
+	case config.SYMBOL_EMPTY:
+		return SyntaxSymbols{emptySymbol}, nil
+	case config.SYMBOL_ERROR:
+		return SyntaxSymbols{errorSymbol}, nil
+	}
+	sym, err := NewStringLit(tok)
+	return SyntaxSymbols{sym}, err
 }

@@ -1,0 +1,21 @@
+
+
+hexdigit : '0'-'F' ;// ~(':'-'@') ;
+
+Test1:
+ "try" Test2
+;
+
+Test2 : Test3 | Test1;
+
+Test3 :
+"not" "empty"
+|
+T
+|
+hexdigit
+;
+
+T : "a"  | error Test1 | "X" | X ;
+
+X : "error" | "empty" | "ε" | "λ" | error | empty  | ε | λ ;

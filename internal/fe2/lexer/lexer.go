@@ -6,13 +6,13 @@ import (
 	"io/ioutil"
 	"unicode/utf8"
 
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/fe2/token"
 )
 
 const (
 	NoState    = -1
-	NumStates  = 111
-	NumSymbols = 78
+	NumStates  = 110
+	NumSymbols = 76
 )
 
 type Position struct {
@@ -119,6 +119,14 @@ func (l Lexer) CurrentPosition() Position {
   return l.Position
 }
 
+func (l Lexer) Source() []byte {
+  return l.src
+}
+
+func (l Lexer) Remaining() []byte {
+  return l.src[l.pos:]
+}
+
 
 func (p Position) Offset() int {
   return p.pos
@@ -152,8 +160,8 @@ Lexer symbols:
 9: ';'
 10: '|'
 11: '.'
-12: '~'
-13: '-'
+12: '-'
+13: '~'
 14: '('
 15: ')'
 16: '['
@@ -166,56 +174,54 @@ Lexer symbols:
 23: 'o'
 24: 'r'
 25: 'e'
-26: 'm'
-27: 'p'
-28: 't'
-29: 'y'
-30: '/'
-31: '/'
-32: '\n'
+26: \u03bb
+27: 'e'
+28: 'm'
+29: 'p'
+30: 't'
+31: 'y'
+32: \u03b5
 33: '/'
-34: '*'
-35: '*'
-36: '*'
-37: '/'
-38: '_'
-39: '0'
-40: '9'
-41: '\'
-42: 'u'
-43: '\'
-44: 'U'
-45: '\'
-46: 'a'
-47: 'b'
-48: 'f'
-49: 'n'
-50: 'r'
-51: 't'
-52: 'v'
-53: '\'
-54: '''
-55: '"'
-56: '\'
+34: '/'
+35: '\n'
+36: '/'
+37: '*'
+38: '*'
+39: '*'
+40: '/'
+41: '_'
+42: '\'
+43: 'u'
+44: '\'
+45: 'U'
+46: '\'
+47: 'a'
+48: 'b'
+49: 'f'
+50: 'n'
+51: 'r'
+52: 't'
+53: 'v'
+54: '\'
+55: '''
+56: '"'
 57: '\'
-58: 'x'
-59: '`'
+58: '\'
+59: 'x'
 60: '`'
-61: '"'
+61: '`'
 62: '"'
-63: ' '
-64: '\t'
-65: '\n'
-66: '\r'
-67: 'a'-'z'
-68: 'A'-'Z'
-69: '0'-'7'
+63: '"'
+64: ' '
+65: '\t'
+66: '\n'
+67: '\r'
+68: 'a'-'z'
+69: 'A'-'Z'
 70: '0'-'9'
-71: 'A'-'F'
-72: 'a'-'f'
-73: '0'-'9'
-74: 'A'-'F'
-75: 'a'-'z'
-76: 'g'-'z'
-77: .
+71: '0'-'7'
+72: '0'-'9'
+73: 'A'-'F'
+74: 'a'-'f'
+75: .
 */

@@ -53,7 +53,7 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 		data.ProdTab[i].String = fmt.Sprintf("`%s`", prod.String())
 		data.ProdTab[i].Id = prod.Id
 		data.ProdTab[i].NTType = symbols.NTType(prod.Id)
-		isEmpty := prod.Body.Symbols[0].SymbolString() == "empty"
+		isEmpty := prod.Body.Empty()
 		if isEmpty {
 			data.ProdTab[i].NumSymbols = 0
 		} else {
@@ -69,7 +69,6 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 			data.ProdTab[i].ReduceFunc = "return X[0], nil"
 		}
 	}
-  data.TokenImport= path.Join(pkg, "token"),
 
 	return data
 }
@@ -80,12 +79,12 @@ type prodsTabData struct {
 }
 
 type prodTabEntry struct {
-	String     string
-	Id         string
-	NTType     int
-	NumSymbols int
-	ReduceFunc string
-	TokenImport    string
+	String      string
+	Id          string
+	NTType      int
+	NumSymbols  int
+	ReduceFunc  string
+	TokenImport string
 }
 
 const prodsTabSrc = `
@@ -94,10 +93,6 @@ const prodsTabSrc = `
 package parser
 
 {{.Header}}
-
-import (
-	"{{.TokenImport}}"
-)
 
 
 

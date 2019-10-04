@@ -5,7 +5,7 @@ package lexer
 import (
 	"fmt"
 
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/fe2/token"
 )
 
 type ActionTable [NumStates]ActionRow
@@ -49,7 +49,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S7
-		Accept: 11,
+		Accept: 10,
 		Ignore: "",
 	},
 	ActionRow{ // S8
@@ -113,11 +113,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S23
-		Accept: 10,
+		Accept: 11,
 		Ignore: "",
 	},
 	ActionRow{ // S24
-		Accept: 6,
+		Accept: 24,
 		Ignore: "",
 	},
 	ActionRow{ // S25
@@ -125,11 +125,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S26
-		Accept: 0,
+		Accept: 6,
 		Ignore: "",
 	},
 	ActionRow{ // S27
-		Accept: 0,
+		Accept: 20,
 		Ignore: "",
 	},
 	ActionRow{ // S28
@@ -157,7 +157,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S34
-		Accept: 19,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S35
@@ -169,11 +169,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S37
-		Accept: 0,
+		Accept: 19,
 		Ignore: "",
 	},
 	ActionRow{ // S38
-		Accept: 5,
+		Accept: 19,
 		Ignore: "",
 	},
 	ActionRow{ // S39
@@ -185,15 +185,15 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S41
-		Accept: 22,
+		Accept: 5,
 		Ignore: "",
 	},
 	ActionRow{ // S42
-		Accept: 0,
+		Accept: 5,
 		Ignore: "",
 	},
 	ActionRow{ // S43
-		Accept: 2,
+		Accept: 20,
 		Ignore: "",
 	},
 	ActionRow{ // S44
@@ -213,11 +213,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S48
-		Accept: 0,
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S49
-		Accept: 6,
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S50
@@ -229,11 +229,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S52
-		Accept: 0,
+		Accept: 6,
 		Ignore: "",
 	},
 	ActionRow{ // S53
-		Accept: 0,
+		Accept: 6,
 		Ignore: "",
 	},
 	ActionRow{ // S54
@@ -269,7 +269,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S62
-		Accept: 9,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S63
@@ -277,19 +277,19 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S64
-		Accept: -1,
-		Ignore: "!comment",
+		Accept: 9,
+		Ignore: "",
 	},
 	ActionRow{ // S65
 		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S66
-		Accept: 19,
-		Ignore: "",
+		Accept: -1,
+		Ignore: "!comment",
 	},
 	ActionRow{ // S67
-		Accept: 5,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S68
@@ -301,11 +301,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S70
-		Accept: 2,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S71
-		Accept: 6,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S72
@@ -333,27 +333,27 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S78
-		Accept: 0,
-		Ignore: "",
+		Accept: -1,
+		Ignore: "!comment",
 	},
 	ActionRow{ // S79
 		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S80
-		Accept: -1,
-		Ignore: "!comment",
+		Accept: 2,
+		Ignore: "",
 	},
 	ActionRow{ // S81
-		Accept: 0,
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S82
-		Accept: 2,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S83
-		Accept: 2,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S84
@@ -381,23 +381,23 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S90
-		Accept: 0,
-		Ignore: "",
-	},
-	ActionRow{ // S91
-		Accept: 0,
-		Ignore: "",
-	},
-	ActionRow{ // S92
 		Accept: 18,
 		Ignore: "",
 	},
+	ActionRow{ // S91
+		Accept: 23,
+		Ignore: "",
+	},
+	ActionRow{ // S92
+		Accept: 2,
+		Ignore: "",
+	},
 	ActionRow{ // S93
-		Accept: 21,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S94
-		Accept: 20,
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S95
@@ -409,7 +409,7 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S97
-		Accept: 0,
+		Accept: 21,
 		Ignore: "",
 	},
 	ActionRow{ // S98
@@ -457,10 +457,6 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S109
-		Accept: 0,
-		Ignore: "",
-	},
-	ActionRow{ // S110
 		Accept: 0,
 		Ignore: "",
 	},

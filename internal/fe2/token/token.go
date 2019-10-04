@@ -6,10 +6,18 @@ import (
 	"fmt"
 )
 
+type UserContext interface{}
+
+type ParseContext struct {
+	Remaining []byte
+}
+
 type Token struct {
 	Type
 	Lit []byte
 	Pos
+	Context *ParseContext
+	User    UserContext
 }
 
 type Type int
@@ -59,8 +67,8 @@ func (m TokenMap) StringType(typ Type) string {
 
 var TokMap = TokenMap{
 	typeMap: []string{
-		"INVALID",
-		"$",
+		"<INVALID>",
+		"Ω<EOF>",
 		"tokId",
 		":",
 		";",
@@ -69,8 +77,8 @@ var TokMap = TokenMap{
 		"|",
 		".",
 		"char_lit",
-		"~",
 		"-",
+		"~",
 		"(",
 		")",
 		"[",
@@ -79,14 +87,16 @@ var TokMap = TokenMap{
 		"}",
 		"g_sdt_lit",
 		"prodId",
-		"error",
-		"empty",
 		"string_lit",
+		"errore",
+		"λ",
+		"empty",
+		"ε",
 	},
 
 	idMap: map[string]Type{
-		"INVALID":      0,
-		"$":            1,
+		"<INVALID>":    0,
+		"Ω<EOF>":       1,
 		"tokId":        2,
 		":":            3,
 		";":            4,
@@ -95,8 +105,8 @@ var TokMap = TokenMap{
 		"|":            7,
 		".":            8,
 		"char_lit":     9,
-		"~":            10,
-		"-":            11,
+		"-":            10,
+		"~":            11,
 		"(":            12,
 		")":            13,
 		"[":            14,
@@ -105,8 +115,10 @@ var TokMap = TokenMap{
 		"}":            17,
 		"g_sdt_lit":    18,
 		"prodId":       19,
-		"error":        20,
-		"empty":        21,
-		"string_lit":   22,
+		"string_lit":   20,
+		"errore":       21,
+		"λ":            22,
+		"empty":        23,
+		"ε":            24,
 	},
 }
