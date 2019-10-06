@@ -20,8 +20,8 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
-func GenAction(outDir string) {
-	io.WriteFileString(path.Join(outDir, "parser", "action.go"), actionSrc[1:])
+func GenAction(outDir, subpath string) {
+	io.WriteFileString(path.Join(outDir, subpath, "parser", "action.go"), actionSrc[1:])
 }
 
 const actionSrc = `

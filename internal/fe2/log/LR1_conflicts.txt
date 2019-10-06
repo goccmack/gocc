@@ -1,0 +1,17 @@
+4 LR-1 conflicts: 
+	S27
+		symbol: -
+			Shift(50)
+			Reduce(15:LexTerm : char_lit	<< ast.NewLexCharLitExt(X[0],false) >>)
+	S58
+		symbol: -
+			Shift(97)
+			Reduce(15:LexTerm : char_lit	<< ast.NewLexCharLitExt(X[0],false) >>)
+	S68
+		symbol: -
+			Reduce(15:LexTerm : char_lit	<< ast.NewLexCharLitExt(X[0],false) >>)
+			Shift(106)
+	S78
+		symbol: -
+			Reduce(15:LexTerm : char_lit	<< ast.NewLexCharLitExt(X[0],false) >>)
+			Shift(115)

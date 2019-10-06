@@ -15,6 +15,7 @@
 package items
 
 import (
+	"fmt"
 	// "fmt"
 	"testing"
 
@@ -413,29 +414,34 @@ func TestDisjunctSets14(t *testing.T) {
 	}
 }
 
-func TestDisjunctSets15(t *testing.T) {
-	set := NewDisjunctRangeSet()
-	subtract := func(a, b rune) {
-		t.Logf("current set:   %s; subtracting <%c-%c>\n", set.String(), a, b)
-		set.SubtractRange(a, b)
-		t.Logf("resulting set: %s\n", set.String())
+func test15hlp(t *testing.T, set *DisjunctRangeSet, from, to rune, subtract bool, expect string) {
+	if subtract {
+		fmt.Printf("current set:   %s; subtracting <%c-%c>\n", set.String(), from, to)
+		set.SubtractRange(from, to)
+	} else {
+		fmt.Printf("current set:   %s; adding <%c-%c>\n", set.String(), from, to)
+		set.AddRange(from, to)
 	}
-	set.AddRange('D', 'F')
-	set.AddRange('J', 'L')
-	set.AddRange('Q', 'Z')
-	set.AddRange('5', '8')
-	set.AddRange('a', 'z')
-	subtract('0', '4')
-	subtract('A', 'D')
-	subtract('E', 'M')
-	subtract('S', '^')
-	subtract('K', 'C')
-	subtract('c', 'f')
-	subtract('w', 'w')
-	set.AddLexTNode(ast.LexDOT)
-	expect := "{['5','8'], ['J','L'], ['Q','R'], ['a','b'], ['g','v'], ['x','z']}"
+	fmt.Printf("resulting set: %s\n", set.String())
 	if expect != set.String() {
+		fmt.Printf("expected  set: %s\n", expect)
 		t.Fatalf("expected set: %s\n", expect)
 		t.Fatalf("actual set:   %s\n", set.String())
 	}
+}
+
+func TestDisjunctSets15(t *testing.T) {
+	set := NewDisjunctRangeSet()
+	test15hlp(t, set, 'D', 'F', false, "{['D','F']}")
+	test15hlp(t, set, 'J', 'L', false, "{['D','F'], ['J','L']}")
+	test15hlp(t, set, 'Q', 'Z', false, "{['D','F'], ['J','L'], ['Q','Z']}")
+	test15hlp(t, set, '5', '8', false, "{['5','8'], ['D','F'], ['J','L'], ['Q','Z']}")
+	test15hlp(t, set, 'a', 'z', false, "{['5','8'], ['D','F'], ['J','L'], ['Q','Z'], ['a','z']}")
+	test15hlp(t, set, '0', '4', true, "{['5','8'], ['D','F'], ['J','L'], ['Q','Z'], ['a','z']}")
+	test15hlp(t, set, 'A', 'D', true, "{['5','8'], ['E','F'], ['J','L'], ['Q','Z'], ['a','z']}")
+	test15hlp(t, set, 'E', 'M', true, "{['5','8'], ['Q','Z'], ['a','z']}")
+	test15hlp(t, set, 'S', '^', true, "{['5','8'], ['Q','R'], ['a','z']}")
+	test15hlp(t, set, 'K', 'C', true, "{['5','8'], ['Q','R'], ['a','z']}")
+	test15hlp(t, set, 'c', 'f', true, "{['5','8'], ['Q','R'], ['a','b'], ['g','z']}")
+	test15hlp(t, set, 'w', 'w', true, "{['5','8'], ['Q','R'], ['a','b'], ['g','v'], ['x','z']}")
 }

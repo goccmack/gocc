@@ -25,10 +25,14 @@ type SyntaxEof struct {
 
 var eofSymbol = SyntaxEof{config.SYMBOL_EOF, StdSyntaxSymbol{}}
 
-func (SyntaxEof) SymbolsString() string {
+func (SyntaxEof) SymbolString() string {
 	return eofSymbol.string
 }
 
 func (SyntaxEof) String() string {
 	return eofSymbol.string
+}
+
+func (SyntaxEof) SymbolName() string {
+	return config.INTERNAL_SYMBOL_EOF
 }

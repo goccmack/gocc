@@ -6,8 +6,8 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
-func GenLitConv(outDir string) {
-	io.WriteFileString(path.Join(outDir, "util", "litconv.go"), litConvSrc[1:])
+func GenLitConv(outDir, subpath string) {
+	io.WriteFileString(path.Join(outDir, subpath, "util", "litconv.go"), litConvSrc[1:])
 }
 
 const litConvSrc = `

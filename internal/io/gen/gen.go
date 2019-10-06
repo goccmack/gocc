@@ -15,9 +15,9 @@
 package gen
 
 import (
-	"github.com/maxcalandrelli/gocc/internal/base/gen/golang"
+	"github.com/maxcalandrelli/gocc/internal/io/gen/golang"
 )
 
 func Gen(pkg, outdir, subpath string) {
-	golang.Gen(pkg, outdir, subpath)
+	golang.GenIo(pkg, outdir, subpath)
 }

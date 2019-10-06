@@ -24,25 +24,25 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/lexer/items"
 )
 
-func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) {
+func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, subpath string) {
 	tmpl, err := template.New("lexer").Parse(lexerSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
-	err = tmpl.Execute(buf, getLexerData(pkg, outDir, itemsets, cfg))
+	err = tmpl.Execute(buf, getLexerData(pkg, outDir, itemsets, cfg, subpath))
 	if err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "lexer", "lexer.go"), buf.Bytes())
+	io.WriteFile(path.Join(outDir, subpath, "lexer", "lexer.go"), buf.Bytes())
 }
 
-func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) *lexerData {
+func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, subpath string) *lexerData {
 	lexSymbols := itemsets.Symbols().List()
 	return &lexerData{
 		Debug:       cfg.DebugLexer(),
-		TokenImport: path.Join(pkg, "token"),
-		UtilImport:  path.Join(pkg, "util"),
+		TokenImport: path.Join(pkg, subpath, "token"),
+		UtilImport:  path.Join(pkg, subpath, "util"),
 		NumStates:   itemsets.Size(),
 		NumSymbols:  len(lexSymbols),
 		Symbols:     lexSymbols,

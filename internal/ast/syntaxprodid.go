@@ -14,6 +14,10 @@
 
 package ast
 
+import (
+	"github.com/maxcalandrelli/gocc/internal/config"
+)
+
 // Id or name of a grammar(syntax) production
 type SyntaxProdId struct {
 	string
@@ -30,4 +34,8 @@ func (this SyntaxProdId) SymbolString() string {
 
 func (this SyntaxProdId) String() string {
 	return this.string
+}
+
+func (this SyntaxProdId) SymbolName() string {
+	return config.INTERNAL_SYMBOL_PROD + this.string
 }

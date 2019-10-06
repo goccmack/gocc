@@ -26,14 +26,16 @@ import (
 )
 
 const (
-	DISPLAY_SYMBOL_EMPTY   = "ε"
-	DISPLAY_SYMBOL_ERROR   = "λ(λάθος)"
-	DISPLAY_SYMBOL_INVALID = "ά(άκυρος)"
-	DISPLAY_SYMBOL_EOF     = "Ω"
-	SYMBOL_EMPTY           = "empty"
-	SYMBOL_ERROR           = "error"
-	SYMBOL_INVALID         = "<INVALID>"
-	SYMBOL_EOF             = "Ω<EOF>"
+	INTERNAL_SYMBOL_EMPTY   = "ε"
+	INTERNAL_SYMBOL_ERROR   = "λ" // (λάθος)
+	INTERNAL_SYMBOL_INVALID = "ά" // (άκυρος)
+	INTERNAL_SYMBOL_EOF     = "Ω"
+	INTERNAL_SYMBOL_PROD    = "Π:"
+	INTERNAL_SYMBOL_LIT     = "Λ:"
+	SYMBOL_EMPTY            = "empty"
+	SYMBOL_ERROR            = "error"
+	SYMBOL_INVALID          = "<INVALID>"
+	SYMBOL_EOF              = "Ω<EOF>"
 )
 
 type (

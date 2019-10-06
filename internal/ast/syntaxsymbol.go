@@ -18,6 +18,7 @@ package ast
 All syntax symbols are types of string
 */
 type SyntaxSymbol interface {
+	SymbolName() string
 	SymbolString() string
 	String() string
 	IsError() bool

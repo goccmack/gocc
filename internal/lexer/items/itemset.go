@@ -112,7 +112,32 @@ func (this *ItemSet) getSymbolClasses() {
 	this.SymbolClasses = NewDisjunctRangeSet()
 	for _, item := range this.Items {
 		if !item.Reduce() {
-			this.SymbolClasses.AddLexTNode(item.ExpectedSymbol())
+			addNow := false
+			switch chars := item.ExpectedSymbol().(type) {
+			case *ast.LexCharLit:
+				addNow = !chars.Negate
+			case *ast.LexCharRange:
+				addNow = !chars.Negate
+			default:
+				addNow = true
+			}
+			if addNow {
+				this.SymbolClasses.AddLexTNode(item.ExpectedSymbol())
+			}
+		}
+	}
+	for _, item := range this.Items {
+		if !item.Reduce() {
+			addNow := false
+			switch chars := item.ExpectedSymbol().(type) {
+			case *ast.LexCharLit:
+				addNow = chars.Negate
+			case *ast.LexCharRange:
+				addNow = chars.Negate
+			}
+			if addNow {
+				this.SymbolClasses.AddLexTNode(item.ExpectedSymbol())
+			}
 		}
 	}
 }

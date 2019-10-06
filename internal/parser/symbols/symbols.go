@@ -69,6 +69,8 @@ func NewSymbols(grammar *ast.Grammar) *Symbols {
 			symbols.ntIdMap[p.Id] = len(symbols.ntTypeMap) - 1
 		}
 		symbols.Add(p.Id)
+	}
+	for _, p := range grammar.SyntaxPart.ProdList {
 		for _, sym := range p.Body.Symbols {
 			symStr := sym.SymbolString()
 			symbols.Add(symStr)

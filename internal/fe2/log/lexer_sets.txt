@@ -19,14 +19,13 @@ S0{
 	| : • '|'
 	. : • '.'
 	- : • '-'
-	~ : • '~'
 	( : • '('
 	) : • ')'
 	[ : • '['
 	] : • ']'
 	{ : • '{'
 	} : • '}'
-	errore : • 'e' 'r' 'r' 'o' 'r' 'e'
+	error : • 'e' 'r' 'r' 'o' 'r'
 	λ : • \u03bb
 	empty : • 'e' 'm' 'p' 't' 'y'
 	ε : • \u03b5
@@ -65,11 +64,10 @@ Transitions:
 	['{','{'] -> S20
 	['|','|'] -> S21
 	['}','}'] -> S22
-	['~','~'] -> S23
-	[\u03b5,\u03b5] -> S24
-	[\u03bb,\u03bb] -> S25
+	[\u03b5,\u03b5] -> S23
+	[\u03bb,\u03bb] -> S24
 Action: nil
-Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['!','!'], ['"','"'], [''','''], ['(','('], [')',')'], ['-','-'], ['.','.'], ['/','/'], [':',':'], [';',';'], ['<','<'], ['A','Z'], ['[','['], [']',']'], ['_','_'], ['`','`'], ['a','d'], ['e','e'], ['f','z'], ['{','{'], ['|','|'], ['}','}'], ['~','~'], [\u03b5,\u03b5], [\u03bb,\u03bb]}
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['!','!'], ['"','"'], [''','''], ['(','('], [')',')'], ['-','-'], ['.','.'], ['/','/'], [':',':'], [';',';'], ['<','<'], ['A','Z'], ['[','['], [']',']'], ['_','_'], ['`','`'], ['a','d'], ['e','e'], ['f','z'], ['{','{'], ['|','|'], ['}','}'], [\u03b5,\u03b5], [\u03bb,\u03bb]}
 
 S1{
 	!whitespace : (' ' | '\t' | '\n' | '\r') •
@@ -84,7 +82,7 @@ S2{
 	_lowcase : •  'a'-'z'
 }
 Transitions:
-	['a','z'] -> S26
+	['a','z'] -> S25
 Action: nil
 Symbols classes: {['a','z']}
 
@@ -106,9 +104,9 @@ S3{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['"','"'] -> S27
-	['\','\'] -> S28
-. -> S29
+	['"','"'] -> S26
+	['\','\'] -> S27
+. -> S28
 Action: nil
 Symbols classes: {['"','"'], ['\','\']}
 
@@ -128,8 +126,8 @@ S4{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['\','\'] -> S30
-. -> S31
+	['\','\'] -> S29
+. -> S30
 Action: nil
 Symbols classes: {['\','\']}
 
@@ -168,8 +166,8 @@ S9{
 	!comment : • _lineComment | _blockComment
 }
 Transitions:
-	['*','*'] -> S32
-	['/','/'] -> S33
+	['*','*'] -> S31
+	['/','/'] -> S32
 Action: nil
 Symbols classes: {['*','*'], ['/','/']}
 
@@ -191,7 +189,7 @@ S12{
 	g_sdt_lit : '<' • '<' . {.} '>' '>'
 }
 Transitions:
-	['<','<'] -> S34
+	['<','<'] -> S33
 Action: nil
 Symbols classes: {['<','<']}
 
@@ -208,10 +206,10 @@ S13{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S35
-	['A','Z'] -> S36
-	['_','_'] -> S37
-	['a','z'] -> S38
+	['0','9'] -> S34
+	['A','Z'] -> S35
+	['_','_'] -> S36
+	['a','z'] -> S37
 Action: Accept("prodId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
@@ -241,10 +239,10 @@ S16{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S39
-	['A','Z'] -> S40
-	['_','_'] -> S41
-	['a','z'] -> S42
+	['0','9'] -> S38
+	['A','Z'] -> S39
+	['_','_'] -> S40
+	['a','z'] -> S41
 Action: Accept("regDefId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
@@ -254,7 +252,7 @@ S17{
 	string_lit : • _raw_string | _interpreted_string
 }
 Transitions:
-	['`','`'] -> S43
+	['`','`'] -> S42
 . -> S17
 Action: nil
 Symbols classes: {['`','`']}
@@ -274,15 +272,15 @@ S18{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S19{
-	errore : 'e' • 'r' 'r' 'o' 'r' 'e'
+	error : 'e' • 'r' 'r' 'o' 'r'
 	empty : 'e' • 'm' 'p' 't' 'y'
 	_lowcase :  'a'-'z' •
 	_tokId : _lowcase {_id_char} •
@@ -298,14 +296,14 @@ S19{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','l'] -> S47
-	['m','m'] -> S48
-	['n','q'] -> S47
-	['r','r'] -> S49
-	['s','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','l'] -> S46
+	['m','m'] -> S47
+	['n','q'] -> S46
+	['r','r'] -> S48
+	['s','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','l'], ['m','m'], ['n','q'], ['r','r'], ['s','z']}
 
@@ -331,27 +329,20 @@ Action: Accept("}")
 Symbols classes: {}
 
 S23{
-	~ : '~' •
-}
-Transitions:
-Action: Accept("~")
-Symbols classes: {}
-
-S24{
 	ε : \u03b5 •
 }
 Transitions:
 Action: Accept("ε")
 Symbols classes: {}
 
-S25{
+S24{
 	λ : \u03bb •
 }
 Transitions:
 Action: Accept("λ")
 Symbols classes: {}
 
-S26{
+S25{
 	_lowcase :  'a'-'z' •
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
@@ -366,14 +357,14 @@ S26{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S50
-	['A','Z'] -> S51
-	['_','_'] -> S52
-	['a','z'] -> S53
+	['0','9'] -> S49
+	['A','Z'] -> S50
+	['_','_'] -> S51
+	['a','z'] -> S52
 Action: Accept("ignoredTokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S27{
+S26{
 	_interpreted_string : '"' {_unicode_value | _byte_value} '"' •
 	string_lit : (_raw_string | _interpreted_string) •
 }
@@ -381,7 +372,7 @@ Transitions:
 Action: Accept("string_lit")
 Symbols classes: {}
 
-S28{
+S27{
 	_hex_byte_value : '\' • 'x' _hex_digit _hex_digit
 	_octal_byte_value : '\' • _octal_digit _octal_digit _octal_digit
 	_escaped_char : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | • '"')
@@ -407,24 +398,24 @@ S28{
 	_octal_digit : •  '0'-'7'
 }
 Transitions:
-	['"','"'] -> S54
-	[''','''] -> S54
-	['0','7'] -> S55
-	['U','U'] -> S56
-	['\','\'] -> S54
-	['a','a'] -> S54
-	['b','b'] -> S54
-	['f','f'] -> S54
-	['n','n'] -> S54
-	['r','r'] -> S54
-	['t','t'] -> S54
-	['u','u'] -> S57
-	['v','v'] -> S54
-	['x','x'] -> S58
+	['"','"'] -> S53
+	[''','''] -> S53
+	['0','7'] -> S54
+	['U','U'] -> S55
+	['\','\'] -> S53
+	['a','a'] -> S53
+	['b','b'] -> S53
+	['f','f'] -> S53
+	['n','n'] -> S53
+	['r','r'] -> S53
+	['t','t'] -> S53
+	['u','u'] -> S56
+	['v','v'] -> S53
+	['x','x'] -> S57
 Action: nil
 Symbols classes: {['"','"'], [''','''], ['0','7'], ['U','U'], ['\','\'], ['a','a'], ['b','b'], ['f','f'], ['n','n'], ['r','r'], ['t','t'], ['u','u'], ['v','v'], ['x','x']}
 
-S29{
+S28{
 	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
 	_interpreted_string : '"' {_unicode_value | _byte_value} • '"'
 	_interpreted_string : '"' {_unicode_value | • _byte_value} '"'
@@ -443,13 +434,13 @@ S29{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['"','"'] -> S27
-	['\','\'] -> S28
-. -> S29
+	['"','"'] -> S26
+	['\','\'] -> S27
+. -> S28
 Action: nil
 Symbols classes: {['"','"'], ['\','\']}
 
-S30{
+S29{
 	_hex_byte_value : '\' • 'x' _hex_digit _hex_digit
 	_octal_byte_value : '\' • _octal_digit _octal_digit _octal_digit
 	_escaped_char : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | • '"')
@@ -474,64 +465,64 @@ S30{
 	_octal_digit : •  '0'-'7'
 }
 Transitions:
-	['"','"'] -> S59
-	[''','''] -> S59
-	['0','7'] -> S60
-	['U','U'] -> S61
-	['\','\'] -> S59
-	['a','a'] -> S59
-	['b','b'] -> S59
-	['f','f'] -> S59
-	['n','n'] -> S59
-	['r','r'] -> S59
-	['t','t'] -> S59
-	['u','u'] -> S62
-	['v','v'] -> S59
-	['x','x'] -> S63
+	['"','"'] -> S58
+	[''','''] -> S58
+	['0','7'] -> S59
+	['U','U'] -> S60
+	['\','\'] -> S58
+	['a','a'] -> S58
+	['b','b'] -> S58
+	['f','f'] -> S58
+	['n','n'] -> S58
+	['r','r'] -> S58
+	['t','t'] -> S58
+	['u','u'] -> S61
+	['v','v'] -> S58
+	['x','x'] -> S62
 Action: nil
 Symbols classes: {['"','"'], [''','''], ['0','7'], ['U','U'], ['\','\'], ['a','a'], ['b','b'], ['f','f'], ['n','n'], ['r','r'], ['t','t'], ['u','u'], ['v','v'], ['x','x']}
 
-S31{
+S30{
 	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
 	char_lit : ''' (_unicode_value | _byte_value) • '''
 }
 Transitions:
-	[''','''] -> S64
+	[''','''] -> S63
 Action: nil
 Symbols classes: {[''',''']}
 
-S32{
+S31{
 	_blockComment : '/' '*' {. | '*'} • '*' '/'
 	_blockComment : '/' '*' {. | • '*'} '*' '/'
 	_blockComment : '/' '*' {• . | '*'} '*' '/'
 	!comment : _lineComment | • _blockComment
 }
 Transitions:
-	['*','*'] -> S65
-. -> S32
+	['*','*'] -> S64
+. -> S31
 Action: nil
 Symbols classes: {['*','*']}
 
-S33{
+S32{
 	_lineComment : '/' '/' {.} • '\n'
 	_lineComment : '/' '/' {• .} '\n'
 	!comment : • _lineComment | _blockComment
 }
 Transitions:
-	['\n','\n'] -> S66
-. -> S33
+	['\n','\n'] -> S65
+. -> S32
 Action: nil
 Symbols classes: {['\n','\n']}
 
-S34{
+S33{
 	g_sdt_lit : '<' '<' • . {.} '>' '>'
 }
 Transitions:
-. -> S67
+. -> S66
 Action: nil
 Symbols classes: {}
 
-S35{
+S34{
 	_digit :  '0'-'9' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	prodId : _upcase {_id_char} •
@@ -545,15 +536,35 @@ S35{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S35
-	['A','Z'] -> S36
-	['_','_'] -> S37
-	['a','z'] -> S38
+	['0','9'] -> S34
+	['A','Z'] -> S35
+	['_','_'] -> S36
+	['a','z'] -> S37
+Action: Accept("prodId")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S35{
+	_upcase :  'A'-'Z' •
+	_id_char : (_upcase | _lowcase | '_' | _digit) •
+	prodId : _upcase {_id_char} •
+	prodId : _upcase {• _id_char}
+	_id_char : _upcase | _lowcase | '_' | • _digit
+	_id_char : _upcase | _lowcase | • '_' | _digit
+	_id_char : _upcase | • _lowcase | '_' | _digit
+	_id_char : • _upcase | _lowcase | '_' | _digit
+	_digit : •  '0'-'9'
+	_lowcase : •  'a'-'z'
+	_upcase : •  'A'-'Z'
+}
+Transitions:
+	['0','9'] -> S34
+	['A','Z'] -> S35
+	['_','_'] -> S36
+	['a','z'] -> S37
 Action: Accept("prodId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S36{
-	_upcase :  'A'-'Z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	prodId : _upcase {_id_char} •
 	prodId : _upcase {• _id_char}
@@ -566,34 +577,14 @@ S36{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S35
-	['A','Z'] -> S36
-	['_','_'] -> S37
-	['a','z'] -> S38
+	['0','9'] -> S34
+	['A','Z'] -> S35
+	['_','_'] -> S36
+	['a','z'] -> S37
 Action: Accept("prodId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S37{
-	_id_char : (_upcase | _lowcase | '_' | _digit) •
-	prodId : _upcase {_id_char} •
-	prodId : _upcase {• _id_char}
-	_id_char : _upcase | _lowcase | '_' | • _digit
-	_id_char : _upcase | _lowcase | • '_' | _digit
-	_id_char : _upcase | • _lowcase | '_' | _digit
-	_id_char : • _upcase | _lowcase | '_' | _digit
-	_digit : •  '0'-'9'
-	_lowcase : •  'a'-'z'
-	_upcase : •  'A'-'Z'
-}
-Transitions:
-	['0','9'] -> S35
-	['A','Z'] -> S36
-	['_','_'] -> S37
-	['a','z'] -> S38
-Action: Accept("prodId")
-Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
-
-S38{
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	prodId : _upcase {_id_char} •
@@ -607,14 +598,14 @@ S38{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S35
-	['A','Z'] -> S36
-	['_','_'] -> S37
-	['a','z'] -> S38
+	['0','9'] -> S34
+	['A','Z'] -> S35
+	['_','_'] -> S36
+	['a','z'] -> S37
 Action: Accept("prodId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S39{
+S38{
 	_digit :  '0'-'9' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	regDefId : '_' {_id_char} •
@@ -628,14 +619,14 @@ S39{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S39
-	['A','Z'] -> S40
-	['_','_'] -> S41
-	['a','z'] -> S42
+	['0','9'] -> S38
+	['A','Z'] -> S39
+	['_','_'] -> S40
+	['a','z'] -> S41
 Action: Accept("regDefId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S40{
+S39{
 	_upcase :  'A'-'Z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	regDefId : '_' {_id_char} •
@@ -649,14 +640,14 @@ S40{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S39
-	['A','Z'] -> S40
-	['_','_'] -> S41
-	['a','z'] -> S42
+	['0','9'] -> S38
+	['A','Z'] -> S39
+	['_','_'] -> S40
+	['a','z'] -> S41
 Action: Accept("regDefId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S41{
+S40{
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	regDefId : '_' {_id_char} •
 	regDefId : '_' {• _id_char}
@@ -669,14 +660,14 @@ S41{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S39
-	['A','Z'] -> S40
-	['_','_'] -> S41
-	['a','z'] -> S42
+	['0','9'] -> S38
+	['A','Z'] -> S39
+	['_','_'] -> S40
+	['a','z'] -> S41
 Action: Accept("regDefId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S42{
+S41{
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	regDefId : '_' {_id_char} •
@@ -690,14 +681,14 @@ S42{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S39
-	['A','Z'] -> S40
-	['_','_'] -> S41
-	['a','z'] -> S42
+	['0','9'] -> S38
+	['A','Z'] -> S39
+	['_','_'] -> S40
+	['a','z'] -> S41
 Action: Accept("regDefId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S43{
+S42{
 	_raw_string : '`' {.} '`' •
 	string_lit : (_raw_string | _interpreted_string) •
 }
@@ -705,7 +696,7 @@ Transitions:
 Action: Accept("string_lit")
 Symbols classes: {}
 
-S44{
+S43{
 	_digit :  '0'-'9' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -721,14 +712,14 @@ S44{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S45{
+S44{
 	_upcase :  'A'-'Z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -744,14 +735,14 @@ S45{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S46{
+S45{
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
@@ -766,14 +757,14 @@ S46{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S47{
+S46{
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -789,14 +780,14 @@ S47{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S48{
+S47{
 	empty : 'e' 'm' • 'p' 't' 'y'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
@@ -813,17 +804,17 @@ S48{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','o'] -> S47
-	['p','p'] -> S68
-	['q','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','o'] -> S46
+	['p','p'] -> S67
+	['q','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','o'], ['p','p'], ['q','z']}
 
-S49{
-	errore : 'e' 'r' • 'r' 'o' 'r' 'e'
+S48{
+	error : 'e' 'r' • 'r' 'o' 'r'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -839,16 +830,16 @@ S49{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','q'] -> S47
-	['r','r'] -> S69
-	['s','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','q'] -> S46
+	['r','r'] -> S68
+	['s','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','q'], ['r','r'], ['s','z']}
 
-S50{
+S49{
 	_digit :  '0'-'9' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -864,14 +855,14 @@ S50{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S50
-	['A','Z'] -> S51
-	['_','_'] -> S52
-	['a','z'] -> S53
+	['0','9'] -> S49
+	['A','Z'] -> S50
+	['_','_'] -> S51
+	['a','z'] -> S52
 Action: Accept("ignoredTokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S51{
+S50{
 	_upcase :  'A'-'Z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -887,14 +878,14 @@ S51{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S50
-	['A','Z'] -> S51
-	['_','_'] -> S52
-	['a','z'] -> S53
+	['0','9'] -> S49
+	['A','Z'] -> S50
+	['_','_'] -> S51
+	['a','z'] -> S52
 Action: Accept("ignoredTokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S52{
+S51{
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
@@ -909,14 +900,14 @@ S52{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S50
-	['A','Z'] -> S51
-	['_','_'] -> S52
-	['a','z'] -> S53
+	['0','9'] -> S49
+	['A','Z'] -> S50
+	['_','_'] -> S51
+	['a','z'] -> S52
 Action: Accept("ignoredTokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S53{
+S52{
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -932,14 +923,14 @@ S53{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S50
-	['A','Z'] -> S51
-	['_','_'] -> S52
-	['a','z'] -> S53
+	['0','9'] -> S49
+	['A','Z'] -> S50
+	['_','_'] -> S51
+	['a','z'] -> S52
 Action: Accept("ignoredTokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S54{
+S53{
 	_escaped_char : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"') •
 	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
 	_interpreted_string : '"' {_unicode_value | _byte_value} • '"'
@@ -959,13 +950,13 @@ S54{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['"','"'] -> S27
-	['\','\'] -> S28
-. -> S29
+	['"','"'] -> S26
+	['\','\'] -> S27
+. -> S28
 Action: nil
 Symbols classes: {['"','"'], ['\','\']}
 
-S55{
+S54{
 	_octal_digit :  '0'-'7' •
 	_octal_byte_value : '\' _octal_digit • _octal_digit _octal_digit
 	_byte_value : • _octal_byte_value | _hex_byte_value
@@ -974,13 +965,29 @@ S55{
 	_octal_digit : •  '0'-'7'
 }
 Transitions:
-	['0','7'] -> S70
+	['0','7'] -> S69
 Action: nil
 Symbols classes: {['0','7']}
 
-S56{
+S55{
 	_big_u_value : '\' 'U' • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	string_lit : _raw_string | • _interpreted_string
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S70
+	['A','F'] -> S70
+	['a','f'] -> S70
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S56{
+	_little_u_value : '\' 'u' • _hex_digit _hex_digit _hex_digit _hex_digit
+	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
 	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
@@ -995,9 +1002,9 @@ Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S57{
-	_little_u_value : '\' 'u' • _hex_digit _hex_digit _hex_digit _hex_digit
-	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	_hex_byte_value : '\' 'x' • _hex_digit _hex_digit
+	_byte_value : _octal_byte_value | • _hex_byte_value
+	_interpreted_string : '"' {_unicode_value | • _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
@@ -1011,32 +1018,16 @@ Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S58{
-	_hex_byte_value : '\' 'x' • _hex_digit _hex_digit
-	_byte_value : _octal_byte_value | • _hex_byte_value
-	_interpreted_string : '"' {_unicode_value | • _byte_value} '"'
-	string_lit : _raw_string | • _interpreted_string
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S73
-	['A','F'] -> S73
-	['a','f'] -> S73
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S59{
 	_escaped_char : '\' ('a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' | '\' | ''' | '"') •
 	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
 	char_lit : ''' (_unicode_value | _byte_value) • '''
 }
 Transitions:
-	[''','''] -> S64
+	[''','''] -> S63
 Action: nil
 Symbols classes: {[''',''']}
 
-S60{
+S59{
 	_octal_digit :  '0'-'7' •
 	_octal_byte_value : '\' _octal_digit • _octal_digit _octal_digit
 	_byte_value : • _octal_byte_value | _hex_byte_value
@@ -1044,13 +1035,28 @@ S60{
 	_octal_digit : •  '0'-'7'
 }
 Transitions:
-	['0','7'] -> S74
+	['0','7'] -> S73
 Action: nil
 Symbols classes: {['0','7']}
 
-S61{
+S60{
 	_big_u_value : '\' 'U' • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	char_lit : ''' (• _unicode_value | _byte_value) '''
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S74
+	['A','F'] -> S74
+	['a','f'] -> S74
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S61{
+	_little_u_value : '\' 'u' • _hex_digit _hex_digit _hex_digit _hex_digit
+	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
 	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
@@ -1064,9 +1070,9 @@ Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S62{
-	_little_u_value : '\' 'u' • _hex_digit _hex_digit _hex_digit _hex_digit
-	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	char_lit : ''' (• _unicode_value | _byte_value) '''
+	_hex_byte_value : '\' 'x' • _hex_digit _hex_digit
+	_byte_value : _octal_byte_value | • _hex_byte_value
+	char_lit : ''' (_unicode_value | • _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
 	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
@@ -1079,28 +1085,13 @@ Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S63{
-	_hex_byte_value : '\' 'x' • _hex_digit _hex_digit
-	_byte_value : _octal_byte_value | • _hex_byte_value
-	char_lit : ''' (_unicode_value | • _byte_value) '''
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S77
-	['A','F'] -> S77
-	['a','f'] -> S77
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S64{
 	char_lit : ''' (_unicode_value | _byte_value) ''' •
 }
 Transitions:
 Action: Accept("char_lit")
 Symbols classes: {}
 
-S65{
+S64{
 	_blockComment : '/' '*' {. | '*'} '*' • '/'
 	_blockComment : '/' '*' {. | '*'} • '*' '/'
 	_blockComment : '/' '*' {. | • '*'} '*' '/'
@@ -1108,13 +1099,13 @@ S65{
 	!comment : _lineComment | • _blockComment
 }
 Transitions:
-	['*','*'] -> S65
-	['/','/'] -> S78
-. -> S32
+	['*','*'] -> S64
+	['/','/'] -> S77
+. -> S31
 Action: nil
 Symbols classes: {['*','*'], ['/','/']}
 
-S66{
+S65{
 	_lineComment : '/' '/' {.} '\n' •
 	!comment : (_lineComment | _blockComment) •
 }
@@ -1122,17 +1113,17 @@ Transitions:
 Action: Ignore("!comment")
 Symbols classes: {}
 
-S67{
+S66{
 	g_sdt_lit : '<' '<' . {.} • '>' '>'
 	g_sdt_lit : '<' '<' . {• .} '>' '>'
 }
 Transitions:
-	['>','>'] -> S79
-. -> S67
+	['>','>'] -> S78
+. -> S66
 Action: nil
 Symbols classes: {['>','>']}
 
-S68{
+S67{
 	empty : 'e' 'm' 'p' • 't' 'y'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
@@ -1149,17 +1140,17 @@ S68{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','s'] -> S47
-	['t','t'] -> S80
-	['u','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','s'] -> S46
+	['t','t'] -> S79
+	['u','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
 
-S69{
-	errore : 'e' 'r' 'r' • 'o' 'r' 'e'
+S68{
+	error : 'e' 'r' 'r' • 'o' 'r'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1175,16 +1166,16 @@ S69{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','n'] -> S47
-	['o','o'] -> S81
-	['p','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','n'] -> S46
+	['o','o'] -> S80
+	['p','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','n'], ['o','o'], ['p','z']}
 
-S70{
+S69{
 	_octal_digit :  '0'-'7' •
 	_octal_byte_value : '\' _octal_digit _octal_digit • _octal_digit
 	_byte_value : • _octal_byte_value | _hex_byte_value
@@ -1193,14 +1184,31 @@ S70{
 	_octal_digit : •  '0'-'7'
 }
 Transitions:
-	['0','7'] -> S82
+	['0','7'] -> S81
 Action: nil
 Symbols classes: {['0','7']}
 
-S71{
+S70{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	string_lit : _raw_string | • _interpreted_string
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S82
+	['A','F'] -> S82
+	['a','f'] -> S82
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S71{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_little_u_value : '\' 'u' _hex_digit • _hex_digit _hex_digit _hex_digit
+	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
 	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
@@ -1216,9 +1224,9 @@ Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S72{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_little_u_value : '\' 'u' _hex_digit • _hex_digit _hex_digit _hex_digit
-	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	_hex_byte_value : '\' 'x' _hex_digit • _hex_digit
+	_byte_value : _octal_byte_value | • _hex_byte_value
+	_interpreted_string : '"' {_unicode_value | • _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
@@ -1232,23 +1240,6 @@ Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S73{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_hex_byte_value : '\' 'x' _hex_digit • _hex_digit
-	_byte_value : _octal_byte_value | • _hex_byte_value
-	_interpreted_string : '"' {_unicode_value | • _byte_value} '"'
-	string_lit : _raw_string | • _interpreted_string
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S85
-	['A','F'] -> S85
-	['a','f'] -> S85
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S74{
 	_octal_digit :  '0'-'7' •
 	_octal_byte_value : '\' _octal_digit _octal_digit • _octal_digit
 	_byte_value : • _octal_byte_value | _hex_byte_value
@@ -1256,14 +1247,30 @@ S74{
 	_octal_digit : •  '0'-'7'
 }
 Transitions:
-	['0','7'] -> S86
+	['0','7'] -> S85
 Action: nil
 Symbols classes: {['0','7']}
 
-S75{
+S74{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	char_lit : ''' (• _unicode_value | _byte_value) '''
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S86
+	['A','F'] -> S86
+	['a','f'] -> S86
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S75{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_little_u_value : '\' 'u' _hex_digit • _hex_digit _hex_digit _hex_digit
+	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
 	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
@@ -1278,9 +1285,9 @@ Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S76{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_little_u_value : '\' 'u' _hex_digit • _hex_digit _hex_digit _hex_digit
-	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	char_lit : ''' (• _unicode_value | _byte_value) '''
+	_hex_byte_value : '\' 'x' _hex_digit • _hex_digit
+	_byte_value : _octal_byte_value | • _hex_byte_value
+	char_lit : ''' (_unicode_value | • _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
 	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
@@ -1293,22 +1300,6 @@ Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S77{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_hex_byte_value : '\' 'x' _hex_digit • _hex_digit
-	_byte_value : _octal_byte_value | • _hex_byte_value
-	char_lit : ''' (_unicode_value | • _byte_value) '''
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S89
-	['A','F'] -> S89
-	['a','f'] -> S89
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S78{
 	_blockComment : '/' '*' {. | '*'} '*' '/' •
 	!comment : (_lineComment | _blockComment) •
 }
@@ -1316,15 +1307,15 @@ Transitions:
 Action: Ignore("!comment")
 Symbols classes: {}
 
-S79{
+S78{
 	g_sdt_lit : '<' '<' . {.} '>' • '>'
 }
 Transitions:
-	['>','>'] -> S90
+	['>','>'] -> S89
 Action: nil
 Symbols classes: {['>','>']}
 
-S80{
+S79{
 	empty : 'e' 'm' 'p' 't' • 'y'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
@@ -1341,17 +1332,17 @@ S80{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','x'] -> S47
-	['y','y'] -> S91
-	['z','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','x'] -> S46
+	['y','y'] -> S90
+	['z','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','x'], ['y','y'], ['z','z']}
 
-S81{
-	errore : 'e' 'r' 'r' 'o' • 'r' 'e'
+S80{
+	error : 'e' 'r' 'r' 'o' • 'r'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1367,16 +1358,16 @@ S81{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','q'] -> S47
-	['r','r'] -> S92
-	['s','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','q'] -> S46
+	['r','r'] -> S91
+	['s','z'] -> S46
 Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','q'], ['r','r'], ['s','z']}
 
-S82{
+S81{
 	_octal_digit :  '0'-'7' •
 	_octal_byte_value : '\' _octal_digit _octal_digit _octal_digit •
 	_byte_value : (_octal_byte_value | _hex_byte_value) •
@@ -1397,16 +1388,33 @@ S82{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['"','"'] -> S27
-	['\','\'] -> S28
-. -> S29
+	['"','"'] -> S26
+	['\','\'] -> S27
+. -> S28
 Action: nil
 Symbols classes: {['"','"'], ['\','\']}
 
-S83{
+S82{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	string_lit : _raw_string | • _interpreted_string
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S92
+	['A','F'] -> S92
+	['a','f'] -> S92
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S83{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_little_u_value : '\' 'u' _hex_digit _hex_digit • _hex_digit _hex_digit
+	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
 	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
@@ -1422,23 +1430,6 @@ Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S84{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_little_u_value : '\' 'u' _hex_digit _hex_digit • _hex_digit _hex_digit
-	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
-	string_lit : _raw_string | • _interpreted_string
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S94
-	['A','F'] -> S94
-	['a','f'] -> S94
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S85{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_hex_byte_value : '\' 'x' _hex_digit _hex_digit •
 	_byte_value : (_octal_byte_value | _hex_byte_value) •
 	_interpreted_string : '"' {_unicode_value | _byte_value} • '"'
@@ -1458,27 +1449,43 @@ S85{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['"','"'] -> S27
-	['\','\'] -> S28
-. -> S29
+	['"','"'] -> S26
+	['\','\'] -> S27
+. -> S28
 Action: nil
 Symbols classes: {['"','"'], ['\','\']}
 
-S86{
+S85{
 	_octal_digit :  '0'-'7' •
 	_octal_byte_value : '\' _octal_digit _octal_digit _octal_digit •
 	_byte_value : (_octal_byte_value | _hex_byte_value) •
 	char_lit : ''' (_unicode_value | _byte_value) • '''
 }
 Transitions:
-	[''','''] -> S64
+	[''','''] -> S63
 Action: nil
 Symbols classes: {[''',''']}
 
-S87{
+S86{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	char_lit : ''' (• _unicode_value | _byte_value) '''
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S94
+	['A','F'] -> S94
+	['a','f'] -> S94
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S87{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_little_u_value : '\' 'u' _hex_digit _hex_digit • _hex_digit _hex_digit
+	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
 	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
@@ -1493,39 +1500,23 @@ Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S88{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_little_u_value : '\' 'u' _hex_digit _hex_digit • _hex_digit _hex_digit
-	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	char_lit : ''' (• _unicode_value | _byte_value) '''
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S96
-	['A','F'] -> S96
-	['a','f'] -> S96
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S89{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_hex_byte_value : '\' 'x' _hex_digit _hex_digit •
 	_byte_value : (_octal_byte_value | _hex_byte_value) •
 	char_lit : ''' (_unicode_value | _byte_value) • '''
 }
 Transitions:
-	[''','''] -> S64
+	[''','''] -> S63
 Action: nil
 Symbols classes: {[''',''']}
 
-S90{
+S89{
 	g_sdt_lit : '<' '<' . {.} '>' '>' •
 }
 Transitions:
 Action: Accept("g_sdt_lit")
 Symbols classes: {}
 
-S91{
+S90{
 	empty : 'e' 'm' 'p' 't' 'y' •
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
@@ -1542,15 +1533,15 @@ S91{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','z'] -> S47
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','z'] -> S46
 Action: Accept("empty")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S92{
-	errore : 'e' 'r' 'r' 'o' 'r' • 'e'
+S91{
+	error : 'e' 'r' 'r' 'o' 'r' •
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1566,21 +1557,52 @@ S92{
 	_upcase : •  'A'-'Z'
 }
 Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','d'] -> S47
-	['e','e'] -> S97
-	['f','z'] -> S47
-Action: Accept("tokId")
-Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','d'], ['e','e'], ['f','z']}
+	['0','9'] -> S43
+	['A','Z'] -> S44
+	['_','_'] -> S45
+	['a','z'] -> S46
+Action: Accept("error")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
-S93{
+S92{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
 	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S96
+	['A','F'] -> S96
+	['a','f'] -> S96
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S93{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_little_u_value : '\' 'u' _hex_digit _hex_digit _hex_digit • _hex_digit
+	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
+	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	string_lit : _raw_string | • _interpreted_string
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S97
+	['A','F'] -> S97
+	['a','f'] -> S97
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S94{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
+	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
 	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
@@ -1592,12 +1614,11 @@ Transitions:
 Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
-S94{
+S95{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_little_u_value : '\' 'u' _hex_digit _hex_digit _hex_digit • _hex_digit
 	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
-	string_lit : _raw_string | • _interpreted_string
+	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
 	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
@@ -1609,11 +1630,12 @@ Transitions:
 Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
-S95{
+S96{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
-	char_lit : ''' (• _unicode_value | _byte_value) '''
+	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	string_lit : _raw_string | • _interpreted_string
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
 	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
 	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
@@ -1625,64 +1647,7 @@ Transitions:
 Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
-S96{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_little_u_value : '\' 'u' _hex_digit _hex_digit _hex_digit • _hex_digit
-	_unicode_value : . | • _little_u_value | _big_u_value | _escaped_char
-	char_lit : ''' (• _unicode_value | _byte_value) '''
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S101
-	['A','F'] -> S101
-	['a','f'] -> S101
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
 S97{
-	errore : 'e' 'r' 'r' 'o' 'r' 'e' •
-	_lowcase :  'a'-'z' •
-	_id_char : (_upcase | _lowcase | '_' | _digit) •
-	_tokId : _lowcase {_id_char} •
-	_tokId : _lowcase {• _id_char}
-	tokId : _tokId •
-	tokId : • _tokId
-	_id_char : _upcase | _lowcase | '_' | • _digit
-	_id_char : _upcase | _lowcase | • '_' | _digit
-	_id_char : _upcase | • _lowcase | '_' | _digit
-	_id_char : • _upcase | _lowcase | '_' | _digit
-	_digit : •  '0'-'9'
-	_lowcase : •  'a'-'z'
-	_upcase : •  'A'-'Z'
-}
-Transitions:
-	['0','9'] -> S44
-	['A','Z'] -> S45
-	['_','_'] -> S46
-	['a','z'] -> S47
-Action: Accept("errore")
-Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
-
-S98{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit
-	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
-	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
-	string_lit : _raw_string | • _interpreted_string
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S102
-	['A','F'] -> S102
-	['a','f'] -> S102
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S99{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_little_u_value : '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit •
 	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
@@ -1703,15 +1668,59 @@ S99{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['"','"'] -> S27
-	['\','\'] -> S28
-. -> S29
+	['"','"'] -> S26
+	['\','\'] -> S27
+. -> S28
 Action: nil
 Symbols classes: {['"','"'], ['\','\']}
 
-S100{
+S98{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit _hex_digit
+	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	char_lit : ''' (• _unicode_value | _byte_value) '''
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S101
+	['A','F'] -> S101
+	['a','f'] -> S101
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S99{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_little_u_value : '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit •
+	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
+	char_lit : ''' (_unicode_value | _byte_value) • '''
+}
+Transitions:
+	[''','''] -> S63
+Action: nil
+Symbols classes: {[''',''']}
+
+S100{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit
+	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
+	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
+	string_lit : _raw_string | • _interpreted_string
+	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
+	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
+	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
+}
+Transitions:
+	['0','9'] -> S102
+	['A','F'] -> S102
+	['a','f'] -> S102
+Action: nil
+Symbols classes: {['0','9'], ['A','F'], ['a','f']}
+
+S101{
+	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
 	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
@@ -1725,20 +1734,9 @@ Transitions:
 Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
-S101{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_little_u_value : '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit •
-	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
-	char_lit : ''' (_unicode_value | _byte_value) • '''
-}
-Transitions:
-	[''','''] -> S64
-Action: nil
-Symbols classes: {[''',''']}
-
 S102{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
 	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
@@ -1755,7 +1753,7 @@ Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S103{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit _hex_digit
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
 	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
@@ -1771,7 +1769,7 @@ Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S104{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
 	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
 	string_lit : _raw_string | • _interpreted_string
@@ -1788,7 +1786,7 @@ Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S105{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit _hex_digit
+	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit
 	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
 	char_lit : ''' (• _unicode_value | _byte_value) '''
 	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
@@ -1803,39 +1801,6 @@ Action: nil
 Symbols classes: {['0','9'], ['A','F'], ['a','f']}
 
 S106{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit
-	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
-	_interpreted_string : '"' {• _unicode_value | _byte_value} '"'
-	string_lit : _raw_string | • _interpreted_string
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S108
-	['A','F'] -> S108
-	['a','f'] -> S108
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S107{
-	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
-	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit • _hex_digit
-	_unicode_value : . | _little_u_value | • _big_u_value | _escaped_char
-	char_lit : ''' (• _unicode_value | _byte_value) '''
-	_hex_digit :  '0'-'9' |  'A'-'F' | •  'a'-'f'
-	_hex_digit :  '0'-'9' | •  'A'-'F' |  'a'-'f'
-	_hex_digit : •  '0'-'9' |  'A'-'F' |  'a'-'f'
-}
-Transitions:
-	['0','9'] -> S109
-	['A','F'] -> S109
-	['a','f'] -> S109
-Action: nil
-Symbols classes: {['0','9'], ['A','F'], ['a','f']}
-
-S108{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit •
 	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
@@ -1856,20 +1821,20 @@ S108{
 	_little_u_value : • '\' 'u' _hex_digit _hex_digit _hex_digit _hex_digit
 }
 Transitions:
-	['"','"'] -> S27
-	['\','\'] -> S28
-. -> S29
+	['"','"'] -> S26
+	['\','\'] -> S27
+. -> S28
 Action: nil
 Symbols classes: {['"','"'], ['\','\']}
 
-S109{
+S107{
 	_hex_digit : ( '0'-'9' |  'A'-'F' |  'a'-'f') •
 	_big_u_value : '\' 'U' _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit _hex_digit •
 	_unicode_value : (. | _little_u_value | _big_u_value | _escaped_char) •
 	char_lit : ''' (_unicode_value | _byte_value) • '''
 }
 Transitions:
-	[''','''] -> S64
+	[''','''] -> S63
 Action: nil
 Symbols classes: {[''',''']}
 

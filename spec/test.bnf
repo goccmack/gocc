@@ -1,6 +1,8 @@
 
+!space :  ' ' | '\t' ;
 
-hexdigit : '0'-'F'  ~(':'-'@') ;
+hexdigit : '0'-'F'  | -(':'-'@') ;
+_hexdigit2 : '0'-'F'  | -(':'-'@') ;
 
 Test :
 		Test1
@@ -20,6 +22,9 @@ T
 hexdigit
 ;
 
-T : "a"  | error Test1 | "X" | X ;
+T : "a"  | "X" | ProdX ;
 
-X : "error" | "empty" | "ε" | "λ" | error | empty  | ε | λ ;
+ProdX : "empty" | "ε" | "λ" | empty  | ε ;
+
+// X0: "!" | "hexdigit";
+

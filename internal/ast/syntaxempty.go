@@ -34,3 +34,7 @@ func (SyntaxEmpty) String() string {
 }
 
 func (SyntaxEmpty) IsEpsilon() bool { return true }
+
+func (SyntaxEmpty) SymbolName() string {
+	return config.INTERNAL_SYMBOL_EMPTY
+}

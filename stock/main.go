@@ -27,11 +27,13 @@ import (
 	"strings"
 
 	"github.com/maxcalandrelli/gocc/internal/ast"
+	genBase "github.com/maxcalandrelli/gocc/internal/base/gen"
 	"github.com/maxcalandrelli/gocc/internal/config"
 	oldparser "github.com/maxcalandrelli/gocc/internal/frontend/parser"
 	oldscanner "github.com/maxcalandrelli/gocc/internal/frontend/scanner"
 	oldtoken "github.com/maxcalandrelli/gocc/internal/frontend/token"
 	"github.com/maxcalandrelli/gocc/internal/io"
+	genIo "github.com/maxcalandrelli/gocc/internal/io/gen"
 	genLexer "github.com/maxcalandrelli/gocc/internal/lexer/gen/golang"
 	lexItems "github.com/maxcalandrelli/gocc/internal/lexer/items"
 	"github.com/maxcalandrelli/gocc/internal/parser/first"
@@ -82,11 +84,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	outdir_base := cfg.OutDir()
+	subpath := "internal"
+	outdir_log := path.Join(outdir_base, "log")
 	g := grammar.(*ast.Grammar)
 
 	gSymbols := symbols.NewSymbols(g)
 	if cfg.Verbose() {
-		writeTerminals(gSymbols, cfg)
+		writeTerminals(gSymbols, cfg, outdir_log)
 	}
 
 	var tokenMap *outToken.TokenMap
@@ -95,30 +100,32 @@ func main() {
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
 	lexSets := lexItems.GetItemSets(g.LexPart)
 	if cfg.Verbose() {
-		io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
+		io.WriteFileString(path.Join(outdir_log, "lexer_sets.txt"), lexSets.String())
 	}
 	tokenMap = outToken.NewTokenMap(gSymbols.ListTerminals())
 	if !cfg.NoLexer() {
-		genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg)
+		genLexer.Gen(cfg.Package(), outdir_base, g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg, subpath)
 	}
 
 	if g.SyntaxPart != nil {
 		firstSets := first.GetFirstSets(g, gSymbols)
 		if cfg.Verbose() {
-			io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), firstSets.String())
+			io.WriteFileString(path.Join(outdir_log, "first.txt"), firstSets.String())
 		}
 
 		lr1Sets := lr1Items.GetItemSets(g, gSymbols, firstSets)
 		if cfg.Verbose() {
-			io.WriteFileString(path.Join(cfg.OutDir(), "LR1_sets.txt"), lr1Sets.String())
+			io.WriteFileString(path.Join(outdir_log, "LR1_sets.txt"), lr1Sets.String())
 		}
 
-		conflicts := genParser.Gen(cfg.Package(), cfg.OutDir(), g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg)
-		handleConflicts(conflicts, lr1Sets.Size(), cfg, g.SyntaxPart.ProdList)
+		conflicts := genParser.Gen(cfg.Package(), outdir_base, g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg, subpath)
+		handleConflicts(conflicts, lr1Sets.Size(), cfg, g.SyntaxPart.ProdList, outdir_log)
 	}
 
-	genToken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
-	genUtil.Gen(cfg.OutDir())
+	genToken.Gen(cfg.Package(), outdir_base, tokenMap, subpath)
+	genUtil.Gen(outdir_base, subpath)
+	genBase.Gen(cfg.Package(), outdir_base, subpath)
+	genIo.Gen(cfg.Package(), outdir_base, subpath)
 }
 
 func usage() {
@@ -129,13 +136,13 @@ func usage() {
 	os.Exit(1)
 }
 
-func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config, prods ast.SyntaxProdList) {
+func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config, prods ast.SyntaxProdList, outdir string) {
 	if len(conflicts) <= 0 {
 		return
 	}
 	fmt.Printf("%d LR-1 conflicts \n", len(conflicts))
 	if cfg.Verbose() {
-		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
+		io.WriteFileString(path.Join(outdir, "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
 	}
 	if !cfg.AutoResolveLRConf() {
 		os.Exit(1)
@@ -166,10 +173,10 @@ func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int, prods 
 	return w.String()
 }
 
-func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
+func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config, outdir string) {
 	buf := new(bytes.Buffer)
 	for _, t := range gSymbols.ListTerminals() {
 		fmt.Fprintf(buf, "%s\n", t)
 	}
-	io.WriteFile(path.Join(cfg.OutDir(), "terminals.txt"), buf.Bytes())
+	io.WriteFile(path.Join(outdir, "terminals.txt"), buf.Bytes())
 }

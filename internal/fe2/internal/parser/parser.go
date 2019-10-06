@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "github.com/maxcalandrelli/gocc/internal/fe2/errors"
-	"github.com/maxcalandrelli/gocc/internal/fe2/token"
+	parseError "github.com/maxcalandrelli/gocc/internal/fe2/internal/errors"
+	"github.com/maxcalandrelli/gocc/internal/fe2/internal/token"
 )
 
 const (
 	numProductions = 47
 	numStates      = 153
-	numSymbols     = 43
+	numSymbols     = 42
 )
 
 // Stack

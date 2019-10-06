@@ -16,6 +16,8 @@ package ast
 
 import (
 	"fmt"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 type SyntaxStringLit struct {
@@ -38,4 +40,8 @@ func (this SyntaxStringLit) String() string {
 
 func (this SyntaxStringLit) Bytes() []byte {
 	return []byte(this.string)
+}
+
+func (this SyntaxStringLit) SymbolName() string {
+	return config.INTERNAL_SYMBOL_LIT + this.string
 }

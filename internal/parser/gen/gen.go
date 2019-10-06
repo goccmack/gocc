@@ -27,14 +27,13 @@ import (
 )
 
 func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config) (conflicts map[int]items.RowConflicts) {
+	itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config, subpath string) (conflicts map[int]items.RowConflicts) {
 
-	golang.GenAction(outDir)
-	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap, cfg.Zip())
-	golang.GenErrors(pkg, outDir)
-	golang.GenGotoTable(outDir, itemsets, symbols, cfg.Zip())
-	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg)
-	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap)
-
+	golang.GenAction(outDir, subpath)
+	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap, cfg.Zip(), subpath)
+	golang.GenErrors(pkg, outDir, subpath)
+	golang.GenGotoTable(outDir, itemsets, symbols, cfg.Zip(), subpath)
+	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg, subpath)
+	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap, subpath)
 	return
 }

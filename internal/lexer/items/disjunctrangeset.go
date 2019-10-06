@@ -38,9 +38,13 @@ func (this *DisjunctRangeSet) AddLexTNode(sym ast.LexTNode) {
 	switch s := sym.(type) {
 	case *ast.LexCharRange:
 		if s.Negate {
+			//fmt.Printf("Set is: %q, will remove '%c'-'%c'\n", this, s.From.Val, s.To.Val)
 			this.SubtractRange(s.From.Val, s.To.Val)
+			//fmt.Printf("Set now: %q\n", this)
 		} else {
+			//fmt.Printf("Set is: %q, will add '%c'-'%c'\n", this, s.From.Val, s.To.Val)
 			this.AddRange(s.From.Val, s.To.Val)
+			//fmt.Printf("Set now: %q\n", this)
 		}
 	case *ast.LexCharLit:
 		if s.Negate {
@@ -138,35 +142,37 @@ func (this *DisjunctRangeSet) AddRange(from, to rune) {
 }
 
 func (this *DisjunctRangeSet) subtractRange(index int, from, to rune) int {
-	//fmt.Printf("subtracting <%c-%c> at index %d<%c-%c>\n", from, to, index, this.set[index].From, this.set[index].To)
-	rng := this.set[index]
-	if to >= from && to >= rng.From {
-		if from > rng.To || to < rng.From {
-			return index + 1
-		}
-		if from < rng.From {
-			return this.subtractRange(index, rng.From, to)
-		}
-		if to > rng.To {
-			this.subtractRange(index, from, rng.To)
-			return this.subtractRange(index+1, rng.To+1, to)
-		}
-		//
-		//  from >= rng.to && to <= rng.to
-		//
-		//fmt.Printf("actually deleting range <%c-%c> at index %d<%c-%c>\n", from, to, index, this.set[index].From, this.set[index].To)
-		switch {
-		case from == rng.From && to == rng.To:
-			copy(this.set[index:], this.set[index+1:])
-			this.set = this.set[:len(this.set)-1]
-		case from == rng.From:
-			this.set[index].From = to + 1
-		case to == rng.To:
-			this.set[index].To = from - 1
-		default:
-			this.set[index].From = this.set[index].From
-			this.set[index].To = from - 1
-			this.AddRange(to+1, rng.To)
+	if index < len(this.set) {
+		//fmt.Printf("subtracting <%c-%c> at index %d<%c-%c>\n", from, to, index, this.set[index].From, this.set[index].To)
+		rng := this.set[index]
+		if to >= from && to >= rng.From {
+			if from > rng.To || to < rng.From {
+				return index + 1
+			}
+			if from < rng.From {
+				return this.subtractRange(index, rng.From, to)
+			}
+			if to > rng.To {
+				return this.subtractRange(this.subtractRange(index, from, rng.To), rng.To+1, to)
+			}
+			//
+			//  from >= rng.to && to <= rng.to
+			//
+			//fmt.Printf("actually deleting range <%c-%c> at index %d<%c-%c>\n", from, to, index, this.set[index].From, this.set[index].To)
+			switch {
+			case from == rng.From && to == rng.To:
+				copy(this.set[index:], this.set[index+1:])
+				this.set = this.set[:len(this.set)-1]
+				return index
+			case from == rng.From:
+				this.set[index].From = to + 1
+			case to == rng.To:
+				this.set[index].To = from - 1
+			default:
+				this.set[index].From = this.set[index].From
+				this.set[index].To = from - 1
+				this.AddRange(to+1, rng.To)
+			}
 		}
 	}
 	return len(this.set)

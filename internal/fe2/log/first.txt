@@ -29,30 +29,30 @@ LexProduction: {
 }
 LexPattern: {
 	(
+	-
 	.
 	[
 	char_lit
 	regDefId
 	{
-	~
 }
 LexAlt: {
 	(
+	-
 	.
 	[
 	char_lit
 	regDefId
 	{
-	~
 }
 LexTerm: {
 	(
+	-
 	.
 	[
 	char_lit
 	regDefId
 	{
-	~
 }
 SyntaxPart: {
 	g_sdt_lit
@@ -69,7 +69,7 @@ SyntaxProduction: {
 }
 Alternatives: {
 	empty
-	errore
+	error
 	prodId
 	string_lit
 	tokId
@@ -79,7 +79,7 @@ Alternatives: {
 }
 SyntaxBody: {
 	empty
-	errore
+	error
 	prodId
 	string_lit
 	tokId
@@ -97,7 +97,7 @@ Symbol: {
 	tokId
 }
 ErrorSymbol: {
-	errore
+	error
 	λ
 }
 EpsilonSymbol: {

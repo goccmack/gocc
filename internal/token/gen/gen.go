@@ -19,6 +19,6 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/token/gen/golang"
 )
 
-func Gen(pkg, outdir string, tokenMap *token.TokenMap) {
-	golang.GenToken(pkg, outdir, tokenMap)
+func Gen(pkg, outdir string, tokenMap *token.TokenMap, subpath string) {
+	golang.GenToken(pkg, outdir, tokenMap, subpath)
 }

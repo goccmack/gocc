@@ -193,7 +193,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `LexTerm : "~" char_lit	<< ast.NewLexCharLitExt(X[0], true) >>`,
+		String: `LexTerm : "-" char_lit	<< ast.NewLexCharLitExt(X[0], true) >>`,
 		Id:         "LexTerm",
 		NTType:     7,
 		Index:      17,
@@ -203,7 +203,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `LexTerm : "~" "(" char_lit "-" char_lit ")"	<< ast.NewLexCharRangeExt(X[2], X[4], true) >>`,
+		String: `LexTerm : "-" "(" char_lit "-" char_lit ")"	<< ast.NewLexCharRangeExt(X[2], X[4], true) >>`,
 		Id:         "LexTerm",
 		NTType:     7,
 		Index:      18,
@@ -453,7 +453,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `ErrorSymbol : "errore"	<<  >>`,
+		String: `ErrorSymbol : "error"	<<  >>`,
 		Id:         "ErrorSymbol",
 		NTType:     16,
 		Index:      43,

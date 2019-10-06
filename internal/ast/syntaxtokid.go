@@ -30,3 +30,7 @@ func (this SyntaxTokId) SymbolString() string {
 func (this SyntaxTokId) String() string {
 	return this.string
 }
+
+func (this SyntaxTokId) SymbolName() string {
+	return this.string
+}

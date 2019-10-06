@@ -24,22 +24,22 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
-func genActionTable(pkg, outDir string, itemsets *items.ItemSets, tokMap *token.TokenMap) {
-	fname := path.Join(outDir, "lexer", "acttab.go")
+func genActionTable(pkg, outDir string, itemsets *items.ItemSets, tokMap *token.TokenMap, subpath string) {
+	fname := path.Join(outDir, subpath, "lexer", "acttab.go")
 	tmpl, err := template.New("action table").Parse(actionTableSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	if err := tmpl.Execute(wr, getActTab(pkg, itemsets, tokMap)); err != nil {
+	if err := tmpl.Execute(wr, getActTab(pkg, subpath, itemsets, tokMap)); err != nil {
 		panic(err)
 	}
 	io.WriteFile(fname, wr.Bytes())
 }
 
-func getActTab(pkg string, itemsets *items.ItemSets, tokMap *token.TokenMap) *actTab {
+func getActTab(pkg, subpath string, itemsets *items.ItemSets, tokMap *token.TokenMap) *actTab {
 	actab := &actTab{
-		TokenImport: path.Join(pkg, "token"),
+		TokenImport: path.Join(pkg, subpath, "token"),
 		Actions:     make([]action, itemsets.Size()),
 	}
 	for sno, set := range itemsets.List() {

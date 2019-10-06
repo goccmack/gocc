@@ -28,9 +28,9 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
-func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap, zip bool) map[int]items.RowConflicts {
+func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap, zip bool, subpath string) map[int]items.RowConflicts {
 	if zip {
-		return GenCompActionTable(outDir, prods, itemSets, tokMap)
+		return GenCompActionTable(outDir, subpath, prods, itemSets, tokMap)
 	}
 	tmpl, err := template.New("parser action table").Parse(actionTableSrc[1:])
 	if err != nil {
@@ -41,7 +41,7 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 	if err := tmpl.Execute(wr, data); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), wr.Bytes())
+	io.WriteFile(path.Join(outDir, subpath, "parser", "actiontable.go"), wr.Bytes())
 	return conflicts
 }
 
@@ -159,7 +159,7 @@ var actionTab = actionTable{
 }
 `
 
-func GenCompActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {
+func GenCompActionTable(outDir, subpath string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {
 	tab := make([]struct {
 		CanRecover bool
 		Actions    []struct {
@@ -216,7 +216,7 @@ func GenCompActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items
 	if err := tmpl.Execute(wr, bytesStr); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "parser", "actiontable.go"), wr.Bytes())
+	io.WriteFile(path.Join(outDir, subpath, "parser", "actiontable.go"), wr.Bytes())
 	return conflictss
 }
 

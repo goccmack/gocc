@@ -38,9 +38,9 @@ type gotoRowElement struct {
 	Pad   int
 }
 
-func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols, zip bool) {
+func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols, zip bool, subpath string) {
 	if zip {
-		GenCompGotoTable(outDir, itemSets, sym)
+		GenCompGotoTable(outDir, subpath, itemSets, sym)
 		return
 	}
 	tmpl, err := template.New("parser goto table").Parse(gotoTableSrc[1:])
@@ -51,7 +51,7 @@ func GenGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols,
 	if err := tmpl.Execute(wr, getGotoTableData(itemSets, sym)); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), wr.Bytes())
+	io.WriteFile(path.Join(outDir, subpath, "parser", "gototable.go"), wr.Bytes())
 }
 
 func getGotoTableData(itemSets *items.ItemSets, sym *symbols.Symbols) *gotoTableData {
@@ -138,7 +138,7 @@ func genEnc(v interface{}) string {
 	return string(strBuf.Bytes())
 }
 
-func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symbols) {
+func GenCompGotoTable(outDir, subpath string, itemSets *items.ItemSets, sym *symbols.Symbols) {
 	numNTSymbols := sym.NumNTSymbols()
 	rows := make([][]int, itemSets.Size())
 	for i, set := range itemSets.List() {
@@ -163,7 +163,7 @@ func GenCompGotoTable(outDir string, itemSets *items.ItemSets, sym *symbols.Symb
 	if err := tmpl.Execute(wr, v); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "parser", "gototable.go"), wr.Bytes())
+	io.WriteFile(path.Join(outDir, subpath, "parser", "gototable.go"), wr.Bytes())
 }
 
 const gotoTableCompSrc = `

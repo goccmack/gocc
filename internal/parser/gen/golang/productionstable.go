@@ -28,9 +28,9 @@ import (
 )
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap) {
+	itemsets *items.ItemSets, tokMap *token.TokenMap, subpath string) {
 
-	fname := path.Join(outDir, "parser", "productionstable.go")
+	fname := path.Join(outDir, subpath, "parser", "productionstable.go")
 	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc[1:])
 	if err != nil {
 		panic(err)

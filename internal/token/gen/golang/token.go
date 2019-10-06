@@ -25,8 +25,8 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
-func GenToken(pkg, outdir string, tokMap *token.TokenMap) {
-	tokenPath := path.Join(outdir, "token", "token.go")
+func GenToken(pkg, outdir string, tokMap *token.TokenMap, subpath string) {
+	tokenPath := path.Join(outdir, subpath, "token", "token.go")
 	tmpl, err := template.New("token").Parse(TokenMapSrc[1:])
 	if err != nil {
 		panic(err)

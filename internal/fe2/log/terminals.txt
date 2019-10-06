@@ -9,7 +9,6 @@ ignoredTokId
 .
 char_lit
 -
-~
 (
 )
 [
@@ -19,7 +18,7 @@ char_lit
 g_sdt_lit
 prodId
 string_lit
-errore
+error
 λ
 empty
 ε

@@ -51,7 +51,6 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"strings"
@@ -59,10 +58,9 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	genBase "github.com/maxcalandrelli/gocc/internal/base/gen"
 	"github.com/maxcalandrelli/gocc/internal/config"
-	newscanner "github.com/maxcalandrelli/gocc/internal/fe2/lexer"
-	newparser "github.com/maxcalandrelli/gocc/internal/fe2/parser"
-	"github.com/maxcalandrelli/gocc/internal/fe2/token"
+	altfe "github.com/maxcalandrelli/gocc/internal/fe2"
 	"github.com/maxcalandrelli/gocc/internal/io"
+	genIo "github.com/maxcalandrelli/gocc/internal/io/gen"
 	genLexer "github.com/maxcalandrelli/gocc/internal/lexer/gen/golang"
 	lexItems "github.com/maxcalandrelli/gocc/internal/lexer/items"
 	"github.com/maxcalandrelli/gocc/internal/parser/first"
@@ -94,29 +92,34 @@ func main() {
 
 	config.CurrentConfiguration = cfg
 
-	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
 	var (
 		grammar interface{}
 	)
-	ast.StringGetter = func(v interface{}) string { return string(v.(*token.Token).Lit) }
-	scanner := newscanner.NewLexer(srcBuffer)
-	p := newparser.NewParser()
-	grammar, err = p.Parse(scanner)
+	ast.StringGetter = func(v interface{}) string { return string(v.(*altfe.Token).Lit) }
+	/*
+		srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		scanner := altfe.NewLexer(srcBuffer)
+		p := altfe.NewParser()
+		grammar, err = p.Parse(scanner)
+	*/
+	grammar, err = altfe.ParseFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err)
 		os.Exit(1)
 	}
 
+	outdir_base := cfg.OutDir()
+	subpath := "internal"
+	outdir_log := path.Join(outdir_base, "log")
 	g := grammar.(*ast.Grammar)
 
 	gSymbols := symbols.NewSymbols(g)
 	if cfg.Verbose() {
-		writeTerminals(gSymbols, cfg)
+		writeTerminals(gSymbols, cfg, outdir_log)
 	}
 
 	var tokenMap *outToken.TokenMap
@@ -124,32 +127,34 @@ func main() {
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
 	lexSets := lexItems.GetItemSets(g.LexPart)
+
 	if cfg.Verbose() {
-		io.WriteFileString(path.Join(cfg.OutDir(), "lexer_sets.txt"), lexSets.String())
+		io.WriteFileString(path.Join(outdir_log, "lexer_sets.txt"), lexSets.String())
 	}
 	tokenMap = outToken.NewTokenMap(gSymbols.ListTerminals())
 	if !cfg.NoLexer() {
-		genLexer.Gen(cfg.Package(), cfg.OutDir(), g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg)
+		genLexer.Gen(cfg.Package(), outdir_base, g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg, subpath)
 	}
 
 	if g.SyntaxPart != nil {
 		firstSets := first.GetFirstSets(g, gSymbols)
 		if cfg.Verbose() {
-			io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), firstSets.String())
+			io.WriteFileString(path.Join(outdir_log, "first.txt"), firstSets.String())
 		}
 
 		lr1Sets := lr1Items.GetItemSets(g, gSymbols, firstSets)
 		if cfg.Verbose() {
-			io.WriteFileString(path.Join(cfg.OutDir(), "LR1_sets.txt"), lr1Sets.String())
+			io.WriteFileString(path.Join(outdir_log, "LR1_sets.txt"), lr1Sets.String())
 		}
 
-		conflicts := genParser.Gen(cfg.Package(), cfg.OutDir(), g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg)
-		handleConflicts(conflicts, lr1Sets.Size(), cfg, g.SyntaxPart.ProdList)
+		conflicts := genParser.Gen(cfg.Package(), outdir_base, g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg, subpath)
+		handleConflicts(conflicts, lr1Sets.Size(), cfg, g.SyntaxPart.ProdList, outdir_log)
 	}
 
-	genToken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
-	genUtil.Gen(cfg.OutDir())
-	genBase.Gen(cfg.Package(), cfg.OutDir())
+	genToken.Gen(cfg.Package(), outdir_base, tokenMap, subpath)
+	genUtil.Gen(outdir_base, subpath)
+	genBase.Gen(cfg.Package(), outdir_base, subpath)
+	genIo.Gen(cfg.Package(), outdir_base, subpath)
 }
 
 func usage() {
@@ -160,13 +165,13 @@ func usage() {
 	os.Exit(1)
 }
 
-func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config, prods ast.SyntaxProdList) {
+func handleConflicts(conflicts map[int]lr1Items.RowConflicts, numSets int, cfg config.Config, prods ast.SyntaxProdList, outdir string) {
 	if len(conflicts) <= 0 {
 		return
 	}
 	fmt.Printf("%d LR-1 conflicts \n", len(conflicts))
-	if cfg.Verbose() {
-		io.WriteFileString(path.Join(cfg.OutDir(), "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
+	if cfg.Verbose() || !cfg.AutoResolveLRConf() {
+		io.WriteFileString(path.Join(outdir, "LR1_conflicts.txt"), conflictString(conflicts, numSets, prods))
 	}
 	if !cfg.AutoResolveLRConf() {
 		os.Exit(1)
@@ -197,10 +202,10 @@ func conflictString(conflicts map[int]lr1Items.RowConflicts, numSets int, prods 
 	return w.String()
 }
 
-func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config) {
+func writeTerminals(gSymbols *symbols.Symbols, cfg config.Config, outdir string) {
 	buf := new(bytes.Buffer)
 	for _, t := range gSymbols.ListTerminals() {
 		fmt.Fprintf(buf, "%s\n", t)
 	}
-	io.WriteFile(path.Join(cfg.OutDir(), "terminals.txt"), buf.Bytes())
+	io.WriteFile(path.Join(outdir, "terminals.txt"), buf.Bytes())
 }

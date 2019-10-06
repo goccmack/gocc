@@ -24,8 +24,8 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/lexer/items"
 )
 
-func genTransitionTable(pkg, outDir, header string, itemSets *items.ItemSets) {
-	fname := path.Join(outDir, "lexer", "transitiontable.go")
+func genTransitionTable(pkg, outDir, header string, itemSets *items.ItemSets, subpath string) {
+	fname := path.Join(outDir, subpath, "lexer", "transitiontable.go")
 	io.WriteFile(fname, getTransitionTable(itemSets, header))
 }
 

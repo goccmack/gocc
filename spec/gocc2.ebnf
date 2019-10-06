@@ -184,10 +184,10 @@ LexTerm :
 		char_lit "-" char_lit
 			<< ast.NewLexCharRangeExt($0, $2,false) >>
 	|
-		"~" char_lit
+		"-" char_lit
 			<< ast.NewLexCharLitExt($0, true) >>
 	|
-		"~" "(" char_lit "-" char_lit ")"
+		"-" "(" char_lit "-" char_lit ")"
 			<< ast.NewLexCharRangeExt($2, $4, true) >>
 	|
 		regDefId

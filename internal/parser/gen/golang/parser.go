@@ -26,16 +26,16 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
 )
 
-func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) {
+func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config, subpath string) {
 	tmpl, err := template.New("parser").Parse(parserSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	if err := tmpl.Execute(wr, getParserData(pkg, prods, itemSets, symbols, cfg)); err != nil {
+	if err := tmpl.Execute(wr, getParserData(pkg, subpath, prods, itemSets, symbols, cfg)); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "parser", "parser.go"), wr.Bytes())
+	io.WriteFile(path.Join(outDir, subpath, "parser", "parser.go"), wr.Bytes())
 }
 
 type parserData struct {
@@ -47,11 +47,11 @@ type parserData struct {
 	NumSymbols     int
 }
 
-func getParserData(pkg string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) *parserData {
+func getParserData(pkg, subpath string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) *parserData {
 	return &parserData{
 		Debug:          cfg.DebugParser(),
-		ErrorImport:    path.Join(pkg, "errors"),
-		TokenImport:    path.Join(pkg, "token"),
+		ErrorImport:    path.Join(pkg, subpath, "errors"),
+		TokenImport:    path.Join(pkg, subpath, "token"),
 		NumProductions: len(prods),
 		NumStates:      itemSets.Size(),
 		NumSymbols:     symbols.NumSymbols(),
