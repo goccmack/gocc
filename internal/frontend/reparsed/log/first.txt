@@ -1,0 +1,106 @@
+S': {
+	g_sdt_lit
+	ignoredTokId
+	prodId
+	regDefId
+	tokId
+}
+Grammar: {
+	g_sdt_lit
+	ignoredTokId
+	prodId
+	regDefId
+	tokId
+}
+LexicalPart: {
+	ignoredTokId
+	regDefId
+	tokId
+}
+LexProductions: {
+	ignoredTokId
+	regDefId
+	tokId
+}
+LexProduction: {
+	ignoredTokId
+	regDefId
+	tokId
+}
+LexPattern: {
+	(
+	.
+	[
+	char_lit
+	regDefId
+	{
+	~
+}
+LexAlt: {
+	(
+	.
+	[
+	char_lit
+	regDefId
+	{
+	~
+}
+LexTerm: {
+	(
+	.
+	[
+	char_lit
+	regDefId
+	{
+	~
+}
+SyntaxPart: {
+	g_sdt_lit
+	prodId
+}
+FileHeader: {
+	g_sdt_lit
+}
+SyntaxProdList: {
+	prodId
+}
+SyntaxProduction: {
+	prodId
+}
+Alternatives: {
+	empty
+	error
+	prodId
+	string_lit
+	tokId
+	|
+	ε
+	λ
+}
+SyntaxBody: {
+	empty
+	error
+	prodId
+	string_lit
+	tokId
+	ε
+	λ
+}
+Symbols: {
+	prodId
+	string_lit
+	tokId
+}
+Symbol: {
+	prodId
+	string_lit
+	tokId
+}
+ErrorSymbol: {
+	error
+	λ
+}
+EpsilonSymbol: {
+	empty
+	ε
+}

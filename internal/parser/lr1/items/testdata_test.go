@@ -18,9 +18,9 @@ import (
 	"testing"
 
 	"github.com/maxcalandrelli/gocc/internal/ast"
-	"github.com/maxcalandrelli/gocc/internal/frontend/parser"
-	"github.com/maxcalandrelli/gocc/internal/frontend/scanner"
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/frontend/stock/parser"
+	"github.com/maxcalandrelli/gocc/internal/frontend/stock/scanner"
+	"github.com/maxcalandrelli/gocc/internal/frontend/stock/token"
 )
 
 const G1 = `

@@ -1,8 +1,7 @@
 
 !space :  ' ' | '\t' ;
 
-hexdigit : '0'-'F'  | -(':'-'@') ;
-_hexdigit2 : '0'-'F'  | -(':'-'@') ;
+hexdigit : '0'-'F'  | ~(':'-'@') ;
 
 Test :
 		Test1

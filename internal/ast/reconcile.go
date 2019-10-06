@@ -1,7 +1,7 @@
 package ast
 
 import (
-	"github.com/maxcalandrelli/gocc/internal/frontend/token"
+	"github.com/maxcalandrelli/gocc/internal/frontend/stock/token"
 )
 
 var (

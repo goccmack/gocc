@@ -58,7 +58,7 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	genBase "github.com/maxcalandrelli/gocc/internal/base/gen"
 	"github.com/maxcalandrelli/gocc/internal/config"
-	altfe "github.com/maxcalandrelli/gocc/internal/fe2"
+	altfe "github.com/maxcalandrelli/gocc/internal/frontend/reparsed"
 	"github.com/maxcalandrelli/gocc/internal/io"
 	genIo "github.com/maxcalandrelli/gocc/internal/io/gen"
 	genLexer "github.com/maxcalandrelli/gocc/internal/lexer/gen/golang"
