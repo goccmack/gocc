@@ -23,14 +23,14 @@ type SyntaxEmpty struct {
 	StdSyntaxSymbol
 }
 
-var emptySymbol = SyntaxEmpty{config.SYMBOL_EMPTY, StdSyntaxSymbol{}}
+var EmptySymbol = SyntaxEmpty{config.SYMBOL_EMPTY, StdSyntaxSymbol{}}
 
 func (SyntaxEmpty) SymbolString() string {
-	return emptySymbol.string
+	return EmptySymbol.string
 }
 
 func (SyntaxEmpty) String() string {
-	return emptySymbol.string
+	return EmptySymbol.string
 }
 
 func (SyntaxEmpty) IsEpsilon() bool { return true }

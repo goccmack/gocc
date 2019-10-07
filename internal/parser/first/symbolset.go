@@ -18,16 +18,18 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+
+	"github.com/maxcalandrelli/gocc/internal/ast"
 )
 
 /*
 key: symbol string
 */
-type SymbolSet map[string]bool
+type SymbolSet map[ast.SyntaxSymbol]struct{}
 
 func (this SymbolSet) AddSet(that SymbolSet) {
 	for id := range that {
-		this[id] = true
+		this[id] = struct{}{}
 	}
 }
 

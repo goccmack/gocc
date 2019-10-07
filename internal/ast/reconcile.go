@@ -10,7 +10,12 @@ var (
 
 func getString(v interface{}) string {
 	if StringGetter == nil {
-		return string(v.(*token.Token).Lit)
+		if str, ok := v.(string); ok {
+			return str
+		}
+		if tok, _ := v.(*token.Token); tok != nil {
+			return string(tok.Lit)
+		}
 	}
 	return StringGetter(v)
 }

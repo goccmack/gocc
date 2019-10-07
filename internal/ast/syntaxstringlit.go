@@ -30,6 +30,10 @@ func NewStringLit(tok interface{}) (SyntaxStringLit, error) {
 	return SyntaxStringLit{lit[1 : len(lit)-1], StdSyntaxSymbol{}}, nil
 }
 
+func NewStringLitFromString(str string) SyntaxStringLit {
+	return SyntaxStringLit{str, StdSyntaxSymbol{}}
+}
+
 func (this SyntaxStringLit) SymbolString() string {
 	return this.string
 }
@@ -44,4 +48,8 @@ func (this SyntaxStringLit) Bytes() []byte {
 
 func (this SyntaxStringLit) SymbolName() string {
 	return config.INTERNAL_SYMBOL_LIT + this.string
+}
+
+func (this SyntaxStringLit) IsTerminal() bool {
+	return true
 }

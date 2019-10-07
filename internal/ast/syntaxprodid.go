@@ -28,6 +28,10 @@ func NewSyntaxProdId(tok interface{}) (SyntaxProdId, error) {
 	return SyntaxProdId{getString(tok), StdSyntaxSymbol{}}, nil
 }
 
+func NewSyntaxProdIdFromString(str string) SyntaxProdId {
+	return SyntaxProdId{str, StdSyntaxSymbol{}}
+}
+
 func (this SyntaxProdId) SymbolString() string {
 	return this.string
 }

@@ -96,6 +96,11 @@ func main() {
 
 	var tokenMap *outToken.TokenMap
 
+	fmt.Printf("token ids:  %q\n", g.LexPart.TokenIds())
+	fmt.Printf("literals:   %q\n", gSymbols.ListStringLitSymbols())
+	//fmt.Printf("item sets:  %q\n", lexItems.GetItemSets(g.LexPart))
+	fmt.Printf("terminals:  %q\n", gSymbols.ListTerminals())
+
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
 	lexSets := lexItems.GetItemSets(g.LexPart)

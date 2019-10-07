@@ -43,21 +43,21 @@ type Symbols struct {
 
 	//key: symbol type
 	//val: symbol id
-	typeMap []string
+	typeMap []ast.SyntaxSymbol
 }
 
 func NewSymbols(grammar *ast.Grammar) *Symbols {
 	symbols := &Symbols{
 		idMap:          make(map[string]int),
-		typeMap:        make([]string, 0, 16),
+		typeMap:        make([]ast.SyntaxSymbol, 0, 16),
 		ntIdMap:        make(map[string]int),
 		ntTypeMap:      make([]string, 0, 16),
 		stringLitIdMap: make(map[string]int),
 		stringLitList:  make([]string, 0, 16),
 	}
 
-	symbols.Add(config.SYMBOL_INVALID)
-	symbols.Add(config.SYMBOL_EOF)
+	symbols.Add(ast.NewStringLitFromString(config.INTERNAL_SYMBOL_INVALID))
+	symbols.Add(ast.ErrorSymbol)
 
 	if grammar.SyntaxPart == nil {
 		return symbols
@@ -88,7 +88,7 @@ func NewSymbols(grammar *ast.Grammar) *Symbols {
 	return symbols
 }
 
-func (this *Symbols) Add(symbols ...string) {
+func (this *Symbols) Add(symbols ...ast.SyntaxSymbol) {
 	for _, sym := range symbols {
 		if _, exist := this.idMap[sym]; !exist {
 			this.typeMap = append(this.typeMap, sym)
@@ -101,9 +101,8 @@ func (this *Symbols) Id(typ int) string {
 	return this.typeMap[typ]
 }
 
-func (this *Symbols) IsTerminal(sym string) bool {
-	_, nt := this.ntIdMap[sym]
-	return !nt
+func (this *Symbols) IsTerminal(sym ast.SyntaxSymbol) bool {
+	return sym.IsTerminal()
 }
 
 func (this *Symbols) List() []string {
@@ -117,7 +116,7 @@ func (this *Symbols) ListStringLitSymbols() []string {
 	return this.stringLitList
 }
 
-func (this *Symbols) ListTerminals() []string {
+func (this *Symbols) ListTerminals() []*ast.SyntaxSymbol {
 	terminals := make([]string, 0, 16)
 	for _, sym := range this.typeMap {
 		if this.IsTerminal(sym) {

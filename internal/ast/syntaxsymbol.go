@@ -23,13 +23,15 @@ type SyntaxSymbol interface {
 	String() string
 	IsError() bool
 	IsEpsilon() bool
+	IsTerminal() bool
 	gSymbol()
 }
 
 type StdSyntaxSymbol struct{}
 
-func (StdSyntaxSymbol) IsError() bool   { return false }
-func (StdSyntaxSymbol) IsEpsilon() bool { return false }
+func (StdSyntaxSymbol) IsError() bool    { return false }
+func (StdSyntaxSymbol) IsEpsilon() bool  { return false }
+func (StdSyntaxSymbol) IsTerminal() bool { return false }
 
 func (SyntaxEmpty) gSymbol()     {}
 func (SyntaxEof) gSymbol()       {}

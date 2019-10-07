@@ -34,3 +34,7 @@ func (this SyntaxTokId) String() string {
 func (this SyntaxTokId) SymbolName() string {
 	return this.string
 }
+
+func (this SyntaxTokId) IsTerminal() bool {
+	return true
+}

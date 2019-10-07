@@ -23,14 +23,14 @@ type SyntaxEof struct {
 	StdSyntaxSymbol
 }
 
-var eofSymbol = SyntaxEof{config.SYMBOL_EOF, StdSyntaxSymbol{}}
+var EofSymbol = SyntaxEof{config.SYMBOL_EOF, StdSyntaxSymbol{}}
 
 func (SyntaxEof) SymbolString() string {
-	return eofSymbol.string
+	return EofSymbol.string
 }
 
 func (SyntaxEof) String() string {
-	return eofSymbol.string
+	return EofSymbol.string
 }
 
 func (SyntaxEof) SymbolName() string {

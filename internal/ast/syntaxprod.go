@@ -19,7 +19,7 @@ import (
 )
 
 type SyntaxProd struct {
-	Id   string
+	Id   SyntaxProdId
 	Body *SyntaxBody
 }
 
@@ -29,11 +29,10 @@ func NewSyntaxProd(prodId, alts interface{}) ([]*SyntaxProd, error) {
 	prods := make([]*SyntaxProd, len(alts1))
 	for i, body := range alts1 {
 		prods[i] = &SyntaxProd{
-			Id:   pid,
+			Id:   NewSyntaxProdIdFromString(pid),
 			Body: body,
 		}
 	}
-	//fmt.Printf("      NewProd(%s)\n----------------\n", pid)
 	return prods, nil
 }
 

@@ -40,8 +40,9 @@ func NewLexStringLitTokDef(tokId string) *LexTokDef {
 		alt, _ = AppendLexTerm(alt, newLexCharLitFromRune(runes[i]))
 	}
 	ptrn, _ := NewLexPattern(alt)
+	id := tokId
 	return &LexTokDef{
-		id:      tokId,
+		id:      id,
 		pattern: ptrn,
 	}
 }

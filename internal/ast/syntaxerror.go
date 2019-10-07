@@ -23,14 +23,14 @@ type SyntaxError struct {
 	StdSyntaxSymbol
 }
 
-var errorSymbol = SyntaxError{config.SYMBOL_ERROR, StdSyntaxSymbol{}}
+var ErrorSymbol = SyntaxError{config.SYMBOL_ERROR, StdSyntaxSymbol{}}
 
 func (SyntaxError) SymbolString() string {
-	return errorSymbol.string
+	return ErrorSymbol.string
 }
 
 func (SyntaxError) String() string {
-	return errorSymbol.string
+	return ErrorSymbol.string
 }
 
 func (SyntaxError) IsError() bool { return true }

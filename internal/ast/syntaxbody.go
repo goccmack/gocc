@@ -33,15 +33,15 @@ func checkSymbols(symbols interface{}) interface{} {
 		for i, s := range syms {
 			switch s.(type) {
 			case SyntaxEmpty:
-				syms[i] = emptySymbol
+				syms[i] = EmptySymbol
 			case SyntaxError:
-				syms[i] = errorSymbol
+				syms[i] = ErrorSymbol
 			case SyntaxTokId:
 				switch s.SymbolString() {
 				case config.SYMBOL_EMPTY:
-					syms[i] = emptySymbol
+					syms[i] = EmptySymbol
 				case config.SYMBOL_ERROR:
-					syms[i] = errorSymbol
+					syms[i] = ErrorSymbol
 				}
 			}
 		}
@@ -56,9 +56,9 @@ func NewSyntaxBody(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 		for i, s := range syms {
 			switch {
 			case s.IsEpsilon():
-				syms[i] = emptySymbol
+				syms[i] = EmptySymbol
 			case s.IsError():
-				syms[i] = errorSymbol
+				syms[i] = ErrorSymbol
 			}
 		}
 	}
@@ -74,9 +74,9 @@ func NewSyntaxBody(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 	if symbols == nil {
 		return nil, fmt.Errorf("empty production alternative!")
 	}
-	if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == emptySymbol {
+	if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == EmptySymbol {
 		//fmt.Printf("  NewBody(Empty) Symbols=%#v(%s)\n", syntaxBody.Symbols, syntaxBody.Symbols.String())
-	} else if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == errorSymbol {
+	} else if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == ErrorSymbol {
 		//fmt.Printf("  NewBody(Error) Symbols=%#v(%s)\n", syntaxBody.Symbols, syntaxBody.Symbols.String())
 	} else {
 		//fmt.Printf("  NewBody()      Symbols=%#v(%s)\n", syntaxBody.Symbols, syntaxBody.Symbols.String())
@@ -98,9 +98,9 @@ func NewSyntaxBodyGen(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 	if symbols == nil {
 		return nil, fmt.Errorf("empty production alternative!")
 	}
-	if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == emptySymbol {
+	if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == EmptySymbol {
 		//fmt.Printf("  NewBodyGen(Empty) Symbols=%#v(%s)\n", syntaxBody.Symbols, syntaxBody.Symbols.String())
-	} else if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == errorSymbol {
+	} else if s, _ := symbols.(SyntaxSymbols); len(s) > 0 && s[0] == ErrorSymbol {
 		//fmt.Printf("  NewBodyGen(Error) Symbols=%#v(%s)\n", syntaxBody.Symbols, syntaxBody.Symbols.String())
 	} else {
 		//fmt.Printf("  NewBodyGen()      Symbols=%#v(%s)\n", syntaxBody.Symbols, syntaxBody.Symbols.String())
@@ -112,7 +112,7 @@ func NewErrorBody(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 	if symbols == nil {
 		return nil, fmt.Errorf("empty production alternative")
 	} else {
-		symbols.(SyntaxSymbols)[0] = errorSymbol
+		symbols.(SyntaxSymbols)[0] = ErrorSymbol
 	}
 	//fmt.Printf("  NewErrorBody()\n")
 	if body, err := NewSyntaxBody(symbols, sdtLit); err != nil {
@@ -129,7 +129,7 @@ func NewErrorBodyGen(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 		syms = SyntaxSymbols{}
 	}
 	//fmt.Printf("  NewErrorBodyGen()\n")
-	if body, err := NewSyntaxBodyGen(append(SyntaxSymbols{errorSymbol}, syms...), sdtLit); err != nil {
+	if body, err := NewSyntaxBodyGen(append(SyntaxSymbols{ErrorSymbol}, syms...), sdtLit); err != nil {
 		return nil, err
 	} else {
 		body.Error = true
@@ -139,12 +139,12 @@ func NewErrorBodyGen(symbols, sdtLit interface{}) (*SyntaxBody, error) {
 
 func NewEmptyBody() (*SyntaxBody, error) {
 	//fmt.Printf("  NewEmptyBody()\n")
-	return NewSyntaxBody(SyntaxSymbols{emptySymbol}, nil)
+	return NewSyntaxBody(SyntaxSymbols{EmptySymbol}, nil)
 }
 
 func NewEmptyBodyGen() (*SyntaxBody, error) {
 	//fmt.Printf("  NewEmptyBodyGen()\n")
-	return NewSyntaxBodyGen(SyntaxSymbols{emptySymbol}, nil)
+	return NewSyntaxBodyGen(SyntaxSymbols{EmptySymbol}, nil)
 }
 
 func (this *SyntaxBody) Missing() bool {
@@ -152,7 +152,7 @@ func (this *SyntaxBody) Missing() bool {
 }
 
 func (this *SyntaxBody) Empty() bool {
-	return len(this.Symbols) == 1 && (this.Symbols[0] == emptySymbol)
+	return len(this.Symbols) == 1 && (this.Symbols[0] == EmptySymbol)
 }
 
 func (this *SyntaxBody) String() string {

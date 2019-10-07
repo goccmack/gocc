@@ -48,11 +48,11 @@ func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
 		for _, prod := range g.SyntaxPart.ProdList {
 			switch {
 			case prod.Body.Empty():
-				if firstSets.AddToken(prod.Id, config.SYMBOL_EMPTY) {
+				if firstSets.AddToken(prod.Id, ast.EmptySymbol) {
 					again = true
 				}
 			case symbols.IsTerminal(prod.Body.Symbols[0].SymbolString()):
-				if firstSets.AddToken(prod.Id, prod.Body.Symbols[0].SymbolString()) {
+				if firstSets.AddToken(prod.Id, prod.Body.Symbols[0]) {
 					again = true
 				}
 			default:
@@ -86,14 +86,14 @@ func (this *FirstSets) AddSet(prodName string, terminals SymbolSet) (symbolsAdde
 	return
 }
 
-func (this *FirstSets) AddToken(prodName string, terminal string) (symbolAdded bool) {
+func (this *FirstSets) AddToken(prodName string, terminal ast.SyntaxSymbol) (symbolAdded bool) {
 	set, ok := this.firstSets[prodName]
 	if !ok {
 		set = make(SymbolSet)
 		this.firstSets[prodName] = set
 	}
 	if _, contain := set[terminal]; !contain {
-		set[terminal] = true
+		set[terminal] = struct{}{}
 		symbolAdded = true
 	}
 	return
@@ -118,9 +118,9 @@ func (this *FirstSets) String() string {
 }
 
 //Returns the First SymbolSet given the ast.SyntaxSymbol.
-func First(fs *FirstSets, sym string) SymbolSet {
+func First(fs *FirstSets, sym ast.SyntaxSymbol) SymbolSet {
 	if fs.symbols.IsTerminal(sym) {
-		return SymbolSet{sym: true}
+		return SymbolSet{sym: struct{}{}}
 	}
 	return fs.GetSet(sym)
 }

@@ -18,8 +18,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-
-	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 type Grammar struct {
@@ -51,26 +49,26 @@ func consistent(g *Grammar) (err error) {
 		return
 	}
 
-	defs := make(map[string]bool)
-	used := make(map[string][]string)
+	defs := make(map[SyntaxSymbol]struct{})
+	used := make(map[SyntaxSymbol][]SyntaxSymbol)
 
 	for _, tok := range g.LexPart.TokDefsList {
-		defs[tok.id] = true
+		defs[SyntaxTokId{tok.id, StdSyntaxSymbol{}}] = struct{}{}
 	}
 	for _, prod := range g.SyntaxPart.ProdList {
 		if prod.Body.Missing() {
 			return fmt.Errorf("empty production alternative: Maybe you are missing the \"empty\" keyword in %q", prod)
 		}
-		defs[prod.Id] = true
+		defs[prod.Id] = struct{}{}
 		for _, s := range prod.Body.Symbols {
 			if s.String()[0] == '"' {
 				continue
 			}
-			used[s.String()] = append(used[s.String()], prod.Id)
+			used[s] = append(used[s], prod.Id)
 		}
 	}
 	for s := range defs {
-		if s == "S'" {
+		if s.SymbolString() == "S'" {
 			continue
 		}
 		if _, ok := used[s]; !ok {
@@ -80,10 +78,10 @@ func consistent(g *Grammar) (err error) {
 	for s, in := range used {
 		if _, ok := defs[s]; !ok {
 			switch s {
-			case config.SYMBOL_EMPTY, config.SYMBOL_ERROR:
+			case EmptySymbol, ErrorSymbol:
 				continue
 			}
-			if s[0] >= 'A' && s[0] <= 'Z' {
+			if !s.IsTerminal() {
 				fmt.Fprintf(os.Stderr, "error: undefined symbol %q used in productions %q\n", s, in)
 				err = errUndefined
 			} else {

@@ -45,9 +45,9 @@ func (this SyntaxSymbols) String() string {
 func NewSyntaxSymbolsFromToken(tok interface{}) (SyntaxSymbols, error) {
 	switch getString(tok) {
 	case config.SYMBOL_EMPTY:
-		return SyntaxSymbols{emptySymbol}, nil
+		return SyntaxSymbols{EmptySymbol}, nil
 	case config.SYMBOL_ERROR:
-		return SyntaxSymbols{errorSymbol}, nil
+		return SyntaxSymbols{ErrorSymbol}, nil
 	}
 	sym, err := NewStringLit(tok)
 	return SyntaxSymbols{sym}, err
