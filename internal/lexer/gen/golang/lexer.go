@@ -226,7 +226,9 @@ func (p *Position) Reset()  {
   p.line = 1
   p.column = 1
 }
+`
 
+const dbgInfo = `
 /*
 Lexer symbols:
 {{- range $i, $sym := .Symbols}}

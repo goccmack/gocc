@@ -14,22 +14,22 @@ S0{
 	g_sdt_lit : • '<' '<' . {.} '>' '>'
 	string_lit : _raw_string | • _interpreted_string
 	string_lit : • _raw_string | _interpreted_string
+	Λ<{> : • '{'
+	Λ<empty> : • 'e' 'm' 'p' 't' 'y'
+	Λ<-> : • '-'
+	Λ<λ> : • \u03bb
+	Λ<;> : • ';'
+	Λ<ε> : • \u03b5
 	Λ<~> : • '~'
 	Λ<]> : • ']'
 	Λ<:> : • ':'
-	Λ<|> : • '|'
-	Λ<[> : • '['
-	Λ<-> : • '-'
-	Λ<)> : • ')'
-	Λ<error> : • 'e' 'r' 'r' 'o' 'r'
 	Λ<(> : • '('
-	Λ<{> : • '{'
-	Λ<empty> : • 'e' 'm' 'p' 't' 'y'
-	Λ<ε> : • \u03b5
-	Λ<;> : • ';'
+	Λ<)> : • ')'
+	Λ<[> : • '['
 	Λ<}> : • '}'
+	Λ<error> : • 'e' 'r' 'r' 'o' 'r'
+	Λ<|> : • '|'
 	Λ<.> : • '.'
-	Λ<λ> : • \u03bb
 	_blockComment : • '/' '*' {. | '*'} '*' '/'
 	_lineComment : • '/' '/' {.} '\n'
 	_tokId : • _lowcase {_id_char}
@@ -282,8 +282,8 @@ Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S19{
-	Λ<error> : 'e' • 'r' 'r' 'o' 'r'
 	Λ<empty> : 'e' • 'm' 'p' 't' 'y'
+	Λ<error> : 'e' • 'r' 'r' 'o' 'r'
 	_lowcase :  'a'-'z' •
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}

@@ -21,9 +21,9 @@ T
 hexdigit
 ;
 
-T : "a"  | "X" | ProdX ;
+T : "a"  | "X" | ProdX | "λ1";
 
 ProdX : "empty" | "ε" | "λ" | empty  | ε ;
 
-// X0: "!" | "hexdigit";
+X: "!" | "hexdigit";
 
