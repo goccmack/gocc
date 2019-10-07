@@ -31,7 +31,7 @@ func (l ItemList) Len() int {
 }
 
 func (l ItemList) Less(i, j int) bool {
-	return l[i].Id < l[j].Id
+	return l[i].String() < l[j].String()
 }
 
 func (l ItemList) Swap(i, j int) {
