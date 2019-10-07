@@ -16,6 +16,7 @@ package items
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/maxcalandrelli/gocc/internal/ast"
@@ -103,7 +104,9 @@ func (this *ItemSets) String() string {
 	fmt.Fprintf(buf, "Item sets:\n")
 	for i, s := range this.sets {
 		fmt.Fprintf(buf, "S%d{\n", i)
-		for _, item := range s.Items {
+		s_items := s.Items
+		sort.Sort(s_items)
+		for _, item := range s_items {
 			fmt.Fprintf(buf, "\t%s\n", item)
 		}
 		fmt.Fprintf(buf, "}\n")

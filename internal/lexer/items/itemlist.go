@@ -26,6 +26,20 @@ import (
 // Each Itemset element is a ItemList
 type ItemList []*Item
 
+func (l ItemList) Len() int {
+	return len(l)
+}
+
+func (l ItemList) Less(i, j int) bool {
+	return l[i].Id < l[j].Id
+}
+
+func (l ItemList) Swap(i, j int) {
+	t := l[i]
+	l[i] = l[j]
+	l[j] = t
+}
+
 func NewItemList(len int) ItemList {
 	if len < 8 {
 		len = 8
