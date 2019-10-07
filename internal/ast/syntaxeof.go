@@ -36,3 +36,7 @@ func (SyntaxEof) String() string {
 func (SyntaxEof) SymbolName() string {
 	return config.INTERNAL_SYMBOL_EOF
 }
+
+func (SyntaxEof) IsTerminal() bool {
+	return true
+}

@@ -40,26 +40,32 @@ func genActionTable(pkg, outDir string, itemsets *items.ItemSets, tokMap *token.
 func getActTab(pkg, subpath string, itemsets *items.ItemSets, tokMap *token.TokenMap) *actTab {
 	actab := &actTab{
 		TokenImport: path.Join(pkg, subpath, "token"),
-		Actions:     make([]action, itemsets.Size()),
+		Actions:     make([]actTabEntry, itemsets.Size()),
 	}
 	for sno, set := range itemsets.List() {
 		if act := set.Action(); act != nil {
 			switch act1 := act.(type) {
 			case items.Accept:
-				actab.Actions[sno].Accept = tokMap.IdMap[string(act1)]
-				actab.Actions[sno].Ignore = ""
+				actab.Actions[sno].Symbol = act1.String()
+				actab.Actions[sno].Action.Accept = tokMap.IdMap[string(act1)]
+				actab.Actions[sno].Action.Ignore = ""
 			case items.Ignore:
-				actab.Actions[sno].Accept = -1
-				actab.Actions[sno].Ignore = string(act1)
+				actab.Actions[sno].Symbol = act1.String()
+				actab.Actions[sno].Action.Accept = -1
+				actab.Actions[sno].Action.Ignore = string(act1)
 			}
 		}
 	}
 	return actab
 }
 
+type actTabEntry struct {
+	Action action
+	Symbol string
+}
 type actTab struct {
 	TokenImport string
-	Actions     []action
+	Actions     []actTabEntry
 }
 
 type action struct {
@@ -91,9 +97,9 @@ func (a ActionRow) String() string {
 
 var ActTab = ActionTable{
 	{{- range $s, $act := .Actions}}
-	ActionRow{ // S{{$s}}
-		Accept: {{$act.Accept}},
-		Ignore: "{{$act.Ignore}}",
+	ActionRow{ // S{{$s}}, {{$act.Symbol}}
+		Accept: {{$act.Action.Accept}},
+		Ignore: "{{$act.Action.Ignore}}",
 	},
 	{{- end}}
 }

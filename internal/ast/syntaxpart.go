@@ -37,7 +37,7 @@ func (this *SyntaxPart) augment() *SyntaxPart {
 	startProd := &SyntaxProd{
 		Id: SyntaxProdId{"S'", StdSyntaxSymbol{}},
 		Body: &SyntaxBody{
-			Symbols: []SyntaxSymbol{SyntaxProdId{this.ProdList[0].Id.SymbolString(), StdSyntaxSymbol{}}},
+			Symbols: SyntaxSymbols{SyntaxProdId{this.ProdList[0].Id.SymbolString(), StdSyntaxSymbol{}}},
 		},
 	}
 	newProdList := SyntaxProdList{startProd}

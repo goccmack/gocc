@@ -18,8 +18,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/maxcalandrelli/gocc/internal/config"
-
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
 )
@@ -48,17 +46,17 @@ func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
 		for _, prod := range g.SyntaxPart.ProdList {
 			switch {
 			case prod.Body.Empty():
-				if firstSets.AddToken(prod.Id, ast.EmptySymbol) {
+				if firstSets.AddToken(prod.Id.SymbolName(), ast.EmptySymbol) {
 					again = true
 				}
-			case symbols.IsTerminal(prod.Body.Symbols[0].SymbolString()):
-				if firstSets.AddToken(prod.Id, prod.Body.Symbols[0]) {
+			case prod.Body.Symbols[0].IsTerminal():
+				if firstSets.AddToken(prod.Id.SymbolName(), prod.Body.Symbols[0]) {
 					again = true
 				}
 			default:
-				first := FirstS(firstSets, stringList(prod.Body.Symbols))
-				if !first.Equal(firstSets.GetSet(prod.Id)) {
-					if firstSets.AddSet(prod.Id, first) {
+				first := FirstS(firstSets, prod.Body.Symbols)
+				if !first.Equal(firstSets.GetSet(prod.Id.SymbolName())) {
+					if firstSets.AddSet(prod.Id.SymbolName(), first) {
 						again = true
 					}
 				}
@@ -69,7 +67,7 @@ func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
 	return firstSets
 }
 
-func stringList(symbols []ast.SyntaxSymbol) []string {
+func stringList(symbols ast.SyntaxSymbols) []string {
 	sl := make([]string, len(symbols))
 	for i, sym := range symbols {
 		sl[i] = sym.SymbolString()
@@ -111,18 +109,18 @@ func (this *FirstSets) GetSet(prodName string) SymbolSet {
 func (this *FirstSets) String() string {
 	buf := new(strings.Builder)
 	for _, nt := range this.symbols.NTList() {
-		set := this.firstSets[nt]
-		fmt.Fprintf(buf, "%s: %s\n", nt, set)
+		set := this.firstSets[nt.SymbolName()]
+		fmt.Fprintf(buf, "%s: %s\n", nt.SymbolName(), set)
 	}
 	return buf.String()
 }
 
 //Returns the First SymbolSet given the ast.SyntaxSymbol.
 func First(fs *FirstSets, sym ast.SyntaxSymbol) SymbolSet {
-	if fs.symbols.IsTerminal(sym) {
+	if sym.IsTerminal() {
 		return SymbolSet{sym: struct{}{}}
 	}
-	return fs.GetSet(sym)
+	return fs.GetSet(sym.SymbolName())
 }
 
 /*
@@ -137,21 +135,21 @@ Returns First of the string, xyz, e.g.: for the item,
  	...
  	First(x) + First(y) + ... + First(z)
 */
-func FirstS(firstSets *FirstSets, symbols []string) (first SymbolSet) {
+func FirstS(firstSets *FirstSets, symbols ast.SyntaxSymbols) (first SymbolSet) {
 	first = make(SymbolSet)
 	if len(symbols) == 0 {
 		return
 	}
 	fst := First(firstSets, symbols[0])
 	first.AddSet(fst)
-	_, containEmpty := fst[config.SYMBOL_EMPTY]
+	_, containEmpty := fst[ast.EmptySymbol]
 	for i := 1; i < len(symbols) && containEmpty; i++ {
 		fst = First(firstSets, symbols[i])
 		first.AddSet(fst)
-		_, containEmpty = fst[config.SYMBOL_EMPTY]
+		_, containEmpty = fst[ast.EmptySymbol]
 	}
 	if !containEmpty {
-		delete(first, config.SYMBOL_EMPTY)
+		delete(first, ast.EmptySymbol)
 	}
 	return
 }

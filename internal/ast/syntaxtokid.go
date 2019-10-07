@@ -23,6 +23,10 @@ func NewTokId(tokId interface{}) (SyntaxTokId, error) {
 	return SyntaxTokId{getString(tokId), StdSyntaxSymbol{}}, nil
 }
 
+func NewTokIdFromString(str string) SyntaxTokId {
+	return SyntaxTokId{str, StdSyntaxSymbol{}}
+}
+
 func (this SyntaxTokId) SymbolString() string {
 	return this.string
 }

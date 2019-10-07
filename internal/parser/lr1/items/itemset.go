@@ -30,7 +30,7 @@ type ItemSet struct {
 	imap  map[string]*Item
 	Items []*Item
 	// string: symbol, int: nextState
-	Transitions map[string]int
+	Transitions map[ast.SyntaxSymbol]int
 
 	Symbols *symbols.Symbols
 	Prods   ast.SyntaxProdList
@@ -43,14 +43,14 @@ func NewItemSet(symbols *symbols.Symbols, prods ast.SyntaxProdList, fs *first.Fi
 		SetNo:       -1,
 		imap:        make(map[string]*Item),
 		Items:       make([]*Item, 0, 16),
-		Transitions: make(map[string]int),
+		Transitions: make(map[ast.SyntaxSymbol]int),
 		Symbols:     symbols,
 		Prods:       prods,
 		FS:          fs,
 	}
 }
 
-func (this *ItemSet) Action(symbol string) (act1 action.Action, conflicts []action.Action) {
+func (this *ItemSet) Action(symbol ast.SyntaxSymbol) (act1 action.Action, conflicts []action.Action) {
 	conflictMap := make(map[string]action.Action)
 	act1 = action.ERROR
 	for _, item := range this.Items {
@@ -85,7 +85,7 @@ func (this *ItemSet) AddItem(items ...*Item) {
 
 }
 
-func (this *ItemSet) AddTransition(symbol string, nextSet int) {
+func (this *ItemSet) AddTransition(symbol ast.SyntaxSymbol, nextSet int) {
 	if _, exist := this.Transitions[symbol]; exist {
 		panic(fmt.Sprintf("Transition %s -> %d already exists", symbol, nextSet))
 	}
@@ -101,7 +101,7 @@ func (this *ItemSet) CanRecover() bool {
 	return false
 }
 
-func (this *ItemSet) NextSetIndex(symbol string) int {
+func (this *ItemSet) NextSetIndex(symbol ast.SyntaxSymbol) int {
 	if nextSet, exist := this.Transitions[symbol]; exist {
 		return nextSet
 	}
@@ -130,7 +130,7 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 		again = false
 		for idx, i := range c.Items {
 			if idx > included {
-				if i.Pos >= i.Len || this.Symbols.IsTerminal(i.ExpectedSymbol) {
+				if i.Pos >= i.Len || i.ExpectedSymbol.IsTerminal() {
 					continue
 				}
 				for pi, prod := range this.Prods {
@@ -182,18 +182,18 @@ func (this *ItemSet) Equal(that *ItemSet) bool {
 
 // first1 returns the characters contained within the first set, sorted in
 // alphabetical order.
-func first1(firstSets *first.FirstSets, symbols []string, following string) []string {
+func first1(firstSets *first.FirstSets, symbols ast.SyntaxSymbols, following ast.SyntaxSymbol) ast.SyntaxSymbols {
 	firsts := first.FirstS(firstSets, append(symbols, following))
-	var keys []string
+	keys := ast.SyntaxSymbolsByName{}
 	for key := range firsts {
 		keys = append(keys, key)
 	}
-	sort.Strings(keys)
-	return keys
+	sort.Sort(&keys)
+	return ast.SyntaxSymbols(keys)
 }
 
 // Dragon book, 2nd ed, section 4.7.2, p261
-func (I *ItemSet) Goto(X string) *ItemSet {
+func (I *ItemSet) Goto(X ast.SyntaxSymbol) *ItemSet {
 	J := NewItemSet(I.Symbols, I.Prods, I.FS)
 	for _, item := range I.Items {
 		if item.Pos < item.Len && X == item.ExpectedSymbol {
@@ -224,7 +224,7 @@ func (this *ItemSet) String() string {
 	fmt.Fprintf(buf, "Transitions:\n")
 	var keys transitions
 	for sym, set := range this.Transitions {
-		key := transition{symbol: sym, nextState: set}
+		key := transition{symbol: sym.SymbolName(), nextState: set}
 		keys = append(keys, key)
 	}
 	sort.Sort(keys)

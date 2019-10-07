@@ -83,6 +83,7 @@ func (this *LexGroupPattern) Walk(visitor LexNodeVisitor) LexNodeVisitor {
 }
 
 func (this *LexIgnoredTokDef) Walk(visitor LexNodeVisitor) LexNodeVisitor {
+	fmt.Printf("  walk on: %s\n", this.Id())
 	return visitor.Visit(this)
 }
 

@@ -3,11 +3,9 @@
 package lexer
 
 import (
-	"fmt"
 	"io/ioutil"
 	"unicode/utf8"
 
-	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/util"
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token"
 )
 
@@ -43,7 +41,6 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 }
 
 func (l *Lexer) Scan() (tok *token.Token) {
-	fmt.Printf("Lexer.Scan() pos=%d\n", l.pos)
 	tok = new(token.Token)
 	if l.pos >= len(l.src) {
 		tok.Type = token.EOF
@@ -54,7 +51,6 @@ func (l *Lexer) Scan() (tok *token.Token) {
 	tok.Type = token.INVALID
 	state, rune1, size := 0, rune(-1), 0
 	for state != -1 {
-		fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.pos, l.line, l.column, state)
 		if l.pos >= len(l.src) {
 			rune1 = -1
 		} else {
@@ -65,11 +61,6 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		nextState := -1
 		if rune1 != -1 {
 			nextState = TransTab[state](rune1)
-		}
-		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
-		fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", l.pos, size, start, end)
-		if nextState != -1 {
-			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		}
 		state = nextState
 
@@ -112,7 +103,6 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		tok.Lit = []byte{}
 	}
 	tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = start, startLine, startColumn
-	fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
 
 	return
 }
@@ -166,30 +156,30 @@ Lexer symbols:
 5: '<'
 6: '>'
 7: '>'
-8: ':'
-9: ';'
-10: '|'
-11: '.'
-12: '-'
-13: '~'
-14: '('
-15: ')'
-16: '['
-17: ']'
-18: '{'
-19: '}'
-20: 'e'
-21: 'r'
-22: 'r'
-23: 'o'
-24: 'r'
-25: \u03bb
-26: 'e'
-27: 'm'
-28: 'p'
-29: 't'
-30: 'y'
-31: \u03b5
+8: '~'
+9: ']'
+10: ':'
+11: '|'
+12: '['
+13: '-'
+14: ')'
+15: 'e'
+16: 'r'
+17: 'r'
+18: 'o'
+19: 'r'
+20: '('
+21: '{'
+22: 'e'
+23: 'm'
+24: 'p'
+25: 't'
+26: 'y'
+27: \u03b5
+28: ';'
+29: '}'
+30: '.'
+31: \u03bb
 32: '/'
 33: '/'
 34: '\n'

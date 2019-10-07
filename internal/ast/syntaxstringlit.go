@@ -47,7 +47,7 @@ func (this SyntaxStringLit) Bytes() []byte {
 }
 
 func (this SyntaxStringLit) SymbolName() string {
-	return config.INTERNAL_SYMBOL_LIT + this.string
+	return fmt.Sprintf("%s<%s>", config.INTERNAL_SYMBOL_LIT, this.string)
 }
 
 func (this SyntaxStringLit) IsTerminal() bool {

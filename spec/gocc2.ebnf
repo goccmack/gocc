@@ -15,7 +15,7 @@
 
 
 
-!comment : _lineComment | _blockComment ;
+!comment      : _lineComment | _blockComment ;
 !whitespace : ' ' | '\t' | '\n' | '\r' ;
 
 _lineComment : '/' '/' {.} '\n' ;

@@ -51,8 +51,8 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 	}
 	for i, prod := range prods {
 		data.ProdTab[i].String = fmt.Sprintf("`%s`", prod.String())
-		data.ProdTab[i].Id = prod.Id
-		data.ProdTab[i].NTType = symbols.NTType(prod.Id)
+		data.ProdTab[i].Id = prod.Id.SymbolString()
+		data.ProdTab[i].NTType = symbols.NTType(prod.Id.SymbolString())
 		isEmpty := prod.Body.Empty()
 		if isEmpty {
 			data.ProdTab[i].NumSymbols = 0

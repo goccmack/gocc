@@ -50,7 +50,7 @@ func consistent(g *Grammar) (err error) {
 	}
 
 	defs := make(map[SyntaxSymbol]struct{})
-	used := make(map[SyntaxSymbol][]SyntaxSymbol)
+	used := make(map[SyntaxSymbol]SyntaxSymbols)
 
 	for _, tok := range g.LexPart.TokDefsList {
 		defs[SyntaxTokId{tok.id, StdSyntaxSymbol{}}] = struct{}{}

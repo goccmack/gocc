@@ -50,7 +50,7 @@ func (this SymbolSet) String() string {
 	fmt.Fprintf(buf, "{\n")
 	var keys []string
 	for key := range this {
-		keys = append(keys, key)
+		keys = append(keys, key.SymbolName())
 	}
 	sort.Strings(keys)
 	for _, str := range keys {

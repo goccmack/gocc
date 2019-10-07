@@ -15,6 +15,8 @@
 package ast
 
 import (
+	"fmt"
+
 	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
@@ -41,5 +43,14 @@ func (this SyntaxProdId) String() string {
 }
 
 func (this SyntaxProdId) SymbolName() string {
-	return config.INTERNAL_SYMBOL_PROD + this.string
+	//return this.SymbolString()
+	return fmt.Sprintf("%s<%s>", config.INTERNAL_SYMBOL_PROD, this.string)
+}
+
+func (this SyntaxProdId) IsTerminal() bool {
+	return false
+}
+
+func (this SyntaxProdId) IsNonTerminal() bool {
+	return true
 }

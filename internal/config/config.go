@@ -27,14 +27,14 @@ import (
 
 const (
 	INTERNAL_SYMBOL_EMPTY   = "ε"
-	INTERNAL_SYMBOL_ERROR   = "λ" // (λάθος)
-	INTERNAL_SYMBOL_INVALID = "ά" // (άκυρος)
+	INTERNAL_SYMBOL_ERROR   = "λ"       // (λάθος)
+	INTERNAL_SYMBOL_INVALID = "INVALID" // (άκυρος)
 	INTERNAL_SYMBOL_EOF     = "Ω"
-	INTERNAL_SYMBOL_PROD    = "Π:"
-	INTERNAL_SYMBOL_LIT     = "Λ:"
+	INTERNAL_SYMBOL_PROD    = "Π"
+	INTERNAL_SYMBOL_LIT     = "Λ"
 	SYMBOL_EMPTY            = "empty"
 	SYMBOL_ERROR            = "error"
-	SYMBOL_INVALID          = "<INVALID>"
+	SYMBOL_INVALID          = "ά<INVALID>"
 	SYMBOL_EOF              = "Ω<EOF>"
 )
 

@@ -32,19 +32,27 @@ func GenToken(pkg, outdir string, tokMap *token.TokenMap, subpath string) {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
-	err = tmpl.Execute(buf, TokenData{TypMap: tokMap.TypeMap, IdMap: typeMap(tokMap)})
+	err = tmpl.Execute(buf, TokenData{TypMap: makeTypeMap(tokMap), IdMap: makeIdMap(tokMap)})
 	// Use go/format to indent the idMap literal correctly.
 	source, err := format.Source(buf.Bytes())
 	if err != nil {
-		panic(err)
+		panic(fmt.Sprintf("%s in \n%s", err.Error(), buf.String()))
 	}
 	io.WriteFile(tokenPath, source)
 }
 
-func typeMap(tokMap *token.TokenMap) []string {
+func makeIdMap(tokMap *token.TokenMap) []string {
 	tm := make([]string, len(tokMap.TypeMap))
 	for i, sym := range tokMap.TypeMap {
-		tm[i] = fmt.Sprintf("\"%s\": %d", sym, i)
+		tm[i] = fmt.Sprintf("\"%s\": %d", sym.SymbolName(), i)
+	}
+	return tm
+}
+
+func makeTypeMap(tokMap *token.TokenMap) []string {
+	tm := make([]string, len(tokMap.TypeMap))
+	for i, sym := range tokMap.TypeMap {
+		tm[i] = fmt.Sprintf("\"%s\"", sym.SymbolName())
 	}
 	return tm
 }
@@ -125,7 +133,7 @@ func (m TokenMap) StringType(typ Type) string {
 var TokMap = TokenMap{
 	typeMap: []string{
 {{- range .TypMap }}
-		{{printf "%q" .}},
+		{{printf "%s" .}},
 {{- end }}
 	},
 

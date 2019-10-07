@@ -14,22 +14,22 @@ S0{
 	g_sdt_lit : • '<' '<' . {.} '>' '>'
 	string_lit : _raw_string | • _interpreted_string
 	string_lit : • _raw_string | _interpreted_string
-	: : • ':'
-	; : • ';'
-	| : • '|'
-	. : • '.'
-	- : • '-'
-	~ : • '~'
-	( : • '('
-	) : • ')'
-	[ : • '['
-	] : • ']'
-	{ : • '{'
-	} : • '}'
-	error : • 'e' 'r' 'r' 'o' 'r'
-	λ : • \u03bb
-	empty : • 'e' 'm' 'p' 't' 'y'
-	ε : • \u03b5
+	Λ<~> : • '~'
+	Λ<]> : • ']'
+	Λ<:> : • ':'
+	Λ<|> : • '|'
+	Λ<[> : • '['
+	Λ<-> : • '-'
+	Λ<)> : • ')'
+	Λ<error> : • 'e' 'r' 'r' 'o' 'r'
+	Λ<(> : • '('
+	Λ<{> : • '{'
+	Λ<empty> : • 'e' 'm' 'p' 't' 'y'
+	Λ<ε> : • \u03b5
+	Λ<;> : • ';'
+	Λ<}> : • '}'
+	Λ<.> : • '.'
+	Λ<λ> : • \u03bb
 	_blockComment : • '/' '*' {. | '*'} '*' '/'
 	_lineComment : • '/' '/' {.} '\n'
 	_tokId : • _lowcase {_id_char}
@@ -134,31 +134,31 @@ Action: nil
 Symbols classes: {['\','\']}
 
 S5{
-	( : '(' •
+	Λ<(> : '(' •
 }
 Transitions:
-Action: Accept("(")
+Action: Accept("Λ<(>")
 Symbols classes: {}
 
 S6{
-	) : ')' •
+	Λ<)> : ')' •
 }
 Transitions:
-Action: Accept(")")
+Action: Accept("Λ<)>")
 Symbols classes: {}
 
 S7{
-	- : '-' •
+	Λ<-> : '-' •
 }
 Transitions:
-Action: Accept("-")
+Action: Accept("Λ<->")
 Symbols classes: {}
 
 S8{
-	. : '.' •
+	Λ<.> : '.' •
 }
 Transitions:
-Action: Accept(".")
+Action: Accept("Λ<.>")
 Symbols classes: {}
 
 S9{
@@ -174,17 +174,17 @@ Action: nil
 Symbols classes: {['*','*'], ['/','/']}
 
 S10{
-	: : ':' •
+	Λ<:> : ':' •
 }
 Transitions:
-Action: Accept(":")
+Action: Accept("Λ<:>")
 Symbols classes: {}
 
 S11{
-	; : ';' •
+	Λ<;> : ';' •
 }
 Transitions:
-Action: Accept(";")
+Action: Accept("Λ<;>")
 Symbols classes: {}
 
 S12{
@@ -216,17 +216,17 @@ Action: Accept("prodId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S14{
-	[ : '[' •
+	Λ<[> : '[' •
 }
 Transitions:
-Action: Accept("[")
+Action: Accept("Λ<[>")
 Symbols classes: {}
 
 S15{
-	] : ']' •
+	Λ<]> : ']' •
 }
 Transitions:
-Action: Accept("]")
+Action: Accept("Λ<]>")
 Symbols classes: {}
 
 S16{
@@ -282,8 +282,8 @@ Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S19{
-	error : 'e' • 'r' 'r' 'o' 'r'
-	empty : 'e' • 'm' 'p' 't' 'y'
+	Λ<error> : 'e' • 'r' 'r' 'o' 'r'
+	Λ<empty> : 'e' • 'm' 'p' 't' 'y'
 	_lowcase :  'a'-'z' •
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
@@ -310,45 +310,45 @@ Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','l'], ['m','m'], ['n','q'], ['r','r'], ['s','z']}
 
 S20{
-	{ : '{' •
+	Λ<{> : '{' •
 }
 Transitions:
-Action: Accept("{")
+Action: Accept("Λ<{>")
 Symbols classes: {}
 
 S21{
-	| : '|' •
+	Λ<|> : '|' •
 }
 Transitions:
-Action: Accept("|")
+Action: Accept("Λ<|>")
 Symbols classes: {}
 
 S22{
-	} : '}' •
+	Λ<}> : '}' •
 }
 Transitions:
-Action: Accept("}")
+Action: Accept("Λ<}>")
 Symbols classes: {}
 
 S23{
-	~ : '~' •
+	Λ<~> : '~' •
 }
 Transitions:
-Action: Accept("~")
+Action: Accept("Λ<~>")
 Symbols classes: {}
 
 S24{
-	ε : \u03b5 •
+	Λ<ε> : \u03b5 •
 }
 Transitions:
-Action: Accept("ε")
+Action: Accept("Λ<ε>")
 Symbols classes: {}
 
 S25{
-	λ : \u03bb •
+	Λ<λ> : \u03bb •
 }
 Transitions:
-Action: Accept("λ")
+Action: Accept("Λ<λ>")
 Symbols classes: {}
 
 S26{
@@ -797,7 +797,7 @@ Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S48{
-	empty : 'e' 'm' • 'p' 't' 'y'
+	Λ<empty> : 'e' 'm' • 'p' 't' 'y'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -823,7 +823,7 @@ Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','o'], ['p','p'], ['q','z']}
 
 S49{
-	error : 'e' 'r' • 'r' 'o' 'r'
+	Λ<error> : 'e' 'r' • 'r' 'o' 'r'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1133,7 +1133,7 @@ Action: nil
 Symbols classes: {['>','>']}
 
 S68{
-	empty : 'e' 'm' 'p' • 't' 'y'
+	Λ<empty> : 'e' 'm' 'p' • 't' 'y'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1159,7 +1159,7 @@ Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','s'], ['t','t'], ['u','z']}
 
 S69{
-	error : 'e' 'r' 'r' • 'o' 'r'
+	Λ<error> : 'e' 'r' 'r' • 'o' 'r'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1325,7 +1325,7 @@ Action: nil
 Symbols classes: {['>','>']}
 
 S80{
-	empty : 'e' 'm' 'p' 't' • 'y'
+	Λ<empty> : 'e' 'm' 'p' 't' • 'y'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1351,7 +1351,7 @@ Action: Accept("tokId")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','x'], ['y','y'], ['z','z']}
 
 S81{
-	error : 'e' 'r' 'r' 'o' • 'r'
+	Λ<error> : 'e' 'r' 'r' 'o' • 'r'
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1526,7 +1526,7 @@ Action: Accept("g_sdt_lit")
 Symbols classes: {}
 
 S91{
-	empty : 'e' 'm' 'p' 't' 'y' •
+	Λ<empty> : 'e' 'm' 'p' 't' 'y' •
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1546,11 +1546,11 @@ Transitions:
 	['A','Z'] -> S45
 	['_','_'] -> S46
 	['a','z'] -> S47
-Action: Accept("empty")
+Action: Accept("Λ<empty>")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S92{
-	error : 'e' 'r' 'r' 'o' 'r' •
+	Λ<error> : 'e' 'r' 'r' 'o' 'r' •
 	_lowcase :  'a'-'z' •
 	_id_char : (_upcase | _lowcase | '_' | _digit) •
 	_tokId : _lowcase {_id_char} •
@@ -1570,7 +1570,7 @@ Transitions:
 	['A','Z'] -> S45
 	['_','_'] -> S46
 	['a','z'] -> S47
-Action: Accept("error")
+Action: Accept("Λ<error>")
 Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
 
 S93{

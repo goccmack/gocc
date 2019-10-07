@@ -69,7 +69,7 @@ func getGotoRowData(itemSet *items.ItemSet, sym *symbols.Symbols) []gotoRowEleme
 	row := make([]gotoRowElement, sym.NumNTSymbols())
 	var max int
 	for i, nt := range sym.NTList() {
-		row[i].NT = nt
+		row[i].NT = nt.SymbolName()
 		row[i].State = itemSet.NextSetIndex(nt)
 		n := nbytes(row[i].State)
 		if n > max {

@@ -94,20 +94,13 @@ func main() {
 		writeTerminals(gSymbols, cfg, outdir_log)
 	}
 
-	var tokenMap *outToken.TokenMap
-
-	fmt.Printf("token ids:  %q\n", g.LexPart.TokenIds())
-	fmt.Printf("literals:   %q\n", gSymbols.ListStringLitSymbols())
-	//fmt.Printf("item sets:  %q\n", lexItems.GetItemSets(g.LexPart))
-	fmt.Printf("terminals:  %q\n", gSymbols.ListTerminals())
-
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
 	lexSets := lexItems.GetItemSets(g.LexPart)
 	if cfg.Verbose() {
 		io.WriteFileString(path.Join(outdir_log, "lexer_sets.txt"), lexSets.String())
 	}
-	tokenMap = outToken.NewTokenMap(gSymbols.ListTerminals())
+	tokenMap := outToken.NewTokenMap(gSymbols.ListTerminals())
 	if !cfg.NoLexer() {
 		genLexer.Gen(cfg.Package(), outdir_base, g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg, subpath)
 	}
