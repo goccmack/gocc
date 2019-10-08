@@ -1,6 +1,16 @@
+!comment      : _lineComment | _blockComment ;
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
 
+_lineComment : '/' '/' {.} '\n' ;
+_blockComment : '/' '*' {. | '*'} '*' '/' ;
+_tokId : _lowcase {_id_char} ;
+_lowcase : 'a'-'z' ;
+_id_char : _upcase | _lowcase | '_' | _digit ;
+_upcase : 'A'-'Z' ;
+_digit : '0'-'9' ;
+
+//
 !space    :  ' ' | '\t' ;
-
 hexdigit : '0'-'F'  | ~(':'-'@') ;
 
 Test :

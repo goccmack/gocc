@@ -97,7 +97,7 @@ func (s impl_WindowReader) bufferBytes(pos int) []byte {
 }
 
 func (s impl_WindowReader) bufferByteRange(pos int, length int) []byte {
-	p := s.bufferIndex(pos)
+	p := s.bufferOffset(pos)
 	return s.bufferBytes(pos)[p : p+length]
 }
 

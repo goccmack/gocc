@@ -3,6 +3,7 @@
 package lexer
 
 import (
+	"bytes"
 	"io"
 	"os"
 
@@ -17,19 +18,24 @@ const (
 )
 
 type Position struct {
-	pos    int
-	line   int
-	column int
+	token.Pos
+	StreamPosition int64
+}
+
+type lexerStream interface {
+	io.RuneReader
+	io.Seeker
 }
 
 type Lexer struct {
 	Position
-	stream stream.WindowReader
+	stream lexerStream
 	eof    bool
 }
 
 func NewLexer(src []byte) *Lexer {
-	lexer := &Lexer{stream: stream.NewWindowReaderFromBytes(src)}
+	lexer := &Lexer{stream: bytes.NewReader(src)}
+	lexer.Position.Reset()
 	return lexer
 }
 
@@ -38,17 +44,31 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Lexer{stream: stream.NewWindowReader(s)}, nil
+	lexer := &Lexer{stream: stream.NewWindowReader(s)}
+	lexer.Position.Reset()
+	return lexer, nil
+}
+
+func NewLexerStream(reader io.Reader) (*Lexer, error) {
+	lexer := &Lexer{}
+	lexer.Position.Reset()
+	if lexer.stream, _ = reader.(lexerStream); lexer.stream == nil {
+		lexer.stream = stream.NewWindowReader(reader)
+	} else {
+		lexer.Position.StreamPosition, _ = lexer.stream.Seek(0, io.SeekCurrent)
+	}
+	return lexer, nil
 }
 
 func (l *Lexer) Scan() (tok *token.Token) {
 	tok = new(token.Token)
 	if l.eof {
 		tok.Type = token.EOF
-		tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = l.pos, l.line, l.column
+		tok.Pos = l.Position.Pos
 		return
 	}
-	start, startLine, startColumn, end := l.pos, l.line, l.column, 0
+	l.Position.StreamPosition, _ = l.stream.Seek(0, io.SeekCurrent)
+	start, end := l.Position, Position{}
 	tok.Type = token.INVALID
 	tok.Lit = []byte{}
 	state, rune1 := 0, rune(-1)
@@ -63,8 +83,8 @@ func (l *Lexer) Scan() (tok *token.Token) {
 			}
 			if err == nil && size > 0 {
 				rune1 = rune2
-				l.pos += size
-				tok.Lit = append(tok.Lit, string(rune1)...)
+				l.Position.StreamPosition += int64(size)
+				l.Position.Pos.Offset += size
 			}
 		}
 
@@ -75,26 +95,28 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		state = nextState
 
 		if state != -1 {
-
 			switch rune1 {
 			case '\n':
-				l.line++
-				l.column = 1
+				l.Position.Pos.Line++
+				l.Position.Pos.Column = 1
 			case '\r':
-				l.column = 1
+				l.Position.Pos.Column = 1
 			case '\t':
-				l.column += 4
+				l.Position.Pos.Column += 4
 			default:
-				l.column++
+				l.Position.Pos.Column++
 			}
 
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
-				end = l.pos
+				l.Position.StreamPosition, _ = l.stream.Seek(0, io.SeekCurrent)
+				end = l.Position
+				tok.Lit = append(tok.Lit, string(rune1)...)
 			case ActTab[state].Ignore != "":
-				start, startLine, startColumn = l.pos, l.line, l.column
+				start = l.Position
 				state = 0
+				tok.Lit = []byte{}
 				if l.eof {
 					tok.Type = token.EOF
 				}
@@ -102,15 +124,14 @@ func (l *Lexer) Scan() (tok *token.Token) {
 			}
 		} else {
 			if tok.Type == token.INVALID {
-				end = l.pos
+				end = l.Position
 			}
 		}
 	}
-	if end > start {
-		l.pos = end
+	if end.Pos.Offset > start.Pos.Offset {
+		l.Reposition(end)
 	}
-	tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = start, startLine, startColumn
-
+	tok.Pos = start.Pos
 	return
 }
 
@@ -120,26 +141,21 @@ func (l *Lexer) Reset() {
 
 func (l *Lexer) Reposition(p Position) {
 	l.Position = p
+	l.stream.Seek(l.Position.StreamPosition, io.SeekStart)
 }
 
 func (l Lexer) CurrentPosition() Position {
 	return l.Position
 }
 
-func (p Position) Offset() int {
-	return p.pos
-}
-
-func (p Position) Line() int {
-	return p.line
-}
-
-func (p Position) Column() int {
-	return p.column
-}
-
 func (p *Position) Reset() {
-	p.pos = 0
-	p.line = 1
-	p.column = 1
+	p.Offset = 0
+	p.Line = 1
+	p.Column = 1
+}
+
+func (p Position) StartingFrom(base Position) Position {
+	r := p
+	r.Pos = p.Pos.StartingFrom(base.Pos)
+	return r
 }
