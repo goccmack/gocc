@@ -71,18 +71,12 @@ import (
 	"fmt"
 )
 
-type UserContext interface {}
-
-type ParseContext struct {
-  Remaining []byte
-}
-
 type Token struct {
 	Type
-	Lit     []byte
+	Lit []byte
 	Pos
-  Context *ParseContext
-  User    UserContext
+	ForeingAstNode  interface{}
+	ForeingAstError error
 }
 
 type Type int
@@ -100,6 +94,20 @@ type Pos struct {
 
 func (p Pos) String() string {
 	return fmt.Sprintf("Pos(offset=%d, line=%d, column=%d)", p.Offset, p.Line, p.Column)
+}
+
+func (p Pos) StartingFrom(base Pos) Pos {
+	r := base
+	r.Offset += p.Offset
+	r.Line += p.Line
+	r.Column = p.Column
+	if p.Line > 0 && base.Line > 0 {
+		r.Line--
+	}
+	if r.Column < 1 {
+		r.Column = 1
+	}
+	return r
 }
 
 type TokenMap struct {
@@ -122,8 +130,7 @@ func (m TokenMap) Type(tok string) Type {
 }
 
 func (m TokenMap) TokenString(tok *Token) string {
-	//TODO: refactor to print pos & token string properly
-	return fmt.Sprintf("%s(%d,%s)", m.Id(tok.Type), tok.Type, tok.Lit)
+	return fmt.Sprintf("%s(%d,<%s>)", m.Id(tok.Type), tok.Type, tok.Lit)
 }
 
 func (m TokenMap) StringType(typ Type) string {
@@ -141,6 +148,7 @@ var TokMap = TokenMap{
 {{- range .IdMap }}
 		{{printf "%s" .}},
 {{- end }}
+
 	},
 }
 `

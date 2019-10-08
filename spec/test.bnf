@@ -31,9 +31,14 @@ T
 hexdigit
 ;
 
-T : "a"  | "X" | ProdX | "λ1";
+T : "a"  | "X" | ProdX | "λ1" | X;
 
 ProdX : "empty" | "ε" | "λ" | empty  | ε ;
 
-X: "!" | "hexdigit";
+X:
+		"!"
+	| 	"hexdigit"
+	| 	@altro
+		<< f(Context) >>
+;
 

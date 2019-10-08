@@ -89,6 +89,13 @@ func (this *Symbols) listMatchingSymbols(match func(ast.SyntaxSymbol) bool) ast.
 	return res
 }
 
+func (this *Symbols) ListContextDependentTokenSymbols() ast.SyntaxSymbols {
+	return this.listMatchingSymbols(func(s ast.SyntaxSymbol) bool {
+		_, r := s.(ast.SyntaxContextDependentTokId)
+		return r
+	})
+}
+
 /*
 Return a slice containing the ids of all symbols declared as string literals in the grammar.
 */

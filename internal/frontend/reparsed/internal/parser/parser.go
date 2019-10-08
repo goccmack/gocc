@@ -11,9 +11,9 @@ import (
 )
 
 const (
-	numProductions = 47
-	numStates      = 153
-	numSymbols     = 43
+	numProductions = 48
+	numStates      = 155
+	numSymbols     = 44
 )
 
 // Stack
@@ -23,12 +23,12 @@ type stack struct {
 	attrib []Attrib
 }
 
-const iNITIAL_STACK_SIZE = 100
+const INITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
 	return &stack{
-		state:  make([]int, 0, iNITIAL_STACK_SIZE),
-		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+		state:  make([]int, 0, INITIAL_STACK_SIZE),
+		attrib: make([]Attrib, 0, INITIAL_STACK_SIZE),
 	}
 }
 
@@ -90,16 +90,28 @@ func (s *stack) String() string {
 type Parser struct {
 	stack       *stack
 	nextToken   *token.Token
-	pos         int
-  UserContext interface{}
+  userContext interface{}
+  longest     bool
 }
 
 type Scanner interface {
 	Scan() (tok *token.Token)
 }
 
+type Position interface{}
+
+type ContextDependentScanner interface {
+	Scanner
+  Reposition(p Position)
+  CurrentPosition() Position
+}
+
 func NewParser() *Parser {
-	p := &Parser{stack: newStack()}
+	return NewParserWithContext(nil)
+}
+
+func NewParserWithContext(u interface{}) *Parser {
+	p := &Parser{stack: newStack(), userContext: u }
 	p.Reset()
 	return p
 }
@@ -180,11 +192,27 @@ func (p *Parser) newError(err error) error {
 }
 
 func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
+  p.longest = false
+  return p.parse(scanner)
+}
+
+func (p *Parser) ParseLongestPrefix(scanner Scanner) (res interface{}, err error, parsed []byte) {
+  p.longest = true
+  r, e := p.parse(scanner)
+  return r, e, []byte{}
+}
+
+func (p *Parser) parse(scanner Scanner) (res interface{}, err error) {
 	p.Reset()
 	p.nextToken = scanner.Scan()
 	for acc := false; !acc; {
 		action := actionTab[p.stack.top()].actions[p.nextToken.Type]
+
 		if action == nil {
+
+      if p.longest {
+      }
+
 			if recovered, errAttrib := p.Error(nil, scanner); !recovered {
 				p.nextToken = errAttrib.ErrorToken
 				return nil, p.newError(nil)
@@ -203,7 +231,7 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 			p.nextToken = scanner.Scan()
 		case reduce:
 			prod := productionsTable[int(act)]
-			attrib, err := prod.ReduceFunc(p.stack.popN(prod.NumSymbols))
+			attrib, err := prod.ReduceFunc(p.userContext, p.stack.popN(prod.NumSymbols))
 			if err != nil {
 				return nil, p.newError(err)
 			} else {

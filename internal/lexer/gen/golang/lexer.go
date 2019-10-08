@@ -40,23 +40,25 @@ func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, s
 func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, subpath string) *lexerData {
 	lexSymbols := itemsets.Symbols().List()
 	return &lexerData{
-		Debug:       cfg.DebugLexer(),
-		TokenImport: path.Join(pkg, subpath, "token"),
-		UtilImport:  path.Join(pkg, subpath, "util"),
-		NumStates:   itemsets.Size(),
-		NumSymbols:  len(lexSymbols),
-		Symbols:     lexSymbols,
+		Debug:        cfg.DebugLexer(),
+		TokenImport:  path.Join(pkg, subpath, "token"),
+		UtilImport:   path.Join(pkg, subpath, "util"),
+		StreamImport: path.Join(pkg, subpath, "io/stream"),
+		NumStates:    itemsets.Size(),
+		NumSymbols:   len(lexSymbols),
+		Symbols:      lexSymbols,
 	}
 }
 
 type lexerData struct {
-	Debug       bool
-	TokenImport string
-	UtilImport  string
-	NumStates   int
-	NumSymbols  int
-	NextState   []byte
-	Symbols     []string
+	Debug        bool
+	TokenImport  string
+	UtilImport   string
+	StreamImport string
+	NumStates    int
+	NumSymbols   int
+	NextState    []byte
+	Symbols      []string
 }
 
 const lexerSrc string = `
@@ -66,11 +68,15 @@ package lexer
 
 import (
 {{if .Debug}}	"fmt"
-{{end}}	"io/ioutil"
-	"unicode/utf8"
+{{end}}
+  "io"
+  "bytes"
+  "os"
 
 {{if .Debug}}	"{{.UtilImport}}"
-{{end}}	"{{.TokenImport}}"
+{{end}}
+"{{.TokenImport}}"
+"{{.StreamImport}}"
 )
 
 const (
@@ -79,53 +85,81 @@ const (
 	NumSymbols = {{.NumSymbols}}
 )
 
-type Position struct {
-	pos    int
-	line   int
-	column int
+type position struct {
+	token.Pos
+	StreamPosition int64
+}
+
+type lexerStream interface {
+	io.RuneReader
+	io.Seeker
 }
 
 type Lexer struct {
-  Position
-	src    []byte
+	position
+	stream lexerStream
+	eof    bool
 }
 
 func NewLexer(src []byte) *Lexer {
-	lexer := &Lexer{ src: src }
-  lexer.Position.Reset()
+	lexer := &Lexer{stream: bytes.NewReader(src)}
+	lexer.position.Reset()
 	return lexer
 }
 
 func NewLexerFile(fpath string) (*Lexer, error) {
-	src, err := ioutil.ReadFile(fpath)
+	s, err := os.Open(fpath)
 	if err != nil {
 		return nil, err
 	}
-	return NewLexer(src), nil
+	lexer := &Lexer{stream: stream.NewWindowReader(s)}
+	lexer.position.Reset()
+	return lexer, nil
+}
+
+func NewLexerStream(reader io.Reader) (*Lexer, error) {
+	lexer := &Lexer{}
+	lexer.position.Reset()
+	if lexer.stream, _ = reader.(lexerStream); lexer.stream == nil {
+		lexer.stream = stream.NewWindowReader(reader)
+	} else {
+		lexer.position.StreamPosition, _ = lexer.stream.Seek(0, io.SeekCurrent)
+	}
+	return lexer, nil
 }
 
 func (l *Lexer) Scan() (tok *token.Token) {
 	{{- if .Debug}}
-	fmt.Printf("Lexer.Scan() pos=%d\n", l.pos)
+	fmt.Printf("Lexer.Scan() pos=%d\n", l.position.Pos.Offset)
 	{{- end}}
 	tok = new(token.Token)
-	if l.pos >= len(l.src) {
+	if l.eof {
 		tok.Type = token.EOF
-		tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = l.pos, l.line, l.column
+		tok.Pos = l.position.Pos
 		return
 	}
-	start, startLine, startColumn, end := l.pos, l.line, l.column, 0
+	l.position.StreamPosition, _ = l.stream.Seek(0, io.SeekCurrent)
+	start, end := l.position, position{}
 	tok.Type = token.INVALID
-	state, rune1, size := 0, rune(-1), 0
+	tok.Lit = []byte{}
+	state, rune1 := 0, rune(-1)
 	for state != -1 {
 		{{- if .Debug}}
-		fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.pos, l.line, l.column, state)
+		fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.position.Pos.Offset, l.position.Pos.Line, l.position.Pos.Column, state)
 		{{- end}}
-		if l.pos >= len(l.src) {
+		if l.eof {
 			rune1 = -1
 		} else {
-			rune1, size = utf8.DecodeRune(l.src[l.pos:])
-			l.pos += size
+			rune2, size, err := l.stream.ReadRune()
+			if err == io.EOF {
+				l.eof = true
+				err = nil
+			}
+			if err == nil && size > 0 {
+				rune1 = rune2
+				l.position.StreamPosition += int64(size)
+				l.position.Pos.Offset += size
+			}
 		}
 
 		nextState := -1
@@ -134,7 +168,7 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		}
 		{{- if .Debug}}
 		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
-		fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", l.pos, size, start, end)
+		fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", l.position.Pos.Offset, size, start.position.Pos.Offset, end.position.Pos.Offset)
 		if nextState != -1 {
 			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
 		}
@@ -142,97 +176,71 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		state = nextState
 
 		if state != -1 {
-
 			switch rune1 {
 			case '\n':
-				l.line++
-				l.column = 1
+				l.position.Pos.Line++
+				l.position.Pos.Column = 1
 			case '\r':
-				l.column = 1
+				l.position.Pos.Column = 1
 			case '\t':
-				l.column += 4
+				l.position.Pos.Column += 4
 			default:
-				l.column++
+				l.position.Pos.Column++
 			}
 
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
-				end = l.pos
+				l.position.StreamPosition, _ = l.stream.Seek(0, io.SeekCurrent)
+				end = l.position
+				tok.Lit = append(tok.Lit, string(rune1)...)
 			case ActTab[state].Ignore != "":
-				start, startLine, startColumn = l.pos, l.line, l.column
+				start = l.position
 				state = 0
-				if start >= len(l.src) {
+				tok.Lit = []byte{}
+				if l.eof {
 					tok.Type = token.EOF
 				}
 
 			}
 		} else {
 			if tok.Type == token.INVALID {
-				end = l.pos
+				end = l.position
 			}
 		}
 	}
-	if end > start {
-		l.pos = end
-		tok.Lit = l.src[start:end]
-	} else {
-		tok.Lit = []byte{}
+	if end.Pos.Offset > start.Pos.Offset {
+		l.Reposition(end)
 	}
-	tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = start, startLine, startColumn
-
+	tok.Pos = start.Pos
 	{{- if .Debug}}
 	fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
 	{{- end}}
-
 	return
 }
 
 func (l *Lexer) Reset() {
-  l.Position.Reset()
+	l.position.Reset()
 }
 
-func (l *Lexer) Reposition(p Position) {
-  l.Position = p
+func (l *Lexer) Reposition(p position) {
+	l.position = p
+	l.stream.Seek(l.position.StreamPosition, io.SeekStart)
 }
 
-func (l Lexer) CurrentPosition() Position {
-  return l.Position
+func (l Lexer) CurrentPosition() position {
+	return l.position
 }
 
-func (l Lexer) Source() []byte {
-  return l.src
+func (p *position) Reset() {
+	p.Offset = 0
+	p.Line = 1
+	p.Column = 1
 }
 
-func (l Lexer) Remaining() []byte {
-  return l.src[l.pos:]
+func (p position) StartingFrom(base position) position {
+	r := p
+	r.Pos = p.Pos.StartingFrom(base.Pos)
+	return r
 }
-
-
-func (p Position) Offset() int {
-  return p.pos
-}
-
-func (p Position) Line() int {
-  return p.line
-}
-
-func (p Position) Column() int {
-  return p.column
-}
-
-func (p *Position) Reset()  {
-	p.pos = 0
-  p.line = 1
-  p.column = 1
-}
-`
-
-const dbgInfo = `
-/*
-Lexer symbols:
-{{- range $i, $sym := .Symbols}}
-{{- printf "\n%d: %s" $i $sym}}
-{{- end}}
-*/
 `

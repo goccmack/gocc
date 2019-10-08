@@ -6,9 +6,9 @@ import (
 	"io"
 
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/io/stream"
-	lexer "github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/lexer/next"
-	parser "github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/parser/next"
-	token "github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token/next"
+	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/lexer"
+	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/parser"
+	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token"
 )
 
 type Token = token.Token

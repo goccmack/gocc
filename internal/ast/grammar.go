@@ -77,15 +77,15 @@ func consistent(g *Grammar) (err error) {
 	}
 	for s, in := range used {
 		if _, ok := defs[s]; !ok {
-			switch s {
-			case EmptySymbol, ErrorSymbol:
+			switch s.(type) {
+			case SyntaxEmpty, SyntaxError, SyntaxContextDependentTokId:
 				continue
 			}
 			if !s.IsTerminal() {
-				fmt.Fprintf(os.Stderr, "error: undefined symbol %q used in productions %q\n", s, in)
+				fmt.Fprintf(os.Stderr, "error: undefined symbol %T{%q} used in productions %q\n", s, s, in)
 				err = errUndefined
 			} else {
-				fmt.Fprintf(os.Stderr, "warning: undefined symbol %q used in productions %q\n", s, in)
+				fmt.Fprintf(os.Stderr, "warning: undefined symbol %T{%q} used in productions %q\n", s, s, in)
 			}
 		}
 	}

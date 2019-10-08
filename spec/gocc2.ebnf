@@ -12,9 +12,6 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-
-
-
 !comment      : _lineComment | _blockComment ;
 !whitespace : ' ' | '\t' | '\n' | '\r' ;
 
@@ -26,9 +23,7 @@ _id_char : _upcase | _lowcase | '_' | _digit ;
 _upcase : 'A'-'Z' ;
 _digit : '0'-'9' ;
 
-
 _unicode_value
-
     : .                   // Any UTF-8 character literal
     | _little_u_value
     | _big_u_value
@@ -291,6 +286,10 @@ Symbol :
 	|
 		string_lit
 			<< ast.NewStringLit($0) >>
+	|
+		"@"
+		tokId
+			<< ast.NewContextDependentTokId($1) >>
 ;
 
 ErrorSymbol :

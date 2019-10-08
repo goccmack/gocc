@@ -35,6 +35,7 @@ var actionTab = actionTable{
 			shift(12), // g_sdt_lit
 			shift(13), // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -65,6 +66,7 @@ var actionTab = actionTable{
 			nil,          // g_sdt_lit
 			nil,          // prodId
 			nil,          // string_lit
+			nil,          // "@"
 			nil,          // "error"
 			nil,          // "λ"
 			nil,          // "empty"
@@ -95,6 +97,7 @@ var actionTab = actionTable{
 			shift(12), // g_sdt_lit
 			shift(13), // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -125,6 +128,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -155,6 +159,7 @@ var actionTab = actionTable{
 			reduce(4), // g_sdt_lit, reduce: LexicalPart
 			reduce(4), // prodId, reduce: LexicalPart
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -185,6 +190,7 @@ var actionTab = actionTable{
 			reduce(5), // g_sdt_lit, reduce: LexProductions
 			reduce(5), // prodId, reduce: LexProductions
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -215,6 +221,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			shift(13), // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -245,6 +252,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			shift(13),  // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -275,6 +283,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			reduce(26), // prodId, reduce: SyntaxProdList
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -305,6 +314,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -335,6 +345,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -365,6 +376,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -395,6 +407,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			reduce(25), // prodId, reduce: FileHeader
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -425,6 +438,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -455,6 +469,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -485,6 +500,7 @@ var actionTab = actionTable{
 			reduce(6), // g_sdt_lit, reduce: LexProductions
 			reduce(6), // prodId, reduce: LexProductions
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -515,6 +531,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			shift(13),  // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -545,6 +562,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			reduce(27), // prodId, reduce: SyntaxProdList
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -575,6 +593,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -605,6 +624,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -635,6 +655,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -665,10 +686,11 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			shift(41), // prodId
 			shift(42), // string_lit
-			shift(43), // "error"
-			shift(44), // "λ"
-			shift(45), // "empty"
-			shift(46), // "ε"
+			shift(43), // "@"
+			shift(44), // "error"
+			shift(45), // "λ"
+			shift(46), // "empty"
+			shift(47), // "ε"
 		},
 	},
 	actionRow{ // S22
@@ -678,10 +700,10 @@ var actionTab = actionTable{
 			nil,       // Ω<EOF>
 			nil,       // tokId
 			nil,       // ":"
-			shift(47), // ";"
+			shift(48), // ";"
 			nil,       // regDefId
 			nil,       // ignoredTokId
-			shift(48), // "|"
+			shift(49), // "|"
 			nil,       // "."
 			nil,       // char_lit
 			nil,       // "-"
@@ -695,6 +717,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -725,6 +748,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -755,6 +779,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -785,6 +810,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -815,6 +841,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -834,7 +861,7 @@ var actionTab = actionTable{
 			reduce(15), // "|", reduce: LexTerm
 			reduce(15), // ".", reduce: LexTerm
 			reduce(15), // char_lit, reduce: LexTerm
-			shift(50),  // "-"
+			shift(51),  // "-"
 			reduce(15), // "~", reduce: LexTerm
 			reduce(15), // "(", reduce: LexTerm
 			nil,        // ")"
@@ -845,6 +872,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -863,10 +891,10 @@ var actionTab = actionTable{
 			nil,       // ignoredTokId
 			nil,       // "|"
 			nil,       // "."
-			shift(51), // char_lit
+			shift(52), // char_lit
 			nil,       // "-"
 			nil,       // "~"
-			shift(52), // "("
+			shift(53), // "("
 			nil,       // ")"
 			nil,       // "["
 			nil,       // "]"
@@ -875,6 +903,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -889,22 +918,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(56), // regDefId
+			shift(57), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(57), // "."
-			shift(58), // char_lit
+			shift(58), // "."
+			shift(59), // char_lit
 			nil,       // "-"
-			shift(59), // "~"
-			shift(60), // "("
+			shift(60), // "~"
+			shift(61), // "("
 			nil,       // ")"
-			shift(61), // "["
+			shift(62), // "["
 			nil,       // "]"
-			shift(62), // "{"
+			shift(63), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -919,22 +949,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(66), // regDefId
+			shift(67), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(67), // "."
-			shift(68), // char_lit
+			shift(68), // "."
+			shift(69), // char_lit
 			nil,       // "-"
-			shift(69), // "~"
-			shift(70), // "("
+			shift(70), // "~"
+			shift(71), // "("
 			nil,       // ")"
-			shift(71), // "["
+			shift(72), // "["
 			nil,       // "]"
-			shift(72), // "{"
+			shift(73), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -949,22 +980,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(76), // regDefId
+			shift(77), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(77), // "."
-			shift(78), // char_lit
+			shift(78), // "."
+			shift(79), // char_lit
 			nil,       // "-"
-			shift(79), // "~"
-			shift(80), // "("
+			shift(80), // "~"
+			shift(81), // "("
 			nil,       // ")"
-			shift(81), // "["
+			shift(82), // "["
 			nil,       // "]"
-			shift(82), // "{"
+			shift(83), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -978,10 +1010,10 @@ var actionTab = actionTable{
 			nil,       // Ω<EOF>
 			nil,       // tokId
 			nil,       // ":"
-			shift(83), // ";"
+			shift(84), // ";"
 			nil,       // regDefId
 			nil,       // ignoredTokId
-			shift(48), // "|"
+			shift(49), // "|"
 			nil,       // "."
 			nil,       // char_lit
 			nil,       // "-"
@@ -995,6 +1027,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -1008,10 +1041,10 @@ var actionTab = actionTable{
 			nil,       // Ω<EOF>
 			nil,       // tokId
 			nil,       // ":"
-			shift(84), // ";"
+			shift(85), // ";"
 			nil,       // regDefId
 			nil,       // ignoredTokId
-			shift(48), // "|"
+			shift(49), // "|"
 			nil,       // "."
 			nil,       // char_lit
 			nil,       // "-"
@@ -1025,6 +1058,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -1038,10 +1072,10 @@ var actionTab = actionTable{
 			nil,       // Ω<EOF>
 			nil,       // tokId
 			nil,       // ":"
-			shift(85), // ";"
+			shift(86), // ";"
 			nil,       // regDefId
 			nil,       // ignoredTokId
-			shift(86), // "|"
+			shift(87), // "|"
 			nil,       // "."
 			nil,       // char_lit
 			nil,       // "-"
@@ -1055,6 +1089,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -1085,6 +1120,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1112,9 +1148,10 @@ var actionTab = actionTable{
 			nil,        // "]"
 			nil,        // "{"
 			nil,        // "}"
-			shift(88),  // g_sdt_lit
+			shift(89),  // g_sdt_lit
 			shift(41),  // prodId
 			shift(42),  // string_lit
+			shift(43),  // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1142,9 +1179,10 @@ var actionTab = actionTable{
 			nil,        // "]"
 			nil,        // "{"
 			nil,        // "}"
-			shift(90),  // g_sdt_lit
+			shift(91),  // g_sdt_lit
 			shift(41),  // prodId
 			shift(42),  // string_lit
+			shift(43),  // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1175,6 +1213,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1205,6 +1244,7 @@ var actionTab = actionTable{
 			reduce(38), // g_sdt_lit, reduce: Symbols
 			reduce(38), // prodId, reduce: Symbols
 			reduce(38), // string_lit, reduce: Symbols
+			reduce(38), // "@", reduce: Symbols
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1235,6 +1275,7 @@ var actionTab = actionTable{
 			reduce(41), // g_sdt_lit, reduce: Symbol
 			reduce(41), // prodId, reduce: Symbol
 			reduce(41), // string_lit, reduce: Symbol
+			reduce(41), // "@", reduce: Symbol
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1265,6 +1306,7 @@ var actionTab = actionTable{
 			reduce(40), // g_sdt_lit, reduce: Symbol
 			reduce(40), // prodId, reduce: Symbol
 			reduce(40), // string_lit, reduce: Symbol
+			reduce(40), // "@", reduce: Symbol
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1295,6 +1337,7 @@ var actionTab = actionTable{
 			reduce(42), // g_sdt_lit, reduce: Symbol
 			reduce(42), // prodId, reduce: Symbol
 			reduce(42), // string_lit, reduce: Symbol
+			reduce(42), // "@", reduce: Symbol
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1304,31 +1347,32 @@ var actionTab = actionTable{
 	actionRow{ // S43
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			reduce(43), // tokId, reduce: ErrorSymbol
-			nil,        // ":"
-			reduce(43), // ";", reduce: ErrorSymbol
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			reduce(43), // "|", reduce: ErrorSymbol
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			reduce(43), // g_sdt_lit, reduce: ErrorSymbol
-			reduce(43), // prodId, reduce: ErrorSymbol
-			reduce(43), // string_lit, reduce: ErrorSymbol
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
+			nil,       // ά<INVALID>
+			nil,       // Ω<EOF>
+			shift(92), // tokId
+			nil,       // ":"
+			nil,       // ";"
+			nil,       // regDefId
+			nil,       // ignoredTokId
+			nil,       // "|"
+			nil,       // "."
+			nil,       // char_lit
+			nil,       // "-"
+			nil,       // "~"
+			nil,       // "("
+			nil,       // ")"
+			nil,       // "["
+			nil,       // "]"
+			nil,       // "{"
+			nil,       // "}"
+			nil,       // g_sdt_lit
+			nil,       // prodId
+			nil,       // string_lit
+			nil,       // "@"
+			nil,       // "error"
+			nil,       // "λ"
+			nil,       // "empty"
+			nil,       // "ε"
 		},
 	},
 	actionRow{ // S44
@@ -1355,6 +1399,7 @@ var actionTab = actionTable{
 			reduce(44), // g_sdt_lit, reduce: ErrorSymbol
 			reduce(44), // prodId, reduce: ErrorSymbol
 			reduce(44), // string_lit, reduce: ErrorSymbol
+			reduce(44), // "@", reduce: ErrorSymbol
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1366,12 +1411,12 @@ var actionTab = actionTable{
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
 			nil,        // Ω<EOF>
-			nil,        // tokId
+			reduce(45), // tokId, reduce: ErrorSymbol
 			nil,        // ":"
-			reduce(45), // ";", reduce: EpsilonSymbol
+			reduce(45), // ";", reduce: ErrorSymbol
 			nil,        // regDefId
 			nil,        // ignoredTokId
-			reduce(45), // "|", reduce: EpsilonSymbol
+			reduce(45), // "|", reduce: ErrorSymbol
 			nil,        // "."
 			nil,        // char_lit
 			nil,        // "-"
@@ -1382,9 +1427,10 @@ var actionTab = actionTable{
 			nil,        // "]"
 			nil,        // "{"
 			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			reduce(45), // g_sdt_lit, reduce: ErrorSymbol
+			reduce(45), // prodId, reduce: ErrorSymbol
+			reduce(45), // string_lit, reduce: ErrorSymbol
+			reduce(45), // "@", reduce: ErrorSymbol
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1415,6 +1461,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1422,6 +1469,37 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S47
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			reduce(47), // ";", reduce: EpsilonSymbol
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			reduce(47), // "|", reduce: EpsilonSymbol
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S48
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
@@ -1445,13 +1523,14 @@ var actionTab = actionTable{
 			reduce(7), // g_sdt_lit, reduce: LexProduction
 			reduce(7), // prodId, reduce: LexProduction
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S48
+	actionRow{ // S49
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
@@ -1475,13 +1554,14 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S49
+	actionRow{ // S50
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -1505,13 +1585,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S50
+	actionRow{ // S51
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
@@ -1523,7 +1604,7 @@ var actionTab = actionTable{
 			nil,       // ignoredTokId
 			nil,       // "|"
 			nil,       // "."
-			shift(92), // char_lit
+			shift(94), // char_lit
 			nil,       // "-"
 			nil,       // "~"
 			nil,       // "("
@@ -1535,13 +1616,14 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S51
+	actionRow{ // S52
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -1565,40 +1647,11 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
-		},
-	},
-	actionRow{ // S52
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // ά<INVALID>
-			nil,       // Ω<EOF>
-			nil,       // tokId
-			nil,       // ":"
-			nil,       // ";"
-			nil,       // regDefId
-			nil,       // ignoredTokId
-			nil,       // "|"
-			nil,       // "."
-			shift(93), // char_lit
-			nil,       // "-"
-			nil,       // "~"
-			nil,       // "("
-			nil,       // ")"
-			nil,       // "["
-			nil,       // "]"
-			nil,       // "{"
-			nil,       // "}"
-			nil,       // g_sdt_lit
-			nil,       // prodId
-			nil,       // string_lit
-			nil,       // "error"
-			nil,       // "λ"
-			nil,       // "empty"
-			nil,       // "ε"
 		},
 	},
 	actionRow{ // S53
@@ -1611,13 +1664,13 @@ var actionTab = actionTable{
 			nil,       // ";"
 			nil,       // regDefId
 			nil,       // ignoredTokId
-			shift(94), // "|"
+			nil,       // "|"
 			nil,       // "."
-			nil,       // char_lit
+			shift(95), // char_lit
 			nil,       // "-"
 			nil,       // "~"
 			nil,       // "("
-			shift(95), // ")"
+			nil,       // ")"
 			nil,       // "["
 			nil,       // "]"
 			nil,       // "{"
@@ -1625,6 +1678,7 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -1634,34 +1688,66 @@ var actionTab = actionTable{
 	actionRow{ // S54
 		canRecover: false,
 		actions: [numSymbols]action{
+			nil,       // ά<INVALID>
+			nil,       // Ω<EOF>
+			nil,       // tokId
+			nil,       // ":"
+			nil,       // ";"
+			nil,       // regDefId
+			nil,       // ignoredTokId
+			shift(96), // "|"
+			nil,       // "."
+			nil,       // char_lit
+			nil,       // "-"
+			nil,       // "~"
+			nil,       // "("
+			shift(97), // ")"
+			nil,       // "["
+			nil,       // "]"
+			nil,       // "{"
+			nil,       // "}"
+			nil,       // g_sdt_lit
+			nil,       // prodId
+			nil,       // string_lit
+			nil,       // "@"
+			nil,       // "error"
+			nil,       // "λ"
+			nil,       // "empty"
+			nil,       // "ε"
+		},
+	},
+	actionRow{ // S55
+		canRecover: false,
+		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
 			nil,        // Ω<EOF>
 			nil,        // tokId
 			nil,        // ":"
 			nil,        // ";"
-			shift(56),  // regDefId
+			shift(57),  // regDefId
 			nil,        // ignoredTokId
 			reduce(10), // "|", reduce: LexPattern
-			shift(57),  // "."
-			shift(58),  // char_lit
+			shift(58),  // "."
+			shift(59),  // char_lit
 			nil,        // "-"
-			shift(59),  // "~"
-			shift(60),  // "("
+			shift(60),  // "~"
+			shift(61),  // "("
 			reduce(10), // ")", reduce: LexPattern
-			shift(61),  // "["
+			shift(62),  // "["
 			nil,        // "]"
-			shift(62),  // "{"
+			shift(63),  // "{"
 			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S55
+	actionRow{ // S56
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -1685,13 +1771,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S56
+	actionRow{ // S57
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -1715,13 +1802,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S57
+	actionRow{ // S58
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -1745,13 +1833,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S58
+	actionRow{ // S59
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -1764,7 +1853,7 @@ var actionTab = actionTable{
 			reduce(15), // "|", reduce: LexTerm
 			reduce(15), // ".", reduce: LexTerm
 			reduce(15), // char_lit, reduce: LexTerm
-			shift(97),  // "-"
+			shift(99),  // "-"
 			reduce(15), // "~", reduce: LexTerm
 			reduce(15), // "(", reduce: LexTerm
 			reduce(15), // ")", reduce: LexTerm
@@ -1775,70 +1864,42 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S59
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,       // ά<INVALID>
-			nil,       // Ω<EOF>
-			nil,       // tokId
-			nil,       // ":"
-			nil,       // ";"
-			nil,       // regDefId
-			nil,       // ignoredTokId
-			nil,       // "|"
-			nil,       // "."
-			shift(98), // char_lit
-			nil,       // "-"
-			nil,       // "~"
-			shift(99), // "("
-			nil,       // ")"
-			nil,       // "["
-			nil,       // "]"
-			nil,       // "{"
-			nil,       // "}"
-			nil,       // g_sdt_lit
-			nil,       // prodId
-			nil,       // string_lit
-			nil,       // "error"
-			nil,       // "λ"
-			nil,       // "empty"
-			nil,       // "ε"
-		},
-	},
 	actionRow{ // S60
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // ά<INVALID>
-			nil,       // Ω<EOF>
-			nil,       // tokId
-			nil,       // ":"
-			nil,       // ";"
-			shift(56), // regDefId
-			nil,       // ignoredTokId
-			nil,       // "|"
-			shift(57), // "."
-			shift(58), // char_lit
-			nil,       // "-"
-			shift(59), // "~"
-			shift(60), // "("
-			nil,       // ")"
-			shift(61), // "["
-			nil,       // "]"
-			shift(62), // "{"
-			nil,       // "}"
-			nil,       // g_sdt_lit
-			nil,       // prodId
-			nil,       // string_lit
-			nil,       // "error"
-			nil,       // "λ"
-			nil,       // "empty"
-			nil,       // "ε"
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			shift(100), // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			shift(101), // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
 		},
 	},
 	actionRow{ // S61
@@ -1849,22 +1910,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(66), // regDefId
+			shift(57), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(67), // "."
-			shift(68), // char_lit
+			shift(58), // "."
+			shift(59), // char_lit
 			nil,       // "-"
-			shift(69), // "~"
-			shift(70), // "("
+			shift(60), // "~"
+			shift(61), // "("
 			nil,       // ")"
-			shift(71), // "["
+			shift(62), // "["
 			nil,       // "]"
-			shift(72), // "{"
+			shift(63), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -1879,22 +1941,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(76), // regDefId
+			shift(67), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(77), // "."
-			shift(78), // char_lit
+			shift(68), // "."
+			shift(69), // char_lit
 			nil,       // "-"
-			shift(79), // "~"
-			shift(80), // "("
+			shift(70), // "~"
+			shift(71), // "("
 			nil,       // ")"
-			shift(81), // "["
+			shift(72), // "["
 			nil,       // "]"
-			shift(82), // "{"
+			shift(73), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -1904,31 +1967,32 @@ var actionTab = actionTable{
 	actionRow{ // S63
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			shift(103), // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			shift(104), // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
+			nil,       // ά<INVALID>
+			nil,       // Ω<EOF>
+			nil,       // tokId
+			nil,       // ":"
+			nil,       // ";"
+			shift(77), // regDefId
+			nil,       // ignoredTokId
+			nil,       // "|"
+			shift(78), // "."
+			shift(79), // char_lit
+			nil,       // "-"
+			shift(80), // "~"
+			shift(81), // "("
+			nil,       // ")"
+			shift(82), // "["
+			nil,       // "]"
+			shift(83), // "{"
+			nil,       // "}"
+			nil,       // g_sdt_lit
+			nil,       // prodId
+			nil,       // string_lit
+			nil,       // "@"
+			nil,       // "error"
+			nil,       // "λ"
+			nil,       // "empty"
+			nil,       // "ε"
 		},
 	},
 	actionRow{ // S64
@@ -1939,22 +2003,23 @@ var actionTab = actionTable{
 			nil,        // tokId
 			nil,        // ":"
 			nil,        // ";"
-			shift(66),  // regDefId
+			nil,        // regDefId
 			nil,        // ignoredTokId
-			reduce(10), // "|", reduce: LexPattern
-			shift(67),  // "."
-			shift(68),  // char_lit
+			shift(105), // "|"
+			nil,        // "."
+			nil,        // char_lit
 			nil,        // "-"
-			shift(69),  // "~"
-			shift(70),  // "("
+			nil,        // "~"
+			nil,        // "("
 			nil,        // ")"
-			shift(71),  // "["
-			reduce(10), // "]", reduce: LexPattern
-			shift(72),  // "{"
+			nil,        // "["
+			shift(106), // "]"
+			nil,        // "{"
 			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -1962,6 +2027,37 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S65
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			shift(67),  // regDefId
+			nil,        // ignoredTokId
+			reduce(10), // "|", reduce: LexPattern
+			shift(68),  // "."
+			shift(69),  // char_lit
+			nil,        // "-"
+			shift(70),  // "~"
+			shift(71),  // "("
+			nil,        // ")"
+			shift(72),  // "["
+			reduce(10), // "]", reduce: LexPattern
+			shift(73),  // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S66
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -1985,13 +2081,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S66
+	actionRow{ // S67
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2015,13 +2112,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S67
+	actionRow{ // S68
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2045,36 +2143,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S68
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(15), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(15), // "|", reduce: LexTerm
-			reduce(15), // ".", reduce: LexTerm
-			reduce(15), // char_lit, reduce: LexTerm
-			shift(106), // "-"
-			reduce(15), // "~", reduce: LexTerm
-			reduce(15), // "(", reduce: LexTerm
-			nil,        // ")"
-			reduce(15), // "[", reduce: LexTerm
-			reduce(15), // "]", reduce: LexTerm
-			reduce(15), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -2089,22 +2158,23 @@ var actionTab = actionTable{
 			nil,        // tokId
 			nil,        // ":"
 			nil,        // ";"
-			nil,        // regDefId
+			reduce(15), // regDefId, reduce: LexTerm
 			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			shift(107), // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			shift(108), // "("
+			reduce(15), // "|", reduce: LexTerm
+			reduce(15), // ".", reduce: LexTerm
+			reduce(15), // char_lit, reduce: LexTerm
+			shift(108), // "-"
+			reduce(15), // "~", reduce: LexTerm
+			reduce(15), // "(", reduce: LexTerm
 			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
+			reduce(15), // "[", reduce: LexTerm
+			reduce(15), // "]", reduce: LexTerm
+			reduce(15), // "{", reduce: LexTerm
 			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -2114,31 +2184,32 @@ var actionTab = actionTable{
 	actionRow{ // S70
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // ά<INVALID>
-			nil,       // Ω<EOF>
-			nil,       // tokId
-			nil,       // ":"
-			nil,       // ";"
-			shift(56), // regDefId
-			nil,       // ignoredTokId
-			nil,       // "|"
-			shift(57), // "."
-			shift(58), // char_lit
-			nil,       // "-"
-			shift(59), // "~"
-			shift(60), // "("
-			nil,       // ")"
-			shift(61), // "["
-			nil,       // "]"
-			shift(62), // "{"
-			nil,       // "}"
-			nil,       // g_sdt_lit
-			nil,       // prodId
-			nil,       // string_lit
-			nil,       // "error"
-			nil,       // "λ"
-			nil,       // "empty"
-			nil,       // "ε"
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			shift(109), // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			shift(110), // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
 		},
 	},
 	actionRow{ // S71
@@ -2149,22 +2220,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(66), // regDefId
+			shift(57), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(67), // "."
-			shift(68), // char_lit
+			shift(58), // "."
+			shift(59), // char_lit
 			nil,       // "-"
-			shift(69), // "~"
-			shift(70), // "("
+			shift(60), // "~"
+			shift(61), // "("
 			nil,       // ")"
-			shift(71), // "["
+			shift(62), // "["
 			nil,       // "]"
-			shift(72), // "{"
+			shift(63), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -2179,22 +2251,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(76), // regDefId
+			shift(67), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(77), // "."
-			shift(78), // char_lit
+			shift(68), // "."
+			shift(69), // char_lit
 			nil,       // "-"
-			shift(79), // "~"
-			shift(80), // "("
+			shift(70), // "~"
+			shift(71), // "("
 			nil,       // ")"
-			shift(81), // "["
+			shift(72), // "["
 			nil,       // "]"
-			shift(82), // "{"
+			shift(73), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -2204,31 +2277,32 @@ var actionTab = actionTable{
 	actionRow{ // S73
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			shift(112), // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			shift(113), // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
+			nil,       // ά<INVALID>
+			nil,       // Ω<EOF>
+			nil,       // tokId
+			nil,       // ":"
+			nil,       // ";"
+			shift(77), // regDefId
+			nil,       // ignoredTokId
+			nil,       // "|"
+			shift(78), // "."
+			shift(79), // char_lit
+			nil,       // "-"
+			shift(80), // "~"
+			shift(81), // "("
+			nil,       // ")"
+			shift(82), // "["
+			nil,       // "]"
+			shift(83), // "{"
+			nil,       // "}"
+			nil,       // g_sdt_lit
+			nil,       // prodId
+			nil,       // string_lit
+			nil,       // "@"
+			nil,       // "error"
+			nil,       // "λ"
+			nil,       // "empty"
+			nil,       // "ε"
 		},
 	},
 	actionRow{ // S74
@@ -2239,22 +2313,23 @@ var actionTab = actionTable{
 			nil,        // tokId
 			nil,        // ":"
 			nil,        // ";"
-			shift(76),  // regDefId
+			nil,        // regDefId
 			nil,        // ignoredTokId
-			reduce(10), // "|", reduce: LexPattern
-			shift(77),  // "."
-			shift(78),  // char_lit
+			shift(114), // "|"
+			nil,        // "."
+			nil,        // char_lit
 			nil,        // "-"
-			shift(79),  // "~"
-			shift(80),  // "("
+			nil,        // "~"
+			nil,        // "("
 			nil,        // ")"
-			shift(81),  // "["
+			nil,        // "["
 			nil,        // "]"
-			shift(82),  // "{"
-			reduce(10), // "}", reduce: LexPattern
+			nil,        // "{"
+			shift(115), // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -2262,6 +2337,37 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S75
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			shift(77),  // regDefId
+			nil,        // ignoredTokId
+			reduce(10), // "|", reduce: LexPattern
+			shift(78),  // "."
+			shift(79),  // char_lit
+			nil,        // "-"
+			shift(80),  // "~"
+			shift(81),  // "("
+			nil,        // ")"
+			shift(82),  // "["
+			nil,        // "]"
+			shift(83),  // "{"
+			reduce(10), // "}", reduce: LexPattern
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S76
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2285,13 +2391,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S76
+	actionRow{ // S77
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2315,13 +2422,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S77
+	actionRow{ // S78
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2345,36 +2453,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S78
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(15), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(15), // "|", reduce: LexTerm
-			reduce(15), // ".", reduce: LexTerm
-			reduce(15), // char_lit, reduce: LexTerm
-			shift(115), // "-"
-			reduce(15), // "~", reduce: LexTerm
-			reduce(15), // "(", reduce: LexTerm
-			nil,        // ")"
-			reduce(15), // "[", reduce: LexTerm
-			nil,        // "]"
-			reduce(15), // "{", reduce: LexTerm
-			reduce(15), // "}", reduce: LexTerm
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -2389,22 +2468,23 @@ var actionTab = actionTable{
 			nil,        // tokId
 			nil,        // ":"
 			nil,        // ";"
-			nil,        // regDefId
+			reduce(15), // regDefId, reduce: LexTerm
 			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			shift(116), // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			shift(117), // "("
+			reduce(15), // "|", reduce: LexTerm
+			reduce(15), // ".", reduce: LexTerm
+			reduce(15), // char_lit, reduce: LexTerm
+			shift(117), // "-"
+			reduce(15), // "~", reduce: LexTerm
+			reduce(15), // "(", reduce: LexTerm
 			nil,        // ")"
-			nil,        // "["
+			reduce(15), // "[", reduce: LexTerm
 			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
+			reduce(15), // "{", reduce: LexTerm
+			reduce(15), // "}", reduce: LexTerm
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -2414,31 +2494,32 @@ var actionTab = actionTable{
 	actionRow{ // S80
 		canRecover: false,
 		actions: [numSymbols]action{
-			nil,       // ά<INVALID>
-			nil,       // Ω<EOF>
-			nil,       // tokId
-			nil,       // ":"
-			nil,       // ";"
-			shift(56), // regDefId
-			nil,       // ignoredTokId
-			nil,       // "|"
-			shift(57), // "."
-			shift(58), // char_lit
-			nil,       // "-"
-			shift(59), // "~"
-			shift(60), // "("
-			nil,       // ")"
-			shift(61), // "["
-			nil,       // "]"
-			shift(62), // "{"
-			nil,       // "}"
-			nil,       // g_sdt_lit
-			nil,       // prodId
-			nil,       // string_lit
-			nil,       // "error"
-			nil,       // "λ"
-			nil,       // "empty"
-			nil,       // "ε"
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			shift(118), // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			shift(119), // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
 		},
 	},
 	actionRow{ // S81
@@ -2449,22 +2530,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(66), // regDefId
+			shift(57), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(67), // "."
-			shift(68), // char_lit
+			shift(58), // "."
+			shift(59), // char_lit
 			nil,       // "-"
-			shift(69), // "~"
-			shift(70), // "("
+			shift(60), // "~"
+			shift(61), // "("
 			nil,       // ")"
-			shift(71), // "["
+			shift(62), // "["
 			nil,       // "]"
-			shift(72), // "{"
+			shift(63), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -2479,22 +2561,23 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(76), // regDefId
+			shift(67), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(77), // "."
-			shift(78), // char_lit
+			shift(68), // "."
+			shift(69), // char_lit
 			nil,       // "-"
-			shift(79), // "~"
-			shift(80), // "("
+			shift(70), // "~"
+			shift(71), // "("
 			nil,       // ")"
-			shift(81), // "["
+			shift(72), // "["
 			nil,       // "]"
-			shift(82), // "{"
+			shift(73), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
@@ -2502,6 +2585,37 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S83
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // ά<INVALID>
+			nil,       // Ω<EOF>
+			nil,       // tokId
+			nil,       // ":"
+			nil,       // ";"
+			shift(77), // regDefId
+			nil,       // ignoredTokId
+			nil,       // "|"
+			shift(78), // "."
+			shift(79), // char_lit
+			nil,       // "-"
+			shift(80), // "~"
+			shift(81), // "("
+			nil,       // ")"
+			shift(82), // "["
+			nil,       // "]"
+			shift(83), // "{"
+			nil,       // "}"
+			nil,       // g_sdt_lit
+			nil,       // prodId
+			nil,       // string_lit
+			nil,       // "@"
+			nil,       // "error"
+			nil,       // "λ"
+			nil,       // "empty"
+			nil,       // "ε"
+		},
+	},
+	actionRow{ // S84
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
@@ -2525,13 +2639,14 @@ var actionTab = actionTable{
 			reduce(8), // g_sdt_lit, reduce: LexProduction
 			reduce(8), // prodId, reduce: LexProduction
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S84
+	actionRow{ // S85
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
@@ -2555,13 +2670,14 @@ var actionTab = actionTable{
 			reduce(9), // g_sdt_lit, reduce: LexProduction
 			reduce(9), // prodId, reduce: LexProduction
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S85
+	actionRow{ // S86
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2585,13 +2701,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			reduce(28), // prodId, reduce: SyntaxProduction
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S86
+	actionRow{ // S87
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
@@ -2615,13 +2732,14 @@ var actionTab = actionTable{
 			nil,       // g_sdt_lit
 			shift(41), // prodId
 			shift(42), // string_lit
-			shift(43), // "error"
-			shift(44), // "λ"
-			shift(45), // "empty"
-			shift(46), // "ε"
+			shift(43), // "@"
+			shift(44), // "error"
+			shift(45), // "λ"
+			shift(46), // "empty"
+			shift(47), // "ε"
 		},
 	},
-	actionRow{ // S87
+	actionRow{ // S88
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2645,13 +2763,14 @@ var actionTab = actionTable{
 			reduce(39), // g_sdt_lit, reduce: Symbols
 			reduce(39), // prodId, reduce: Symbols
 			reduce(39), // string_lit, reduce: Symbols
+			reduce(39), // "@", reduce: Symbols
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S88
+	actionRow{ // S89
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2675,13 +2794,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S89
+	actionRow{ // S90
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2702,16 +2822,17 @@ var actionTab = actionTable{
 			nil,        // "]"
 			nil,        // "{"
 			nil,        // "}"
-			shift(122), // g_sdt_lit
+			shift(124), // g_sdt_lit
 			shift(41),  // prodId
 			shift(42),  // string_lit
+			shift(43),  // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S90
+	actionRow{ // S91
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2735,13 +2856,45 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S91
+	actionRow{ // S92
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			reduce(43), // tokId, reduce: Symbol
+			nil,        // ":"
+			reduce(43), // ";", reduce: Symbol
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			reduce(43), // "|", reduce: Symbol
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			reduce(43), // g_sdt_lit, reduce: Symbol
+			reduce(43), // prodId, reduce: Symbol
+			reduce(43), // string_lit, reduce: Symbol
+			reduce(43), // "@", reduce: Symbol
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S93
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2765,13 +2918,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S92
+	actionRow{ // S94
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2795,13 +2949,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S93
+	actionRow{ // S95
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2814,7 +2969,7 @@ var actionTab = actionTable{
 			nil,        // "|"
 			nil,        // "."
 			nil,        // char_lit
-			shift(123), // "-"
+			shift(125), // "-"
 			nil,        // "~"
 			nil,        // "("
 			nil,        // ")"
@@ -2825,13 +2980,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S94
+	actionRow{ // S96
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
@@ -2839,29 +2995,30 @@ var actionTab = actionTable{
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(56), // regDefId
+			shift(57), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(57), // "."
-			shift(58), // char_lit
+			shift(58), // "."
+			shift(59), // char_lit
 			nil,       // "-"
-			shift(59), // "~"
-			shift(60), // "("
+			shift(60), // "~"
+			shift(61), // "("
 			nil,       // ")"
-			shift(61), // "["
+			shift(62), // "["
 			nil,       // "]"
-			shift(62), // "{"
+			shift(63), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S95
+	actionRow{ // S97
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2885,13 +3042,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S96
+	actionRow{ // S98
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2915,13 +3073,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S97
+	actionRow{ // S99
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2933,7 +3092,7 @@ var actionTab = actionTable{
 			nil,        // ignoredTokId
 			nil,        // "|"
 			nil,        // "."
-			shift(125), // char_lit
+			shift(127), // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
@@ -2945,13 +3104,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S98
+	actionRow{ // S100
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -2975,66 +3135,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S99
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			shift(126), // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S100
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			shift(94),  // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			shift(127), // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3051,20 +3152,21 @@ var actionTab = actionTable{
 			nil,        // ";"
 			nil,        // regDefId
 			nil,        // ignoredTokId
-			shift(103), // "|"
+			nil,        // "|"
 			nil,        // "."
-			nil,        // char_lit
+			shift(128), // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
 			nil,        // ")"
 			nil,        // "["
-			shift(128), // "]"
+			nil,        // "]"
 			nil,        // "{"
 			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3081,20 +3183,21 @@ var actionTab = actionTable{
 			nil,        // ";"
 			nil,        // regDefId
 			nil,        // ignoredTokId
-			shift(112), // "|"
+			shift(96),  // "|"
 			nil,        // "."
 			nil,        // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
-			nil,        // ")"
+			shift(129), // ")"
 			nil,        // "["
 			nil,        // "]"
 			nil,        // "{"
-			shift(129), // "}"
+			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3104,34 +3207,97 @@ var actionTab = actionTable{
 	actionRow{ // S103
 		canRecover: false,
 		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			shift(105), // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			shift(130), // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S104
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			shift(114), // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			shift(131), // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S105
+		canRecover: false,
+		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
 			nil,       // Ω<EOF>
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(66), // regDefId
+			shift(67), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(67), // "."
-			shift(68), // char_lit
+			shift(68), // "."
+			shift(69), // char_lit
 			nil,       // "-"
-			shift(69), // "~"
-			shift(70), // "("
+			shift(70), // "~"
+			shift(71), // "("
 			nil,       // ")"
-			shift(71), // "["
+			shift(72), // "["
 			nil,       // "]"
-			shift(72), // "{"
+			shift(73), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S104
+	actionRow{ // S106
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3155,13 +3321,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S105
+	actionRow{ // S107
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3185,13 +3352,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S106
+	actionRow{ // S108
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3203,7 +3371,7 @@ var actionTab = actionTable{
 			nil,        // ignoredTokId
 			nil,        // "|"
 			nil,        // "."
-			shift(131), // char_lit
+			shift(133), // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
@@ -3215,13 +3383,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S107
+	actionRow{ // S109
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3245,66 +3414,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S108
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			shift(132), // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S109
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			shift(94),  // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			shift(133), // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3321,20 +3431,21 @@ var actionTab = actionTable{
 			nil,        // ";"
 			nil,        // regDefId
 			nil,        // ignoredTokId
-			shift(103), // "|"
+			nil,        // "|"
 			nil,        // "."
-			nil,        // char_lit
+			shift(134), // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
 			nil,        // ")"
 			nil,        // "["
-			shift(134), // "]"
+			nil,        // "]"
 			nil,        // "{"
 			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3351,20 +3462,21 @@ var actionTab = actionTable{
 			nil,        // ";"
 			nil,        // regDefId
 			nil,        // ignoredTokId
-			shift(112), // "|"
+			shift(96),  // "|"
 			nil,        // "."
 			nil,        // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
-			nil,        // ")"
+			shift(135), // ")"
 			nil,        // "["
 			nil,        // "]"
 			nil,        // "{"
-			shift(135), // "}"
+			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3374,34 +3486,97 @@ var actionTab = actionTable{
 	actionRow{ // S112
 		canRecover: false,
 		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			shift(105), // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			shift(136), // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S113
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			shift(114), // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			shift(137), // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S114
+		canRecover: false,
+		actions: [numSymbols]action{
 			nil,       // ά<INVALID>
 			nil,       // Ω<EOF>
 			nil,       // tokId
 			nil,       // ":"
 			nil,       // ";"
-			shift(76), // regDefId
+			shift(77), // regDefId
 			nil,       // ignoredTokId
 			nil,       // "|"
-			shift(77), // "."
-			shift(78), // char_lit
+			shift(78), // "."
+			shift(79), // char_lit
 			nil,       // "-"
-			shift(79), // "~"
-			shift(80), // "("
+			shift(80), // "~"
+			shift(81), // "("
 			nil,       // ")"
-			shift(81), // "["
+			shift(82), // "["
 			nil,       // "]"
-			shift(82), // "{"
+			shift(83), // "{"
 			nil,       // "}"
 			nil,       // g_sdt_lit
 			nil,       // prodId
 			nil,       // string_lit
+			nil,       // "@"
 			nil,       // "error"
 			nil,       // "λ"
 			nil,       // "empty"
 			nil,       // "ε"
 		},
 	},
-	actionRow{ // S113
+	actionRow{ // S115
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3425,13 +3600,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S114
+	actionRow{ // S116
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3455,13 +3631,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S115
+	actionRow{ // S117
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3473,7 +3650,7 @@ var actionTab = actionTable{
 			nil,        // ignoredTokId
 			nil,        // "|"
 			nil,        // "."
-			shift(137), // char_lit
+			shift(139), // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
@@ -3485,13 +3662,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S116
+	actionRow{ // S118
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3515,66 +3693,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S117
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			shift(138), // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S118
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			shift(94),  // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			shift(139), // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3591,20 +3710,21 @@ var actionTab = actionTable{
 			nil,        // ";"
 			nil,        // regDefId
 			nil,        // ignoredTokId
-			shift(103), // "|"
+			nil,        // "|"
 			nil,        // "."
-			nil,        // char_lit
+			shift(140), // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
 			nil,        // ")"
 			nil,        // "["
-			shift(140), // "]"
+			nil,        // "]"
 			nil,        // "{"
 			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3621,7 +3741,69 @@ var actionTab = actionTable{
 			nil,        // ";"
 			nil,        // regDefId
 			nil,        // ignoredTokId
-			shift(112), // "|"
+			shift(96),  // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			shift(141), // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S121
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			shift(105), // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			shift(142), // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S122
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			shift(114), // "|"
 			nil,        // "."
 			nil,        // char_lit
 			nil,        // "-"
@@ -3631,17 +3813,18 @@ var actionTab = actionTable{
 			nil,        // "["
 			nil,        // "]"
 			nil,        // "{"
-			shift(141), // "}"
+			shift(143), // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S121
+	actionRow{ // S123
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3665,13 +3848,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S122
+	actionRow{ // S124
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3695,13 +3879,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S123
+	actionRow{ // S125
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3713,7 +3898,7 @@ var actionTab = actionTable{
 			nil,        // ignoredTokId
 			nil,        // "|"
 			nil,        // "."
-			shift(142), // char_lit
+			shift(144), // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
@@ -3725,13 +3910,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S124
+	actionRow{ // S126
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3739,29 +3925,30 @@ var actionTab = actionTable{
 			nil,        // tokId
 			nil,        // ":"
 			nil,        // ";"
-			shift(56),  // regDefId
+			shift(57),  // regDefId
 			nil,        // ignoredTokId
 			reduce(11), // "|", reduce: LexPattern
-			shift(57),  // "."
-			shift(58),  // char_lit
+			shift(58),  // "."
+			shift(59),  // char_lit
 			nil,        // "-"
-			shift(59),  // "~"
-			shift(60),  // "("
+			shift(60),  // "~"
+			shift(61),  // "("
 			reduce(11), // ")", reduce: LexPattern
-			shift(61),  // "["
+			shift(62),  // "["
 			nil,        // "]"
-			shift(62),  // "{"
+			shift(63),  // "{"
 			nil,        // "}"
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S125
+	actionRow{ // S127
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -3785,66 +3972,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S126
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			nil,        // char_lit
-			shift(143), // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S127
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(22), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(22), // "|", reduce: LexTerm
-			reduce(22), // ".", reduce: LexTerm
-			reduce(22), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(22), // "~", reduce: LexTerm
-			reduce(22), // "(", reduce: LexTerm
-			reduce(22), // ")", reduce: LexTerm
-			reduce(22), // "[", reduce: LexTerm
-			nil,        // "]"
-			reduce(22), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -3852,306 +3980,6 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S128
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(20), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(20), // "|", reduce: LexTerm
-			reduce(20), // ".", reduce: LexTerm
-			reduce(20), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(20), // "~", reduce: LexTerm
-			reduce(20), // "(", reduce: LexTerm
-			reduce(20), // ")", reduce: LexTerm
-			reduce(20), // "[", reduce: LexTerm
-			nil,        // "]"
-			reduce(20), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S129
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(21), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(21), // "|", reduce: LexTerm
-			reduce(21), // ".", reduce: LexTerm
-			reduce(21), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(21), // "~", reduce: LexTerm
-			reduce(21), // "(", reduce: LexTerm
-			reduce(21), // ")", reduce: LexTerm
-			reduce(21), // "[", reduce: LexTerm
-			nil,        // "]"
-			reduce(21), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S130
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			shift(66),  // regDefId
-			nil,        // ignoredTokId
-			reduce(11), // "|", reduce: LexPattern
-			shift(67),  // "."
-			shift(68),  // char_lit
-			nil,        // "-"
-			shift(69),  // "~"
-			shift(70),  // "("
-			nil,        // ")"
-			shift(71),  // "["
-			reduce(11), // "]", reduce: LexPattern
-			shift(72),  // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S131
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(16), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(16), // "|", reduce: LexTerm
-			reduce(16), // ".", reduce: LexTerm
-			reduce(16), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(16), // "~", reduce: LexTerm
-			reduce(16), // "(", reduce: LexTerm
-			nil,        // ")"
-			reduce(16), // "[", reduce: LexTerm
-			reduce(16), // "]", reduce: LexTerm
-			reduce(16), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S132
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			nil,        // char_lit
-			shift(144), // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S133
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(22), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(22), // "|", reduce: LexTerm
-			reduce(22), // ".", reduce: LexTerm
-			reduce(22), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(22), // "~", reduce: LexTerm
-			reduce(22), // "(", reduce: LexTerm
-			nil,        // ")"
-			reduce(22), // "[", reduce: LexTerm
-			reduce(22), // "]", reduce: LexTerm
-			reduce(22), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S134
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(20), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(20), // "|", reduce: LexTerm
-			reduce(20), // ".", reduce: LexTerm
-			reduce(20), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(20), // "~", reduce: LexTerm
-			reduce(20), // "(", reduce: LexTerm
-			nil,        // ")"
-			reduce(20), // "[", reduce: LexTerm
-			reduce(20), // "]", reduce: LexTerm
-			reduce(20), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S135
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(21), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(21), // "|", reduce: LexTerm
-			reduce(21), // ".", reduce: LexTerm
-			reduce(21), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(21), // "~", reduce: LexTerm
-			reduce(21), // "(", reduce: LexTerm
-			nil,        // ")"
-			reduce(21), // "[", reduce: LexTerm
-			reduce(21), // "]", reduce: LexTerm
-			reduce(21), // "{", reduce: LexTerm
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S136
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			shift(76),  // regDefId
-			nil,        // ignoredTokId
-			reduce(11), // "|", reduce: LexPattern
-			shift(77),  // "."
-			shift(78),  // char_lit
-			nil,        // "-"
-			shift(79),  // "~"
-			shift(80),  // "("
-			nil,        // ")"
-			shift(81),  // "["
-			nil,        // "]"
-			shift(82),  // "{"
-			reduce(11), // "}", reduce: LexPattern
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S137
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			reduce(16), // regDefId, reduce: LexTerm
-			nil,        // ignoredTokId
-			reduce(16), // "|", reduce: LexTerm
-			reduce(16), // ".", reduce: LexTerm
-			reduce(16), // char_lit, reduce: LexTerm
-			nil,        // "-"
-			reduce(16), // "~", reduce: LexTerm
-			reduce(16), // "(", reduce: LexTerm
-			nil,        // ")"
-			reduce(16), // "[", reduce: LexTerm
-			nil,        // "]"
-			reduce(16), // "{", reduce: LexTerm
-			reduce(16), // "}", reduce: LexTerm
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S138
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4175,6 +4003,317 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S129
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(22), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(22), // "|", reduce: LexTerm
+			reduce(22), // ".", reduce: LexTerm
+			reduce(22), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(22), // "~", reduce: LexTerm
+			reduce(22), // "(", reduce: LexTerm
+			reduce(22), // ")", reduce: LexTerm
+			reduce(22), // "[", reduce: LexTerm
+			nil,        // "]"
+			reduce(22), // "{", reduce: LexTerm
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S130
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(20), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(20), // "|", reduce: LexTerm
+			reduce(20), // ".", reduce: LexTerm
+			reduce(20), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(20), // "~", reduce: LexTerm
+			reduce(20), // "(", reduce: LexTerm
+			reduce(20), // ")", reduce: LexTerm
+			reduce(20), // "[", reduce: LexTerm
+			nil,        // "]"
+			reduce(20), // "{", reduce: LexTerm
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S131
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(21), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(21), // "|", reduce: LexTerm
+			reduce(21), // ".", reduce: LexTerm
+			reduce(21), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(21), // "~", reduce: LexTerm
+			reduce(21), // "(", reduce: LexTerm
+			reduce(21), // ")", reduce: LexTerm
+			reduce(21), // "[", reduce: LexTerm
+			nil,        // "]"
+			reduce(21), // "{", reduce: LexTerm
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S132
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			shift(67),  // regDefId
+			nil,        // ignoredTokId
+			reduce(11), // "|", reduce: LexPattern
+			shift(68),  // "."
+			shift(69),  // char_lit
+			nil,        // "-"
+			shift(70),  // "~"
+			shift(71),  // "("
+			nil,        // ")"
+			shift(72),  // "["
+			reduce(11), // "]", reduce: LexPattern
+			shift(73),  // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S133
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(16), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(16), // "|", reduce: LexTerm
+			reduce(16), // ".", reduce: LexTerm
+			reduce(16), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(16), // "~", reduce: LexTerm
+			reduce(16), // "(", reduce: LexTerm
+			nil,        // ")"
+			reduce(16), // "[", reduce: LexTerm
+			reduce(16), // "]", reduce: LexTerm
+			reduce(16), // "{", reduce: LexTerm
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S134
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			nil,        // char_lit
+			shift(146), // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S135
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(22), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(22), // "|", reduce: LexTerm
+			reduce(22), // ".", reduce: LexTerm
+			reduce(22), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(22), // "~", reduce: LexTerm
+			reduce(22), // "(", reduce: LexTerm
+			nil,        // ")"
+			reduce(22), // "[", reduce: LexTerm
+			reduce(22), // "]", reduce: LexTerm
+			reduce(22), // "{", reduce: LexTerm
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S136
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(20), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(20), // "|", reduce: LexTerm
+			reduce(20), // ".", reduce: LexTerm
+			reduce(20), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(20), // "~", reduce: LexTerm
+			reduce(20), // "(", reduce: LexTerm
+			nil,        // ")"
+			reduce(20), // "[", reduce: LexTerm
+			reduce(20), // "]", reduce: LexTerm
+			reduce(20), // "{", reduce: LexTerm
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S137
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(21), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(21), // "|", reduce: LexTerm
+			reduce(21), // ".", reduce: LexTerm
+			reduce(21), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(21), // "~", reduce: LexTerm
+			reduce(21), // "(", reduce: LexTerm
+			nil,        // ")"
+			reduce(21), // "[", reduce: LexTerm
+			reduce(21), // "]", reduce: LexTerm
+			reduce(21), // "{", reduce: LexTerm
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S138
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			shift(77),  // regDefId
+			nil,        // ignoredTokId
+			reduce(11), // "|", reduce: LexPattern
+			shift(78),  // "."
+			shift(79),  // char_lit
+			nil,        // "-"
+			shift(80),  // "~"
+			shift(81),  // "("
+			nil,        // ")"
+			shift(82),  // "["
+			nil,        // "]"
+			shift(83),  // "{"
+			reduce(11), // "}", reduce: LexPattern
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -4182,6 +4321,68 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S139
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			reduce(16), // regDefId, reduce: LexTerm
+			nil,        // ignoredTokId
+			reduce(16), // "|", reduce: LexTerm
+			reduce(16), // ".", reduce: LexTerm
+			reduce(16), // char_lit, reduce: LexTerm
+			nil,        // "-"
+			reduce(16), // "~", reduce: LexTerm
+			reduce(16), // "(", reduce: LexTerm
+			nil,        // ")"
+			reduce(16), // "[", reduce: LexTerm
+			nil,        // "]"
+			reduce(16), // "{", reduce: LexTerm
+			reduce(16), // "}", reduce: LexTerm
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S140
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			nil,        // char_lit
+			shift(147), // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S141
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4205,13 +4406,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S140
+	actionRow{ // S142
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4235,13 +4437,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S141
+	actionRow{ // S143
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4265,66 +4468,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S142
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			shift(146), // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S143
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			shift(147), // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			nil,        // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -4343,11 +4487,11 @@ var actionTab = actionTable{
 			nil,        // ignoredTokId
 			nil,        // "|"
 			nil,        // "."
-			shift(148), // char_lit
+			nil,        // char_lit
 			nil,        // "-"
 			nil,        // "~"
 			nil,        // "("
-			nil,        // ")"
+			shift(148), // ")"
 			nil,        // "["
 			nil,        // "]"
 			nil,        // "{"
@@ -4355,6 +4499,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -4385,6 +4530,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -4392,6 +4538,68 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S146
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			shift(150), // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S147
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			shift(151), // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			nil,        // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S148
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4415,66 +4623,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S147
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			shift(150), // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
-			nil,        // "error"
-			nil,        // "λ"
-			nil,        // "empty"
-			nil,        // "ε"
-		},
-	},
-	actionRow{ // S148
-		canRecover: false,
-		actions: [numSymbols]action{
-			nil,        // ά<INVALID>
-			nil,        // Ω<EOF>
-			nil,        // tokId
-			nil,        // ":"
-			nil,        // ";"
-			nil,        // regDefId
-			nil,        // ignoredTokId
-			nil,        // "|"
-			nil,        // "."
-			nil,        // char_lit
-			nil,        // "-"
-			nil,        // "~"
-			nil,        // "("
-			shift(151), // ")"
-			nil,        // "["
-			nil,        // "]"
-			nil,        // "{"
-			nil,        // "}"
-			nil,        // g_sdt_lit
-			nil,        // prodId
-			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -4505,6 +4654,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
@@ -4512,6 +4662,68 @@ var actionTab = actionTable{
 		},
 	},
 	actionRow{ // S150
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			shift(153), // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S151
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,        // ά<INVALID>
+			nil,        // Ω<EOF>
+			nil,        // tokId
+			nil,        // ":"
+			nil,        // ";"
+			nil,        // regDefId
+			nil,        // ignoredTokId
+			nil,        // "|"
+			nil,        // "."
+			nil,        // char_lit
+			nil,        // "-"
+			nil,        // "~"
+			nil,        // "("
+			shift(154), // ")"
+			nil,        // "["
+			nil,        // "]"
+			nil,        // "{"
+			nil,        // "}"
+			nil,        // g_sdt_lit
+			nil,        // prodId
+			nil,        // string_lit
+			nil,        // "@"
+			nil,        // "error"
+			nil,        // "λ"
+			nil,        // "empty"
+			nil,        // "ε"
+		},
+	},
+	actionRow{ // S152
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4535,13 +4747,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S151
+	actionRow{ // S153
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4565,13 +4778,14 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"
 			nil,        // "ε"
 		},
 	},
-	actionRow{ // S152
+	actionRow{ // S154
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // ά<INVALID>
@@ -4595,6 +4809,7 @@ var actionTab = actionTable{
 			nil,        // g_sdt_lit
 			nil,        // prodId
 			nil,        // string_lit
+			nil,        // "@"
 			nil,        // "error"
 			nil,        // "λ"
 			nil,        // "empty"

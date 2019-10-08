@@ -5,8 +5,9 @@ package parser
 type (
 	actionTable [numStates]actionRow
 	actionRow   struct {
-		canRecover bool
-		actions    [numSymbols]action
+		canRecover             bool
+		actions                [numSymbols]action
+		contextDependentTokens []int
 	}
 )
 

@@ -15,7 +15,7 @@ type (
 		NTType     int
 		Index      int
 		NumSymbols int
-		ReduceFunc func([]Attrib) (Attrib, error)
+		ReduceFunc func(interface{}, []Attrib) (Attrib, error)
 	}
 	Attrib interface {
 	}
@@ -28,7 +28,7 @@ var productionsTable = ProdTab{
 		NTType:     0,
 		Index:      0,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},
 	},
@@ -38,7 +38,7 @@ var productionsTable = ProdTab{
 		NTType:     1,
 		Index:      1,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewGrammar(X[0], X[1])
 		},
 	},
@@ -48,7 +48,7 @@ var productionsTable = ProdTab{
 		NTType:     1,
 		Index:      2,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewGrammar(X[0], nil)
 		},
 	},
@@ -58,7 +58,7 @@ var productionsTable = ProdTab{
 		NTType:     1,
 		Index:      3,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewGrammar(nil, X[0])
 		},
 	},
@@ -68,7 +68,7 @@ var productionsTable = ProdTab{
 		NTType:     2,
 		Index:      4,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexPart(nil, nil, X[0])
 		},
 	},
@@ -78,7 +78,7 @@ var productionsTable = ProdTab{
 		NTType:     4,
 		Index:      5,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexProductions(X[0])
 		},
 	},
@@ -88,7 +88,7 @@ var productionsTable = ProdTab{
 		NTType:     4,
 		Index:      6,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.AppendLexProduction(X[0], X[1])
 		},
 	},
@@ -98,7 +98,7 @@ var productionsTable = ProdTab{
 		NTType:     5,
 		Index:      7,
 		NumSymbols: 4,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexTokDef(X[0], X[2])
 		},
 	},
@@ -108,7 +108,7 @@ var productionsTable = ProdTab{
 		NTType:     5,
 		Index:      8,
 		NumSymbols: 4,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexRegDef(X[0], X[2])
 		},
 	},
@@ -118,7 +118,7 @@ var productionsTable = ProdTab{
 		NTType:     5,
 		Index:      9,
 		NumSymbols: 4,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexIgnoredTokDef(X[0], X[2])
 		},
 	},
@@ -128,7 +128,7 @@ var productionsTable = ProdTab{
 		NTType:     6,
 		Index:      10,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexPattern(X[0])
 		},
 	},
@@ -138,7 +138,7 @@ var productionsTable = ProdTab{
 		NTType:     6,
 		Index:      11,
 		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.AppendLexAlt(X[0], X[2])
 		},
 	},
@@ -148,7 +148,7 @@ var productionsTable = ProdTab{
 		NTType:     7,
 		Index:      12,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexAlt(X[0])
 		},
 	},
@@ -158,7 +158,7 @@ var productionsTable = ProdTab{
 		NTType:     7,
 		Index:      13,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.AppendLexTerm(X[0], X[1])
 		},
 	},
@@ -168,7 +168,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      14,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.LexDOT, nil
 		},
 	},
@@ -178,7 +178,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      15,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexCharLitExt(X[0],false)
 		},
 	},
@@ -188,7 +188,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      16,
 		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexCharRangeExt(X[0], X[2],false)
 		},
 	},
@@ -198,7 +198,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      17,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexCharLitExt(X[0], true)
 		},
 	},
@@ -208,7 +208,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      18,
 		NumSymbols: 6,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexCharRangeExt(X[2], X[4], true)
 		},
 	},
@@ -218,7 +218,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      19,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexRegDefId(X[0])
 		},
 	},
@@ -228,7 +228,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      20,
 		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexOptPattern(X[1])
 		},
 	},
@@ -238,7 +238,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      21,
 		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexRepPattern(X[1])
 		},
 	},
@@ -248,7 +248,7 @@ var productionsTable = ProdTab{
 		NTType:     8,
 		Index:      22,
 		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewLexGroupPattern(X[1])
 		},
 	},
@@ -258,7 +258,7 @@ var productionsTable = ProdTab{
 		NTType:     3,
 		Index:      23,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxPart(X[0], X[1])
 		},
 	},
@@ -268,7 +268,7 @@ var productionsTable = ProdTab{
 		NTType:     3,
 		Index:      24,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxPart(nil, X[0])
 		},
 	},
@@ -278,7 +278,7 @@ var productionsTable = ProdTab{
 		NTType:     9,
 		Index:      25,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewFileHeader(X[0])
 		},
 	},
@@ -288,7 +288,7 @@ var productionsTable = ProdTab{
 		NTType:     10,
 		Index:      26,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxProdList(X[0])
 		},
 	},
@@ -298,7 +298,7 @@ var productionsTable = ProdTab{
 		NTType:     10,
 		Index:      27,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.AddSyntaxProds(X[0], X[1])
 		},
 	},
@@ -308,7 +308,7 @@ var productionsTable = ProdTab{
 		NTType:     11,
 		Index:      28,
 		NumSymbols: 4,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxProd(X[0], X[2])
 		},
 	},
@@ -318,7 +318,7 @@ var productionsTable = ProdTab{
 		NTType:     12,
 		Index:      29,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxAlts(X[0])
 		},
 	},
@@ -328,7 +328,7 @@ var productionsTable = ProdTab{
 		NTType:     12,
 		Index:      30,
 		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.AddSyntaxAlt(X[0], X[2])
 		},
 	},
@@ -338,7 +338,7 @@ var productionsTable = ProdTab{
 		NTType:     13,
 		Index:      31,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxBodyGen(X[0], nil)
 		},
 	},
@@ -348,7 +348,7 @@ var productionsTable = ProdTab{
 		NTType:     13,
 		Index:      32,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxBodyGen(X[0], X[1])
 		},
 	},
@@ -358,7 +358,7 @@ var productionsTable = ProdTab{
 		NTType:     13,
 		Index:      33,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewErrorBodyGen(nil, nil)
 		},
 	},
@@ -368,7 +368,7 @@ var productionsTable = ProdTab{
 		NTType:     13,
 		Index:      34,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewErrorBodyGen(X[1], nil)
 		},
 	},
@@ -378,7 +378,7 @@ var productionsTable = ProdTab{
 		NTType:     13,
 		Index:      35,
 		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewErrorBodyGen(X[1], X[2])
 		},
 	},
@@ -388,7 +388,7 @@ var productionsTable = ProdTab{
 		NTType:     13,
 		Index:      36,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewErrorBodyGen(nil, X[1])
 		},
 	},
@@ -398,7 +398,7 @@ var productionsTable = ProdTab{
 		NTType:     13,
 		Index:      37,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewEmptyBodyGen()
 		},
 	},
@@ -408,7 +408,7 @@ var productionsTable = ProdTab{
 		NTType:     14,
 		Index:      38,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxSymbols(X[0])
 		},
 	},
@@ -418,7 +418,7 @@ var productionsTable = ProdTab{
 		NTType:     14,
 		Index:      39,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.AddSyntaxSymbol(X[0], X[1])
 		},
 	},
@@ -428,7 +428,7 @@ var productionsTable = ProdTab{
 		NTType:     17,
 		Index:      40,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxProdId(X[0])
 		},
 	},
@@ -438,7 +438,7 @@ var productionsTable = ProdTab{
 		NTType:     17,
 		Index:      41,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewTokId(X[0])
 		},
 	},
@@ -448,17 +448,27 @@ var productionsTable = ProdTab{
 		NTType:     17,
 		Index:      42,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewStringLit(X[0])
+		},
+	},
+	ProdTabEntry{
+		String: `Symbol : Λ<@> tokId	<< ast.NewContextDependentTokId(X[1]) >>`,
+		Id:         "Symbol",
+		NTType:     17,
+		Index:      43,
+		NumSymbols: 2,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return ast.NewContextDependentTokId(X[1])
 		},
 	},
 	ProdTabEntry{
 		String: `ErrorSymbol : Λ<error>	<<  >>`,
 		Id:         "ErrorSymbol",
 		NTType:     15,
-		Index:      43,
+		Index:      44,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},
 	},
@@ -466,9 +476,9 @@ var productionsTable = ProdTab{
 		String: `ErrorSymbol : Λ<λ>	<<  >>`,
 		Id:         "ErrorSymbol",
 		NTType:     15,
-		Index:      44,
+		Index:      45,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},
 	},
@@ -476,9 +486,9 @@ var productionsTable = ProdTab{
 		String: `EpsilonSymbol : Λ<empty>	<<  >>`,
 		Id:         "EpsilonSymbol",
 		NTType:     16,
-		Index:      45,
+		Index:      46,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},
 	},
@@ -486,9 +496,9 @@ var productionsTable = ProdTab{
 		String: `EpsilonSymbol : Λ<ε>	<<  >>`,
 		Id:         "EpsilonSymbol",
 		NTType:     16,
-		Index:      46,
+		Index:      47,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
 		},
 	},

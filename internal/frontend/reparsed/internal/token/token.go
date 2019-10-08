@@ -6,18 +6,12 @@ import (
 	"fmt"
 )
 
-type UserContext interface{}
-
-type ParseContext struct {
-	Remaining []byte
-}
-
 type Token struct {
 	Type
 	Lit []byte
 	Pos
-	Context *ParseContext
-	User    UserContext
+	ForeingAstNode  interface{}
+	ForeingAstError error
 }
 
 type Type int
@@ -35,6 +29,20 @@ type Pos struct {
 
 func (p Pos) String() string {
 	return fmt.Sprintf("Pos(offset=%d, line=%d, column=%d)", p.Offset, p.Line, p.Column)
+}
+
+func (p Pos) StartingFrom(base Pos) Pos {
+	r := base
+	r.Offset += p.Offset
+	r.Line += p.Line
+	r.Column = p.Column
+	if p.Line > 0 && base.Line > 0 {
+		r.Line--
+	}
+	if r.Column < 1 {
+		r.Column = 1
+	}
+	return r
 }
 
 type TokenMap struct {
@@ -57,8 +65,7 @@ func (m TokenMap) Type(tok string) Type {
 }
 
 func (m TokenMap) TokenString(tok *Token) string {
-	//TODO: refactor to print pos & token string properly
-	return fmt.Sprintf("%s(%d,%s)", m.Id(tok.Type), tok.Type, tok.Lit)
+	return fmt.Sprintf("%s(%d,<%s>)", m.Id(tok.Type), tok.Type, tok.Lit)
 }
 
 func (m TokenMap) StringType(typ Type) string {
@@ -88,6 +95,7 @@ var TokMap = TokenMap{
 		"g_sdt_lit",
 		"prodId",
 		"string_lit",
+		"Λ<@>",
 		"Λ<error>",
 		"Λ<λ>",
 		"Λ<empty>",
@@ -116,9 +124,10 @@ var TokMap = TokenMap{
 		"g_sdt_lit":    18,
 		"prodId":       19,
 		"string_lit":   20,
-		"Λ<error>":     21,
-		"Λ<λ>":         22,
-		"Λ<empty>":     23,
-		"Λ<ε>":         24,
+		"Λ<@>":         21,
+		"Λ<error>":     22,
+		"Λ<λ>":         23,
+		"Λ<empty>":     24,
+		"Λ<ε>":         25,
 	},
 }

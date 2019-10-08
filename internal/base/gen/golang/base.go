@@ -154,11 +154,13 @@ func showResult (r interface{}, e error) {
 var (
   File string
   Text string
+	Longest bool
 )
 
 func main () {
   flag.StringVar(&File, "file", "", "parse also text in file")
   flag.StringVar(&Text, "text", "", "parse also text given with flag")
+	flag.BoolVar(&Longest, "longest", false, "parse longest possible part")
   flag.Parse()
   if Text > "" {
     showResult({{.MyName}}.ParseText(Text))

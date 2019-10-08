@@ -40,13 +40,14 @@ func (StdSyntaxSymbol) IsEpsilon() bool     { return false }
 func (StdSyntaxSymbol) IsTerminal() bool    { return false }
 func (StdSyntaxSymbol) IsNonTerminal() bool { return false }
 
-func (SyntaxEmpty) gSymbol()         {}
-func (SyntaxEof) gSymbol()           {}
-func (SyntaxError) gSymbol()         {}
-func (SyntaxProdId) gSymbol()        {}
-func (SyntaxTokId) gSymbol()         {}
-func (SyntaxStringLit) gSymbol()     {}
-func (InvalidSyntaxSymbol) gSymbol() {}
+func (SyntaxEmpty) gSymbol()                 {}
+func (SyntaxEof) gSymbol()                   {}
+func (SyntaxError) gSymbol()                 {}
+func (SyntaxProdId) gSymbol()                {}
+func (SyntaxTokId) gSymbol()                 {}
+func (SyntaxStringLit) gSymbol()             {}
+func (InvalidSyntaxSymbol) gSymbol()         {}
+func (SyntaxContextDependentTokId) gSymbol() {}
 
 func (InvalidSyntaxSymbol) SymbolName() string {
 	return config.INTERNAL_SYMBOL_INVALID

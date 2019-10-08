@@ -72,68 +72,68 @@ var ActTab = ActionTable{
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S13, Accept("prodId")
+	ActionRow{ // S13, Accept("Λ<@>")
+		Accept: 21,
+		Ignore: "",
+	},
+	ActionRow{ // S14, Accept("prodId")
 		Accept: 19,
 		Ignore: "",
 	},
-	ActionRow{ // S14, Accept("Λ<[>")
+	ActionRow{ // S15, Accept("Λ<[>")
 		Accept: 14,
 		Ignore: "",
 	},
-	ActionRow{ // S15, Accept("Λ<]>")
+	ActionRow{ // S16, Accept("Λ<]>")
 		Accept: 15,
 		Ignore: "",
 	},
-	ActionRow{ // S16, Accept("regDefId")
+	ActionRow{ // S17, Accept("regDefId")
 		Accept: 5,
 		Ignore: "",
 	},
-	ActionRow{ // S17, 
+	ActionRow{ // S18, 
 		Accept: 0,
-		Ignore: "",
-	},
-	ActionRow{ // S18, Accept("tokId")
-		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S19, Accept("tokId")
 		Accept: 2,
 		Ignore: "",
 	},
-	ActionRow{ // S20, Accept("Λ<{>")
+	ActionRow{ // S20, Accept("tokId")
+		Accept: 2,
+		Ignore: "",
+	},
+	ActionRow{ // S21, Accept("Λ<{>")
 		Accept: 16,
 		Ignore: "",
 	},
-	ActionRow{ // S21, Accept("Λ<|>")
+	ActionRow{ // S22, Accept("Λ<|>")
 		Accept: 7,
 		Ignore: "",
 	},
-	ActionRow{ // S22, Accept("Λ<}>")
+	ActionRow{ // S23, Accept("Λ<}>")
 		Accept: 17,
 		Ignore: "",
 	},
-	ActionRow{ // S23, Accept("Λ<~>")
+	ActionRow{ // S24, Accept("Λ<~>")
 		Accept: 11,
 		Ignore: "",
 	},
-	ActionRow{ // S24, Accept("Λ<ε>")
-		Accept: 24,
+	ActionRow{ // S25, Accept("Λ<ε>")
+		Accept: 25,
 		Ignore: "",
 	},
-	ActionRow{ // S25, Accept("Λ<λ>")
-		Accept: 22,
+	ActionRow{ // S26, Accept("Λ<λ>")
+		Accept: 23,
 		Ignore: "",
 	},
-	ActionRow{ // S26, Accept("ignoredTokId")
+	ActionRow{ // S27, Accept("ignoredTokId")
 		Accept: 6,
 		Ignore: "",
 	},
-	ActionRow{ // S27, Accept("string_lit")
+	ActionRow{ // S28, Accept("string_lit")
 		Accept: 20,
-		Ignore: "",
-	},
-	ActionRow{ // S28, 
-		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S29, 
@@ -160,8 +160,8 @@ var ActTab = ActionTable{
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S35, Accept("prodId")
-		Accept: 19,
+	ActionRow{ // S35, 
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S36, Accept("prodId")
@@ -176,8 +176,8 @@ var ActTab = ActionTable{
 		Accept: 19,
 		Ignore: "",
 	},
-	ActionRow{ // S39, Accept("regDefId")
-		Accept: 5,
+	ActionRow{ // S39, Accept("prodId")
+		Accept: 19,
 		Ignore: "",
 	},
 	ActionRow{ // S40, Accept("regDefId")
@@ -192,12 +192,12 @@ var ActTab = ActionTable{
 		Accept: 5,
 		Ignore: "",
 	},
-	ActionRow{ // S43, Accept("string_lit")
-		Accept: 20,
+	ActionRow{ // S43, Accept("regDefId")
+		Accept: 5,
 		Ignore: "",
 	},
-	ActionRow{ // S44, Accept("tokId")
-		Accept: 2,
+	ActionRow{ // S44, Accept("string_lit")
+		Accept: 20,
 		Ignore: "",
 	},
 	ActionRow{ // S45, Accept("tokId")
@@ -220,8 +220,8 @@ var ActTab = ActionTable{
 		Accept: 2,
 		Ignore: "",
 	},
-	ActionRow{ // S50, Accept("ignoredTokId")
-		Accept: 6,
+	ActionRow{ // S50, Accept("tokId")
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S51, Accept("ignoredTokId")
@@ -236,8 +236,8 @@ var ActTab = ActionTable{
 		Accept: 6,
 		Ignore: "",
 	},
-	ActionRow{ // S54, 
-		Accept: 0,
+	ActionRow{ // S54, Accept("ignoredTokId")
+		Accept: 6,
 		Ignore: "",
 	},
 	ActionRow{ // S55, 
@@ -276,32 +276,32 @@ var ActTab = ActionTable{
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S64, Accept("char_lit")
+	ActionRow{ // S64, 
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S65, Accept("char_lit")
 		Accept: 9,
 		Ignore: "",
 	},
-	ActionRow{ // S65, 
+	ActionRow{ // S66, 
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S66, Ignore("!comment")
+	ActionRow{ // S67, Ignore("!comment")
 		Accept: -1,
 		Ignore: "!comment",
 	},
-	ActionRow{ // S67, 
+	ActionRow{ // S68, 
 		Accept: 0,
-		Ignore: "",
-	},
-	ActionRow{ // S68, Accept("tokId")
-		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S69, Accept("tokId")
 		Accept: 2,
 		Ignore: "",
 	},
-	ActionRow{ // S70, 
-		Accept: 0,
+	ActionRow{ // S70, Accept("tokId")
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S71, 
@@ -332,24 +332,24 @@ var ActTab = ActionTable{
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S78, Ignore("!comment")
-		Accept: -1,
-		Ignore: "!comment",
-	},
-	ActionRow{ // S79, 
+	ActionRow{ // S78, 
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S80, Accept("tokId")
-		Accept: 2,
+	ActionRow{ // S79, Ignore("!comment")
+		Accept: -1,
+		Ignore: "!comment",
+	},
+	ActionRow{ // S80, 
+		Accept: 0,
 		Ignore: "",
 	},
 	ActionRow{ // S81, Accept("tokId")
 		Accept: 2,
 		Ignore: "",
 	},
-	ActionRow{ // S82, 
-		Accept: 0,
+	ActionRow{ // S82, Accept("tokId")
+		Accept: 2,
 		Ignore: "",
 	},
 	ActionRow{ // S83, 
@@ -380,20 +380,20 @@ var ActTab = ActionTable{
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S90, Accept("g_sdt_lit")
+	ActionRow{ // S90, 
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S91, Accept("g_sdt_lit")
 		Accept: 18,
 		Ignore: "",
 	},
-	ActionRow{ // S91, Accept("Λ<empty>")
-		Accept: 23,
+	ActionRow{ // S92, Accept("Λ<empty>")
+		Accept: 24,
 		Ignore: "",
 	},
-	ActionRow{ // S92, Accept("Λ<error>")
-		Accept: 21,
-		Ignore: "",
-	},
-	ActionRow{ // S93, 
-		Accept: 0,
+	ActionRow{ // S93, Accept("Λ<error>")
+		Accept: 22,
 		Ignore: "",
 	},
 	ActionRow{ // S94, 
@@ -453,6 +453,10 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S108, 
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S109, 
 		Accept: 0,
 		Ignore: "",
 	},

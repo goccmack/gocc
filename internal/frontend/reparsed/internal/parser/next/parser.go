@@ -23,12 +23,12 @@ type stack struct {
 	attrib []Attrib
 }
 
-const iNITIAL_STACK_SIZE = 100
+const INITIAL_STACK_SIZE = 100
 
 func newStack() *stack {
 	return &stack{
-		state:  make([]int, 0, iNITIAL_STACK_SIZE),
-		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+		state:  make([]int, 0, INITIAL_STACK_SIZE),
+		attrib: make([]Attrib, 0, INITIAL_STACK_SIZE),
 	}
 }
 
@@ -94,8 +94,16 @@ type Parser struct {
 	UserContext interface{}
 }
 
+type scannerPosition interface{}
+
 type Scanner interface {
 	Scan() (tok *token.Token)
+}
+
+type ContextDependentScanner interface {
+	Scanner
+	SavePosition() scannerPosition
+	RestorePosition() scannerPosition
 }
 
 func NewParser() *Parser {
@@ -179,7 +187,7 @@ func (p *Parser) newError(err error) error {
 	return e
 }
 
-func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
+func (p *Parser) parse(scanner Scanner) (res interface{}, err error) {
 	p.Reset()
 	p.nextToken = scanner.Scan()
 	for acc := false; !acc; {
@@ -214,4 +222,8 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 		}
 	}
 	return res, nil
+}
+
+func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
+	return p.parse(scanner)
 }

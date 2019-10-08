@@ -32,10 +32,12 @@ const (
 	INTERNAL_SYMBOL_EOF     = "Ω"
 	INTERNAL_SYMBOL_PROD    = "Π"
 	INTERNAL_SYMBOL_LIT     = "Λ"
+	INTERNAL_SYMBOL_CDTOK   = "μ"
 	SYMBOL_EMPTY            = "empty"
 	SYMBOL_ERROR            = "error"
 	SYMBOL_INVALID          = "ά<INVALID>"
 	SYMBOL_EOF              = "Ω<EOF>"
+	SYMBOL_CDTOK            = "μ"
 )
 
 type (
