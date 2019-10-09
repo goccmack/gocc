@@ -88,8 +88,12 @@ import (
   "{{.Pkg}}/{{.Subpath}}/io/stream"
 )
 
-type Token = token.Token
-type WindowReader = stream.WindowReader
+type (
+  Token = token.Token
+	TokenStream = token.TokenStream
+  WindowReader = stream.WindowReader
+  Scanner = parser.Scanner
+)
 
 
 func ParseFile(fpath string) (interface{}, error) {
@@ -101,11 +105,11 @@ func ParseFile(fpath string) (interface{}, error) {
 }
 
 func ParseText(text string) (interface{}, error) {
-  return NewParser().Parse(NewLexer([]byte(text)))
+  return NewParser().Parse(NewLexerBytes([]byte(text)))
 }
 
-func NewLexer(src []byte) *lexer.Lexer {
-  return lexer.NewLexer(src)
+func NewLexerBytes(src []byte) *lexer.Lexer {
+  return lexer.NewLexerBytes(src)
 }
 
 func NewLexerFile(fpath string) (*lexer.Lexer, error) {

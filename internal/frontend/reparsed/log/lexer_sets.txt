@@ -14,7 +14,7 @@ S0{
 	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	char_lit : • ''' (_unicode_value | _byte_value) '''
-	g_ctxdep_lit : • '@' '<' . {.} '>' '@'
+	g_ctxdep_lit : • '@' '@' . {.} '@' '@'
 	g_sdt_lit : • '<' '<' . {.} '>' '>'
 	ignoredTokId : • '!' _tokId
 	prodId : • _upcase {_id_char}
@@ -198,12 +198,12 @@ Action: nil
 Symbols classes: {['<','<']}
 
 S13{
-	g_ctxdep_lit : '@' • '<' . {.} '>' '@'
+	g_ctxdep_lit : '@' • '@' . {.} '@' '@'
 }
 Transitions:
-	['<','<'] -> S36
+	['@','@'] -> S36
 Action: nil
-Symbols classes: {['<','<']}
+Symbols classes: {['@','@']}
 
 S14{
 	_digit : •  '0'-'9'
@@ -542,7 +542,7 @@ Action: nil
 Symbols classes: {}
 
 S36{
-	g_ctxdep_lit : '@' '<' • . {.} '>' '@'
+	g_ctxdep_lit : '@' '@' • . {.} '@' '@'
 }
 Transitions:
 . -> S70
@@ -1151,14 +1151,14 @@ Action: nil
 Symbols classes: {['>','>']}
 
 S70{
-	g_ctxdep_lit : '@' '<' . {.} • '>' '@'
-	g_ctxdep_lit : '@' '<' . {• .} '>' '@'
+	g_ctxdep_lit : '@' '@' . {.} • '@' '@'
+	g_ctxdep_lit : '@' '@' . {• .} '@' '@'
 }
 Transitions:
-	['>','>'] -> S83
+	['@','@'] -> S83
 . -> S70
 Action: nil
-Symbols classes: {['>','>']}
+Symbols classes: {['@','@']}
 
 S71{
 	_digit : •  '0'-'9'
@@ -1353,7 +1353,7 @@ Action: nil
 Symbols classes: {['>','>']}
 
 S83{
-	g_ctxdep_lit : '@' '<' . {.} '>' • '@'
+	g_ctxdep_lit : '@' '@' . {.} '@' • '@'
 }
 Transitions:
 	['@','@'] -> S95
@@ -1562,7 +1562,7 @@ Action: Accept("g_sdt_lit")
 Symbols classes: {}
 
 S95{
-	g_ctxdep_lit : '@' '<' . {.} '>' '@' •
+	g_ctxdep_lit : '@' '@' . {.} '@' '@' •
 }
 Transitions:
 Action: Accept("g_ctxdep_lit")

@@ -4,8 +4,6 @@ package parser
 
 import "github.com/maxcalandrelli/gocc/internal/ast"
 
-
-
 type (
 	//TODO: change type and variable names to be consistent with other tables
 	ProdTab      [numProductions]ProdTabEntry
@@ -179,7 +177,7 @@ var productionsTable = ProdTab{
 		Index:      15,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.NewLexCharLitExt(X[0],false)
+			return ast.NewLexCharLitExt(X[0], false)
 		},
 	},
 	ProdTabEntry{
@@ -189,7 +187,7 @@ var productionsTable = ProdTab{
 		Index:      16,
 		NumSymbols: 3,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.NewLexCharRangeExt(X[0], X[2],false)
+			return ast.NewLexCharRangeExt(X[0], X[2], false)
 		},
 	},
 	ProdTabEntry{
@@ -459,7 +457,7 @@ var productionsTable = ProdTab{
 		Index:      43,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.NewContextDependentTokId(X[0],X[1])
+			return ast.NewContextDependentTokId(X[0], X[1])
 		},
 	},
 	ProdTabEntry{

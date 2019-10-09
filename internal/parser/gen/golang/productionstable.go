@@ -17,6 +17,7 @@ package golang
 import (
 	"bytes"
 	"fmt"
+	"go/format"
 	"path"
 	"text/template"
 
@@ -39,7 +40,11 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 	if err := tmpl.Execute(wr, getProdsTab(header, prods, symbols, itemsets, tokMap)); err != nil {
 		panic(err)
 	}
-	io.WriteFile(fname, wr.Bytes())
+	source, err := format.Source(wr.Bytes())
+	if err != nil {
+		panic(err)
+	}
+	io.WriteFile(fname, source)
 }
 
 func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
@@ -58,6 +63,11 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 			data.ProdTab[i].NumSymbols = 0
 		} else {
 			data.ProdTab[i].NumSymbols = len(prod.Body.Symbols)
+			for _, s := range prod.Body.Symbols {
+				if _, cdTok := s.(ast.SyntaxContextDependentTokId); cdTok {
+					data.ProdTab[i].NumSymbols++
+				}
+			}
 		}
 		switch {
 		case len(prod.Body.SDT) > 0:

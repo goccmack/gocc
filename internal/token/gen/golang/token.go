@@ -69,13 +69,22 @@ package token
 
 import (
 	"fmt"
+  "io"
 )
+
+type TokenStream interface {
+  io.Reader
+	io.RuneScanner
+	io.Seeker
+}
+
 
 type Token struct {
 	Type
 	Lit []byte
 	Pos
-	ForeingAstNode  interface{}
+	ForeignAstNode  interface{}
+  Foreign         bool
 }
 
 type Type int

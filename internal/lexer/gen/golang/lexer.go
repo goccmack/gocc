@@ -90,18 +90,13 @@ type position struct {
 	StreamPosition int64
 }
 
-type lexerStream interface {
-	io.RuneReader
-	io.Seeker
-}
-
 type Lexer struct {
 	position
-	stream lexerStream
+	stream token.TokenStream
 	eof    bool
 }
 
-func NewLexer(src []byte) *Lexer {
+func NewLexerBytes(src []byte) *Lexer {
 	lexer := &Lexer{stream: bytes.NewReader(src)}
 	lexer.position.Reset()
 	return lexer
@@ -117,15 +112,19 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 	return lexer, nil
 }
 
-func NewLexerStream(reader io.Reader) (*Lexer, error) {
+func NewLexer(reader io.Reader) (*Lexer, error) {
 	lexer := &Lexer{}
 	lexer.position.Reset()
-	if lexer.stream, _ = reader.(lexerStream); lexer.stream == nil {
+	if lexer.stream, _ = reader.(token.TokenStream); lexer.stream == nil {
 		lexer.stream = stream.NewWindowReader(reader)
 	} else {
 		lexer.position.StreamPosition, _ = lexer.stream.Seek(0, io.SeekCurrent)
 	}
 	return lexer, nil
+}
+
+func (l Lexer) GetStream() io.Reader {
+  return l.stream
 }
 
 func (l *Lexer) Scan() (tok *token.Token) {

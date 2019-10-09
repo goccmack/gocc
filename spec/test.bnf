@@ -30,7 +30,7 @@ Test1:
 Test2 : Test3 | Test1;
 
 Test3 :
-"not" "empty"
+"not" "empty" << fmt.Printf("very well\n") >>
 |
 T
 |
@@ -46,9 +46,32 @@ X:
 	| 	"hexdigit"
 	|
 		altro
-		@< altro() >@
+		@@
+				func () (interface {}, error, [] byte) {
+					count := 0
+					ret := []byte{}
+					for {
+						r, _, _ := Stream.ReadRune()
+						switch r {
+							case ' ', '\t':
+								ret = append(ret, string(r)...)
+							case '/':
+								ret = append(ret, string(r)...)
+								count++
+							default:
+								Stream.UnreadRune()
+								fmt.Printf("count=%d rune=<%c> ret=%s\n", count, r, string(ret))
+								return count, nil, ret
+						}
+					}
+					return nil, nil, []byte{}
+				}()
+		@@
 			<<
-				fmt.Printf("$0=%q\n$1=%q\n", $0, $1)
+				func () (interface{}, error) {
+					fmt.Printf("$0=%q\n$1=%q\n", $0, $1)
+					return nil, nil
+				} ()
 			>>
 ;
 

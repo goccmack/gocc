@@ -12,17 +12,17 @@ type (
 var gotoTab = gotoTable{
 	gotoRow{ // S0
 		-1, // Π<S'>
-		1,  // Π<Grammar>
-		2,  // Π<LexicalPart>
-		3,  // Π<SyntaxPart>
-		4,  // Π<LexProductions>
-		5,  // Π<LexProduction>
+		1, // Π<Grammar>
+		2, // Π<LexicalPart>
+		3, // Π<SyntaxPart>
+		4, // Π<LexProductions>
+		5, // Π<LexProduction>
 		-1, // Π<LexPattern>
 		-1, // Π<LexAlt>
 		-1, // Π<LexTerm>
-		6,  // Π<FileHeader>
-		7,  // Π<SyntaxProdList>
-		8,  // Π<SyntaxProduction>
+		6, // Π<FileHeader>
+		7, // Π<SyntaxProdList>
+		8, // Π<SyntaxProduction>
 		-1, // Π<Alternatives>
 		-1, // Π<SyntaxBody>
 		-1, // Π<Symbols>
@@ -60,9 +60,9 @@ var gotoTab = gotoTable{
 		-1, // Π<LexPattern>
 		-1, // Π<LexAlt>
 		-1, // Π<LexTerm>
-		6,  // Π<FileHeader>
-		7,  // Π<SyntaxProdList>
-		8,  // Π<SyntaxProduction>
+		6, // Π<FileHeader>
+		7, // Π<SyntaxProdList>
+		8, // Π<SyntaxProduction>
 		-1, // Π<Alternatives>
 		-1, // Π<SyntaxBody>
 		-1, // Π<Symbols>
@@ -142,7 +142,7 @@ var gotoTab = gotoTable{
 		-1, // Π<LexTerm>
 		-1, // Π<FileHeader>
 		16, // Π<SyntaxProdList>
-		8,  // Π<SyntaxProduction>
+		8, // Π<SyntaxProduction>
 		-1, // Π<Alternatives>
 		-1, // Π<SyntaxBody>
 		-1, // Π<Symbols>
@@ -1211,64 +1211,64 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S60
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		101, // Π<LexPattern>
-		54,  // Π<LexAlt>
-		55,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		54, // Π<LexAlt>
+		55, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S61
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		102, // Π<LexPattern>
-		64,  // Π<LexAlt>
-		65,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		64, // Π<LexAlt>
+		65, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S62
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		103, // Π<LexPattern>
-		74,  // Π<LexAlt>
-		75,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		74, // Π<LexAlt>
+		75, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S63
 		-1, // Π<S'>
@@ -1291,24 +1291,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S64
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
-		-1,  // Π<LexAlt>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
+		-1, // Π<LexAlt>
 		106, // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S65
 		-1, // Π<S'>
@@ -1411,64 +1411,64 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S70
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		110, // Π<LexPattern>
-		54,  // Π<LexAlt>
-		55,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		54, // Π<LexAlt>
+		55, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S71
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		111, // Π<LexPattern>
-		64,  // Π<LexAlt>
-		65,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		64, // Π<LexAlt>
+		65, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S72
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		112, // Π<LexPattern>
-		74,  // Π<LexAlt>
-		75,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		74, // Π<LexAlt>
+		75, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S73
 		-1, // Π<S'>
@@ -1491,24 +1491,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S74
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
-		-1,  // Π<LexAlt>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
+		-1, // Π<LexAlt>
 		115, // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S75
 		-1, // Π<S'>
@@ -1611,64 +1611,64 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S80
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		119, // Π<LexPattern>
-		54,  // Π<LexAlt>
-		55,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		54, // Π<LexAlt>
+		55, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S81
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		120, // Π<LexPattern>
-		64,  // Π<LexAlt>
-		65,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		64, // Π<LexAlt>
+		65, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S82
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
 		121, // Π<LexPattern>
-		74,  // Π<LexAlt>
-		75,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		74, // Π<LexAlt>
+		75, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S83
 		-1, // Π<S'>
@@ -1731,24 +1731,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S86
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
-		-1,  // Π<LexAlt>
-		-1,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
+		-1, // Π<LexAlt>
+		-1, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
 		122, // Π<SyntaxBody>
-		36,  // Π<Symbols>
-		37,  // Π<ErrorSymbol>
-		38,  // Π<EpsilonSymbol>
-		39,  // Π<Symbol>
+		36, // Π<Symbols>
+		37, // Π<ErrorSymbol>
+		38, // Π<EpsilonSymbol>
+		39, // Π<Symbol>
 	},
 	gotoRow{ // S87
 		-1, // Π<S'>
@@ -1911,24 +1911,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S95
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
 		125, // Π<LexAlt>
-		55,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		55, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S96
 		-1, // Π<S'>
@@ -2091,24 +2091,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S104
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
 		131, // Π<LexAlt>
-		65,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		65, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S105
 		-1, // Π<S'>
@@ -2271,24 +2271,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S113
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
 		137, // Π<LexAlt>
-		75,  // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		75, // Π<LexTerm>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S114
 		-1, // Π<S'>
@@ -2631,24 +2631,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S131
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
-		-1,  // Π<LexAlt>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
+		-1, // Π<LexAlt>
 		106, // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S132
 		-1, // Π<S'>
@@ -2751,24 +2751,24 @@ var gotoTab = gotoTable{
 		-1, // Π<Symbol>
 	},
 	gotoRow{ // S137
-		-1,  // Π<S'>
-		-1,  // Π<Grammar>
-		-1,  // Π<LexicalPart>
-		-1,  // Π<SyntaxPart>
-		-1,  // Π<LexProductions>
-		-1,  // Π<LexProduction>
-		-1,  // Π<LexPattern>
-		-1,  // Π<LexAlt>
+		-1, // Π<S'>
+		-1, // Π<Grammar>
+		-1, // Π<LexicalPart>
+		-1, // Π<SyntaxPart>
+		-1, // Π<LexProductions>
+		-1, // Π<LexProduction>
+		-1, // Π<LexPattern>
+		-1, // Π<LexAlt>
 		115, // Π<LexTerm>
-		-1,  // Π<FileHeader>
-		-1,  // Π<SyntaxProdList>
-		-1,  // Π<SyntaxProduction>
-		-1,  // Π<Alternatives>
-		-1,  // Π<SyntaxBody>
-		-1,  // Π<Symbols>
-		-1,  // Π<ErrorSymbol>
-		-1,  // Π<EpsilonSymbol>
-		-1,  // Π<Symbol>
+		-1, // Π<FileHeader>
+		-1, // Π<SyntaxProdList>
+		-1, // Π<SyntaxProduction>
+		-1, // Π<Alternatives>
+		-1, // Π<SyntaxBody>
+		-1, // Π<Symbols>
+		-1, // Π<ErrorSymbol>
+		-1, // Π<EpsilonSymbol>
+		-1, // Π<Symbol>
 	},
 	gotoRow{ // S138
 		-1, // Π<S'>

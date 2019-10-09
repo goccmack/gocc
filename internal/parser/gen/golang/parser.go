@@ -16,6 +16,8 @@ package golang
 
 import (
 	"bytes"
+	"fmt"
+	"go/format"
 	"path"
 	"text/template"
 
@@ -35,7 +37,11 @@ func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 	if err := tmpl.Execute(wr, getParserData(pkg, subpath, prods, itemSets, symbols, cfg)); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, subpath, "parser", "parser.go"), wr.Bytes())
+	source, err := format.Source(wr.Bytes())
+	if err != nil {
+		panic(fmt.Sprintf("%s in\n%s", err.Error(), wr.String()))
+	}
+	io.WriteFile(path.Join(outDir, subpath, "parser", "parser.go"), source)
 }
 
 type parserData struct {
@@ -45,6 +51,7 @@ type parserData struct {
 	NumProductions int
 	NumStates      int
 	NumSymbols     int
+	CdTokList      ast.SyntaxSymbols
 }
 
 func getParserData(pkg, subpath string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) *parserData {
@@ -55,6 +62,7 @@ func getParserData(pkg, subpath string, prods ast.SyntaxProdList, itemSets *item
 		NumProductions: len(prods),
 		NumStates:      itemSets.Size(),
 		NumSymbols:     symbols.NumSymbols(),
+		CdTokList:      symbols.ListContextDependentTokenSymbols(),
 	}
 }
 
@@ -65,6 +73,7 @@ package parser
 
 import (
 	"fmt"
+  "io"
 	"strings"
   "errors"
 
@@ -153,21 +162,19 @@ type Parser struct {
 	stack       *stack
 	nextToken   *token.Token
   userContext interface{}
-  longest     bool
-  checkPoint  Position
 }
 
 type Scanner interface {
 	Scan() (tok *token.Token)
+  GetStream () io.Reader
 }
 
-type Position interface{}
+type TokenStream = token.TokenStream
 
-type RepositionableScanner interface {
-	Scanner
-  Reposition(p Position)
-  CurrentPosition() Position
-}
+{{- range $c := .CdTokList }}
+{{ printf "func cdFunc_%s (Stream TokenStream, Context interface{}) (interface{}, error, []byte) {return %s}" $c.SymbolString $c.ContexDependentParseFunctionCall }}
+{{- end }}
+
 
 func NewParser() *Parser {
 	return NewParserWithContext(nil)
@@ -255,47 +262,83 @@ func (p *Parser) newError(err error) error {
 }
 
 func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
-  p.longest = false
-  r, e, _ := p.parse(scanner)
+  r, e, _ := p.parse(scanner, false)
   return r, e
 }
 
 func (p *Parser) ParseLongestPrefix(scanner Scanner) (res interface{}, err error, parsed []byte) {
-  if _, isRepositionable := scanner.(RepositionableScanner); !isRepositionable {
-    return nil, errors.New("scanner not repositionable"), []byte{}
-  }
-  p.longest = true
-  return p.parse(scanner)
+  return p.parse(scanner, true)
 }
 
-func (p *Parser) parse(scanner Scanner) (res interface{}, err error, parsed []byte) {
-	p.Reset()
-  if p.longest {
-    p.checkPoint = scanner.(RepositionableScanner).CurrentPosition()
+var errNotRepositionable = errors.New("scanner not repositionable")
+
+
+func (p *Parser) parse(scanner Scanner, longest bool) (res interface{}, err error, parsed []byte) {
+  var (
+    tokens     TokenStream
+    afterPos   int64
+    checkPoint int64
+  )
+  readNextToken := func () error {
+    if tokens == nil && (len(parserActions.table[p.stack.top()].cdActions) > 0 || longest) {
+      if tokens, _ = scanner.GetStream().(TokenStream); tokens == nil {
+        return errNotRepositionable
+      }
+    }
+    if len(parserActions.table[p.stack.top()].cdActions) > 0 {
+      checkPoint, _ = tokens.Seek (0, io.SeekCurrent)
+    }
+  	p.nextToken = scanner.Scan()
+    if longest {
+      afterPos , _ = tokens.Seek (0, io.SeekCurrent)
+    }
+    return nil
   }
-	p.nextToken = scanner.Scan()
+	p.Reset()
+  if err := readNextToken(); err != nil {
+    return nil, err, []byte{}
+  }
 	for acc := false; !acc; {
 		action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]
-
 		if action == nil {
-			for tt, fn := range parserActions.cdTokens {
-				if fn != nil {
-					scanner.(RepositionableScanner).Reposition(p.checkPoint)
-					cd_res, cd_err, cd_parsed := fn(p.userContext)
-					if cd_err == nil && len(cd_parsed) > 0 {
-						action = parserActions.table[p.stack.top()].actions[tt]
-						p.nextToken.ForeingAstNode = cd_res
-						p.nextToken.Lit = cd_parsed
-						break
-					}
+      //
+      // If no action, check if we have some context dependent parsing to try
+      //
+			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
+				tokens.Seek(checkPoint, io.SeekStart)
+				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(tokens, p.userContext)
+				if cd_err == nil && len(cd_parsed) > 0 {
+					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
+          if action != nil {
+            p.nextToken.Foreign = true
+            p.nextToken.ForeignAstNode = cd_res
+  					p.nextToken.Lit = cd_parsed
+					  break
+          }
 				}
 			}
     }
-		if action == nil {
-			if p.longest {
-        scanner.(RepositionableScanner).Reposition(p.checkPoint)
-			}
+    //
+    //  Still no action? If a longest possible parsing is requested in place
+    //  of a full text, we should try to check if an EOF here would have led
+    //  to a successful parsing instead
+    //  Rember that token.EOF is 1, that is the index of SyntaxEof into symbol table
+    //  Dirty, dirty, dirty... but I found it as it is, and I prefer not to touch
+    //
+		if action == nil && longest {
+			tokens.Seek(checkPoint, io.SeekStart)
+      action = parserActions.table[p.stack.top()].actions[token.EOF]
+      if action == nil {
+        //
+        //  ok, let's consume the token then
+        //
+				tokens.Seek(afterPos, io.SeekStart)
+      }
     }
+
+    //
+    //  Well, no action is no action after all...
+    //
     if action == nil {
 			if recovered, errAttrib := p.Error(nil, scanner); !recovered {
 				p.nextToken = errAttrib.ErrorToken
@@ -314,15 +357,13 @@ func (p *Parser) parse(scanner Scanner) (res interface{}, err error, parsed []by
 			res = p.stack.popN(1)[0]
 			acc = true
 		case shift:
-      if p.nextToken.ForeingAstNode == nil {
-			  p.stack.push(int(act), p.nextToken)
-      } else {
-			  p.stack.push(int(act), p.nextToken.ForeingAstNode)
+		  p.stack.push(int(act), p.nextToken)
+      if p.nextToken.Foreign {
+			  p.stack.push(int(act), p.nextToken.ForeignAstNode)
       }
-      if p.longest {
-        p.checkPoint = scanner.(RepositionableScanner).CurrentPosition()
+      if err := readNextToken(); err != nil {
+        return nil, err, []byte{}
       }
-			p.nextToken = scanner.Scan()
 		case reduce:
 			prod := productionsTable[int(act)]
 			attrib, err := prod.ReduceFunc(p.userContext, p.stack.popN(prod.NumSymbols))

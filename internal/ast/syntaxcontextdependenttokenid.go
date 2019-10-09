@@ -16,6 +16,7 @@ package ast
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/maxcalandrelli/gocc/internal/config"
 )
@@ -36,7 +37,11 @@ func NewContextDependentTokId(tokId, ctxdeplit interface{}) (SyntaxContextDepend
 
 func NewNewContextDependentTokIdFromString(tokId, ctxdeplit string) SyntaxContextDependentTokId {
 	tokenIdCount++
-	return SyntaxContextDependentTokId{fmt.Sprintf("%s#%d", tokId, tokenIdCount), StdSyntaxSymbol{}, ctxdeplit[2 : len(ctxdeplit)-2]}
+	return SyntaxContextDependentTokId{
+		fmt.Sprintf("%s_%d", tokId, tokenIdCount),
+		StdSyntaxSymbol{},
+		regexp.MustCompile("^(?ms:@@\\s*(.*)\\s*@@)$").ReplaceAllString(ctxdeplit, "${1}"),
+	}
 }
 
 func (this SyntaxContextDependentTokId) SymbolString() string {

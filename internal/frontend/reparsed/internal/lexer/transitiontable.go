@@ -167,7 +167,7 @@ var TransTab = TransitionTable{
 	// S13
 	func(r rune) int {
 		switch {
-		case r == 60: // ['<','<']
+		case r == 64: // ['@','@']
 			return 36
 		}
 		return NoState
@@ -840,7 +840,7 @@ var TransTab = TransitionTable{
 	// S70
 	func(r rune) int {
 		switch {
-		case r == 62: // ['>','>']
+		case r == 64: // ['@','@']
 			return 83
 		default:
 			return 70
