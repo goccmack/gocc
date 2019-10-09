@@ -92,6 +92,10 @@ g_sdt_lit
     : '<' '<' . {.} '>' '>'
     ;
 
+g_ctxdep_lit
+    : '@' '<' . {.} '>' '@'
+    ;
+
 
 string_lit
     : _raw_string
@@ -287,9 +291,9 @@ Symbol :
 		string_lit
 			<< ast.NewStringLit($0) >>
 	|
-		"@"
 		tokId
-			<< ast.NewContextDependentTokId($1) >>
+		g_ctxdep_lit
+			<< ast.NewContextDependentTokId($0,$1) >>
 ;
 
 ErrorSymbol :

@@ -46,14 +46,16 @@ func GenActionTable(outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 }
 
 type actionTableData struct {
-	Rows []*actRow
+	Rows             []*actRow
+	CdTokenFunctions []string
 }
 
 func getActionTableData(prods ast.SyntaxProdList, itemSets *items.ItemSets,
 	tokMap *token.TokenMap) (actTab *actionTableData, conflicts map[int]items.RowConflicts) {
 
 	actTab = &actionTableData{
-		Rows: make([]*actRow, itemSets.Size()),
+		Rows:             make([]*actRow, itemSets.Size()),
+		CdTokenFunctions: make([]string, len(tokMap.TypeMap)),
 	}
 	conflicts = make(map[int]items.RowConflicts)
 	var row *actRow
@@ -63,6 +65,14 @@ func getActionTableData(prods ast.SyntaxProdList, itemSets *items.ItemSets,
 			conflicts[i] = cnflcts
 		}
 		actTab.Rows[i] = row
+	}
+	for i, sym := range tokMap.TypeMap {
+		switch s := sym.(type) {
+		case ast.SyntaxContextDependentTokId:
+			actTab.CdTokenFunctions[i] = fmt.Sprintf("func(Context interface{}) (interface{}, error, []byte) { return %s },", s.ContexDependentParseFunctionCall)
+		default:
+			actTab.CdTokenFunctions[i] = fmt.Sprintf("nil, // %T", s)
+		}
 	}
 	return
 }
@@ -143,20 +153,32 @@ type (
 		canRecover bool
 		actions    [numSymbols]action
 	}
+  contextDependentToken [numSymbols] func(interface{}) (interface{}, error, []byte)
+  actions struct {
+    table    actionTable
+    cdTokens contextDependentToken
+  }
 )
-
-var actionTab = actionTable{
-	{{- range $i, $r := .Rows }}
-	actionRow{ // S{{$i}}
-		canRecover: {{printf "%t" .CanRecover}},
-		actions: [numSymbols]action{
-			{{- range $a := .Actions }}
-			{{$a}}
-			{{- end }}
-		},
-	},
-	{{- end }}
+var parserActions = actions {
+  cdTokens: contextDependentToken{
+    {{- range $f := .CdTokenFunctions }}
+    {{$f}}
+  	{{- end }}
+  },
+  table: actionTable{
+  	{{- range $i, $r := .Rows }}
+  	actionRow{ // S{{$i}}
+  		canRecover: {{printf "%t" .CanRecover}},
+  		actions: [numSymbols]action{
+  			{{- range $a := .Actions }}
+  			{{$a}}
+  			{{- end }}
+  		},
+  	},
+  	{{- end }}
+  },
 }
+
 `
 
 func GenCompActionTable(outDir, subpath string, prods ast.SyntaxProdList, itemSets *items.ItemSets, tokMap *token.TokenMap) map[int]items.RowConflicts {

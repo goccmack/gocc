@@ -23,14 +23,20 @@ import (
 type SyntaxContextDependentTokId struct {
 	string
 	StdSyntaxSymbol
+	ContexDependentParseFunctionCall string
 }
 
-func NewContextDependentTokId(tokId interface{}) (SyntaxContextDependentTokId, error) {
-	return SyntaxContextDependentTokId{getString(tokId), StdSyntaxSymbol{}}, nil
+var (
+	tokenIdCount = 0
+)
+
+func NewContextDependentTokId(tokId, ctxdeplit interface{}) (SyntaxContextDependentTokId, error) {
+	return NewNewContextDependentTokIdFromString(getString(tokId), getString(ctxdeplit)), nil
 }
 
-func NewNewContextDependentTokIdFromString(str string) SyntaxContextDependentTokId {
-	return SyntaxContextDependentTokId{str, StdSyntaxSymbol{}}
+func NewNewContextDependentTokIdFromString(tokId, ctxdeplit string) SyntaxContextDependentTokId {
+	tokenIdCount++
+	return SyntaxContextDependentTokId{fmt.Sprintf("%s#%d", tokId, tokenIdCount), StdSyntaxSymbol{}, ctxdeplit[2 : len(ctxdeplit)-2]}
 }
 
 func (this SyntaxContextDependentTokId) SymbolString() string {

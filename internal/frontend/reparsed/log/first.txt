@@ -71,7 +71,6 @@
 	prodId
 	string_lit
 	tokId
-	Λ<@>
 	Λ<empty>
 	Λ<error>
 	Λ<ε>
@@ -81,7 +80,6 @@
 	prodId
 	string_lit
 	tokId
-	Λ<@>
 	Λ<empty>
 	Λ<error>
 	Λ<ε>
@@ -91,7 +89,6 @@
 	prodId
 	string_lit
 	tokId
-	Λ<@>
 }
 Π<ErrorSymbol>: {
 	Λ<error>
@@ -105,5 +102,4 @@
 	prodId
 	string_lit
 	tokId
-	Λ<@>
 }

@@ -9,9 +9,15 @@ _id_char : _upcase | _lowcase | '_' | _digit ;
 _upcase : 'A'-'Z' ;
 _digit : '0'-'9' ;
 
-//
+
 !space    :  ' ' | '\t' ;
 hexdigit : '0'-'F'  | ~(':'-'@') ;
+
+<<
+import(
+	"fmt"
+)
+>>
 
 Test :
 		Test1
@@ -38,7 +44,11 @@ ProdX : "empty" | "ε" | "λ" | empty  | ε ;
 X:
 		"!"
 	| 	"hexdigit"
-	| 	@altro
-		<< f(Context) >>
+	|
+		altro
+		@< altro() >@
+			<<
+				fmt.Printf("$0=%q\n$1=%q\n", $0, $1)
+			>>
 ;
 

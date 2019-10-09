@@ -10,8 +10,7 @@ type Token struct {
 	Type
 	Lit []byte
 	Pos
-	ForeingAstNode  interface{}
-	ForeingAstError error
+	ForeingAstNode interface{}
 }
 
 type Type int
@@ -95,7 +94,7 @@ var TokMap = TokenMap{
 		"g_sdt_lit",
 		"prodId",
 		"string_lit",
-		"Λ<@>",
+		"g_ctxdep_lit",
 		"Λ<error>",
 		"Λ<λ>",
 		"Λ<empty>",
@@ -124,7 +123,7 @@ var TokMap = TokenMap{
 		"g_sdt_lit":    18,
 		"prodId":       19,
 		"string_lit":   20,
-		"Λ<@>":         21,
+		"g_ctxdep_lit": 21,
 		"Λ<error>":     22,
 		"Λ<λ>":         23,
 		"Λ<empty>":     24,

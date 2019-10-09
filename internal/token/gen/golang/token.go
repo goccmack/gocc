@@ -76,7 +76,6 @@ type Token struct {
 	Lit []byte
 	Pos
 	ForeingAstNode  interface{}
-	ForeingAstError error
 }
 
 type Type int

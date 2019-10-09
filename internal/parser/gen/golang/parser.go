@@ -66,6 +66,7 @@ package parser
 import (
 	"fmt"
 	"strings"
+  "errors"
 
 	parseError "{{.ErrorImport}}"
 	"{{.TokenImport}}"
@@ -153,6 +154,7 @@ type Parser struct {
 	nextToken   *token.Token
   userContext interface{}
   longest     bool
+  checkPoint  Position
 }
 
 type Scanner interface {
@@ -161,7 +163,7 @@ type Scanner interface {
 
 type Position interface{}
 
-type ContextDependentScanner interface {
+type RepositionableScanner interface {
 	Scanner
   Reposition(p Position)
   CurrentPosition() Position
@@ -189,24 +191,24 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		ErrorSymbols:   p.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
 	}
-	for t, action := range actionTab[p.stack.top()].actions {
+	for t, action := range parserActions.table[p.stack.top()].actions {
 		if action != nil {
 			errorAttrib.ExpectedTokens = append(errorAttrib.ExpectedTokens, token.TokMap.Id(token.Type(t)))
 		}
 	}
 
-	if action := actionTab[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
+	if action := parserActions.table[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
 		p.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
 	} else {
 		return
 	}
 
-	if action := actionTab[p.stack.top()].actions[p.nextToken.Type]; action != nil {
+	if action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]; action != nil {
 		recovered = true
 	}
 	for !recovered && p.nextToken.Type != token.EOF {
 		p.nextToken = scanner.Scan()
-		if action := actionTab[p.stack.top()].actions[p.nextToken.Type]; action != nil {
+		if action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]; action != nil {
 			recovered = true
 		}
 	}
@@ -229,10 +231,10 @@ func (p *Parser) popNonRecoveryStates() (removedAttribs []parseError.ErrorSymbol
 
 // recoveryState points to the highest state on the stack, which can recover
 func (p *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
-	recoveryState, canRecover = p.stack.topIndex(), actionTab[p.stack.top()].canRecover
+	recoveryState, canRecover = p.stack.topIndex(), parserActions.table[p.stack.top()].canRecover
 	for recoveryState > 0 && !canRecover {
 		recoveryState--
-		canRecover = actionTab[p.stack.peek(recoveryState)].canRecover
+		canRecover = parserActions.table[p.stack.peek(recoveryState)].canRecover
 	}
 	return
 }
@@ -243,7 +245,7 @@ func (p *Parser) newError(err error) error {
 		StackTop:   p.stack.top(),
 		ErrorToken: p.nextToken,
 	}
-	actRow := actionTab[p.stack.top()]
+	actRow := parserActions.table[p.stack.top()]
 	for i, t := range actRow.actions {
 		if t != nil {
 			e.ExpectedTokens = append(e.ExpectedTokens, token.TokMap.Id(token.Type(i)))
@@ -254,34 +256,55 @@ func (p *Parser) newError(err error) error {
 
 func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
   p.longest = false
-  return p.parse(scanner)
+  r, e, _ := p.parse(scanner)
+  return r, e
 }
 
 func (p *Parser) ParseLongestPrefix(scanner Scanner) (res interface{}, err error, parsed []byte) {
+  if _, isRepositionable := scanner.(RepositionableScanner); !isRepositionable {
+    return nil, errors.New("scanner not repositionable"), []byte{}
+  }
   p.longest = true
-  r, e := p.parse(scanner)
-  return r, e, []byte{}
+  return p.parse(scanner)
 }
 
-func (p *Parser) parse(scanner Scanner) (res interface{}, err error) {
+func (p *Parser) parse(scanner Scanner) (res interface{}, err error, parsed []byte) {
 	p.Reset()
+  if p.longest {
+    p.checkPoint = scanner.(RepositionableScanner).CurrentPosition()
+  }
 	p.nextToken = scanner.Scan()
 	for acc := false; !acc; {
-		action := actionTab[p.stack.top()].actions[p.nextToken.Type]
+		action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]
 
 		if action == nil {
-
-      if p.longest {
-      }
-
+			for tt, fn := range parserActions.cdTokens {
+				if fn != nil {
+					scanner.(RepositionableScanner).Reposition(p.checkPoint)
+					cd_res, cd_err, cd_parsed := fn(p.userContext)
+					if cd_err == nil && len(cd_parsed) > 0 {
+						action = parserActions.table[p.stack.top()].actions[tt]
+						p.nextToken.ForeingAstNode = cd_res
+						p.nextToken.Lit = cd_parsed
+						break
+					}
+				}
+			}
+    }
+		if action == nil {
+			if p.longest {
+        scanner.(RepositionableScanner).Reposition(p.checkPoint)
+			}
+    }
+    if action == nil {
 			if recovered, errAttrib := p.Error(nil, scanner); !recovered {
 				p.nextToken = errAttrib.ErrorToken
-				return nil, p.newError(nil)
+				return nil, p.newError(nil), []byte{}
 			}
-			if action = actionTab[p.stack.top()].actions[p.nextToken.Type]; action == nil {
+			if action = parserActions.table[p.stack.top()].actions[p.nextToken.Type]; action == nil {
 				panic("Error recovery led to invalid action")
 			}
-		}
+    }
 		{{- if .Debug }}
 		fmt.Printf("S%d %s %s\n", p.stack.top(), token.TokMap.TokenString(p.nextToken), action)
 		{{- end }}
@@ -291,13 +314,20 @@ func (p *Parser) parse(scanner Scanner) (res interface{}, err error) {
 			res = p.stack.popN(1)[0]
 			acc = true
 		case shift:
-			p.stack.push(int(act), p.nextToken)
+      if p.nextToken.ForeingAstNode == nil {
+			  p.stack.push(int(act), p.nextToken)
+      } else {
+			  p.stack.push(int(act), p.nextToken.ForeingAstNode)
+      }
+      if p.longest {
+        p.checkPoint = scanner.(RepositionableScanner).CurrentPosition()
+      }
 			p.nextToken = scanner.Scan()
 		case reduce:
 			prod := productionsTable[int(act)]
 			attrib, err := prod.ReduceFunc(p.userContext, p.stack.popN(prod.NumSymbols))
 			if err != nil {
-				return nil, p.newError(err)
+				return nil, p.newError(err), []byte{}
 			} else {
 				p.stack.push(gotoTab[p.stack.top()][prod.NTType], attrib)
 			}
@@ -305,6 +335,6 @@ func (p *Parser) parse(scanner Scanner) (res interface{}, err error) {
 			panic("unknown action: " + action.String())
 		}
 	}
-	return res, nil
+	return res, nil, []byte{}
 }
 `

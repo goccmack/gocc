@@ -453,13 +453,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Symbol : Λ<@> tokId	<< ast.NewContextDependentTokId(X[1]) >>`,
+		String: `Symbol : tokId g_ctxdep_lit	<< ast.NewContextDependentTokId(X[0],X[1]) >>`,
 		Id:         "Symbol",
 		NTType:     17,
 		Index:      43,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.NewContextDependentTokId(X[1])
+			return ast.NewContextDependentTokId(X[0],X[1])
 		},
 	},
 	ProdTabEntry{

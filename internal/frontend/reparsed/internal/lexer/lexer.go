@@ -15,8 +15,8 @@ import (
 
 const (
 	NoState    = -1
-	NumStates  = 110
-	NumSymbols = 76
+	NumStates  = 114
+	NumSymbols = 79
 )
 
 type position struct {
