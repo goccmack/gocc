@@ -221,17 +221,20 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 			//
 			// If no action, check if we have some context dependent parsing to try
 			//
-			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
-				tokens.GotoCheckPoint(checkPoint)
-				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(scanner.GetStream(), p.userContext)
-				if cd_err == nil && len(cd_parsed) > 0 {
-					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
-					if action != nil {
-						p.nextToken.Foreign = true
-						p.nextToken.ForeignAstNode = cd_res
-						p.nextToken.Lit = cd_parsed
-						p.nextToken.Type = token.Type(cdAction.tokenIndex)
-						break
+			if streamScanner, _ := scanner.(iface.StreamScanner); streamScanner != nil {
+				underlyingStream := streamScanner.GetStream()
+				for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
+					tokens.GotoCheckPoint(checkPoint)
+					cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
+					if cd_err == nil && len(cd_parsed) > 0 {
+						action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
+						if action != nil {
+							p.nextToken.Foreign = true
+							p.nextToken.ForeignAstNode = cd_res
+							p.nextToken.Lit = cd_parsed
+							p.nextToken.Type = token.Type(cdAction.tokenIndex)
+							break
+						}
 					}
 				}
 			}

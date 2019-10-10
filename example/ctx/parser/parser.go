@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "github.com/maxcalandrelli/gocc/example/astx/errors"
-	"github.com/maxcalandrelli/gocc/example/astx/token"
+	parseError "github.com/maxcalandrelli/gocc/example/ctx/errors"
+	"github.com/maxcalandrelli/gocc/example/ctx/token"
 )
 
 const (
-	numProductions = 4
-	numStates      = 5
-	numSymbols     = 6
+	numProductions = 5
+	numStates      = 6
+	numSymbols     = 7
 )
 
 // Stack

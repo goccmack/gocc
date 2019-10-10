@@ -44,7 +44,6 @@ type (
 	Config interface {
 		Help() bool
 		Verbose() bool
-		Zip() bool
 		AllowUnreachable() bool
 		AutoResolveLRConf() bool
 		SourceFile() string
@@ -53,7 +52,6 @@ type (
 		NoLexer() bool
 		DebugLexer() bool
 		DebugParser() bool
-		StockCompiler() bool
 
 		ErrorsDir() string
 		ParserDir() string
@@ -79,8 +77,6 @@ type (
 		pkg               string
 		srcFile           string
 		verbose           *bool
-		zip               *bool
-		stockCompiler     *bool
 	}
 )
 
@@ -114,10 +110,6 @@ func (this *ConfigRecord) Verbose() bool {
 	return *this.verbose
 }
 
-func (this *ConfigRecord) Zip() bool {
-	return *this.zip
-}
-
 func (this *ConfigRecord) AllowUnreachable() bool {
 	return *this.allowUnreachable
 }
@@ -136,10 +128,6 @@ func (this *ConfigRecord) DebugLexer() bool {
 
 func (this *ConfigRecord) DebugParser() bool {
 	return *this.debugParser
-}
-
-func (this *ConfigRecord) StockCompiler() bool {
-	return *this.stockCompiler
 }
 
 func (this *ConfigRecord) SourceFile() string {
@@ -185,7 +173,6 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-p             = %v\n", this.pkg)
 	fmt.Printf("-u             = %v\n", *this.allowUnreachable)
 	fmt.Printf("-v             = %v\n", *this.verbose)
-	fmt.Printf("-zip           = %v\n", *this.zip)
 }
 
 /*** Utility routines ***/
@@ -200,8 +187,6 @@ func (this *ConfigRecord) getFlags() error {
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
-	this.zip = flag.Bool("zip", false, "zip the actiontable and gototable (experimental)")
-	this.stockCompiler = flag.Bool("stock", false, "use the stock compiler from original gocc")
 	flag.Parse()
 
 	if *this.noLexer && *this.debugLexer {

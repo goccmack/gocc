@@ -2,7 +2,10 @@
 
 package parser
 
-import "github.com/maxcalandrelli/gocc/example/astx/ast"
+import (
+		"github.com/maxcalandrelli/gocc/example/ctx/ast"
+		"github.com/maxcalandrelli/gocc/example/ctx/ast"
+	)
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
@@ -58,6 +61,16 @@ var productionsTable = ProdTab{
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
 			return ast.NewStmt(X[0])
+		},
+	},
+	ProdTabEntry{
+		String: `Stmt : "calc"	<< ast.Calc(X[0]) >>`,
+		Id:         "Stmt",
+		NTType:     2,
+		Index:      4,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib) (Attrib, error) {
+			return ast.Calc(X[0])
 		},
 	},
 }

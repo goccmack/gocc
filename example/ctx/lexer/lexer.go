@@ -6,13 +6,13 @@ import (
 	"io/ioutil"
 	"unicode/utf8"
 
-	"github.com/maxcalandrelli/gocc/example/astx/token"
+	"github.com/maxcalandrelli/gocc/example/ctx/token"
 )
 
 const (
 	NoState    = -1
-	NumStates  = 7
-	NumSymbols = 10
+	NumStates  = 11
+	NumSymbols = 14
 )
 
 type Lexer struct {
@@ -114,13 +114,17 @@ func (l *Lexer) Reset() {
 /*
 Lexer symbols:
 0: '_'
-1: '_'
-2: ' '
-3: '\t'
-4: '\n'
-5: '\r'
-6: 'a'-'z'
-7: 'A'-'Z'
-8: '0'-'9'
-9: .
+1: 'c'
+2: 'a'
+3: 'l'
+4: 'c'
+5: '_'
+6: ' '
+7: '\t'
+8: '\n'
+9: '\r'
+10: 'a'-'z'
+11: 'A'-'Z'
+12: '0'-'9'
+13: .
 */

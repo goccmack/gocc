@@ -34,6 +34,6 @@ func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.
 	golang.GenErrors(pkg, outDir, subpath)
 	golang.GenGotoTable(outDir, itemsets, symbols, subpath)
 	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg, subpath)
-	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap, subpath)
+	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap, subpath, cfg)
 	return
 }

@@ -165,18 +165,16 @@ func (l *Lexer) Scan() (tok *token.Token) {
   		l.position.Pos.Offset += size
     }
 		nextState := -1
-    if err == nil {
-  		if curr != INVALID_RUNE {
-  			nextState = TransTab[state](curr)
-  		}
-  		{{- if .Debug}}
-  		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(curr), curr, nextState)
-  		fmt.Printf("\t\tpos=%d, size=%d, start=%d\n", l.position.Pos.Offset, size, start.Pos.Offset)
-  		if nextState != -1 {
-  			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
-  		}
-  		{{- end}}
-    }
+		if curr != INVALID_RUNE {
+			nextState = TransTab[state](curr)
+		}
+		{{- if .Debug}}
+		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(curr), curr, nextState)
+		fmt.Printf("\t\tpos=%d, size=%d, start=%d\n", l.position.Pos.Offset, size, start.Pos.Offset)
+		if nextState != -1 {
+			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
+		}
+		{{- end}}
 		state = nextState
 		if state != -1 {
     	switch curr {
@@ -199,7 +197,7 @@ func (l *Lexer) Scan() (tok *token.Token) {
 				state = 0
 				tok.Lit = []byte{}
 			}
-		} else {
+		} else if curr != INVALID_RUNE {
       l.stream.UnreadRune()
     }
   	if err == io.EOF && len(tok.Lit)==0 {

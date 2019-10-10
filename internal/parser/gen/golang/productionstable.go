@@ -21,6 +21,8 @@ import (
 	"path"
 	"text/template"
 
+	"github.com/maxcalandrelli/gocc/internal/config"
+
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	"github.com/maxcalandrelli/gocc/internal/io"
 	"github.com/maxcalandrelli/gocc/internal/parser/lr1/items"
@@ -29,7 +31,7 @@ import (
 )
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap, subpath string) {
+	itemsets *items.ItemSets, tokMap *token.TokenMap, subpath string, cfg config.Config) {
 
 	fname := path.Join(outDir, subpath, "parser", "productionstable.go")
 	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc[1:])
@@ -37,9 +39,16 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	if err := tmpl.Execute(wr, getProdsTab(header, prods, symbols, itemsets, tokMap)); err != nil {
+	pTab := getProdsTab(header, prods, symbols, itemsets, tokMap)
+	pTab.Pkg = pkg
+	pTab.Outdir = outDir
+	pTab.Subpath = subpath
+	pTab.Config = cfg
+
+	if err := tmpl.Execute(wr, pTab); err != nil {
 		panic(err)
 	}
+
 	source, err := format.Source(wr.Bytes())
 	if err != nil {
 		panic(err)
@@ -86,6 +95,10 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 type prodsTabData struct {
 	Header  string
 	ProdTab []prodTabEntry
+	Pkg     string
+	Outdir  string
+	Subpath string
+	Config  config.Config
 }
 
 type prodTabEntry struct {

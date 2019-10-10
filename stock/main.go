@@ -122,7 +122,7 @@ func main() {
 
 	genToken.Gen(cfg.Package(), outdir_base, tokenMap, subpath)
 	genUtil.Gen(outdir_base, subpath)
-	genBase.Gen(cfg.Package(), outdir_base, subpath)
+	genBase.Gen(cfg.Package(), outdir_base, subpath, cfg)
 	genIo.Gen(cfg.Package(), outdir_base, subpath)
 }
 

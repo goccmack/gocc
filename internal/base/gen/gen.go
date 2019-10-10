@@ -16,8 +16,9 @@ package gen
 
 import (
 	"github.com/maxcalandrelli/gocc/internal/base/gen/golang"
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
-func Gen(pkg, outdir, subpath string) {
-	golang.Gen(pkg, outdir, subpath)
+func Gen(pkg, outdir, subpath string, cfg config.Config) {
+	golang.Gen(pkg, outdir, subpath, cfg)
 }

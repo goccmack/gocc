@@ -14,11 +14,11 @@ id : (_letter | '_') {_idchar} ;
 
 << import "github.com/maxcalandrelli/gocc/example/astx/ast" >>
 
-StmtList : 
+StmtList :
       Stmt             << ast.NewStmtList($0) >>
     | StmtList Stmt    << ast.AppendStmt($0, $1) >>
 ;
 
-Stmt : 
+Stmt :
       id               << ast.NewStmt($0) >>
 ;

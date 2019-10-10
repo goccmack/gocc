@@ -20,6 +20,8 @@ import (
 	"path"
 	"text/template"
 
+	"github.com/maxcalandrelli/gocc/internal/config"
+
 	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
@@ -28,18 +30,22 @@ type data struct {
 	Pkg     string
 	Outdir  string
 	Subpath string
+	Config  config.Config
 }
 
-func Gen(pkg, outdir, subpath string) {
+func Gen(pkg, outdir, subpath string, cfg config.Config) {
 	baseName := path.Base(outdir)
 	d := data{
 		MyName:  baseName,
 		Pkg:     pkg,
 		Outdir:  outdir,
 		Subpath: subpath,
+		Config:  cfg,
 	}
-	genBase(d)
-	genMain(d)
+	if !cfg.NoLexer() {
+		genBase(d)
+		genMain(d)
+	}
 	genIface(d)
 }
 
@@ -227,6 +233,9 @@ import (
 type (
   Scanner interface {
   	Scan() (tok *token.Token)
+  }
+
+  StreamScanner interface {
     GetStream() TokenStream
   }
 

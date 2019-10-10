@@ -94,11 +94,9 @@ func (l *Lexer) Scan() (tok *token.Token) {
   		l.position.Pos.Offset += size
     }
 		nextState := -1
-    if err == nil {
-  		if curr != INVALID_RUNE {
-  			nextState = TransTab[state](curr)
-  		}
-    }
+		if curr != INVALID_RUNE {
+			nextState = TransTab[state](curr)
+		}
 		state = nextState
 		if state != -1 {
     	switch curr {
@@ -121,7 +119,7 @@ func (l *Lexer) Scan() (tok *token.Token) {
 				state = 0
 				tok.Lit = []byte{}
 			}
-		} else {
+		} else if curr != INVALID_RUNE {
       l.stream.UnreadRune()
     }
   	if err == io.EOF && len(tok.Lit)==0 {

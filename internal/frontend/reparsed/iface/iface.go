@@ -10,6 +10,9 @@ import (
 type (
 	Scanner interface {
 		Scan() (tok *token.Token)
+	}
+
+	StreamScanner interface {
 		GetStream() TokenStream
 	}
 

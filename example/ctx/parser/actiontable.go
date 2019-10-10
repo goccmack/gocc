@@ -17,6 +17,7 @@ var actionTab = actionTable{
 			nil,      // INVALID
 			nil,      // $
 			shift(3), // id
+			shift(4), // calc
 		},
 	},
 	actionRow{ // S1
@@ -25,6 +26,7 @@ var actionTab = actionTable{
 			nil,          // INVALID
 			accept(true), // $
 			shift(3),     // id
+			shift(4),     // calc
 		},
 	},
 	actionRow{ // S2
@@ -33,6 +35,7 @@ var actionTab = actionTable{
 			nil,       // INVALID
 			reduce(1), // $, reduce: StmtList
 			reduce(1), // id, reduce: StmtList
+			reduce(1), // calc, reduce: StmtList
 		},
 	},
 	actionRow{ // S3
@@ -41,14 +44,25 @@ var actionTab = actionTable{
 			nil,       // INVALID
 			reduce(3), // $, reduce: Stmt
 			reduce(3), // id, reduce: Stmt
+			reduce(3), // calc, reduce: Stmt
 		},
 	},
 	actionRow{ // S4
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
+			reduce(4), // $, reduce: Stmt
+			reduce(4), // id, reduce: Stmt
+			reduce(4), // calc, reduce: Stmt
+		},
+	},
+	actionRow{ // S5
+		canRecover: false,
+		actions: [numSymbols]action{
+			nil,       // INVALID
 			reduce(2), // $, reduce: StmtList
 			reduce(2), // id, reduce: StmtList
+			reduce(2), // calc, reduce: StmtList
 		},
 	},
 }

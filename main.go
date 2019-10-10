@@ -86,7 +86,7 @@ func main() {
 	}
 
 	if cfg.Help() {
-		fmt.Fprintf(os.Stderr, "gocc version 1.1.0006\n")
+		fmt.Fprintf(os.Stderr, "gocc version 1.1.0011\n")
 		flag.Usage()
 	}
 
@@ -96,16 +96,6 @@ func main() {
 		grammar interface{}
 	)
 	ast.StringGetter = func(v interface{}) string { return string(v.(*altfe.Token).Lit) }
-	/*
-		srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		scanner := altfe.NewLexer(srcBuffer)
-		p := altfe.NewParser()
-		grammar, err = p.Parse(scanner)
-	*/
 	grammar, err, _ = altfe.ParseFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err)
@@ -153,7 +143,7 @@ func main() {
 
 	genToken.Gen(cfg.Package(), outdir_base, tokenMap, subpath)
 	genUtil.Gen(outdir_base, subpath)
-	genBase.Gen(cfg.Package(), outdir_base, subpath)
+	genBase.Gen(cfg.Package(), outdir_base, subpath, cfg)
 	genIo.Gen(cfg.Package(), outdir_base, subpath)
 }
 

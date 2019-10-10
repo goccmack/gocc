@@ -5,7 +5,7 @@ package lexer
 import (
 	"fmt"
 
-	"github.com/maxcalandrelli/gocc/example/astx/token"
+	"github.com/maxcalandrelli/gocc/example/ctx/token"
 )
 
 type ActionTable [NumStates]ActionRow
@@ -46,6 +46,22 @@ var ActTab = ActionTable{
 	},
 	ActionRow{ // S6
 		Accept: 2,
+		Ignore: "",
+	},
+	ActionRow{ // S7
+		Accept: 2,
+		Ignore: "",
+	},
+	ActionRow{ // S8
+		Accept: 2,
+		Ignore: "",
+	},
+	ActionRow{ // S9
+		Accept: 2,
+		Ignore: "",
+	},
+	ActionRow{ // S10
+		Accept: 3,
 		Ignore: "",
 	},
 }
