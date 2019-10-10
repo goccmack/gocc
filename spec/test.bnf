@@ -1,7 +1,7 @@
 !comment      : _lineComment | _blockComment ;
 !whitespace : ' ' | '\t' | '\n' | '\r' ;
 
-_lineComment : '/' '/' {.} '\n' ;
+_lineComment : '$' '/' '/' {.} '\n' ;
 _blockComment : '/' '*' {. | '*'} '*' '/' ;
 _tokId : _lowcase {_id_char} ;
 _lowcase : 'a'-'z' ;
@@ -24,7 +24,7 @@ Test :
 ;
 
 Test1:
- "try" Test2
+ "try" Test2  << $1, nil >>
 ;
 
 Test2 : Test3 | Test1;
@@ -60,17 +60,18 @@ X:
 								count++
 							default:
 								Stream.UnreadRune()
-								fmt.Printf("count=%d rune=<%c> ret=%s\n", count, r, string(ret))
+								fmt.Printf("count=%d rune=<%c> ret=<%s>\n", count, r, string(ret))
 								return count, nil, ret
 						}
 					}
 					return nil, nil, []byte{}
 				}()
 		@@
+		Test2
 			<<
 				func () (interface{}, error) {
-					fmt.Printf("$0=%q\n$1=%q\n", $0, $1)
-					return nil, nil
+					fmt.Printf("$0=%#v\n$1=%#v\n", $0, $1)
+					return "buongiorno", nil
 				} ()
 			>>
 ;

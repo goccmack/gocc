@@ -106,7 +106,7 @@ func main() {
 		p := altfe.NewParser()
 		grammar, err = p.Parse(scanner)
 	*/
-	grammar, err = altfe.ParseFile(cfg.SourceFile())
+	grammar, err, _ = altfe.ParseFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err)
 		os.Exit(1)

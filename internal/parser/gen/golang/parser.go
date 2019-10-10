@@ -46,8 +46,8 @@ func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.Ite
 
 type parserData struct {
 	Debug          bool
-	ErrorImport    string
-	TokenImport    string
+	PkgPath        string
+	SubPath        string
 	NumProductions int
 	NumStates      int
 	NumSymbols     int
@@ -57,8 +57,8 @@ type parserData struct {
 func getParserData(pkg, subpath string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) *parserData {
 	return &parserData{
 		Debug:          cfg.DebugParser(),
-		ErrorImport:    path.Join(pkg, subpath, "errors"),
-		TokenImport:    path.Join(pkg, subpath, "token"),
+		PkgPath:        pkg,
+		SubPath:        subpath,
 		NumProductions: len(prods),
 		NumStates:      itemSets.Size(),
 		NumSymbols:     symbols.NumSymbols(),
@@ -73,12 +73,12 @@ package parser
 
 import (
 	"fmt"
-  "io"
 	"strings"
   "errors"
 
-	parseError "{{.ErrorImport}}"
-	"{{.TokenImport}}"
+	parseError "{{.PkgPath}}/{{.SubPath}}/errors"
+	"{{.PkgPath}}/{{.SubPath}}/token"
+	"{{.PkgPath}}/iface"
 )
 
 const (
@@ -164,12 +164,7 @@ type Parser struct {
   userContext interface{}
 }
 
-type Scanner interface {
-	Scan() (tok *token.Token)
-  GetStream () io.Reader
-}
-
-type TokenStream = token.TokenStream
+type TokenStream = iface.TokenStream
 
 {{- range $c := .CdTokList }}
 {{ printf "func cdFunc_%s (Stream TokenStream, Context interface{}) (interface{}, error, []byte) {return %s}" $c.SymbolString $c.ContexDependentParseFunctionCall }}
@@ -191,7 +186,7 @@ func (p *Parser) Reset() {
 	p.stack.push(0, nil)
 }
 
-func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib *parseError.Error) {
+func (p *Parser) Error(err error, scanner iface.Scanner) (recovered bool, errorAttrib *parseError.Error) {
 	errorAttrib = &parseError.Error{
 		Err:            err,
 		ErrorToken:     p.nextToken,
@@ -261,42 +256,39 @@ func (p *Parser) newError(err error) error {
 	return e
 }
 
-func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
-  r, e, _ := p.parse(scanner, false)
-  return r, e
+func (p *Parser) Parse(scanner iface.Scanner) (res interface{}, err error, ptl int) {
+  return p.parse(scanner, false)
 }
 
-func (p *Parser) ParseLongestPrefix(scanner Scanner) (res interface{}, err error, parsed []byte) {
+func (p *Parser) ParseLongestPrefix(scanner iface.Scanner) (res interface{}, err error, ptl int) {
   return p.parse(scanner, true)
 }
 
 var errNotRepositionable = errors.New("scanner not repositionable")
 
 
-func (p *Parser) parse(scanner Scanner, longest bool) (res interface{}, err error, parsed []byte) {
+func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, err error, ptl int) {
   var (
-    tokens     TokenStream
-    afterPos   int64
-    checkPoint int64
+    tokens     iface.CheckPointable
+    afterPos   iface.CheckPoint
+    checkPoint iface.CheckPoint
   )
   readNextToken := func () error {
     if tokens == nil && (len(parserActions.table[p.stack.top()].cdActions) > 0 || longest) {
-      if tokens, _ = scanner.GetStream().(TokenStream); tokens == nil {
-        return errNotRepositionable
-      }
+      return errNotRepositionable
     }
-    if len(parserActions.table[p.stack.top()].cdActions) > 0 {
-      checkPoint, _ = tokens.Seek (0, io.SeekCurrent)
-    }
+    checkPoint = tokens.GetCheckPoint()
   	p.nextToken = scanner.Scan()
     if longest {
-      afterPos , _ = tokens.Seek (0, io.SeekCurrent)
+      afterPos = tokens.GetCheckPoint()
     }
     return nil
   }
 	p.Reset()
+  tokens, _ = scanner.(iface.CheckPointable)
+  startCp := tokens.GetCheckPoint()
   if err := readNextToken(); err != nil {
-    return nil, err, []byte{}
+    return nil, err, tokens.GetCheckPoint().DistanceFrom(startCp)
   }
 	for acc := false; !acc; {
 		action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]
@@ -305,14 +297,15 @@ func (p *Parser) parse(scanner Scanner, longest bool) (res interface{}, err erro
       // If no action, check if we have some context dependent parsing to try
       //
 			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
-				tokens.Seek(checkPoint, io.SeekStart)
-				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(tokens, p.userContext)
+				tokens.GotoCheckPoint (checkPoint)
+				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(scanner.GetStream(), p.userContext)
 				if cd_err == nil && len(cd_parsed) > 0 {
 					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
           if action != nil {
             p.nextToken.Foreign = true
             p.nextToken.ForeignAstNode = cd_res
   					p.nextToken.Lit = cd_parsed
+            p.nextToken.Type = token.Type(cdAction.tokenIndex)
 					  break
           }
 				}
@@ -326,13 +319,16 @@ func (p *Parser) parse(scanner Scanner, longest bool) (res interface{}, err erro
     //  Dirty, dirty, dirty... but I found it as it is, and I prefer not to touch
     //
 		if action == nil && longest {
-			tokens.Seek(checkPoint, io.SeekStart)
+			tokens.GotoCheckPoint(checkPoint)
       action = parserActions.table[p.stack.top()].actions[token.EOF]
       if action == nil {
         //
         //  ok, let's consume the token then
         //
-				tokens.Seek(afterPos, io.SeekStart)
+    		{{- if .Debug }}
+    		fmt.Printf("S%d unrecognized=<%#v> restoring checkpoint at %#v => %s\n", p.stack.top(), p.nextToken, afterPos, action)
+    		{{- end }}
+				tokens.GotoCheckPoint(afterPos)
       }
     }
 
@@ -342,7 +338,7 @@ func (p *Parser) parse(scanner Scanner, longest bool) (res interface{}, err erro
     if action == nil {
 			if recovered, errAttrib := p.Error(nil, scanner); !recovered {
 				p.nextToken = errAttrib.ErrorToken
-				return nil, p.newError(nil), []byte{}
+				return nil, p.newError(nil), tokens.GetCheckPoint().DistanceFrom(startCp)
 			}
 			if action = parserActions.table[p.stack.top()].actions[p.nextToken.Type]; action == nil {
 				panic("Error recovery led to invalid action")
@@ -362,13 +358,13 @@ func (p *Parser) parse(scanner Scanner, longest bool) (res interface{}, err erro
 			  p.stack.push(int(act), p.nextToken.ForeignAstNode)
       }
       if err := readNextToken(); err != nil {
-        return nil, err, []byte{}
+        return nil, err, tokens.GetCheckPoint().DistanceFrom(startCp)
       }
 		case reduce:
 			prod := productionsTable[int(act)]
 			attrib, err := prod.ReduceFunc(p.userContext, p.stack.popN(prod.NumSymbols))
 			if err != nil {
-				return nil, p.newError(err), []byte{}
+				return nil, p.newError(err), tokens.GetCheckPoint().DistanceFrom(startCp)
 			} else {
 				p.stack.push(gotoTab[p.stack.top()][prod.NTType], attrib)
 			}
@@ -376,6 +372,6 @@ func (p *Parser) parse(scanner Scanner, longest bool) (res interface{}, err erro
 			panic("unknown action: " + action.String())
 		}
 	}
-	return res, nil, []byte{}
+	return res, nil, tokens.GetCheckPoint().DistanceFrom(startCp)
 }
 `

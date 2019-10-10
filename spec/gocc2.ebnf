@@ -15,8 +15,9 @@
 !comment      : _lineComment | _blockComment ;
 !whitespace : ' ' | '\t' | '\n' | '\r' ;
 
+_line_Comment : '/' '/' { ' ' } '\n' ;
 _lineComment : '/' '/' {.} '\n' ;
-_blockComment : '/' '*' {. | '*'} '*' '/' ;
+_blockComment : '/' '*' { . | '*' } '*' '/' ;
 _tokId : _lowcase {_id_char} ;
 _lowcase : 'a'-'z' ;
 _id_char : _upcase | _lowcase | '_' | _digit ;

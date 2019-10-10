@@ -79,7 +79,7 @@ func (s *impl_WindowReader) ReadByte() (byte, error) {
 func (s *impl_WindowReader) PeekByte() (byte, error) {
 	s.lockReader()
 	defer func() { s.unlockReader() }()
-	return s.PeekByte()
+	return s.peekByte()
 }
 
 func (s *impl_WindowReader) UnreadByte() error {

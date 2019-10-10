@@ -345,7 +345,7 @@ func (s *impl_WindowReader) unreadRune() (err error) {
 	tmpb := []byte{}
 	for {
 		if _, err = tmps.seek(-1, io.SeekCurrent); err == nil {
-			b, _ := tmps.PeekByte()
+			b, _ := tmps.peekByte()
 			tmpb = append([]byte{b}, tmpb...)
 			switch len(tmpb) {
 			case 1:
@@ -468,7 +468,7 @@ func (s *impl_WindowReader) ReadByte() (byte, error) {
 func (s *impl_WindowReader) PeekByte() (byte, error) {
 	s.lockReader()
 	defer func() { s.unlockReader() }()
-	return s.PeekByte()
+	return s.peekByte()
 }
 
 func (s *impl_WindowReader) UnreadByte() error {

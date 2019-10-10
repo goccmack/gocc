@@ -5,6 +5,7 @@ package reparsed
 import (
 	"io"
 
+	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/iface"
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/io/stream"
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/lexer"
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/parser"
@@ -13,25 +14,31 @@ import (
 
 type (
 	Token        = token.Token
-	TokenStream  = token.TokenStream
+	Lexer        = lexer.Lexer
+	Parser       = parser.Parser
+	TokenStream  = iface.TokenStream
 	WindowReader = stream.WindowReader
-	Scanner      = parser.Scanner
+	Scanner      = iface.Scanner
 )
 
-func ParseFile(fpath string) (interface{}, error) {
+func ParseFile(fpath string) (interface{}, error, int) {
 	if lexer, err := NewLexerFile(fpath); err == nil {
 		return NewParser().Parse(lexer)
 	} else {
-		return nil, err
+		return nil, err, 0
 	}
 }
 
-func ParseText(text string) (interface{}, error) {
+func ParseText(text string) (interface{}, error, int) {
 	return NewParser().Parse(NewLexerBytes([]byte(text)))
 }
 
 func NewLexerBytes(src []byte) *lexer.Lexer {
 	return lexer.NewLexerBytes(src)
+}
+
+func NewLexerString(src string) *lexer.Lexer {
+	return lexer.NewLexerBytes([]byte(src))
 }
 
 func NewLexerFile(fpath string) (*lexer.Lexer, error) {

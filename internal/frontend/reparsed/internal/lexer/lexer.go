@@ -3,36 +3,37 @@
 package lexer
 
 import (
-
+  
   "io"
   "bytes"
   "os"
 
-
-"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token"
-"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/io/stream"
+  
+  "github.com/maxcalandrelli/gocc/internal/frontend/reparsed/iface"
+  "github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token"
+  "github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/io/stream"
 )
 
 const (
 	NoState    = -1
 	NumStates  = 114
-	NumSymbols = 79
+	NumSymbols = 83
+  INVALID_RUNE = rune(-1)
 )
 
 type position struct {
 	token.Pos
-	StreamPosition int64
 }
 
 type Lexer struct {
 	position
-	stream token.TokenStream
-	eof    bool
+	stream   iface.TokenStream
+	eof      bool
 }
 
 func NewLexerBytes(src []byte) *Lexer {
 	lexer := &Lexer{stream: bytes.NewReader(src)}
-	lexer.position.Reset()
+	lexer.reset()
 	return lexer
 }
 
@@ -42,95 +43,92 @@ func NewLexerFile(fpath string) (*Lexer, error) {
 		return nil, err
 	}
 	lexer := &Lexer{stream: stream.NewWindowReader(s)}
-	lexer.position.Reset()
+	lexer.reset()
 	return lexer, nil
 }
 
 func NewLexer(reader io.Reader) (*Lexer, error) {
 	lexer := &Lexer{}
-	lexer.position.Reset()
-	if lexer.stream, _ = reader.(token.TokenStream); lexer.stream == nil {
+	lexer.reset()
+	if lexer.stream, _ = reader.(iface.TokenStream); lexer.stream == nil {
 		lexer.stream = stream.NewWindowReader(reader)
-	} else {
-		lexer.position.StreamPosition, _ = lexer.stream.Seek(0, io.SeekCurrent)
 	}
 	return lexer, nil
 }
 
-func (l Lexer) GetStream() io.Reader {
+func (l *Lexer) reset () {
+  l.position.Reset()
+}
+
+func (l Lexer) GetStream() iface.TokenStream {
   return l.stream
+}
+
+type checkPoint int64
+
+func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
+  return int (c - o.(checkPoint))
+}
+
+func (l Lexer) GetCheckPoint() iface.CheckPoint {
+  pos, _ := l.stream.Seek(0, io.SeekCurrent)
+  return checkPoint(pos)
+}
+
+func (l Lexer) GotoCheckPoint(cp iface.CheckPoint) {
+  l.stream.Seek(int64(cp.(checkPoint)), io.SeekStart)
 }
 
 func (l *Lexer) Scan() (tok *token.Token) {
 	tok = new(token.Token)
-	if l.eof {
-		tok.Type = token.EOF
-		tok.Pos = l.position.Pos
-		return
-	}
-	l.position.StreamPosition, _ = l.stream.Seek(0, io.SeekCurrent)
-	start, end := l.position, position{}
 	tok.Type = token.INVALID
 	tok.Lit = []byte{}
-	state, rune1 := 0, rune(-1)
-	for state != -1 {
-		if l.eof {
-			rune1 = -1
-		} else {
-			rune2, size, err := l.stream.ReadRune()
-			if err == io.EOF {
-				l.eof = true
-				err = nil
-			}
-			if err == nil && size > 0 {
-				rune1 = rune2
-				l.position.StreamPosition += int64(size)
-				l.position.Pos.Offset += size
-			}
-		}
-
+  start := l.position
+  state := 0
+	for state != -1  {
+	  curr, size, err := l.stream.ReadRune()
+    if size < 1 || err != nil {
+      curr = INVALID_RUNE
+    }
+		if size > 0 {
+  		l.position.Pos.Offset += size
+    }
 		nextState := -1
-		if rune1 != -1 {
-			nextState = TransTab[state](rune1)
-		}
+    if err == nil {
+  		if curr != INVALID_RUNE {
+  			nextState = TransTab[state](curr)
+  		}
+    }
 		state = nextState
-
 		if state != -1 {
-			switch rune1 {
-			case '\n':
-				l.position.Pos.Line++
-				l.position.Pos.Column = 1
-			case '\r':
-				l.position.Pos.Column = 1
-			case '\t':
-				l.position.Pos.Column += 4
-			default:
-				l.position.Pos.Column++
-			}
-
+    	switch curr {
+    	case '\n':
+    		l.position.Pos.Line++
+    		l.position.Pos.Column = 1
+    	case '\r':
+    		l.position.Pos.Column = 1
+    	case '\t':
+    		l.position.Pos.Column += 4
+    	default:
+    		l.position.Pos.Column++
+    	}
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
-				l.position.StreamPosition, _ = l.stream.Seek(0, io.SeekCurrent)
-				end = l.position
-				tok.Lit = append(tok.Lit, string(rune1)...)
+				tok.Lit = append(tok.Lit, string(curr)...)
 			case ActTab[state].Ignore != "":
 				start = l.position
 				state = 0
 				tok.Lit = []byte{}
-				if l.eof {
-					tok.Type = token.EOF
-				}
-
 			}
 		} else {
-			if tok.Type == token.INVALID {
-				end = l.position
-			}
-		}
-	}
-	if end.Pos.Offset > start.Pos.Offset {
-		l.Reposition(end)
+      l.stream.UnreadRune()
+    }
+  	if err == io.EOF && len(tok.Lit)==0 {
+  		tok.Type = token.EOF
+  		tok.Pos = start.Pos
+  		return
+  	}
 	}
 	tok.Pos = start.Pos
 	return
@@ -138,11 +136,6 @@ func (l *Lexer) Scan() (tok *token.Token) {
 
 func (l *Lexer) Reset() {
 	l.position.Reset()
-}
-
-func (l *Lexer) Reposition(p position) {
-	l.position = p
-	l.stream.Seek(l.position.StreamPosition, io.SeekStart)
 }
 
 func (l Lexer) CurrentPosition() position {

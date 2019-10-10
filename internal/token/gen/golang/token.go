@@ -69,15 +69,7 @@ package token
 
 import (
 	"fmt"
-  "io"
 )
-
-type TokenStream interface {
-  io.Reader
-	io.RuneScanner
-	io.Seeker
-}
-
 
 type Token struct {
 	Type
