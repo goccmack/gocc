@@ -16,48 +16,52 @@ package golang
 
 import (
 	"bytes"
+	"fmt"
 	"go/format"
 	"path"
 	"text/template"
 
 	"github.com/maxcalandrelli/gocc/internal/config"
-
 	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
 type data struct {
-	MyName  string
-	Pkg     string
-	Outdir  string
-	Subpath string
-	Config  config.Config
+	MyName             string
+	Pkg                string
+	Outdir             string
+	InternalSubdir     string
+	Config             config.Config
+	HasSyntax          bool
+	IfaceDir           string
+	ExportWindowReader bool
 }
 
-func Gen(pkg, outdir, subpath string, cfg config.Config) {
-	baseName := path.Base(outdir)
+func Gen(pkg, outdir, internal, iface string, cfg config.Config, hasSyntax bool) {
 	d := data{
-		MyName:  baseName,
-		Pkg:     pkg,
-		Outdir:  outdir,
-		Subpath: subpath,
-		Config:  cfg,
+		MyName:             cfg.ProjectName(),
+		Pkg:                pkg,
+		Outdir:             outdir,
+		InternalSubdir:     internal,
+		Config:             cfg,
+		HasSyntax:          hasSyntax,
+		IfaceDir:           iface,
+		ExportWindowReader: false,
 	}
-	if !cfg.NoLexer() {
-		genBase(d)
+	if !cfg.NoLexer() && hasSyntax {
 		genMain(d)
 	}
+	genBase(d)
 	genIface(d)
 }
 
 func genBase(d data) {
-	basePath := path.Join(d.Outdir, d.MyName+".go")
+	basePath := path.Join(d.Outdir, "grammar.go")
 	tmpl, err := template.New(d.MyName).Parse(baseSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
 	err = tmpl.Execute(buf, d)
-	// Use go/format to indent the idMap literal correctly.
 	source, err := format.Source(buf.Bytes())
 	if err != nil {
 		panic(err)
@@ -82,7 +86,7 @@ func genMain(d data) {
 }
 
 func genIface(d data) {
-	basePath := path.Join(d.Outdir, "iface", "iface.go")
+	basePath := path.Join(d.Outdir, d.IfaceDir, fmt.Sprintf("%s.go", d.MyName))
 	tmpl, err := template.New(d.MyName).Parse(ifaceSrc[1:])
 	if err != nil {
 		panic(err)
@@ -103,24 +107,53 @@ const baseSrc string = `
 package {{.MyName}}
 
 import (
+  {{- if not .Config.NoLexer }}
   "io"
+  {{- end}}
 
-  "{{.Pkg}}/{{.Subpath}}/token"
-  "{{.Pkg}}/{{.Subpath}}/lexer"
-  "{{.Pkg}}/{{.Subpath}}/parser"
-  "{{.Pkg}}/{{.Subpath}}/io/stream"
-  "{{.Pkg}}/iface"
+  "{{.Pkg}}/{{.InternalSubdir}}/token"
+  {{- if not .Config.NoLexer }}
+  "{{.Pkg}}/{{.InternalSubdir}}/lexer"
+  {{- end}}
+  {{- if .HasSyntax}}
+  "{{.Pkg}}/{{.InternalSubdir}}/errors"
+  "{{.Pkg}}/{{.InternalSubdir}}/parser"
+  {{- end}}
+  {{- if .ExportWindowReader }}
+  "{{.Pkg}}/{{.InternalSubdir}}/io/stream"
+  {{- end}}
+)
+
+const (
+  INVALID = token.INVALID
+  EOF = token.EOF
 )
 
 type (
   Token = token.Token
+  TokenMap = token.TokenMap
+  Pos = token.Pos
+  {{- if .HasSyntax}}
+  ErrorSymbol = errors.ErrorSymbol
+  Error = errors.Error
+  {{- end}}
+  {{- if not .Config.NoLexer }}
   Lexer = lexer.Lexer
-  Parser = parser.Parser
-	TokenStream = iface.TokenStream
+  {{- end}}
+  {{- if .ExportWindowReader }}
   WindowReader = stream.WindowReader
-  Scanner = iface.Scanner
+  {{- end}}
+  {{- if .HasSyntax}}
+  Parser = parser.Parser
+  {{- end}}
 )
 
+{{- if .HasSyntax}}
+func NewParser() *parser.Parser {
+  return parser.NewParser()
+}
+
+{{- if not .Config.NoLexer }}
 
 func ParseFile(fpath string) (interface{}, error, int) {
   if lexer, err := NewLexerFile(fpath); err == nil {
@@ -130,9 +163,83 @@ func ParseFile(fpath string) (interface{}, error, int) {
   }
 }
 
-func ParseText(text string) (interface{}, error, int) {
+func ParseText(text string, userData interface{}) (interface{}, error, int) {
   return NewParser().Parse(NewLexerBytes([]byte(text)))
 }
+
+func Parse(stream io.Reader) (interface{}, error, int) {
+  lex, err := NewLexer(stream)
+  if lex == nil {
+    return nil, err, 0
+  }
+  return NewParser().Parse(lex)
+}
+
+func ParseFileWithData(fpath string, userData interface{}) (interface{}, error, int) {
+  if lexer, err := NewLexerFile(fpath); err == nil {
+    return NewParser().SetContext(userData).Parse(lexer)
+  } else {
+    return nil, err, 0
+  }
+}
+
+func ParseStringWithData(text string, userData interface{}) (interface{}, error, int) {
+  return NewParser().SetContext(userData).Parse(NewLexerBytes([]byte(text)))
+}
+
+func ParseWithData(stream io.Reader, userData interface{}) (interface{}, error, int) {
+  lex, err := NewLexer(stream)
+  if lex == nil {
+    return nil, err, 0
+  }
+  return NewParser().SetContext(userData).Parse(lex)
+}
+
+
+func ParseFilePartial(fpath string) (interface{}, error, int) {
+  if lexer, err := NewLexerFile(fpath); err == nil {
+    return NewParser().ParseLongestPrefix(lexer)
+  } else {
+    return nil, err, 0
+  }
+}
+
+func ParseTextPartial(text string, userData interface{}) (interface{}, error, int) {
+  return NewParser().ParseLongestPrefix(NewLexerBytes([]byte(text)))
+}
+
+func ParsePartial(stream io.Reader) (interface{}, error, int) {
+  lex, err := NewLexer(stream)
+  if lex == nil {
+    return nil, err, 0
+  }
+  return NewParser().ParseLongestPrefix(lex)
+}
+
+func ParseFileWithDataPartial(fpath string, userData interface{}) (interface{}, error, int) {
+  if lexer, err := NewLexerFile(fpath); err == nil {
+    return NewParser().SetContext(userData).ParseLongestPrefix(lexer)
+  } else {
+    return nil, err, 0
+  }
+}
+
+func ParseStringWithDataPartial(text string, userData interface{}) (interface{}, error, int) {
+  return NewParser().SetContext(userData).ParseLongestPrefix(NewLexerBytes([]byte(text)))
+}
+
+func ParseWithDataPartial(stream io.Reader, userData interface{}) (interface{}, error, int) {
+  lex, err := NewLexer(stream)
+  if lex == nil {
+    return nil, err, 0
+  }
+  return NewParser().SetContext(userData).ParseLongestPrefix(lex)
+}
+
+
+{{- end}}
+{{- end}}
+{{- if not .Config.NoLexer }}
 
 func NewLexerBytes(src []byte) *lexer.Lexer {
   return lexer.NewLexerBytes(src)
@@ -146,11 +253,12 @@ func NewLexerFile(fpath string) (*lexer.Lexer, error) {
   return lexer.NewLexerFile(fpath)
 }
 
-func NewParser() *parser.Parser {
-  return parser.NewParser()
+func NewLexer(reader io.Reader) (*lexer.Lexer, error) {
+  return lexer.NewLexer(reader)
 }
+{{- end}}
 
-
+{{- if .ExportWindowReader }}
 func NewWindowReaderFromBytes(src []byte) WindowReader {
 	return stream.NewWindowReaderFromBytes(src)
 }
@@ -161,6 +269,12 @@ func NewWindowReader(rdr io.Reader) WindowReader {
 
 func NewLimitedWindowReader(rdr io.Reader, sizeMin, sizeMax int) WindowReader {
 	return stream.NewLimitedWindowReader(rdr, sizeMin, sizeMax)
+}
+{{- end}}
+
+
+func GetTokenMap() TokenMap {
+  return token.TokMap
 }
 
 `
@@ -227,12 +341,23 @@ package iface
 
 import (
   "io"
-  "{{.Pkg}}/{{.Subpath}}/token"
+  "{{.Pkg}}/{{.InternalSubdir}}/token"
+  {{- if .HasSyntax}}
+  "{{.Pkg}}/{{.InternalSubdir}}/errors"
+  {{- end}}
 )
 
 type (
+  Token = token.Token
+  TokenMap = token.TokenMap
+  Pos = token.Pos
+  {{- if .HasSyntax}}
+  ErrorSymbol = errors.ErrorSymbol
+  Error = errors.Error
+  {{- end}}
+
   Scanner interface {
-  	Scan() (tok *token.Token)
+  	  Scan() (tok *Token)
   }
 
   StreamScanner interface {
@@ -244,16 +369,26 @@ type (
   }
 
   CheckPointable interface {
-  	GetCheckPoint() CheckPoint
+  	  GetCheckPoint() CheckPoint
     GotoCheckPoint(CheckPoint)
   }
 
   TokenStream interface {
     io.Reader
-  	io.RuneScanner
-  	io.Seeker
+    	io.RuneScanner
+    	io.Seeker
   }
 )
+
+
+const (
+  INVALID = token.INVALID
+  EOF = token.EOF
+)
+
+func GetTokenMap() TokenMap {
+  return token.TokMap
+}
 
 
 `

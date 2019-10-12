@@ -1,7 +1,7 @@
 package ast
 
 import (
-	"github.com/maxcalandrelli/gocc/example/astx/token"
+	"github.com/maxcalandrelli/gocc/example/astx/ast.grammar/ast/iface"
 )
 
 type (
@@ -18,5 +18,5 @@ func AppendStmt(stmtList, stmt interface{}) (StmtList, error) {
 }
 
 func NewStmt(stmtList interface{}) (Stmt, error) {
-	return Stmt(stmtList.(*token.Token).Lit), nil
+	return Stmt(stmtList.(*iface.Token).Lit), nil
 }

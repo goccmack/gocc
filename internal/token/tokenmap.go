@@ -21,17 +21,23 @@ import (
 type TokenMap struct {
 	IdMap   map[string]int
 	TypeMap []ast.SyntaxSymbol
+	LitMap  map[string]int
 }
 
 func NewTokenMap(symbols ast.SyntaxSymbols) *TokenMap {
 	tm := &TokenMap{
 		IdMap:   make(map[string]int),
 		TypeMap: make([]ast.SyntaxSymbol, len(symbols)),
+		LitMap:  make(map[string]int),
 	}
 
 	for i, sym := range symbols {
 		tm.IdMap[sym.SymbolName()] = i
 		tm.TypeMap[i] = sym
+		switch lit := sym.(type) {
+		case ast.SyntaxStringLit:
+			tm.LitMap[lit.SymbolString()] = i
+		}
 	}
 	return tm
 }

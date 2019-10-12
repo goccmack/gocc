@@ -10,8 +10,8 @@ int64 : '1'-'9' {_digit} ;
 
 << 
 import(
-	"github.com/maxcalandrelli/gocc/example/calc/token"
-	"github.com/maxcalandrelli/gocc/example/calc/util"
+	"github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc/internal/token"
+	"github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc/internal/util"
 )
 >>
 

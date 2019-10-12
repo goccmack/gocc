@@ -3,9 +3,7 @@ package ast
 import (
 	"fmt"
 
-	calc_lexer "github.com/maxcalandrelli/gocc/example/calc/lexer"
-	calc_parser "github.com/maxcalandrelli/gocc/example/calc/parser"
-	"github.com/maxcalandrelli/gocc/example/ctx/token"
+	"github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
 )
 
 type (
@@ -26,6 +24,6 @@ func NewStmt(stmtList interface{}) (Stmt, error) {
 }
 
 func Calc(verb interface{}) (Stmt, error) {
-	calc_parser.NewParser().Parse(calc_lexer.NewLexer())
+	calc_parser.NewParser().Parse(calc.NewLexerString())
 	return fmt.Sprintf("%s ")
 }

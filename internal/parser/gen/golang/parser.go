@@ -28,43 +28,47 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
 )
 
-func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config, subpath string) {
+func GenParser(pkg, outDir string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config, internal, iface string) {
 	tmpl, err := template.New("parser").Parse(parserSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	if err := tmpl.Execute(wr, getParserData(pkg, subpath, prods, itemSets, symbols, cfg)); err != nil {
+	if err := tmpl.Execute(wr, getParserData(pkg, internal, iface, prods, itemSets, symbols, cfg)); err != nil {
 		panic(err)
 	}
 	source, err := format.Source(wr.Bytes())
 	if err != nil {
 		panic(fmt.Sprintf("%s in\n%s", err.Error(), wr.String()))
 	}
-	io.WriteFile(path.Join(outDir, subpath, "parser", "parser.go"), source)
+	io.WriteFile(path.Join(outDir, internal, "parser", "parser.go"), source)
 }
 
 type parserData struct {
 	Debug          bool
 	PkgPath        string
-	SubPath        string
+	InternalSubdir string
+	IfaceSubdir    string
 	Config         config.Config
 	NumProductions int
 	NumStates      int
 	NumSymbols     int
 	CdTokList      ast.SyntaxSymbols
+	ErrorTokenName string
 }
 
-func getParserData(pkg, subpath string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) *parserData {
+func getParserData(pkg, internal, iface string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) *parserData {
 	return &parserData{
 		Debug:          cfg.DebugParser(),
 		PkgPath:        pkg,
-		SubPath:        subpath,
+		InternalSubdir: internal,
+		IfaceSubdir:    iface,
 		Config:         cfg,
 		NumProductions: len(prods),
 		NumStates:      itemSets.Size(),
 		NumSymbols:     symbols.NumSymbols(),
 		CdTokList:      symbols.ListContextDependentTokenSymbols(),
+		ErrorTokenName: config.INTERNAL_SYMBOL_ERROR,
 	}
 }
 
@@ -78,9 +82,9 @@ import (
 	"strings"
   "errors"
 
-	parseError "{{.PkgPath}}/{{.SubPath}}/errors"
-	"{{.PkgPath}}/{{.SubPath}}/token"
-	"{{.PkgPath}}/iface"
+	parseError "{{.PkgPath}}/{{.InternalSubdir}}/errors"
+	"{{.PkgPath}}/{{.InternalSubdir}}/token"
+	"{{.PkgPath}}/{{.IfaceSubdir}}"
 )
 
 const (
@@ -166,7 +170,21 @@ type Parser struct {
   userContext interface{}
 }
 
-type TokenStream = iface.TokenStream
+type (
+  TokenStream = iface.TokenStream
+  fakeCp struct{}
+  fakeCheckPointable struct{}
+)
+
+func (f fakeCheckPointable) GetCheckPoint() iface.CheckPoint {
+  return fakeCp{}
+}
+
+func (f fakeCheckPointable) GotoCheckPoint(iface.CheckPoint) {}
+
+func (f fakeCp) DistanceFrom(o iface.CheckPoint) int {
+  return 0
+}
 
 {{- range $c := .CdTokList }}
 {{ printf "func cdFunc_%s (Stream TokenStream, Context interface{}) (interface{}, error, []byte) {return %s}" $c.SymbolString $c.ContexDependentParseFunctionCall }}
@@ -188,6 +206,15 @@ func (p *Parser) Reset() {
 	p.stack.push(0, nil)
 }
 
+func (p *Parser) SetContext (ctx interface{}) *Parser {
+  p.userContext = ctx
+  return p
+}
+
+func (p Parser) GetContext () interface{} {
+  return p.userContext
+}
+
 func (p *Parser) Error(err error, scanner iface.Scanner) (recovered bool, errorAttrib *parseError.Error) {
 	errorAttrib = &parseError.Error{
 		Err:            err,
@@ -201,7 +228,7 @@ func (p *Parser) Error(err error, scanner iface.Scanner) (recovered bool, errorA
 		}
 	}
 
-	if action := parserActions.table[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
+	if action := parserActions.table[p.stack.top()].actions[token.TokMap.Type("{{.ErrorTokenName}}")]; action != nil {
 		p.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
 	} else {
 		return
@@ -279,27 +306,37 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
     if tokens == nil && (len(parserActions.table[p.stack.top()].cdActions) > 0 || longest) {
       return errNotRepositionable
     }
+    {{- if eq (len .CdTokList) 0 }}
+    if longest {
+      checkPoint = tokens.GetCheckPoint()
+    }
+    {{- else }}
     checkPoint = tokens.GetCheckPoint()
-  	p.nextToken = scanner.Scan()
+    {{- end }}
+  	  p.nextToken = scanner.Scan()
     if longest {
       afterPos = tokens.GetCheckPoint()
     }
     return nil
   }
 	p.Reset()
-  tokens, _ = scanner.(iface.CheckPointable)
+  if tokens, _ = scanner.(iface.CheckPointable) ; tokens == nil {
+    tokens = fakeCheckPointable{}
+  }
+  underlyingStream := TokenStream(nil)
+  if streamScanner, _ := scanner.(iface.StreamScanner) ; streamScanner != nil {
+    underlyingStream = streamScanner.GetStream()
+  }
   startCp := tokens.GetCheckPoint()
   if err := readNextToken(); err != nil {
     return nil, err, tokens.GetCheckPoint().DistanceFrom(startCp)
   }
 	for acc := false; !acc; {
 		action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]
-		if action == nil {
+		if action == nil && underlyingStream != nil && len(parserActions.table[p.stack.top()].cdActions) > 0 {
       //
       // If no action, check if we have some context dependent parsing to try
       //
-      if streamScanner, _ := scanner.(iface.StreamScanner) ; streamScanner != nil {
-        underlyingStream := streamScanner.GetStream()
   			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
   				tokens.GotoCheckPoint (checkPoint)
   				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
@@ -308,13 +345,12 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
             if action != nil {
               p.nextToken.Foreign = true
               p.nextToken.ForeignAstNode = cd_res
-    					p.nextToken.Lit = cd_parsed
+    					  p.nextToken.Lit = cd_parsed
               p.nextToken.Type = token.Type(cdAction.tokenIndex)
   					  break
             }
   				}
   			}
-      }
     }
     //
     //  Still no action? If a longest possible parsing is requested in place
@@ -330,9 +366,9 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
         //
         //  ok, let's consume the token then
         //
-    		{{- if .Debug }}
-    		fmt.Printf("S%d unrecognized=<%#v> restoring checkpoint at %#v => %s\n", p.stack.top(), p.nextToken, afterPos, action)
-    		{{- end }}
+      		{{- if .Debug }}
+      		fmt.Printf("S%d unrecognized=<%#v> restoring checkpoint at %#v => %s\n", p.stack.top(), p.nextToken, afterPos, action)
+      		{{- end }}
 				tokens.GotoCheckPoint(afterPos)
       }
     }

@@ -37,6 +37,10 @@ func NewLexerBytes(src []byte) *Lexer {
 	return lexer
 }
 
+func NewLexerString(src string) *Lexer {
+	return NewLexerBytes([]byte(src))
+}
+
 func NewLexerFile(fpath string) (*Lexer, error) {
 	s, err := os.Open(fpath)
 	if err != nil {
@@ -66,11 +70,18 @@ func (l Lexer) GetStream() iface.TokenStream {
 
 type checkPoint int64
 
-func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
-  return int (c - o.(checkPoint))
+func (c checkPoint) value () int64 {
+  return int64(c)
 }
 
-func (l Lexer) GetCheckPoint() iface.CheckPoint {
+func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
+  return int (c.value() - o.(checkPoint).value())
+}
+
+func (l *Lexer) GetCheckPoint() iface.CheckPoint {
+  if l == nil {
+    return checkPoint(0)
+  }
   pos, _ := l.stream.Seek(0, io.SeekCurrent)
   return checkPoint(pos)
 }
@@ -99,17 +110,17 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		}
 		state = nextState
 		if state != -1 {
-    	switch curr {
-    	case '\n':
-    		l.position.Pos.Line++
-    		l.position.Pos.Column = 1
-    	case '\r':
-    		l.position.Pos.Column = 1
-    	case '\t':
-    		l.position.Pos.Column += 4
-    	default:
-    		l.position.Pos.Column++
-    	}
+      	switch curr {
+      	case '\n':
+      		l.position.Pos.Line++
+      		l.position.Pos.Column = 1
+      	case '\r':
+      		l.position.Pos.Column = 1
+      	case '\t':
+      		l.position.Pos.Column += 4
+      	default:
+      		l.position.Pos.Column++
+      	}
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
@@ -119,8 +130,12 @@ func (l *Lexer) Scan() (tok *token.Token) {
 				state = 0
 				tok.Lit = []byte{}
 			}
-		} else if curr != INVALID_RUNE {
-      l.stream.UnreadRune()
+		} else if curr != INVALID_RUNE{
+      if len(tok.Lit) == 0 {
+			  tok.Lit = append(tok.Lit, string(curr)...)
+      } else {
+        l.stream.UnreadRune()
+      }
     }
   	if err == io.EOF && len(tok.Lit)==0 {
   		tok.Type = token.EOF

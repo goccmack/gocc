@@ -82,11 +82,12 @@ func main() {
 	}
 
 	if cfg.Verbose() {
+		fmt.Fprintf(os.Stderr, "gocc version %s\n", config.VERSION)
 		cfg.PrintParams()
 	}
 
 	if cfg.Help() {
-		fmt.Fprintf(os.Stderr, "gocc version 1.1.0011\n")
+		fmt.Fprintf(os.Stderr, "gocc version %s\n", config.VERSION)
 		flag.Usage()
 	}
 
@@ -103,8 +104,8 @@ func main() {
 	}
 
 	outdir_base := cfg.OutDir()
-	subpath := "internal"
 	outdir_log := path.Join(outdir_base, "log")
+	outdir_iface := path.Join("iface")
 	g := grammar.(*ast.Grammar)
 
 	gSymbols := symbols.NewSymbols(g)
@@ -123,10 +124,10 @@ func main() {
 	}
 	tokenMap = outToken.NewTokenMap(gSymbols.ListTerminals())
 	if !cfg.NoLexer() {
-		genLexer.Gen(cfg.Package(), outdir_base, g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg, subpath)
+		genLexer.Gen(cfg.Package(), outdir_base, g.LexPart.Header.SDTLit, lexSets, tokenMap, cfg, cfg.InternalSubdir(), outdir_iface)
 	}
-
-	if g.SyntaxPart != nil {
+	hasSyntax := (g.SyntaxPart != nil)
+	if hasSyntax {
 		firstSets := first.GetFirstSets(g, gSymbols)
 		if cfg.Verbose() {
 			io.WriteFileString(path.Join(outdir_log, "first.txt"), firstSets.String())
@@ -137,14 +138,14 @@ func main() {
 			io.WriteFileString(path.Join(outdir_log, "LR1_sets.txt"), lr1Sets.String())
 		}
 
-		conflicts := genParser.Gen(cfg.Package(), outdir_base, g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg, subpath)
+		conflicts := genParser.Gen(cfg.Package(), outdir_base, g.SyntaxPart.Header.SDTLit, g.SyntaxPart.ProdList, gSymbols, lr1Sets, tokenMap, cfg, cfg.InternalSubdir(), outdir_iface)
 		handleConflicts(conflicts, lr1Sets.Size(), cfg, g.SyntaxPart.ProdList, outdir_log)
 	}
 
-	genToken.Gen(cfg.Package(), outdir_base, tokenMap, subpath)
-	genUtil.Gen(outdir_base, subpath)
-	genBase.Gen(cfg.Package(), outdir_base, subpath, cfg)
-	genIo.Gen(cfg.Package(), outdir_base, subpath)
+	genToken.Gen(cfg.Package(), outdir_base, tokenMap, cfg.InternalSubdir(), cfg)
+	genUtil.Gen(outdir_base, cfg.InternalSubdir())
+	genBase.Gen(cfg.Package(), outdir_base, cfg.InternalSubdir(), outdir_iface, cfg, hasSyntax)
+	genIo.Gen(cfg.Package(), outdir_base, cfg.InternalSubdir())
 }
 
 func usage() {

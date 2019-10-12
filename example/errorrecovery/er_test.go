@@ -1,13 +1,11 @@
-package astx
+package er
 
 import (
 	"fmt"
 	"testing"
 
 	"github.com/maxcalandrelli/gocc/example/errorrecovery/ast"
-	"github.com/maxcalandrelli/gocc/example/errorrecovery/errors"
-	"github.com/maxcalandrelli/gocc/example/errorrecovery/lexer"
-	"github.com/maxcalandrelli/gocc/example/errorrecovery/parser"
+	"github.com/maxcalandrelli/gocc/example/errorrecovery/er.grammar/er"
 )
 
 func TestFail(t *testing.T) {
@@ -18,7 +16,7 @@ func TestFail(t *testing.T) {
 	fmt.Print("output: [\n")
 	for _, s := range sml {
 		switch sym := s.(type) {
-		case *errors.Error:
+		case *er.Error:
 			fmt.Printf("%s\n", sym)
 		default:
 			fmt.Printf("\t%v\n", sym)
@@ -29,9 +27,9 @@ func TestFail(t *testing.T) {
 
 func test(src []byte) (astree ast.StmtList, err error) {
 	fmt.Printf("input: %s\n", src)
-	s := lexer.NewLexer([]byte(src))
-	p := parser.NewParser()
-	a, err := p.Parse(s)
+	s := er.NewLexerBytes(src)
+	p := er.NewParser()
+	a, err, _ := p.Parse(s)
 	if err == nil {
 		astree = a.(ast.StmtList)
 	}

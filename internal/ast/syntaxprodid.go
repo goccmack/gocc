@@ -43,7 +43,6 @@ func (this SyntaxProdId) String() string {
 }
 
 func (this SyntaxProdId) SymbolName() string {
-	//return this.SymbolString()
 	return fmt.Sprintf("%s<%s>", config.INTERNAL_SYMBOL_PROD, this.string)
 }
 

@@ -95,7 +95,21 @@ type Parser struct {
 	userContext interface{}
 }
 
-type TokenStream = iface.TokenStream
+type (
+	TokenStream        = iface.TokenStream
+	fakeCp             struct{}
+	fakeCheckPointable struct{}
+)
+
+func (f fakeCheckPointable) GetCheckPoint() iface.CheckPoint {
+	return fakeCp{}
+}
+
+func (f fakeCheckPointable) GotoCheckPoint(iface.CheckPoint) {}
+
+func (f fakeCp) DistanceFrom(o iface.CheckPoint) int {
+	return 0
+}
 
 func NewParser() *Parser {
 	return NewParserWithContext(nil)
@@ -112,6 +126,15 @@ func (p *Parser) Reset() {
 	p.stack.push(0, nil)
 }
 
+func (p *Parser) SetContext(ctx interface{}) *Parser {
+	p.userContext = ctx
+	return p
+}
+
+func (p Parser) GetContext() interface{} {
+	return p.userContext
+}
+
 func (p *Parser) Error(err error, scanner iface.Scanner) (recovered bool, errorAttrib *parseError.Error) {
 	errorAttrib = &parseError.Error{
 		Err:            err,
@@ -125,7 +148,7 @@ func (p *Parser) Error(err error, scanner iface.Scanner) (recovered bool, errorA
 		}
 	}
 
-	if action := parserActions.table[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
+	if action := parserActions.table[p.stack.top()].actions[token.TokMap.Type("λ")]; action != nil {
 		p.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
 	} else {
 		return
@@ -202,7 +225,9 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 		if tokens == nil && (len(parserActions.table[p.stack.top()].cdActions) > 0 || longest) {
 			return errNotRepositionable
 		}
-		checkPoint = tokens.GetCheckPoint()
+		if longest {
+			checkPoint = tokens.GetCheckPoint()
+		}
 		p.nextToken = scanner.Scan()
 		if longest {
 			afterPos = tokens.GetCheckPoint()
@@ -210,31 +235,34 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 		return nil
 	}
 	p.Reset()
-	tokens, _ = scanner.(iface.CheckPointable)
+	if tokens, _ = scanner.(iface.CheckPointable); tokens == nil {
+		tokens = fakeCheckPointable{}
+	}
+	underlyingStream := TokenStream(nil)
+	if streamScanner, _ := scanner.(iface.StreamScanner); streamScanner != nil {
+		underlyingStream = streamScanner.GetStream()
+	}
 	startCp := tokens.GetCheckPoint()
 	if err := readNextToken(); err != nil {
 		return nil, err, tokens.GetCheckPoint().DistanceFrom(startCp)
 	}
 	for acc := false; !acc; {
 		action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]
-		if action == nil {
+		if action == nil && underlyingStream != nil && len(parserActions.table[p.stack.top()].cdActions) > 0 {
 			//
 			// If no action, check if we have some context dependent parsing to try
 			//
-			if streamScanner, _ := scanner.(iface.StreamScanner); streamScanner != nil {
-				underlyingStream := streamScanner.GetStream()
-				for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
-					tokens.GotoCheckPoint(checkPoint)
-					cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
-					if cd_err == nil && len(cd_parsed) > 0 {
-						action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
-						if action != nil {
-							p.nextToken.Foreign = true
-							p.nextToken.ForeignAstNode = cd_res
-							p.nextToken.Lit = cd_parsed
-							p.nextToken.Type = token.Type(cdAction.tokenIndex)
-							break
-						}
+			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
+				tokens.GotoCheckPoint(checkPoint)
+				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
+				if cd_err == nil && len(cd_parsed) > 0 {
+					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
+					if action != nil {
+						p.nextToken.Foreign = true
+						p.nextToken.ForeignAstNode = cd_res
+						p.nextToken.Lit = cd_parsed
+						p.nextToken.Type = token.Type(cdAction.tokenIndex)
+						break
 					}
 				}
 			}

@@ -22,10 +22,13 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
 const (
+	VERSION = "1.1.0035"
+
 	INTERNAL_SYMBOL_EMPTY   = "ε"
 	INTERNAL_SYMBOL_ERROR   = "λ"       // (λάθος)
 	INTERNAL_SYMBOL_INVALID = "INVALID" // (άκυρος)
@@ -48,6 +51,7 @@ type (
 		AutoResolveLRConf() bool
 		SourceFile() string
 		OutDir() string
+		InternalSubdir() string
 
 		NoLexer() bool
 		DebugLexer() bool
@@ -76,6 +80,7 @@ type (
 		outDir            string
 		pkg               string
 		srcFile           string
+		internal          string
 		verbose           *bool
 	}
 )
@@ -154,12 +159,17 @@ func (this *ConfigRecord) TokenDir() string {
 	return path.Join(this.outDir, "token")
 }
 
+func (this *ConfigRecord) InternalSubdir() string {
+	return this.internal
+}
+
 func (this *ConfigRecord) Package() string {
 	return this.pkg
 }
 
 func (this *ConfigRecord) ProjectName() string {
-	_, file := path.Split(this.pkg)
+	_, file := path.Split(this.srcFile)
+	file = file[:len(file)-len(path.Ext(file))]
 	return file
 }
 
@@ -173,6 +183,7 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-p             = %v\n", this.pkg)
 	fmt.Printf("-u             = %v\n", *this.allowUnreachable)
 	fmt.Printf("-v             = %v\n", *this.verbose)
+	fmt.Printf("-internal      = %v\n", this.internal)
 }
 
 /*** Utility routines ***/
@@ -183,8 +194,9 @@ func (this *ConfigRecord) getFlags() error {
 	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
 	this.help = flag.Bool("h", false, "help")
 	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
-	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
+	flag.StringVar(&this.outDir, "o", path.Join(this.workingDir, "@f.grammar", "@f"), "output directory format (@f='name' if input file is 'name.bnf')")
 	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
+	flag.StringVar(&this.internal, "internal", "internal", "internal subdir name")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
 	flag.Parse()
@@ -192,26 +204,32 @@ func (this *ConfigRecord) getFlags() error {
 	if *this.noLexer && *this.debugLexer {
 		return errors.New("no_lexer and debug_lexer cannot both be set")
 	}
-
-	this.outDir = getOutDir(this.outDir, this.workingDir)
-	if this.outDir != this.workingDir {
-		this.pkg = defaultPackage(this.outDir)
-	}
-
 	if len(flag.Args()) != 1 && !*this.help {
 		return errors.New("Too few arguments")
 	}
 
 	this.srcFile = flag.Arg(0)
-
+	this.outDir = getOutDir(this.outDir, this.workingDir, this.srcFile)
+	if this.outDir != this.workingDir {
+		this.pkg = defaultPackage(this.outDir)
+	}
 	return nil
 }
 
-func getOutDir(outDirSpec, wd string) string {
-	if strings.HasPrefix(outDirSpec, wd) {
-		return outDirSpec
-	}
-	return path.Join(wd, outDirSpec)
+func getOutDir(outDirSpec, wd, src string) string {
+	pattern := func() string {
+		if strings.HasPrefix(outDirSpec, wd) {
+			return outDirSpec
+		}
+		if path.IsAbs(outDirSpec) {
+			return outDirSpec
+		}
+		return path.Join(wd, outDirSpec)
+	}()
+	_, fname := path.Split(src)
+	fname = fname[:len(fname)-len(path.Ext(fname))]
+	res := regexp.MustCompile("@f").ReplaceAllString(pattern, fname)
+	return res
 }
 
 func defaultPackage(wd string) string {

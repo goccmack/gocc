@@ -20,8 +20,8 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
-func Gen(pkg, outDir string, header string, itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config, subpath string) {
-	genLexer(pkg, outDir, itemsets, cfg, subpath)
-	genTransitionTable(pkg, outDir, header, itemsets, subpath)
-	genActionTable(pkg, outDir, itemsets, tokMap, subpath)
+func Gen(pkg, outDir string, header string, itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config, internal, iface string) {
+	genLexer(pkg, outDir, itemsets, cfg, internal, iface)
+	genTransitionTable(pkg, outDir, header, itemsets, internal)
+	genActionTable(pkg, outDir, itemsets, tokMap, internal)
 }

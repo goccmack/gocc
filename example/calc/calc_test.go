@@ -3,8 +3,7 @@ package calc
 import (
 	"testing"
 
-	"github.com/maxcalandrelli/gocc/example/calc/lexer"
-	"github.com/maxcalandrelli/gocc/example/calc/parser"
+	"github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
 )
 
 type TI struct {
@@ -19,10 +18,10 @@ var testData = []*TI{
 }
 
 func Test1(t *testing.T) {
-	p := parser.NewParser()
+	p := calc.NewParser()
 	for _, ts := range testData {
-		s := lexer.NewLexer([]byte(ts.src))
-		sum, err := p.Parse(s)
+		s := calc.NewLexerString(ts.src)
+		sum, err, _ := p.Parse(s)
 		if err != nil {
 			t.Error(err)
 		}

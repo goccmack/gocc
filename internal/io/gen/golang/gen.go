@@ -9,7 +9,6 @@ import (
 )
 
 type data struct {
-	MyName     string
 	Pkg        string
 	Outdir     string
 	Subpath    string

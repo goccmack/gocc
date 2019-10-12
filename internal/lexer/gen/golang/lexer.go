@@ -24,39 +24,41 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/lexer/items"
 )
 
-func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, subpath string) {
+func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, internal, iface string) {
 	tmpl, err := template.New("lexer").Parse(lexerSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
-	err = tmpl.Execute(buf, getLexerData(pkg, outDir, itemsets, cfg, subpath))
+	err = tmpl.Execute(buf, getLexerData(pkg, outDir, itemsets, cfg, internal, iface))
 	if err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, subpath, "lexer", "lexer.go"), buf.Bytes())
+	io.WriteFile(path.Join(outDir, internal, "lexer", "lexer.go"), buf.Bytes())
 }
 
-func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, subpath string) *lexerData {
+func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, internal, iface string) *lexerData {
 	lexSymbols := itemsets.Symbols().List()
 	return &lexerData{
-		Debug:      cfg.DebugLexer(),
-		PkgPath:    pkg,
-		SubPath:    subpath,
-		NumStates:  itemsets.Size(),
-		NumSymbols: len(lexSymbols),
-		Symbols:    lexSymbols,
+		Debug:          cfg.DebugLexer(),
+		PkgPath:        pkg,
+		InternalSubdir: internal,
+		IfaceSubdir:    iface,
+		NumStates:      itemsets.Size(),
+		NumSymbols:     len(lexSymbols),
+		Symbols:        lexSymbols,
 	}
 }
 
 type lexerData struct {
-	Debug      bool
-	PkgPath    string
-	SubPath    string
-	NumStates  int
-	NumSymbols int
-	NextState  []byte
-	Symbols    []string
+	Debug          bool
+	PkgPath        string
+	InternalSubdir string
+	IfaceSubdir    string
+	NumStates      int
+	NumSymbols     int
+	NextState      []byte
+	Symbols        []string
 }
 
 const lexerSrc string = `
@@ -70,10 +72,10 @@ import (
   "bytes"
   "os"
 
-  {{if .Debug}}	"{{.PkgPath}}/{{.SubPath}}/util" {{end}}
-  "{{.PkgPath}}/iface"
-  "{{.PkgPath}}/{{.SubPath}}/token"
-  "{{.PkgPath}}/{{.SubPath}}/io/stream"
+  {{if .Debug}}	"{{.PkgPath}}/{{.InternalSubdir}}/util" {{end}}
+  "{{.PkgPath}}/{{.IfaceSubdir}}"
+  "{{.PkgPath}}/{{.InternalSubdir}}/token"
+  "{{.PkgPath}}/{{.InternalSubdir}}/io/stream"
 )
 
 const (
@@ -97,6 +99,10 @@ func NewLexerBytes(src []byte) *Lexer {
 	lexer := &Lexer{stream: bytes.NewReader(src)}
 	lexer.reset()
 	return lexer
+}
+
+func NewLexerString(src string) *Lexer {
+	return NewLexerBytes([]byte(src))
 }
 
 func NewLexerFile(fpath string) (*Lexer, error) {
@@ -128,11 +134,18 @@ func (l Lexer) GetStream() iface.TokenStream {
 
 type checkPoint int64
 
-func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
-  return int (c - o.(checkPoint))
+func (c checkPoint) value () int64 {
+  return int64(c)
 }
 
-func (l Lexer) GetCheckPoint() iface.CheckPoint {
+func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
+  return int (c.value() - o.(checkPoint).value())
+}
+
+func (l *Lexer) GetCheckPoint() iface.CheckPoint {
+  if l == nil {
+    return checkPoint(0)
+  }
   pos, _ := l.stream.Seek(0, io.SeekCurrent)
   return checkPoint(pos)
 }
@@ -177,17 +190,17 @@ func (l *Lexer) Scan() (tok *token.Token) {
 		{{- end}}
 		state = nextState
 		if state != -1 {
-    	switch curr {
-    	case '\n':
-    		l.position.Pos.Line++
-    		l.position.Pos.Column = 1
-    	case '\r':
-    		l.position.Pos.Column = 1
-    	case '\t':
-    		l.position.Pos.Column += 4
-    	default:
-    		l.position.Pos.Column++
-    	}
+      	switch curr {
+      	case '\n':
+      		l.position.Pos.Line++
+      		l.position.Pos.Column = 1
+      	case '\r':
+      		l.position.Pos.Column = 1
+      	case '\t':
+      		l.position.Pos.Column += 4
+      	default:
+      		l.position.Pos.Column++
+      	}
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
@@ -197,8 +210,12 @@ func (l *Lexer) Scan() (tok *token.Token) {
 				state = 0
 				tok.Lit = []byte{}
 			}
-		} else if curr != INVALID_RUNE {
-      l.stream.UnreadRune()
+		} else if curr != INVALID_RUNE{
+      if len(tok.Lit) == 0 {
+			  tok.Lit = append(tok.Lit, string(curr)...)
+      } else {
+        l.stream.UnreadRune()
+      }
     }
   	if err == io.EOF && len(tok.Lit)==0 {
   		tok.Type = token.EOF

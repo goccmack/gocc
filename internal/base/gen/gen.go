@@ -19,6 +19,6 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
-func Gen(pkg, outdir, subpath string, cfg config.Config) {
-	golang.Gen(pkg, outdir, subpath, cfg)
+func Gen(pkg, outdir, internal, iface string, cfg config.Config, hasSyntax bool) {
+	golang.Gen(pkg, outdir, internal, iface, cfg, hasSyntax)
 }

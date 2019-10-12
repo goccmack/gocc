@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	reparsed "github.com/maxcalandrelli/gocc/internal/frontend/reparsed"
+	gocc2 "github.com/maxcalandrelli/gocc/internal/frontend/reparsed"
 )
 
 func showResult(r interface{}, e error, l int) {
@@ -23,11 +23,11 @@ var (
 	Longest bool
 )
 
-func parse(longest bool, lex *reparsed.Lexer) (res interface{}, err error, ptl int) {
+func parse(longest bool, lex *gocc2.Lexer) (res interface{}, err error, ptl int) {
 	if longest {
-		return reparsed.NewParser().ParseLongestPrefix(lex)
+		return gocc2.NewParser().ParseLongestPrefix(lex)
 	} else {
-		return reparsed.NewParser().Parse(lex)
+		return gocc2.NewParser().Parse(lex)
 	}
 	return
 }
@@ -38,16 +38,16 @@ func main() {
 	flag.BoolVar(&Longest, "longest", false, "parse longest possible part")
 	flag.Parse()
 	if Text > "" {
-		showResult(parse(Longest, reparsed.NewLexerString(Text)))
+		showResult(parse(Longest, gocc2.NewLexerString(Text)))
 	}
 	if File > "" {
-		l, e := reparsed.NewLexerFile(File)
+		l, e := gocc2.NewLexerFile(File)
 		if e != nil {
 			panic(e)
 		}
 		showResult(parse(Longest, l))
 	}
 	if str := strings.Join(flag.Args(), " "); str > "" {
-		showResult(parse(Longest, reparsed.NewLexerString(str)))
+		showResult(parse(Longest, gocc2.NewLexerString(str)))
 	}
 }

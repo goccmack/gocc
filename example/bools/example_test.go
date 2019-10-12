@@ -18,14 +18,13 @@ import (
 	"testing"
 
 	"github.com/maxcalandrelli/gocc/example/bools/ast"
-	"github.com/maxcalandrelli/gocc/example/bools/lexer"
-	"github.com/maxcalandrelli/gocc/example/bools/parser"
+	"github.com/maxcalandrelli/gocc/example/bools/bools.grammar/bools"
 )
 
 func testEval(t *testing.T, exampleStr string, output bool) {
-	lex := lexer.NewLexer([]byte(exampleStr))
-	p := parser.NewParser()
-	st, err := p.Parse(lex)
+	lex := bools.NewLexerString(exampleStr)
+	p := bools.NewParser()
+	st, err, _ := p.Parse(lex)
 	if err != nil {
 		panic(err)
 	}

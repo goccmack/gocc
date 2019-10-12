@@ -21,18 +21,19 @@ import (
 	"path"
 	"text/template"
 
+	"github.com/maxcalandrelli/gocc/internal/config"
 	"github.com/maxcalandrelli/gocc/internal/io"
 	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
-func GenToken(pkg, outdir string, tokMap *token.TokenMap, subpath string) {
+func GenToken(pkg, outdir string, tokMap *token.TokenMap, subpath string, cfg config.Config) {
 	tokenPath := path.Join(outdir, subpath, "token", "token.go")
 	tmpl, err := template.New("token").Parse(TokenMapSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
-	err = tmpl.Execute(buf, TokenData{TypMap: makeTypeMap(tokMap), IdMap: makeIdMap(tokMap)})
+	err = tmpl.Execute(buf, TokenData{TypMap: makeTypeMap(tokMap), IdMap: makeIdMap(tokMap), LitMap: makeLitMap(tokMap), NoLexer: cfg.NoLexer()})
 	// Use go/format to indent the idMap literal correctly.
 	source, err := format.Source(buf.Bytes())
 	if err != nil {
@@ -57,9 +58,19 @@ func makeTypeMap(tokMap *token.TokenMap) []string {
 	return tm
 }
 
+func makeLitMap(tokMap *token.TokenMap) []string {
+	tm := []string{}
+	for lit, i := range tokMap.LitMap {
+		tm = append(tm, fmt.Sprintf("\"%s\": %d", lit, i))
+	}
+	return tm
+}
+
 type TokenData struct {
-	IdMap  []string
-	TypMap []string
+	IdMap   []string
+	TypMap  []string
+	LitMap  []string
+	NoLexer bool
 }
 
 const TokenMapSrc string = `
@@ -113,6 +124,7 @@ func (p Pos) StartingFrom(base Pos) Pos {
 type TokenMap struct {
 	typeMap []string
 	idMap   map[string]Type
+	litMap  map[string]Type
 }
 
 func (m TokenMap) Id(tok Type) string {
@@ -126,6 +138,11 @@ func (m TokenMap) Type(tok string) Type {
 	if typ, exist := m.idMap[tok]; exist {
 		return typ
 	}
+  {{- if .NoLexer }}
+	if typ, exist := m.litMap[tok]; exist {
+		return typ
+	}
+  {{- end }}
 	return INVALID
 }
 
@@ -146,6 +163,13 @@ var TokMap = TokenMap{
 
 	idMap: map[string]Type{
 {{- range .IdMap }}
+		{{printf "%s" .}},
+{{- end }}
+
+	},
+
+	litMap: map[string]Type{
+{{- range .LitMap }}
 		{{printf "%s" .}},
 {{- end }}
 

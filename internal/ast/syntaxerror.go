@@ -35,6 +35,8 @@ func (SyntaxError) String() string {
 
 func (SyntaxError) IsError() bool { return true }
 
+func (SyntaxError) IsTerminal() bool { return true }
+
 func (SyntaxError) SymbolName() string {
 	return config.INTERNAL_SYMBOL_ERROR
 }

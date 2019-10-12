@@ -1,2 +1,2 @@
 regenerate:
-	gocc -a example.bnf
+	gocc -a bools.bnf

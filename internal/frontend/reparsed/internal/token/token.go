@@ -48,6 +48,7 @@ func (p Pos) StartingFrom(base Pos) Pos {
 type TokenMap struct {
 	typeMap []string
 	idMap   map[string]Type
+	litMap  map[string]Type
 }
 
 func (m TokenMap) Id(tok Type) string {
@@ -129,5 +130,24 @@ var TokMap = TokenMap{
 		"Λ<λ>":         23,
 		"Λ<empty>":     24,
 		"Λ<ε>":         25,
+	},
+
+	litMap: map[string]Type{
+		"empty": 24,
+		"ε":     25,
+		".":     8,
+		")":     13,
+		"error": 22,
+		"λ":     23,
+		";":     4,
+		"}":     17,
+		"~":     11,
+		"[":     14,
+		"]":     15,
+		"{":     16,
+		":":     3,
+		"|":     7,
+		"-":     10,
+		"(":     12,
 	},
 }
