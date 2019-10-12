@@ -78,7 +78,7 @@ func consistent(g *Grammar) (err error) {
 	for s, in := range used {
 		if _, ok := defs[s]; !ok {
 			switch s.(type) {
-			case SyntaxEmpty, SyntaxError, SyntaxContextDependentTokId:
+			case SyntaxEmpty, SyntaxError, SyntaxContextDependentTokId, SyntaxSubParser:
 				continue
 			}
 			if !s.IsTerminal() {

@@ -48,6 +48,7 @@ func (SyntaxTokId) gSymbol()                 {}
 func (SyntaxStringLit) gSymbol()             {}
 func (InvalidSyntaxSymbol) gSymbol()         {}
 func (SyntaxContextDependentTokId) gSymbol() {}
+func (SyntaxSubParser) gSymbol()             {}
 
 func (InvalidSyntaxSymbol) SymbolName() string {
 	return config.INTERNAL_SYMBOL_INVALID

@@ -4,7 +4,7 @@ package parser
 
 type (
 	actionTable [numStates]actionRow
-	cdFunc      func(TokenStream, interface{}) (interface{}, error, []byte)
+	cdFunc      func(TokenStream, interface{}) (interface{}, error, int)
 	cdAction    struct {
 		tokenIndex   int
 		tokenScanner cdFunc
@@ -27,7 +27,7 @@ var parserActions = actions{
 				nil,      // ά<INVALID>
 				nil,      // Ω<EOF>
 				shift(3), // id
-				shift(4), // error
+				shift(4), // λ<error>
 			},
 			cdActions: []cdAction{},
 		},
@@ -37,7 +37,7 @@ var parserActions = actions{
 				nil,          // ά<INVALID>
 				accept(true), // Ω<EOF>
 				shift(3),     // id
-				shift(4),     // error
+				shift(4),     // λ<error>
 			},
 			cdActions: []cdAction{},
 		},
@@ -47,7 +47,7 @@ var parserActions = actions{
 				nil,       // ά<INVALID>
 				reduce(1), // Ω<EOF>, reduce: StmtList
 				reduce(1), // id, reduce: StmtList
-				reduce(1), // error, reduce: StmtList
+				reduce(1), // λ<error>, reduce: StmtList
 			},
 			cdActions: []cdAction{},
 		},
@@ -57,7 +57,7 @@ var parserActions = actions{
 				nil,       // ά<INVALID>
 				reduce(3), // Ω<EOF>, reduce: Stmt
 				reduce(3), // id, reduce: Stmt
-				reduce(3), // error, reduce: Stmt
+				reduce(3), // λ<error>, reduce: Stmt
 			},
 			cdActions: []cdAction{},
 		},
@@ -67,7 +67,7 @@ var parserActions = actions{
 				nil,       // ά<INVALID>
 				reduce(4), // Ω<EOF>, reduce: Stmt
 				reduce(4), // id, reduce: Stmt
-				reduce(4), // error, reduce: Stmt
+				reduce(4), // λ<error>, reduce: Stmt
 			},
 			cdActions: []cdAction{},
 		},
@@ -77,7 +77,7 @@ var parserActions = actions{
 				nil,       // ά<INVALID>
 				reduce(2), // Ω<EOF>, reduce: StmtList
 				reduce(2), // id, reduce: StmtList
-				reduce(2), // error, reduce: StmtList
+				reduce(2), // λ<error>, reduce: StmtList
 			},
 			cdActions: []cdAction{},
 		},

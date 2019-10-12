@@ -4,7 +4,7 @@ package parser
 
 type (
 	actionTable [numStates]actionRow
-	cdFunc      func(TokenStream, interface{}) (interface{}, error, []byte)
+	cdFunc      func(TokenStream, interface{}) (interface{}, error, int)
 	cdAction    struct {
 		tokenIndex   int
 		tokenScanner cdFunc

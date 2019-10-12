@@ -73,7 +73,8 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 		} else {
 			data.ProdTab[i].NumSymbols = len(prod.Body.Symbols)
 			for _, s := range prod.Body.Symbols {
-				if _, cdTok := s.(ast.SyntaxContextDependentTokId); cdTok {
+				switch s.(type) {
+				case ast.SyntaxContextDependentTokId, ast.SyntaxSubParser:
 					data.ProdTab[i].NumSymbols++
 				}
 			}

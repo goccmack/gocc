@@ -295,6 +295,15 @@ Symbol :
 		tokId
 		g_ctxdep_lit
 			<< ast.NewContextDependentTokId($0,$1) >>
+	|
+		"@"
+		tokId
+		string_lit
+			<< ast.NewAliasedSubParser($1,$2) >>
+	|
+		"@"
+		string_lit
+			<< ast.NewSubParser($1) >>
 ;
 
 ErrorSymbol :

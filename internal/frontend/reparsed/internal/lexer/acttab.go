@@ -72,8 +72,8 @@ var ActTab = ActionTable{
 		Accept: 0,
 		Ignore: "",
 	},
-	ActionRow{ // S13, 
-		Accept: 0,
+	ActionRow{ // S13, Accept("Λ<@>")
+		Accept: 22,
 		Ignore: "",
 	},
 	ActionRow{ // S14, Accept("prodId")
@@ -121,11 +121,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S25, Accept("Λ<ε>")
-		Accept: 25,
+		Accept: 26,
 		Ignore: "",
 	},
 	ActionRow{ // S26, Accept("Λ<λ>")
-		Accept: 23,
+		Accept: 24,
 		Ignore: "",
 	},
 	ActionRow{ // S27, Accept("ignoredTokId")
@@ -405,11 +405,11 @@ var ActTab = ActionTable{
 		Ignore: "",
 	},
 	ActionRow{ // S96, Accept("Λ<empty>")
-		Accept: 24,
+		Accept: 25,
 		Ignore: "",
 	},
 	ActionRow{ // S97, Accept("Λ<error>")
-		Accept: 22,
+		Accept: 23,
 		Ignore: "",
 	},
 	ActionRow{ // S98, 

@@ -19,3 +19,14 @@ func getString(v interface{}) string {
 	}
 	return StringGetter(v)
 }
+
+func unquoteString(str string) (string, bool, rune) {
+	if len(str) > 1 {
+		r := str[0]
+		if r == '"' || r == '`' || r == '\'' {
+			str = str[1 : len(str)-1]
+		}
+		return str, true, rune(r)
+	}
+	return str, false, 0
+}

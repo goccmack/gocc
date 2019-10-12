@@ -10,12 +10,14 @@ import (
 	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/iface"
 	parseError "github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/errors"
 	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/token"
+
+	calc "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
 )
 
 const (
 	numProductions = 5
-	numStates      = 6
-	numSymbols     = 7
+	numStates      = 7
+	numSymbols     = 8
 )
 
 // Stack
@@ -109,6 +111,10 @@ func (f fakeCheckPointable) GotoCheckPoint(iface.CheckPoint) {}
 
 func (f fakeCp) DistanceFrom(o iface.CheckPoint) int {
 	return 0
+}
+
+func cdFunc_calc_0(Stream TokenStream, Context interface{}) (interface{}, error, int) {
+	return calc.ParseWithDataPartial(Stream, Context)
 }
 
 func NewParser() *Parser {
@@ -225,9 +231,7 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 		if tokens == nil && (len(parserActions.table[p.stack.top()].cdActions) > 0 || longest) {
 			return errNotRepositionable
 		}
-		if longest {
-			checkPoint = tokens.GetCheckPoint()
-		}
+		checkPoint = tokens.GetCheckPoint()
 		p.nextToken = scanner.Scan()
 		if longest {
 			afterPos = tokens.GetCheckPoint()
@@ -255,12 +259,12 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
 				tokens.GotoCheckPoint(checkPoint)
 				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
-				if cd_err == nil && len(cd_parsed) > 0 {
+				if cd_err == nil && cd_parsed > 0 {
 					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
 					if action != nil {
 						p.nextToken.Foreign = true
 						p.nextToken.ForeignAstNode = cd_res
-						p.nextToken.Lit = cd_parsed
+						p.nextToken.Lit = []byte{}
 						p.nextToken.Type = token.Type(cdAction.tokenIndex)
 						break
 					}

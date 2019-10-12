@@ -163,7 +163,7 @@ func ParseFile(fpath string) (interface{}, error, int) {
   }
 }
 
-func ParseText(text string, userData interface{}) (interface{}, error, int) {
+func ParseText(text string) (interface{}, error, int) {
   return NewParser().Parse(NewLexerBytes([]byte(text)))
 }
 
@@ -183,7 +183,7 @@ func ParseFileWithData(fpath string, userData interface{}) (interface{}, error, 
   }
 }
 
-func ParseStringWithData(text string, userData interface{}) (interface{}, error, int) {
+func ParseTextWithData(text string, userData interface{}) (interface{}, error, int) {
   return NewParser().SetContext(userData).Parse(NewLexerBytes([]byte(text)))
 }
 
@@ -204,7 +204,7 @@ func ParseFilePartial(fpath string) (interface{}, error, int) {
   }
 }
 
-func ParseTextPartial(text string, userData interface{}) (interface{}, error, int) {
+func ParseTextPartial(text string) (interface{}, error, int) {
   return NewParser().ParseLongestPrefix(NewLexerBytes([]byte(text)))
 }
 
@@ -224,7 +224,7 @@ func ParseFileWithDataPartial(fpath string, userData interface{}) (interface{}, 
   }
 }
 
-func ParseStringWithDataPartial(text string, userData interface{}) (interface{}, error, int) {
+func ParseTextWithDataPartial(text string, userData interface{}) (interface{}, error, int) {
   return NewParser().SetContext(userData).ParseLongestPrefix(NewLexerBytes([]byte(text)))
 }
 

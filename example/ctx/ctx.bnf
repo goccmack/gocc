@@ -15,7 +15,6 @@ id : (_letter | '_') {_idchar} ;
 <<
 	import (
 		"github.com/maxcalandrelli/gocc/example/ctx/ast"
-		"github.com/maxcalandrelli/gocc/example/ctx/ast"
 	)
 >>
 
@@ -28,6 +27,7 @@ Stmt :
     		id               << ast.NewStmt($0) >>
    |
 		"calc"
-						<< ast.Calc($0) >>
+		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+						<< ast.CalcResult($2) >>
 
 ;

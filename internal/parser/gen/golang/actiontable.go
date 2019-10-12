@@ -109,7 +109,7 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 		case action.Shift:
 			data.Actions[i] = fmt.Sprintf("shift(%d), // %s", int(act1), sym)
 			switch s := sym.(type) {
-			case ast.SyntaxContextDependentTokId:
+			case ast.SyntaxContextDependentTokId, ast.SyntaxSubParser:
 				data.CdActions = append(data.CdActions, cdActionFunc{
 					i,
 					fmt.Sprintf("cdFunc_%s", s.SymbolString()),
@@ -130,7 +130,7 @@ package parser
 
 type (
 	actionTable [numStates]actionRow
-  cdFunc func(TokenStream, interface{}) (interface{}, error, []byte)
+  cdFunc func(TokenStream, interface{}) (interface{}, error, int)
   cdAction struct {
     tokenIndex   int
     tokenScanner cdFunc

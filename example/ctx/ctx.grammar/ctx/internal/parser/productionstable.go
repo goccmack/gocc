@@ -63,13 +63,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : Λ<calc>	<< ast.Calc(X[0]) >>`,
+		String: `Stmt : Λ<calc> μ<calc_0>	<< ast.CalcResult(X[2]) >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      4,
-		NumSymbols: 1,
+		NumSymbols: 3,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.Calc(X[0])
+			return ast.CalcResult(X[2])
 		},
 	},
 }

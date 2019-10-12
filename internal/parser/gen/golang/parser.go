@@ -54,11 +54,13 @@ type parserData struct {
 	NumStates      int
 	NumSymbols     int
 	CdTokList      ast.SyntaxSymbols
+	CdSubList      ast.SyntaxSymbols
+	CdSubImports   map[string]string
 	ErrorTokenName string
 }
 
 func getParserData(pkg, internal, iface string, prods ast.SyntaxProdList, itemSets *items.ItemSets, symbols *symbols.Symbols, cfg config.Config) *parserData {
-	return &parserData{
+	ret := &parserData{
 		Debug:          cfg.DebugParser(),
 		PkgPath:        pkg,
 		InternalSubdir: internal,
@@ -68,8 +70,21 @@ func getParserData(pkg, internal, iface string, prods ast.SyntaxProdList, itemSe
 		NumStates:      itemSets.Size(),
 		NumSymbols:     symbols.NumSymbols(),
 		CdTokList:      symbols.ListContextDependentTokenSymbols(),
+		CdSubList:      symbols.ListSubParserSymbols(),
+		CdSubImports:   map[string]string{},
 		ErrorTokenName: config.INTERNAL_SYMBOL_ERROR,
 	}
+	for _, sym := range ret.CdSubList {
+		sub := sym.(ast.SyntaxSubParser)
+		if imp, found := ret.CdSubImports[sub.Alias]; found {
+			if imp != sub.Import {
+				panic(fmt.Sprintf("alias %s cannot refer to %s, already used by %s", sub.Alias, sub.Import, imp))
+			}
+		} else {
+			ret.CdSubImports[sub.Alias] = sub.Import
+		}
+	}
+	return ret
 }
 
 const parserSrc = `
@@ -85,6 +100,11 @@ import (
 	parseError "{{.PkgPath}}/{{.InternalSubdir}}/errors"
 	"{{.PkgPath}}/{{.InternalSubdir}}/token"
 	"{{.PkgPath}}/{{.IfaceSubdir}}"
+
+  {{ range $alias, $import := .CdSubImports }}
+    {{$alias}} "{{$import}}"
+  {{end}}
+
 )
 
 const (
@@ -186,9 +206,17 @@ func (f fakeCp) DistanceFrom(o iface.CheckPoint) int {
   return 0
 }
 
-{{- range $c := .CdTokList }}
-{{ printf "func cdFunc_%s (Stream TokenStream, Context interface{}) (interface{}, error, []byte) {return %s}" $c.SymbolString $c.ContexDependentParseFunctionCall }}
-{{- end }}
+{{ range $c := .CdTokList }}
+func {{ printf "cdFunc_%s" $c.SymbolString }} (Stream TokenStream, Context interface{}) (interface{}, error, int) {
+  return {{ $c.ContexDependentParseFunctionCall }}
+}
+{{ end }}
+
+{{ range $c := .CdSubList }}
+func {{ printf "cdFunc_%s" $c.SymbolString }} (Stream TokenStream, Context interface{}) (interface{}, error, int) {
+  return {{$c.Alias}}.ParseWithDataPartial(Stream, Context)
+}
+{{ end }}
 
 
 func NewParser() *Parser {
@@ -306,7 +334,7 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
     if tokens == nil && (len(parserActions.table[p.stack.top()].cdActions) > 0 || longest) {
       return errNotRepositionable
     }
-    {{- if eq (len .CdTokList) 0 }}
+    {{- if and (eq (len .CdTokList) 0) (eq (len .CdSubList) 0) }}
     if longest {
       checkPoint = tokens.GetCheckPoint()
     }
@@ -340,12 +368,12 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
   			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
   				tokens.GotoCheckPoint (checkPoint)
   				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
-  				if cd_err == nil && len(cd_parsed) > 0 {
+  				if cd_err == nil && cd_parsed > 0 {
   					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
             if action != nil {
               p.nextToken.Foreign = true
               p.nextToken.ForeignAstNode = cd_res
-    					  p.nextToken.Lit = cd_parsed
+    					  p.nextToken.Lit = []byte{}
               p.nextToken.Type = token.Type(cdAction.tokenIndex)
   					  break
             }

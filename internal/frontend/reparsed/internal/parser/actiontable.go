@@ -4,7 +4,7 @@ package parser
 
 type (
 	actionTable [numStates]actionRow
-	cdFunc      func(TokenStream, interface{}) (interface{}, error, []byte)
+	cdFunc      func(TokenStream, interface{}) (interface{}, error, int)
 	cdAction    struct {
 		tokenIndex   int
 		tokenScanner cdFunc
@@ -46,6 +46,7 @@ var parserActions = actions{
 				shift(13), // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -78,6 +79,7 @@ var parserActions = actions{
 				nil,          // prodId
 				nil,          // string_lit
 				nil,          // g_ctxdep_lit
+				nil,          // "@"
 				nil,          // "error"
 				nil,          // "λ"
 				nil,          // "empty"
@@ -110,6 +112,7 @@ var parserActions = actions{
 				shift(13), // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -142,6 +145,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -174,6 +178,7 @@ var parserActions = actions{
 				reduce(4), // prodId, reduce: LexicalPart
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -206,6 +211,7 @@ var parserActions = actions{
 				reduce(5), // prodId, reduce: LexProductions
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -238,6 +244,7 @@ var parserActions = actions{
 				shift(13), // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -270,6 +277,7 @@ var parserActions = actions{
 				shift(13),  // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -302,6 +310,7 @@ var parserActions = actions{
 				reduce(26), // prodId, reduce: SyntaxProdList
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -334,6 +343,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -366,6 +376,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -398,6 +409,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -430,6 +442,7 @@ var parserActions = actions{
 				reduce(25), // prodId, reduce: FileHeader
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -462,6 +475,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -494,6 +508,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -526,6 +541,7 @@ var parserActions = actions{
 				reduce(6), // prodId, reduce: LexProductions
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -558,6 +574,7 @@ var parserActions = actions{
 				shift(13),  // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -590,6 +607,7 @@ var parserActions = actions{
 				reduce(27), // prodId, reduce: SyntaxProdList
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -622,6 +640,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -654,6 +673,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -686,6 +706,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -718,10 +739,11 @@ var parserActions = actions{
 				shift(41), // prodId
 				shift(42), // string_lit
 				nil,       // g_ctxdep_lit
-				shift(43), // "error"
-				shift(44), // "λ"
-				shift(45), // "empty"
-				shift(46), // "ε"
+				shift(43), // "@"
+				shift(44), // "error"
+				shift(45), // "λ"
+				shift(46), // "empty"
+				shift(47), // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -732,10 +754,10 @@ var parserActions = actions{
 				nil,       // Ω<EOF>
 				nil,       // tokId
 				nil,       // ":"
-				shift(47), // ";"
+				shift(48), // ";"
 				nil,       // regDefId
 				nil,       // ignoredTokId
-				shift(48), // "|"
+				shift(49), // "|"
 				nil,       // "."
 				nil,       // char_lit
 				nil,       // "-"
@@ -750,6 +772,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -782,6 +805,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -814,6 +838,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -846,6 +871,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -878,6 +904,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -898,7 +925,7 @@ var parserActions = actions{
 				reduce(15), // "|", reduce: LexTerm
 				reduce(15), // ".", reduce: LexTerm
 				reduce(15), // char_lit, reduce: LexTerm
-				shift(50),  // "-"
+				shift(51),  // "-"
 				reduce(15), // "~", reduce: LexTerm
 				reduce(15), // "(", reduce: LexTerm
 				nil,        // ")"
@@ -910,6 +937,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -929,10 +957,10 @@ var parserActions = actions{
 				nil,       // ignoredTokId
 				nil,       // "|"
 				nil,       // "."
-				shift(51), // char_lit
+				shift(52), // char_lit
 				nil,       // "-"
 				nil,       // "~"
-				shift(52), // "("
+				shift(53), // "("
 				nil,       // ")"
 				nil,       // "["
 				nil,       // "]"
@@ -942,6 +970,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -957,23 +986,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(56), // regDefId
+				shift(57), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(57), // "."
-				shift(58), // char_lit
+				shift(58), // "."
+				shift(59), // char_lit
 				nil,       // "-"
-				shift(59), // "~"
-				shift(60), // "("
+				shift(60), // "~"
+				shift(61), // "("
 				nil,       // ")"
-				shift(61), // "["
+				shift(62), // "["
 				nil,       // "]"
-				shift(62), // "{"
+				shift(63), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -989,23 +1019,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(66), // regDefId
+				shift(67), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(67), // "."
-				shift(68), // char_lit
+				shift(68), // "."
+				shift(69), // char_lit
 				nil,       // "-"
-				shift(69), // "~"
-				shift(70), // "("
+				shift(70), // "~"
+				shift(71), // "("
 				nil,       // ")"
-				shift(71), // "["
+				shift(72), // "["
 				nil,       // "]"
-				shift(72), // "{"
+				shift(73), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1021,23 +1052,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(76), // regDefId
+				shift(77), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(77), // "."
-				shift(78), // char_lit
+				shift(78), // "."
+				shift(79), // char_lit
 				nil,       // "-"
-				shift(79), // "~"
-				shift(80), // "("
+				shift(80), // "~"
+				shift(81), // "("
 				nil,       // ")"
-				shift(81), // "["
+				shift(82), // "["
 				nil,       // "]"
-				shift(82), // "{"
+				shift(83), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1052,10 +1084,10 @@ var parserActions = actions{
 				nil,       // Ω<EOF>
 				nil,       // tokId
 				nil,       // ":"
-				shift(83), // ";"
+				shift(84), // ";"
 				nil,       // regDefId
 				nil,       // ignoredTokId
-				shift(48), // "|"
+				shift(49), // "|"
 				nil,       // "."
 				nil,       // char_lit
 				nil,       // "-"
@@ -1070,6 +1102,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1084,10 +1117,10 @@ var parserActions = actions{
 				nil,       // Ω<EOF>
 				nil,       // tokId
 				nil,       // ":"
-				shift(84), // ";"
+				shift(85), // ";"
 				nil,       // regDefId
 				nil,       // ignoredTokId
-				shift(48), // "|"
+				shift(49), // "|"
 				nil,       // "."
 				nil,       // char_lit
 				nil,       // "-"
@@ -1102,6 +1135,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1116,10 +1150,10 @@ var parserActions = actions{
 				nil,       // Ω<EOF>
 				nil,       // tokId
 				nil,       // ":"
-				shift(85), // ";"
+				shift(86), // ";"
 				nil,       // regDefId
 				nil,       // ignoredTokId
-				shift(86), // "|"
+				shift(87), // "|"
 				nil,       // "."
 				nil,       // char_lit
 				nil,       // "-"
@@ -1134,6 +1168,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1166,6 +1201,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1194,10 +1230,11 @@ var parserActions = actions{
 				nil,        // "]"
 				nil,        // "{"
 				nil,        // "}"
-				shift(88),  // g_sdt_lit
+				shift(89),  // g_sdt_lit
 				shift(41),  // prodId
 				shift(42),  // string_lit
 				nil,        // g_ctxdep_lit
+				shift(43),  // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1226,10 +1263,11 @@ var parserActions = actions{
 				nil,        // "]"
 				nil,        // "{"
 				nil,        // "}"
-				shift(90),  // g_sdt_lit
+				shift(91),  // g_sdt_lit
 				shift(41),  // prodId
 				shift(42),  // string_lit
 				nil,        // g_ctxdep_lit
+				shift(43),  // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1262,6 +1300,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1294,6 +1333,7 @@ var parserActions = actions{
 				reduce(38), // prodId, reduce: Symbols
 				reduce(38), // string_lit, reduce: Symbols
 				nil,        // g_ctxdep_lit
+				reduce(38), // "@", reduce: Symbols
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1325,7 +1365,8 @@ var parserActions = actions{
 				reduce(41), // g_sdt_lit, reduce: Symbol
 				reduce(41), // prodId, reduce: Symbol
 				reduce(41), // string_lit, reduce: Symbol
-				shift(91),  // g_ctxdep_lit
+				shift(92),  // g_ctxdep_lit
+				reduce(41), // "@", reduce: Symbol
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1358,6 +1399,7 @@ var parserActions = actions{
 				reduce(40), // prodId, reduce: Symbol
 				reduce(40), // string_lit, reduce: Symbol
 				nil,        // g_ctxdep_lit
+				reduce(40), // "@", reduce: Symbol
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1390,6 +1432,7 @@ var parserActions = actions{
 				reduce(42), // prodId, reduce: Symbol
 				reduce(42), // string_lit, reduce: Symbol
 				nil,        // g_ctxdep_lit
+				reduce(42), // "@", reduce: Symbol
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1400,32 +1443,33 @@ var parserActions = actions{
 		actionRow{ // S43
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				reduce(44), // tokId, reduce: ErrorSymbol
-				nil,        // ":"
-				reduce(44), // ";", reduce: ErrorSymbol
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				reduce(44), // "|", reduce: ErrorSymbol
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				reduce(44), // g_sdt_lit, reduce: ErrorSymbol
-				reduce(44), // prodId, reduce: ErrorSymbol
-				reduce(44), // string_lit, reduce: ErrorSymbol
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				shift(93), // tokId
+				nil,       // ":"
+				nil,       // ";"
+				nil,       // regDefId
+				nil,       // ignoredTokId
+				nil,       // "|"
+				nil,       // "."
+				nil,       // char_lit
+				nil,       // "-"
+				nil,       // "~"
+				nil,       // "("
+				nil,       // ")"
+				nil,       // "["
+				nil,       // "]"
+				nil,       // "{"
+				nil,       // "}"
+				nil,       // g_sdt_lit
+				nil,       // prodId
+				shift(94), // string_lit
+				nil,       // g_ctxdep_lit
+				nil,       // "@"
+				nil,       // "error"
+				nil,       // "λ"
+				nil,       // "empty"
+				nil,       // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -1434,12 +1478,12 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
 				nil,        // Ω<EOF>
-				reduce(45), // tokId, reduce: ErrorSymbol
+				reduce(46), // tokId, reduce: ErrorSymbol
 				nil,        // ":"
-				reduce(45), // ";", reduce: ErrorSymbol
+				reduce(46), // ";", reduce: ErrorSymbol
 				nil,        // regDefId
 				nil,        // ignoredTokId
-				reduce(45), // "|", reduce: ErrorSymbol
+				reduce(46), // "|", reduce: ErrorSymbol
 				nil,        // "."
 				nil,        // char_lit
 				nil,        // "-"
@@ -1450,10 +1494,11 @@ var parserActions = actions{
 				nil,        // "]"
 				nil,        // "{"
 				nil,        // "}"
-				reduce(45), // g_sdt_lit, reduce: ErrorSymbol
-				reduce(45), // prodId, reduce: ErrorSymbol
-				reduce(45), // string_lit, reduce: ErrorSymbol
+				reduce(46), // g_sdt_lit, reduce: ErrorSymbol
+				reduce(46), // prodId, reduce: ErrorSymbol
+				reduce(46), // string_lit, reduce: ErrorSymbol
 				nil,        // g_ctxdep_lit
+				reduce(46), // "@", reduce: ErrorSymbol
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1466,12 +1511,12 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
 				nil,        // Ω<EOF>
-				nil,        // tokId
+				reduce(47), // tokId, reduce: ErrorSymbol
 				nil,        // ":"
-				reduce(46), // ";", reduce: EpsilonSymbol
+				reduce(47), // ";", reduce: ErrorSymbol
 				nil,        // regDefId
 				nil,        // ignoredTokId
-				reduce(46), // "|", reduce: EpsilonSymbol
+				reduce(47), // "|", reduce: ErrorSymbol
 				nil,        // "."
 				nil,        // char_lit
 				nil,        // "-"
@@ -1482,10 +1527,11 @@ var parserActions = actions{
 				nil,        // "]"
 				nil,        // "{"
 				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
+				reduce(47), // g_sdt_lit, reduce: ErrorSymbol
+				reduce(47), // prodId, reduce: ErrorSymbol
+				reduce(47), // string_lit, reduce: ErrorSymbol
 				nil,        // g_ctxdep_lit
+				reduce(47), // "@", reduce: ErrorSymbol
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1500,10 +1546,10 @@ var parserActions = actions{
 				nil,        // Ω<EOF>
 				nil,        // tokId
 				nil,        // ":"
-				reduce(47), // ";", reduce: EpsilonSymbol
+				reduce(48), // ";", reduce: EpsilonSymbol
 				nil,        // regDefId
 				nil,        // ignoredTokId
-				reduce(47), // "|", reduce: EpsilonSymbol
+				reduce(48), // "|", reduce: EpsilonSymbol
 				nil,        // "."
 				nil,        // char_lit
 				nil,        // "-"
@@ -1518,6 +1564,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1526,6 +1573,39 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S47
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				reduce(49), // ";", reduce: EpsilonSymbol
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				reduce(49), // "|", reduce: EpsilonSymbol
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S48
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
@@ -1550,6 +1630,7 @@ var parserActions = actions{
 				reduce(7), // prodId, reduce: LexProduction
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1557,7 +1638,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S48
+		actionRow{ // S49
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
@@ -1582,6 +1663,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1589,7 +1671,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S49
+		actionRow{ // S50
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -1614,6 +1696,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1621,7 +1704,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S50
+		actionRow{ // S51
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
@@ -1633,7 +1716,7 @@ var parserActions = actions{
 				nil,       // ignoredTokId
 				nil,       // "|"
 				nil,       // "."
-				shift(93), // char_lit
+				shift(96), // char_lit
 				nil,       // "-"
 				nil,       // "~"
 				nil,       // "("
@@ -1646,6 +1729,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1653,7 +1737,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S51
+		actionRow{ // S52
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -1678,42 +1762,11 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
 				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S52
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				nil,       // tokId
-				nil,       // ":"
-				nil,       // ";"
-				nil,       // regDefId
-				nil,       // ignoredTokId
-				nil,       // "|"
-				nil,       // "."
-				shift(94), // char_lit
-				nil,       // "-"
-				nil,       // "~"
-				nil,       // "("
-				nil,       // ")"
-				nil,       // "["
-				nil,       // "]"
-				nil,       // "{"
-				nil,       // "}"
-				nil,       // g_sdt_lit
-				nil,       // prodId
-				nil,       // string_lit
-				nil,       // g_ctxdep_lit
-				nil,       // "error"
-				nil,       // "λ"
-				nil,       // "empty"
-				nil,       // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -1727,13 +1780,13 @@ var parserActions = actions{
 				nil,       // ";"
 				nil,       // regDefId
 				nil,       // ignoredTokId
-				shift(95), // "|"
+				nil,       // "|"
 				nil,       // "."
-				nil,       // char_lit
+				shift(97), // char_lit
 				nil,       // "-"
 				nil,       // "~"
 				nil,       // "("
-				shift(96), // ")"
+				nil,       // ")"
 				nil,       // "["
 				nil,       // "]"
 				nil,       // "{"
@@ -1742,6 +1795,7 @@ var parserActions = actions{
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -1752,28 +1806,62 @@ var parserActions = actions{
 		actionRow{ // S54
 			canRecover: false,
 			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // tokId
+				nil,       // ":"
+				nil,       // ";"
+				nil,       // regDefId
+				nil,       // ignoredTokId
+				shift(98), // "|"
+				nil,       // "."
+				nil,       // char_lit
+				nil,       // "-"
+				nil,       // "~"
+				nil,       // "("
+				shift(99), // ")"
+				nil,       // "["
+				nil,       // "]"
+				nil,       // "{"
+				nil,       // "}"
+				nil,       // g_sdt_lit
+				nil,       // prodId
+				nil,       // string_lit
+				nil,       // g_ctxdep_lit
+				nil,       // "@"
+				nil,       // "error"
+				nil,       // "λ"
+				nil,       // "empty"
+				nil,       // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S55
+			canRecover: false,
+			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
 				nil,        // Ω<EOF>
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				shift(56),  // regDefId
+				shift(57),  // regDefId
 				nil,        // ignoredTokId
 				reduce(10), // "|", reduce: LexPattern
-				shift(57),  // "."
-				shift(58),  // char_lit
+				shift(58),  // "."
+				shift(59),  // char_lit
 				nil,        // "-"
-				shift(59),  // "~"
-				shift(60),  // "("
+				shift(60),  // "~"
+				shift(61),  // "("
 				reduce(10), // ")", reduce: LexPattern
-				shift(61),  // "["
+				shift(62),  // "["
 				nil,        // "]"
-				shift(62),  // "{"
+				shift(63),  // "{"
 				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1781,7 +1869,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S55
+		actionRow{ // S56
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -1806,6 +1894,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1813,7 +1902,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S56
+		actionRow{ // S57
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -1838,6 +1927,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1845,7 +1935,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S57
+		actionRow{ // S58
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -1870,38 +1960,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S58
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				reduce(15), // regDefId, reduce: LexTerm
-				nil,        // ignoredTokId
-				reduce(15), // "|", reduce: LexTerm
-				reduce(15), // ".", reduce: LexTerm
-				reduce(15), // char_lit, reduce: LexTerm
-				shift(98),  // "-"
-				reduce(15), // "~", reduce: LexTerm
-				reduce(15), // "(", reduce: LexTerm
-				reduce(15), // ")", reduce: LexTerm
-				reduce(15), // "[", reduce: LexTerm
-				nil,        // "]"
-				reduce(15), // "{", reduce: LexTerm
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1917,23 +1976,24 @@ var parserActions = actions{
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				nil,        // regDefId
+				reduce(15), // regDefId, reduce: LexTerm
 				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(99),  // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				shift(100), // "("
-				nil,        // ")"
-				nil,        // "["
+				reduce(15), // "|", reduce: LexTerm
+				reduce(15), // ".", reduce: LexTerm
+				reduce(15), // char_lit, reduce: LexTerm
+				shift(101), // "-"
+				reduce(15), // "~", reduce: LexTerm
+				reduce(15), // "(", reduce: LexTerm
+				reduce(15), // ")", reduce: LexTerm
+				reduce(15), // "[", reduce: LexTerm
 				nil,        // "]"
-				nil,        // "{"
+				reduce(15), // "{", reduce: LexTerm
 				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -1944,32 +2004,33 @@ var parserActions = actions{
 		actionRow{ // S60
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				nil,       // tokId
-				nil,       // ":"
-				nil,       // ";"
-				shift(56), // regDefId
-				nil,       // ignoredTokId
-				nil,       // "|"
-				shift(57), // "."
-				shift(58), // char_lit
-				nil,       // "-"
-				shift(59), // "~"
-				shift(60), // "("
-				nil,       // ")"
-				shift(61), // "["
-				nil,       // "]"
-				shift(62), // "{"
-				nil,       // "}"
-				nil,       // g_sdt_lit
-				nil,       // prodId
-				nil,       // string_lit
-				nil,       // g_ctxdep_lit
-				nil,       // "error"
-				nil,       // "λ"
-				nil,       // "empty"
-				nil,       // "ε"
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				shift(102), // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				shift(103), // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -1981,23 +2042,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(66), // regDefId
+				shift(57), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(67), // "."
-				shift(68), // char_lit
+				shift(58), // "."
+				shift(59), // char_lit
 				nil,       // "-"
-				shift(69), // "~"
-				shift(70), // "("
+				shift(60), // "~"
+				shift(61), // "("
 				nil,       // ")"
-				shift(71), // "["
+				shift(62), // "["
 				nil,       // "]"
-				shift(72), // "{"
+				shift(63), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2013,23 +2075,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(76), // regDefId
+				shift(67), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(77), // "."
-				shift(78), // char_lit
+				shift(68), // "."
+				shift(69), // char_lit
 				nil,       // "-"
-				shift(79), // "~"
-				shift(80), // "("
+				shift(70), // "~"
+				shift(71), // "("
 				nil,       // ")"
-				shift(81), // "["
+				shift(72), // "["
 				nil,       // "]"
-				shift(82), // "{"
+				shift(73), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2040,32 +2103,33 @@ var parserActions = actions{
 		actionRow{ // S63
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(104), // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				shift(105), // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // tokId
+				nil,       // ":"
+				nil,       // ";"
+				shift(77), // regDefId
+				nil,       // ignoredTokId
+				nil,       // "|"
+				shift(78), // "."
+				shift(79), // char_lit
+				nil,       // "-"
+				shift(80), // "~"
+				shift(81), // "("
+				nil,       // ")"
+				shift(82), // "["
+				nil,       // "]"
+				shift(83), // "{"
+				nil,       // "}"
+				nil,       // g_sdt_lit
+				nil,       // prodId
+				nil,       // string_lit
+				nil,       // g_ctxdep_lit
+				nil,       // "@"
+				nil,       // "error"
+				nil,       // "λ"
+				nil,       // "empty"
+				nil,       // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -2077,23 +2141,24 @@ var parserActions = actions{
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				shift(66),  // regDefId
+				nil,        // regDefId
 				nil,        // ignoredTokId
-				reduce(10), // "|", reduce: LexPattern
-				shift(67),  // "."
-				shift(68),  // char_lit
+				shift(107), // "|"
+				nil,        // "."
+				nil,        // char_lit
 				nil,        // "-"
-				shift(69),  // "~"
-				shift(70),  // "("
+				nil,        // "~"
+				nil,        // "("
 				nil,        // ")"
-				shift(71),  // "["
-				reduce(10), // "]", reduce: LexPattern
-				shift(72),  // "{"
+				nil,        // "["
+				shift(108), // "]"
+				nil,        // "{"
 				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2102,6 +2167,39 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S65
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				shift(67),  // regDefId
+				nil,        // ignoredTokId
+				reduce(10), // "|", reduce: LexPattern
+				shift(68),  // "."
+				shift(69),  // char_lit
+				nil,        // "-"
+				shift(70),  // "~"
+				shift(71),  // "("
+				nil,        // ")"
+				shift(72),  // "["
+				reduce(10), // "]", reduce: LexPattern
+				shift(73),  // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S66
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2126,6 +2224,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2133,7 +2232,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S66
+		actionRow{ // S67
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2158,6 +2257,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2165,7 +2265,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S67
+		actionRow{ // S68
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2190,38 +2290,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S68
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				reduce(15), // regDefId, reduce: LexTerm
-				nil,        // ignoredTokId
-				reduce(15), // "|", reduce: LexTerm
-				reduce(15), // ".", reduce: LexTerm
-				reduce(15), // char_lit, reduce: LexTerm
-				shift(107), // "-"
-				reduce(15), // "~", reduce: LexTerm
-				reduce(15), // "(", reduce: LexTerm
-				nil,        // ")"
-				reduce(15), // "[", reduce: LexTerm
-				reduce(15), // "]", reduce: LexTerm
-				reduce(15), // "{", reduce: LexTerm
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2237,23 +2306,24 @@ var parserActions = actions{
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				nil,        // regDefId
+				reduce(15), // regDefId, reduce: LexTerm
 				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(108), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				shift(109), // "("
+				reduce(15), // "|", reduce: LexTerm
+				reduce(15), // ".", reduce: LexTerm
+				reduce(15), // char_lit, reduce: LexTerm
+				shift(110), // "-"
+				reduce(15), // "~", reduce: LexTerm
+				reduce(15), // "(", reduce: LexTerm
 				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
+				reduce(15), // "[", reduce: LexTerm
+				reduce(15), // "]", reduce: LexTerm
+				reduce(15), // "{", reduce: LexTerm
 				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2264,32 +2334,33 @@ var parserActions = actions{
 		actionRow{ // S70
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				nil,       // tokId
-				nil,       // ":"
-				nil,       // ";"
-				shift(56), // regDefId
-				nil,       // ignoredTokId
-				nil,       // "|"
-				shift(57), // "."
-				shift(58), // char_lit
-				nil,       // "-"
-				shift(59), // "~"
-				shift(60), // "("
-				nil,       // ")"
-				shift(61), // "["
-				nil,       // "]"
-				shift(62), // "{"
-				nil,       // "}"
-				nil,       // g_sdt_lit
-				nil,       // prodId
-				nil,       // string_lit
-				nil,       // g_ctxdep_lit
-				nil,       // "error"
-				nil,       // "λ"
-				nil,       // "empty"
-				nil,       // "ε"
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				shift(111), // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				shift(112), // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -2301,23 +2372,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(66), // regDefId
+				shift(57), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(67), // "."
-				shift(68), // char_lit
+				shift(58), // "."
+				shift(59), // char_lit
 				nil,       // "-"
-				shift(69), // "~"
-				shift(70), // "("
+				shift(60), // "~"
+				shift(61), // "("
 				nil,       // ")"
-				shift(71), // "["
+				shift(62), // "["
 				nil,       // "]"
-				shift(72), // "{"
+				shift(63), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2333,23 +2405,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(76), // regDefId
+				shift(67), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(77), // "."
-				shift(78), // char_lit
+				shift(68), // "."
+				shift(69), // char_lit
 				nil,       // "-"
-				shift(79), // "~"
-				shift(80), // "("
+				shift(70), // "~"
+				shift(71), // "("
 				nil,       // ")"
-				shift(81), // "["
+				shift(72), // "["
 				nil,       // "]"
-				shift(82), // "{"
+				shift(73), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2360,32 +2433,33 @@ var parserActions = actions{
 		actionRow{ // S73
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(113), // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				shift(114), // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // tokId
+				nil,       // ":"
+				nil,       // ";"
+				shift(77), // regDefId
+				nil,       // ignoredTokId
+				nil,       // "|"
+				shift(78), // "."
+				shift(79), // char_lit
+				nil,       // "-"
+				shift(80), // "~"
+				shift(81), // "("
+				nil,       // ")"
+				shift(82), // "["
+				nil,       // "]"
+				shift(83), // "{"
+				nil,       // "}"
+				nil,       // g_sdt_lit
+				nil,       // prodId
+				nil,       // string_lit
+				nil,       // g_ctxdep_lit
+				nil,       // "@"
+				nil,       // "error"
+				nil,       // "λ"
+				nil,       // "empty"
+				nil,       // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -2397,23 +2471,24 @@ var parserActions = actions{
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				shift(76),  // regDefId
+				nil,        // regDefId
 				nil,        // ignoredTokId
-				reduce(10), // "|", reduce: LexPattern
-				shift(77),  // "."
-				shift(78),  // char_lit
+				shift(116), // "|"
+				nil,        // "."
+				nil,        // char_lit
 				nil,        // "-"
-				shift(79),  // "~"
-				shift(80),  // "("
+				nil,        // "~"
+				nil,        // "("
 				nil,        // ")"
-				shift(81),  // "["
+				nil,        // "["
 				nil,        // "]"
-				shift(82),  // "{"
-				reduce(10), // "}", reduce: LexPattern
+				nil,        // "{"
+				shift(117), // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2422,6 +2497,39 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S75
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				shift(77),  // regDefId
+				nil,        // ignoredTokId
+				reduce(10), // "|", reduce: LexPattern
+				shift(78),  // "."
+				shift(79),  // char_lit
+				nil,        // "-"
+				shift(80),  // "~"
+				shift(81),  // "("
+				nil,        // ")"
+				shift(82),  // "["
+				nil,        // "]"
+				shift(83),  // "{"
+				reduce(10), // "}", reduce: LexPattern
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S76
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2446,6 +2554,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2453,7 +2562,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S76
+		actionRow{ // S77
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2478,6 +2587,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2485,7 +2595,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S77
+		actionRow{ // S78
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2510,38 +2620,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S78
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				reduce(15), // regDefId, reduce: LexTerm
-				nil,        // ignoredTokId
-				reduce(15), // "|", reduce: LexTerm
-				reduce(15), // ".", reduce: LexTerm
-				reduce(15), // char_lit, reduce: LexTerm
-				shift(116), // "-"
-				reduce(15), // "~", reduce: LexTerm
-				reduce(15), // "(", reduce: LexTerm
-				nil,        // ")"
-				reduce(15), // "[", reduce: LexTerm
-				nil,        // "]"
-				reduce(15), // "{", reduce: LexTerm
-				reduce(15), // "}", reduce: LexTerm
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2557,23 +2636,24 @@ var parserActions = actions{
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				nil,        // regDefId
+				reduce(15), // regDefId, reduce: LexTerm
 				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(117), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				shift(118), // "("
+				reduce(15), // "|", reduce: LexTerm
+				reduce(15), // ".", reduce: LexTerm
+				reduce(15), // char_lit, reduce: LexTerm
+				shift(119), // "-"
+				reduce(15), // "~", reduce: LexTerm
+				reduce(15), // "(", reduce: LexTerm
 				nil,        // ")"
-				nil,        // "["
+				reduce(15), // "[", reduce: LexTerm
 				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
+				reduce(15), // "{", reduce: LexTerm
+				reduce(15), // "}", reduce: LexTerm
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2584,32 +2664,33 @@ var parserActions = actions{
 		actionRow{ // S80
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				nil,       // tokId
-				nil,       // ":"
-				nil,       // ";"
-				shift(56), // regDefId
-				nil,       // ignoredTokId
-				nil,       // "|"
-				shift(57), // "."
-				shift(58), // char_lit
-				nil,       // "-"
-				shift(59), // "~"
-				shift(60), // "("
-				nil,       // ")"
-				shift(61), // "["
-				nil,       // "]"
-				shift(62), // "{"
-				nil,       // "}"
-				nil,       // g_sdt_lit
-				nil,       // prodId
-				nil,       // string_lit
-				nil,       // g_ctxdep_lit
-				nil,       // "error"
-				nil,       // "λ"
-				nil,       // "empty"
-				nil,       // "ε"
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				shift(120), // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				shift(121), // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
 			},
 			cdActions: []cdAction{},
 		},
@@ -2621,23 +2702,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(66), // regDefId
+				shift(57), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(67), // "."
-				shift(68), // char_lit
+				shift(58), // "."
+				shift(59), // char_lit
 				nil,       // "-"
-				shift(69), // "~"
-				shift(70), // "("
+				shift(60), // "~"
+				shift(61), // "("
 				nil,       // ")"
-				shift(71), // "["
+				shift(62), // "["
 				nil,       // "]"
-				shift(72), // "{"
+				shift(63), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2653,23 +2735,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(76), // regDefId
+				shift(67), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(77), // "."
-				shift(78), // char_lit
+				shift(68), // "."
+				shift(69), // char_lit
 				nil,       // "-"
-				shift(79), // "~"
-				shift(80), // "("
+				shift(70), // "~"
+				shift(71), // "("
 				nil,       // ")"
-				shift(81), // "["
+				shift(72), // "["
 				nil,       // "]"
-				shift(82), // "{"
+				shift(73), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2678,6 +2761,39 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S83
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // tokId
+				nil,       // ":"
+				nil,       // ";"
+				shift(77), // regDefId
+				nil,       // ignoredTokId
+				nil,       // "|"
+				shift(78), // "."
+				shift(79), // char_lit
+				nil,       // "-"
+				shift(80), // "~"
+				shift(81), // "("
+				nil,       // ")"
+				shift(82), // "["
+				nil,       // "]"
+				shift(83), // "{"
+				nil,       // "}"
+				nil,       // g_sdt_lit
+				nil,       // prodId
+				nil,       // string_lit
+				nil,       // g_ctxdep_lit
+				nil,       // "@"
+				nil,       // "error"
+				nil,       // "λ"
+				nil,       // "empty"
+				nil,       // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S84
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
@@ -2702,6 +2818,7 @@ var parserActions = actions{
 				reduce(8), // prodId, reduce: LexProduction
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2709,7 +2826,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S84
+		actionRow{ // S85
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
@@ -2734,6 +2851,7 @@ var parserActions = actions{
 				reduce(9), // prodId, reduce: LexProduction
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -2741,7 +2859,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S85
+		actionRow{ // S86
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2766,6 +2884,7 @@ var parserActions = actions{
 				reduce(28), // prodId, reduce: SyntaxProduction
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2773,7 +2892,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S86
+		actionRow{ // S87
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
@@ -2798,14 +2917,15 @@ var parserActions = actions{
 				shift(41), // prodId
 				shift(42), // string_lit
 				nil,       // g_ctxdep_lit
-				shift(43), // "error"
-				shift(44), // "λ"
-				shift(45), // "empty"
-				shift(46), // "ε"
+				shift(43), // "@"
+				shift(44), // "error"
+				shift(45), // "λ"
+				shift(46), // "empty"
+				shift(47), // "ε"
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S87
+		actionRow{ // S88
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2830,6 +2950,7 @@ var parserActions = actions{
 				reduce(39), // prodId, reduce: Symbols
 				reduce(39), // string_lit, reduce: Symbols
 				nil,        // g_ctxdep_lit
+				reduce(39), // "@", reduce: Symbols
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2837,7 +2958,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S88
+		actionRow{ // S89
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2862,6 +2983,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2869,7 +2991,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S89
+		actionRow{ // S90
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2890,10 +3012,11 @@ var parserActions = actions{
 				nil,        // "]"
 				nil,        // "{"
 				nil,        // "}"
-				shift(123), // g_sdt_lit
+				shift(126), // g_sdt_lit
 				shift(41),  // prodId
 				shift(42),  // string_lit
 				nil,        // g_ctxdep_lit
+				shift(43),  // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2901,7 +3024,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S90
+		actionRow{ // S91
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2926,6 +3049,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2933,7 +3057,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S91
+		actionRow{ // S92
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2958,6 +3082,7 @@ var parserActions = actions{
 				reduce(43), // prodId, reduce: Symbol
 				reduce(43), // string_lit, reduce: Symbol
 				nil,        // g_ctxdep_lit
+				reduce(43), // "@", reduce: Symbol
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2965,7 +3090,73 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S92
+		actionRow{ // S93
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				shift(127), // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S94
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				reduce(45), // tokId, reduce: Symbol
+				nil,        // ":"
+				reduce(45), // ";", reduce: Symbol
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				reduce(45), // "|", reduce: Symbol
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				reduce(45), // g_sdt_lit, reduce: Symbol
+				reduce(45), // prodId, reduce: Symbol
+				reduce(45), // string_lit, reduce: Symbol
+				nil,        // g_ctxdep_lit
+				reduce(45), // "@", reduce: Symbol
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S95
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -2990,6 +3181,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -2997,7 +3189,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S93
+		actionRow{ // S96
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3022,6 +3214,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3029,7 +3222,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S94
+		actionRow{ // S97
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3042,7 +3235,7 @@ var parserActions = actions{
 				nil,        // "|"
 				nil,        // "."
 				nil,        // char_lit
-				shift(124), // "-"
+				shift(128), // "-"
 				nil,        // "~"
 				nil,        // "("
 				nil,        // ")"
@@ -3054,6 +3247,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3061,7 +3255,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S95
+		actionRow{ // S98
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
@@ -3069,23 +3263,24 @@ var parserActions = actions{
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(56), // regDefId
+				shift(57), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(57), // "."
-				shift(58), // char_lit
+				shift(58), // "."
+				shift(59), // char_lit
 				nil,       // "-"
-				shift(59), // "~"
-				shift(60), // "("
+				shift(60), // "~"
+				shift(61), // "("
 				nil,       // ")"
-				shift(61), // "["
+				shift(62), // "["
 				nil,       // "]"
-				shift(62), // "{"
+				shift(63), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -3093,7 +3288,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S96
+		actionRow{ // S99
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3118,6 +3313,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3125,7 +3321,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S97
+		actionRow{ // S100
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3150,6 +3346,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3157,7 +3354,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S98
+		actionRow{ // S101
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3169,7 +3366,7 @@ var parserActions = actions{
 				nil,        // ignoredTokId
 				nil,        // "|"
 				nil,        // "."
-				shift(126), // char_lit
+				shift(130), // char_lit
 				nil,        // "-"
 				nil,        // "~"
 				nil,        // "("
@@ -3182,6 +3379,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3189,7 +3387,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S99
+		actionRow{ // S102
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3214,102 +3412,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S100
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(127), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S101
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(95),  // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				shift(128), // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S102
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(104), // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				shift(129), // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3327,9 +3430,9 @@ var parserActions = actions{
 				nil,        // ";"
 				nil,        // regDefId
 				nil,        // ignoredTokId
-				shift(113), // "|"
+				nil,        // "|"
 				nil,        // "."
-				nil,        // char_lit
+				shift(131), // char_lit
 				nil,        // "-"
 				nil,        // "~"
 				nil,        // "("
@@ -3337,11 +3440,12 @@ var parserActions = actions{
 				nil,        // "["
 				nil,        // "]"
 				nil,        // "{"
-				shift(130), // "}"
+				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3352,28 +3456,128 @@ var parserActions = actions{
 		actionRow{ // S104
 			canRecover: false,
 			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(98),  // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				shift(132), // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S105
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(107), // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				shift(133), // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S106
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(116), // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				shift(134), // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S107
+			canRecover: false,
+			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(66), // regDefId
+				shift(67), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(67), // "."
-				shift(68), // char_lit
+				shift(68), // "."
+				shift(69), // char_lit
 				nil,       // "-"
-				shift(69), // "~"
-				shift(70), // "("
+				shift(70), // "~"
+				shift(71), // "("
 				nil,       // ")"
-				shift(71), // "["
+				shift(72), // "["
 				nil,       // "]"
-				shift(72), // "{"
+				shift(73), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -3381,7 +3585,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S105
+		actionRow{ // S108
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3406,6 +3610,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3413,7 +3618,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S106
+		actionRow{ // S109
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3438,6 +3643,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3445,7 +3651,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S107
+		actionRow{ // S110
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3457,7 +3663,7 @@ var parserActions = actions{
 				nil,        // ignoredTokId
 				nil,        // "|"
 				nil,        // "."
-				shift(132), // char_lit
+				shift(136), // char_lit
 				nil,        // "-"
 				nil,        // "~"
 				nil,        // "("
@@ -3470,6 +3676,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3477,7 +3684,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S108
+		actionRow{ // S111
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3502,102 +3709,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S109
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(133), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S110
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(95),  // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				shift(134), // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S111
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(104), // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				shift(135), // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3615,9 +3727,9 @@ var parserActions = actions{
 				nil,        // ";"
 				nil,        // regDefId
 				nil,        // ignoredTokId
-				shift(113), // "|"
+				nil,        // "|"
 				nil,        // "."
-				nil,        // char_lit
+				shift(137), // char_lit
 				nil,        // "-"
 				nil,        // "~"
 				nil,        // "("
@@ -3625,11 +3737,12 @@ var parserActions = actions{
 				nil,        // "["
 				nil,        // "]"
 				nil,        // "{"
-				shift(136), // "}"
+				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3640,28 +3753,128 @@ var parserActions = actions{
 		actionRow{ // S113
 			canRecover: false,
 			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(98),  // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				shift(138), // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S114
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(107), // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				shift(139), // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S115
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(116), // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				shift(140), // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S116
+			canRecover: false,
+			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
 				nil,       // tokId
 				nil,       // ":"
 				nil,       // ";"
-				shift(76), // regDefId
+				shift(77), // regDefId
 				nil,       // ignoredTokId
 				nil,       // "|"
-				shift(77), // "."
-				shift(78), // char_lit
+				shift(78), // "."
+				shift(79), // char_lit
 				nil,       // "-"
-				shift(79), // "~"
-				shift(80), // "("
+				shift(80), // "~"
+				shift(81), // "("
 				nil,       // ")"
-				shift(81), // "["
+				shift(82), // "["
 				nil,       // "]"
-				shift(82), // "{"
+				shift(83), // "{"
 				nil,       // "}"
 				nil,       // g_sdt_lit
 				nil,       // prodId
 				nil,       // string_lit
 				nil,       // g_ctxdep_lit
+				nil,       // "@"
 				nil,       // "error"
 				nil,       // "λ"
 				nil,       // "empty"
@@ -3669,7 +3882,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S114
+		actionRow{ // S117
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3694,6 +3907,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3701,7 +3915,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S115
+		actionRow{ // S118
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3726,6 +3940,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3733,7 +3948,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S116
+		actionRow{ // S119
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3745,7 +3960,7 @@ var parserActions = actions{
 				nil,        // ignoredTokId
 				nil,        // "|"
 				nil,        // "."
-				shift(138), // char_lit
+				shift(142), // char_lit
 				nil,        // "-"
 				nil,        // "~"
 				nil,        // "("
@@ -3758,6 +3973,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3765,7 +3981,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S117
+		actionRow{ // S120
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -3790,102 +4006,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S118
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(139), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S119
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(95),  // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				shift(140), // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S120
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(104), // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				shift(141), // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -3894,102 +4015,6 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S121
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				shift(113), // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				shift(142), // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S122
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				reduce(30), // ";", reduce: Alternatives
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				reduce(30), // "|", reduce: Alternatives
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S123
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				reduce(35), // ";", reduce: SyntaxBody
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				reduce(35), // "|", reduce: SyntaxBody
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S124
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4014,6 +4039,106 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S122
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(98),  // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				shift(144), // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S123
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(107), // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				shift(145), // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S124
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				shift(116), // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				shift(146), // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4028,24 +4153,25 @@ var parserActions = actions{
 				nil,        // Ω<EOF>
 				nil,        // tokId
 				nil,        // ":"
-				nil,        // ";"
-				shift(56),  // regDefId
+				reduce(30), // ";", reduce: Alternatives
+				nil,        // regDefId
 				nil,        // ignoredTokId
-				reduce(11), // "|", reduce: LexPattern
-				shift(57),  // "."
-				shift(58),  // char_lit
+				reduce(30), // "|", reduce: Alternatives
+				nil,        // "."
+				nil,        // char_lit
 				nil,        // "-"
-				shift(59),  // "~"
-				shift(60),  // "("
-				reduce(11), // ")", reduce: LexPattern
-				shift(61),  // "["
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
 				nil,        // "]"
-				shift(62),  // "{"
+				nil,        // "{"
 				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4054,6 +4180,138 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S126
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				reduce(35), // ";", reduce: SyntaxBody
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				reduce(35), // "|", reduce: SyntaxBody
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S127
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				reduce(44), // tokId, reduce: Symbol
+				nil,        // ":"
+				reduce(44), // ";", reduce: Symbol
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				reduce(44), // "|", reduce: Symbol
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				reduce(44), // g_sdt_lit, reduce: Symbol
+				reduce(44), // prodId, reduce: Symbol
+				reduce(44), // string_lit, reduce: Symbol
+				nil,        // g_ctxdep_lit
+				reduce(44), // "@", reduce: Symbol
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S128
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				shift(147), // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S129
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				shift(57),  // regDefId
+				nil,        // ignoredTokId
+				reduce(11), // "|", reduce: LexPattern
+				shift(58),  // "."
+				shift(59),  // char_lit
+				nil,        // "-"
+				shift(60),  // "~"
+				shift(61),  // "("
+				reduce(11), // ")", reduce: LexPattern
+				shift(62),  // "["
+				nil,        // "]"
+				shift(63),  // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S130
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4078,6 +4336,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4085,7 +4344,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S127
+		actionRow{ // S131
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4098,7 +4357,7 @@ var parserActions = actions{
 				nil,        // "|"
 				nil,        // "."
 				nil,        // char_lit
-				shift(144), // "-"
+				shift(148), // "-"
 				nil,        // "~"
 				nil,        // "("
 				nil,        // ")"
@@ -4110,6 +4369,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4117,7 +4377,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S128
+		actionRow{ // S132
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4142,6 +4402,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4149,7 +4410,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S129
+		actionRow{ // S133
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4174,6 +4435,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4181,7 +4443,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S130
+		actionRow{ // S134
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4206,6 +4468,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4213,7 +4476,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S131
+		actionRow{ // S135
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4221,23 +4484,24 @@ var parserActions = actions{
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				shift(66),  // regDefId
+				shift(67),  // regDefId
 				nil,        // ignoredTokId
 				reduce(11), // "|", reduce: LexPattern
-				shift(67),  // "."
-				shift(68),  // char_lit
+				shift(68),  // "."
+				shift(69),  // char_lit
 				nil,        // "-"
-				shift(69),  // "~"
-				shift(70),  // "("
+				shift(70),  // "~"
+				shift(71),  // "("
 				nil,        // ")"
-				shift(71),  // "["
+				shift(72),  // "["
 				reduce(11), // "]", reduce: LexPattern
-				shift(72),  // "{"
+				shift(73),  // "{"
 				nil,        // "}"
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4245,7 +4509,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S132
+		actionRow{ // S136
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4270,6 +4534,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4277,7 +4542,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S133
+		actionRow{ // S137
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4290,7 +4555,7 @@ var parserActions = actions{
 				nil,        // "|"
 				nil,        // "."
 				nil,        // char_lit
-				shift(145), // "-"
+				shift(149), // "-"
 				nil,        // "~"
 				nil,        // "("
 				nil,        // ")"
@@ -4302,6 +4567,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4309,7 +4575,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S134
+		actionRow{ // S138
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4334,6 +4600,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4341,7 +4608,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S135
+		actionRow{ // S139
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4366,6 +4633,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4373,7 +4641,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S136
+		actionRow{ // S140
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4398,6 +4666,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4405,7 +4674,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S137
+		actionRow{ // S141
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4413,23 +4682,24 @@ var parserActions = actions{
 				nil,        // tokId
 				nil,        // ":"
 				nil,        // ";"
-				shift(76),  // regDefId
+				shift(77),  // regDefId
 				nil,        // ignoredTokId
 				reduce(11), // "|", reduce: LexPattern
-				shift(77),  // "."
-				shift(78),  // char_lit
+				shift(78),  // "."
+				shift(79),  // char_lit
 				nil,        // "-"
-				shift(79),  // "~"
-				shift(80),  // "("
+				shift(80),  // "~"
+				shift(81),  // "("
 				nil,        // ")"
-				shift(81),  // "["
+				shift(82),  // "["
 				nil,        // "]"
-				shift(82),  // "{"
+				shift(83),  // "{"
 				reduce(11), // "}", reduce: LexPattern
 				nil,        // g_sdt_lit
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4437,7 +4707,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S138
+		actionRow{ // S142
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4462,6 +4732,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4469,7 +4740,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S139
+		actionRow{ // S143
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4482,7 +4753,7 @@ var parserActions = actions{
 				nil,        // "|"
 				nil,        // "."
 				nil,        // char_lit
-				shift(146), // "-"
+				shift(150), // "-"
 				nil,        // "~"
 				nil,        // "("
 				nil,        // ")"
@@ -4494,6 +4765,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4501,7 +4773,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S140
+		actionRow{ // S144
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4526,6 +4798,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4533,7 +4806,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S141
+		actionRow{ // S145
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4558,6 +4831,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4565,7 +4839,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S142
+		actionRow{ // S146
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4590,134 +4864,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S143
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				nil,        // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				shift(147), // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S144
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(148), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S145
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(149), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S146
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				nil,        // ";"
-				nil,        // regDefId
-				nil,        // ignoredTokId
-				nil,        // "|"
-				nil,        // "."
-				shift(150), // char_lit
-				nil,        // "-"
-				nil,        // "~"
-				nil,        // "("
-				nil,        // ")"
-				nil,        // "["
-				nil,        // "]"
-				nil,        // "{"
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4726,38 +4873,6 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S147
-			canRecover: false,
-			actions: [numSymbols]action{
-				nil,        // ά<INVALID>
-				nil,        // Ω<EOF>
-				nil,        // tokId
-				nil,        // ":"
-				reduce(18), // ";", reduce: LexTerm
-				reduce(18), // regDefId, reduce: LexTerm
-				nil,        // ignoredTokId
-				reduce(18), // "|", reduce: LexTerm
-				reduce(18), // ".", reduce: LexTerm
-				reduce(18), // char_lit, reduce: LexTerm
-				nil,        // "-"
-				reduce(18), // "~", reduce: LexTerm
-				reduce(18), // "(", reduce: LexTerm
-				nil,        // ")"
-				reduce(18), // "[", reduce: LexTerm
-				nil,        // "]"
-				reduce(18), // "{", reduce: LexTerm
-				nil,        // "}"
-				nil,        // g_sdt_lit
-				nil,        // prodId
-				nil,        // string_lit
-				nil,        // g_ctxdep_lit
-				nil,        // "error"
-				nil,        // "λ"
-				nil,        // "empty"
-				nil,        // "ε"
-			},
-			cdActions: []cdAction{},
-		},
-		actionRow{ // S148
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4782,6 +4897,40 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S148
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				shift(152), // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4801,11 +4950,11 @@ var parserActions = actions{
 				nil,        // ignoredTokId
 				nil,        // "|"
 				nil,        // "."
-				nil,        // char_lit
+				shift(153), // char_lit
 				nil,        // "-"
 				nil,        // "~"
 				nil,        // "("
-				shift(152), // ")"
+				nil,        // ")"
 				nil,        // "["
 				nil,        // "]"
 				nil,        // "{"
@@ -4814,6 +4963,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4833,11 +4983,11 @@ var parserActions = actions{
 				nil,        // ignoredTokId
 				nil,        // "|"
 				nil,        // "."
-				nil,        // char_lit
+				shift(154), // char_lit
 				nil,        // "-"
 				nil,        // "~"
 				nil,        // "("
-				shift(153), // ")"
+				nil,        // ")"
 				nil,        // "["
 				nil,        // "]"
 				nil,        // "{"
@@ -4846,6 +4996,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4854,6 +5005,138 @@ var parserActions = actions{
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S151
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				reduce(18), // ";", reduce: LexTerm
+				reduce(18), // regDefId, reduce: LexTerm
+				nil,        // ignoredTokId
+				reduce(18), // "|", reduce: LexTerm
+				reduce(18), // ".", reduce: LexTerm
+				reduce(18), // char_lit, reduce: LexTerm
+				nil,        // "-"
+				reduce(18), // "~", reduce: LexTerm
+				reduce(18), // "(", reduce: LexTerm
+				nil,        // ")"
+				reduce(18), // "[", reduce: LexTerm
+				nil,        // "]"
+				reduce(18), // "{", reduce: LexTerm
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S152
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				shift(155), // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S153
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				shift(156), // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S154
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // tokId
+				nil,        // ":"
+				nil,        // ";"
+				nil,        // regDefId
+				nil,        // ignoredTokId
+				nil,        // "|"
+				nil,        // "."
+				nil,        // char_lit
+				nil,        // "-"
+				nil,        // "~"
+				nil,        // "("
+				shift(157), // ")"
+				nil,        // "["
+				nil,        // "]"
+				nil,        // "{"
+				nil,        // "}"
+				nil,        // g_sdt_lit
+				nil,        // prodId
+				nil,        // string_lit
+				nil,        // g_ctxdep_lit
+				nil,        // "@"
+				nil,        // "error"
+				nil,        // "λ"
+				nil,        // "empty"
+				nil,        // "ε"
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S155
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4878,6 +5161,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4885,7 +5169,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S152
+		actionRow{ // S156
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4910,6 +5194,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"
@@ -4917,7 +5202,7 @@ var parserActions = actions{
 			},
 			cdActions: []cdAction{},
 		},
-		actionRow{ // S153
+		actionRow{ // S157
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,        // ά<INVALID>
@@ -4942,6 +5227,7 @@ var parserActions = actions{
 				nil,        // prodId
 				nil,        // string_lit
 				nil,        // g_ctxdep_lit
+				nil,        // "@"
 				nil,        // "error"
 				nil,        // "λ"
 				nil,        // "empty"

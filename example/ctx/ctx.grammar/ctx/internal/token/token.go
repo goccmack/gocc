@@ -79,13 +79,15 @@ var TokMap = TokenMap{
 		"Ω",
 		"id",
 		"Λ<calc>",
+		"μ<calc_0>",
 	},
 
 	idMap: map[string]Type{
-		"INVALID": 0,
-		"Ω":       1,
-		"id":      2,
-		"Λ<calc>": 3,
+		"INVALID":   0,
+		"Ω":         1,
+		"id":        2,
+		"Λ<calc>":   3,
+		"μ<calc_0>": 4,
 	},
 
 	litMap: map[string]Type{

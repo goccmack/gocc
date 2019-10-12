@@ -3,7 +3,7 @@ package ast
 import (
 	"fmt"
 
-	"github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/iface"
 )
 
 type (
@@ -20,10 +20,12 @@ func AppendStmt(stmtList, stmt interface{}) (StmtList, error) {
 }
 
 func NewStmt(stmtList interface{}) (Stmt, error) {
-	return Stmt(stmtList.(*token.Token).Lit), nil
+	return Stmt(stmtList.(*iface.Token).Lit), nil
 }
 
-func Calc(verb interface{}) (Stmt, error) {
-	calc_parser.NewParser().Parse(calc.NewLexerString())
-	return fmt.Sprintf("%s ")
+func CalcResult(result interface{}) (Stmt, error) {
+	res := result.(int64)
+	rstr := fmt.Sprintf("%d", res)
+	fmt.Printf("result:  %s\n", rstr)
+	return Stmt(rstr), nil
 }

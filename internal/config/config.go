@@ -27,7 +27,7 @@ import (
 )
 
 const (
-	VERSION = "1.1.0035"
+	VERSION = "1.2.0001"
 
 	INTERNAL_SYMBOL_EMPTY   = "ε"
 	INTERNAL_SYMBOL_ERROR   = "λ"       // (λάθος)
@@ -36,8 +36,8 @@ const (
 	INTERNAL_SYMBOL_PROD    = "Π"
 	INTERNAL_SYMBOL_LIT     = "Λ"
 	INTERNAL_SYMBOL_CDTOK   = "μ"
-	SYMBOL_EMPTY            = "empty"
-	SYMBOL_ERROR            = "error"
+	SYMBOL_EMPTY            = "ε<empty>"
+	SYMBOL_ERROR            = "λ<error>"
 	SYMBOL_INVALID          = "ά<INVALID>"
 	SYMBOL_EOF              = "Ω<EOF>"
 	SYMBOL_CDTOK            = "μ"

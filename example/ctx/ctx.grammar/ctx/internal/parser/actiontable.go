@@ -4,7 +4,7 @@ package parser
 
 type (
 	actionTable [numStates]actionRow
-	cdFunc      func(TokenStream, interface{}) (interface{}, error, []byte)
+	cdFunc      func(TokenStream, interface{}) (interface{}, error, int)
 	cdAction    struct {
 		tokenIndex   int
 		tokenScanner cdFunc
@@ -28,6 +28,7 @@ var parserActions = actions{
 				nil,      // Ω<EOF>
 				shift(3), // id
 				shift(4), // "calc"
+				nil,      // μ<calc_0>
 			},
 			cdActions: []cdAction{},
 		},
@@ -38,6 +39,7 @@ var parserActions = actions{
 				accept(true), // Ω<EOF>
 				shift(3),     // id
 				shift(4),     // "calc"
+				nil,          // μ<calc_0>
 			},
 			cdActions: []cdAction{},
 		},
@@ -48,6 +50,7 @@ var parserActions = actions{
 				reduce(1), // Ω<EOF>, reduce: StmtList
 				reduce(1), // id, reduce: StmtList
 				reduce(1), // "calc", reduce: StmtList
+				nil,       // μ<calc_0>
 			},
 			cdActions: []cdAction{},
 		},
@@ -58,18 +61,22 @@ var parserActions = actions{
 				reduce(3), // Ω<EOF>, reduce: Stmt
 				reduce(3), // id, reduce: Stmt
 				reduce(3), // "calc", reduce: Stmt
+				nil,       // μ<calc_0>
 			},
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S4
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				reduce(4), // Ω<EOF>, reduce: Stmt
-				reduce(4), // id, reduce: Stmt
-				reduce(4), // "calc", reduce: Stmt
+				nil,      // ά<INVALID>
+				nil,      // Ω<EOF>
+				nil,      // id
+				nil,      // "calc"
+				shift(6), // μ<calc_0>
 			},
-			cdActions: []cdAction{},
+			cdActions: []cdAction{
+				cdAction{tokenIndex: 4, tokenScanner: cdFunc_calc_0},
+			},
 		},
 		actionRow{ // S5
 			canRecover: false,
@@ -78,6 +85,18 @@ var parserActions = actions{
 				reduce(2), // Ω<EOF>, reduce: StmtList
 				reduce(2), // id, reduce: StmtList
 				reduce(2), // "calc", reduce: StmtList
+				nil,       // μ<calc_0>
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S6
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				reduce(4), // Ω<EOF>, reduce: Stmt
+				reduce(4), // id, reduce: Stmt
+				reduce(4), // "calc", reduce: Stmt
+				nil,       // μ<calc_0>
 			},
 			cdActions: []cdAction{},
 		},

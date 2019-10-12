@@ -40,4 +40,9 @@ var gotoTab = gotoTable{
 		-1, // Π<StmtList>
 		-1, // Π<Stmt>
 	},
+	gotoRow{ // S6
+		-1, // Π<S'>
+		-1, // Π<StmtList>
+		-1, // Π<Stmt>
+	},
 }

@@ -28,6 +28,7 @@ S0{
 	Λ<.> : • '.'
 	Λ<:> : • ':'
 	Λ<;> : • ';'
+	Λ<@> : • '@'
 	Λ<[> : • '['
 	Λ<]> : • ']'
 	Λ<empty> : • 'e' 'm' 'p' 't' 'y'
@@ -199,10 +200,11 @@ Symbols classes: {['<','<']}
 
 S13{
 	g_ctxdep_lit : '@' • '@' . {.} '@' '@'
+	Λ<@> : '@' •
 }
 Transitions:
 	['@','@'] -> S36
-Action: nil
+Action: Accept("Λ<@>")
 Symbols classes: {['@','@']}
 
 S14{

@@ -47,7 +47,7 @@ X:
 	|
 		altro
 		@@
-				func () (interface {}, error, [] byte) {
+				func () (interface {}, error, int) {
 					count := 0
 					ret := []byte{}
 					for {
@@ -61,10 +61,10 @@ X:
 							default:
 								Stream.UnreadRune()
 								fmt.Printf("count=%d rune=<%c> ret=<%s>\n", count, r, string(ret))
-								return count, nil, ret
+								return count, nil, len(ret)
 						}
 					}
-					return nil, nil, []byte{}
+					return nil, nil, 0
 				}()
 		@@
 		Test2
@@ -72,6 +72,18 @@ X:
 				func () (interface{}, error) {
 					fmt.Printf("$0=%#v\n$1=%#v\n", $0, $1)
 					return "buongiorno", nil
+				} ()
+			>>
+	|
+		"expr"
+		"("
+		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+		")"
+		Test2
+			<<
+				func () (interface{}, error) {
+					fmt.Printf("EXPR A=%#v\nB=%#v\n", $2, $3)
+					return "expression", nil
 				} ()
 			>>
 ;

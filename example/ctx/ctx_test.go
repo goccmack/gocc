@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/maxcalandrelli/gocc/example/astx/ast"
-	"github.com/maxcalandrelli/gocc/example/astx/lexer"
-	"github.com/maxcalandrelli/gocc/example/astx/parser"
+	"github.com/maxcalandrelli/gocc/example/ctx/ast"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx"
 )
 
 func TestPass(t *testing.T) {
-	sml, err := test([]byte("a b c 12 * 6 + 4 d e f"))
+	sml, err := test([]byte("a b c calc 12 * 6 + 4 d e f"))
 	if err != nil {
 		t.Fatal(err.Error())
 	}
@@ -28,9 +27,9 @@ func TestFail(t *testing.T) {
 
 func test(src []byte) (astree ast.StmtList, err error) {
 	fmt.Printf("input: %s\n", src)
-	s := lexer.NewLexer(src)
-	p := parser.NewParser()
-	a, err := p.Parse(s)
+	s := ctx.NewLexerBytes(src)
+	p := ctx.NewParser()
+	a, err, _ := p.Parse(s)
 	if err == nil {
 		astree = a.(ast.StmtList)
 	}

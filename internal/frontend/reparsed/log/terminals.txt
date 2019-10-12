@@ -20,6 +20,7 @@ g_sdt_lit
 prodId
 string_lit
 g_ctxdep_lit
+"@"
 "error"
 "λ"
 "empty"

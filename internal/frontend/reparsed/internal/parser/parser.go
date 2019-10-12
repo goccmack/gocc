@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	numProductions = 48
-	numStates      = 154
-	numSymbols     = 44
+	numProductions = 50
+	numStates      = 158
+	numSymbols     = 45
 )
 
 // Stack
@@ -255,12 +255,12 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
 				tokens.GotoCheckPoint(checkPoint)
 				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
-				if cd_err == nil && len(cd_parsed) > 0 {
+				if cd_err == nil && cd_parsed > 0 {
 					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
 					if action != nil {
 						p.nextToken.Foreign = true
 						p.nextToken.ForeignAstNode = cd_res
-						p.nextToken.Lit = cd_parsed
+						p.nextToken.Lit = []byte{}
 						p.nextToken.Type = token.Type(cdAction.tokenIndex)
 						break
 					}

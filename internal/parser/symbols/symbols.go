@@ -91,8 +91,21 @@ func (this *Symbols) listMatchingSymbols(match func(ast.SyntaxSymbol) bool) ast.
 
 func (this *Symbols) ListContextDependentTokenSymbols() ast.SyntaxSymbols {
 	return this.listMatchingSymbols(func(s ast.SyntaxSymbol) bool {
-		_, r := s.(ast.SyntaxContextDependentTokId)
-		return r
+		switch s.(type) {
+		case ast.SyntaxContextDependentTokId:
+			return true
+		}
+		return false
+	})
+}
+
+func (this *Symbols) ListSubParserSymbols() ast.SyntaxSymbols {
+	return this.listMatchingSymbols(func(s ast.SyntaxSymbol) bool {
+		switch s.(type) {
+		case ast.SyntaxSubParser:
+			return true
+		}
+		return false
 	})
 }
 

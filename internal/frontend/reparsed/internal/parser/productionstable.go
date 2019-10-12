@@ -461,10 +461,30 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
+		String: `Symbol : Λ<@> tokId string_lit	<< ast.NewAliasedSubParser(X[1],X[2]) >>`,
+		Id:         "Symbol",
+		NTType:     17,
+		Index:      44,
+		NumSymbols: 3,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return ast.NewAliasedSubParser(X[1], X[2])
+		},
+	},
+	ProdTabEntry{
+		String: `Symbol : Λ<@> string_lit	<< ast.NewSubParser(X[1]) >>`,
+		Id:         "Symbol",
+		NTType:     17,
+		Index:      45,
+		NumSymbols: 2,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return ast.NewSubParser(X[1])
+		},
+	},
+	ProdTabEntry{
 		String: `ErrorSymbol : Λ<error>	<<  >>`,
 		Id:         "ErrorSymbol",
 		NTType:     15,
-		Index:      44,
+		Index:      46,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -474,7 +494,7 @@ var productionsTable = ProdTab{
 		String: `ErrorSymbol : Λ<λ>	<<  >>`,
 		Id:         "ErrorSymbol",
 		NTType:     15,
-		Index:      45,
+		Index:      47,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -484,7 +504,7 @@ var productionsTable = ProdTab{
 		String: `EpsilonSymbol : Λ<empty>	<<  >>`,
 		Id:         "EpsilonSymbol",
 		NTType:     16,
-		Index:      46,
+		Index:      48,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -494,7 +514,7 @@ var productionsTable = ProdTab{
 		String: `EpsilonSymbol : Λ<ε>	<<  >>`,
 		Id:         "EpsilonSymbol",
 		NTType:     16,
-		Index:      47,
+		Index:      49,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
