@@ -17,7 +17,7 @@ func TestPass(t *testing.T) {
 }
 
 func TestFail(t *testing.T) {
-	_, err := test([]byte("a b 22c d e f"))
+	_, err := test([]byte("a b 22 c d e f"))
 	if err == nil {
 		t.Fatal("expected parse error")
 	} else {
