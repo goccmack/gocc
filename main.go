@@ -1,5 +1,5 @@
 //
-//go:generate go run stock/main.go -a -v -o internal/fe2 spec/gocc2.ebnf
+//go:generate go run stock/main.go -a -v -o internal/frontend/reparsed spec/gocc2.ebnf
 //
 
 //Copyright 2013 Vastech SA (PTY) LTD
