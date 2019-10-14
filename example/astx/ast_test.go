@@ -29,7 +29,7 @@ func test(src []byte) (astree ast.StmtList, err error) {
 	fmt.Printf("input: %s\n", src)
 	s := grammar.NewLexerBytes(src)
 	p := grammar.NewParser()
-	a, err, _ := p.Parse(s)
+	a, err := p.Parse(s)
 	if err == nil {
 		astree = a.(ast.StmtList)
 	}

@@ -17,13 +17,14 @@ package rr
 import (
 	"fmt"
 	"testing"
+
 	"github.com/maxcalandrelli/gocc/example/rr/rr.grammar/rr"
 )
 
 func parse(src string) (ast string, err error) {
 	l := rr.NewLexerString(src)
 	p := rr.NewParser()
-	res, err, _ := p.Parse(l)
+	res, err := p.Parse(l)
 	if err == nil {
 		ast = res.(string)
 	}

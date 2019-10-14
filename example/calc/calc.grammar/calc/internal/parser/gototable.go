@@ -48,58 +48,58 @@ var gotoTab = gotoTable{
 	gotoRow{ // S5
 		-1, // Π<S'>
 		-1, // Π<Calc>
-		9, // Π<Expr>
-		10, // Π<Term>
-		11, // Π<Factor>
+		-1, // Π<Expr>
+		12, // Π<Term>
+		13, // Π<Factor>
 	},
 	gotoRow{ // S6
 		-1, // Π<S'>
 		-1, // Π<Calc>
-		-1, // Π<Expr>
-		-1, // Π<Term>
-		-1, // Π<Factor>
+		16, // Π<Expr>
+		17, // Π<Term>
+		18, // Π<Factor>
 	},
 	gotoRow{ // S7
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>
-		14, // Π<Term>
-		4, // Π<Factor>
+		-1, // Π<Term>
+		-1, // Π<Factor>
 	},
 	gotoRow{ // S8
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>
-		-1, // Π<Term>
-		15, // Π<Factor>
+		22, // Π<Term>
+		13, // Π<Factor>
 	},
 	gotoRow{ // S9
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>
-		-1, // Π<Term>
-		-1, // Π<Factor>
+		23, // Π<Term>
+		13, // Π<Factor>
 	},
 	gotoRow{ // S10
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>
 		-1, // Π<Term>
-		-1, // Π<Factor>
+		24, // Π<Factor>
 	},
 	gotoRow{ // S11
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>
 		-1, // Π<Term>
-		-1, // Π<Factor>
+		25, // Π<Factor>
 	},
 	gotoRow{ // S12
 		-1, // Π<S'>
 		-1, // Π<Calc>
-		19, // Π<Expr>
-		10, // Π<Term>
-		11, // Π<Factor>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
 	},
 	gotoRow{ // S13
 		-1, // Π<S'>
@@ -111,9 +111,9 @@ var gotoTab = gotoTable{
 	gotoRow{ // S14
 		-1, // Π<S'>
 		-1, // Π<Calc>
-		-1, // Π<Expr>
-		-1, // Π<Term>
-		-1, // Π<Factor>
+		29, // Π<Expr>
+		17, // Π<Term>
+		18, // Π<Factor>
 	},
 	gotoRow{ // S15
 		-1, // Π<S'>
@@ -126,8 +126,8 @@ var gotoTab = gotoTable{
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>
-		20, // Π<Term>
-		11, // Π<Factor>
+		-1, // Π<Term>
+		-1, // Π<Factor>
 	},
 	gotoRow{ // S17
 		-1, // Π<S'>
@@ -141,21 +141,21 @@ var gotoTab = gotoTable{
 		-1, // Π<Calc>
 		-1, // Π<Expr>
 		-1, // Π<Term>
-		21, // Π<Factor>
+		-1, // Π<Factor>
 	},
 	gotoRow{ // S19
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>
-		-1, // Π<Term>
-		-1, // Π<Factor>
+		35, // Π<Term>
+		36, // Π<Factor>
 	},
 	gotoRow{ // S20
 		-1, // Π<S'>
 		-1, // Π<Calc>
-		-1, // Π<Expr>
-		-1, // Π<Term>
-		-1, // Π<Factor>
+		39, // Π<Expr>
+		17, // Π<Term>
+		18, // Π<Factor>
 	},
 	gotoRow{ // S21
 		-1, // Π<S'>
@@ -165,6 +165,244 @@ var gotoTab = gotoTable{
 		-1, // Π<Factor>
 	},
 	gotoRow{ // S22
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S23
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S24
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S25
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S26
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		40, // Π<Expr>
+		17, // Π<Term>
+		18, // Π<Factor>
+	},
+	gotoRow{ // S27
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S28
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		41, // Π<Factor>
+	},
+	gotoRow{ // S29
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S30
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S31
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		43, // Π<Term>
+		36, // Π<Factor>
+	},
+	gotoRow{ // S32
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		44, // Π<Term>
+		36, // Π<Factor>
+	},
+	gotoRow{ // S33
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		45, // Π<Factor>
+	},
+	gotoRow{ // S34
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		46, // Π<Factor>
+	},
+	gotoRow{ // S35
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S36
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S37
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		50, // Π<Expr>
+		17, // Π<Term>
+		18, // Π<Factor>
+	},
+	gotoRow{ // S38
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S39
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S40
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S41
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S42
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S43
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S44
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S45
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S46
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S47
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		53, // Π<Expr>
+		17, // Π<Term>
+		18, // Π<Factor>
+	},
+	gotoRow{ // S48
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S49
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		54, // Π<Factor>
+	},
+	gotoRow{ // S50
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S51
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S52
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S53
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S54
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S55
+		-1, // Π<S'>
+		-1, // Π<Calc>
+		-1, // Π<Expr>
+		-1, // Π<Term>
+		-1, // Π<Factor>
+	},
+	gotoRow{ // S56
 		-1, // Π<S'>
 		-1, // Π<Calc>
 		-1, // Π<Expr>

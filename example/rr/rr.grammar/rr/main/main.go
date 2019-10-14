@@ -9,11 +9,15 @@ import (
 	rr "github.com/maxcalandrelli/gocc/example/rr/rr.grammar/rr"
 )
 
-func showResult(r interface{}, e error, l int) {
+func showResult(r interface{}, e error, p []byte) {
 	if e != nil {
 		fmt.Fprintf(os.Stderr, "parsing returned the following error: %s\n", e.Error())
 	} else {
-		fmt.Printf("r=%#v, %d bytes\n", r, l)
+		if len(p) > 0 {
+			fmt.Printf("r=%#v, (%s)\n", r, string(p))
+		} else {
+			fmt.Printf("r=%#v\n", r)
+		}
 	}
 }
 
@@ -23,11 +27,12 @@ var (
 	Longest bool
 )
 
-func parse(longest bool, lex *rr.Lexer) (res interface{}, err error, ptl int) {
+func parse(longest bool, lex *rr.Lexer) (res interface{}, err error, parsed []byte) {
 	if longest {
 		return rr.NewParser().ParseLongestPrefix(lex)
 	} else {
-		return rr.NewParser().Parse(lex)
+		res, err = rr.NewParser().Parse(lex)
+		parsed = []byte{}
 	}
 	return
 }

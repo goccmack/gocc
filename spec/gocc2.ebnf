@@ -185,7 +185,7 @@ LexTerm :
 			<< ast.NewLexCharRangeExt($0, $2,false) >>
 	|
 		"~" char_lit
-			<< ast.NewLexCharLitExt($0, true) >>
+			<< ast.NewLexCharLitExt($1, true) >>
 	|
 		"~" "(" char_lit "-" char_lit ")"
 			<< ast.NewLexCharRangeExt($2, $4, true) >>

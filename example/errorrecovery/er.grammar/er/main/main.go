@@ -9,11 +9,15 @@ import (
 	er "github.com/maxcalandrelli/gocc/example/errorrecovery/er.grammar/er"
 )
 
-func showResult(r interface{}, e error, l int) {
+func showResult(r interface{}, e error, p []byte) {
 	if e != nil {
 		fmt.Fprintf(os.Stderr, "parsing returned the following error: %s\n", e.Error())
 	} else {
-		fmt.Printf("r=%#v, %d bytes\n", r, l)
+		if len(p) > 0 {
+			fmt.Printf("r=%#v, (%s)\n", r, string(p))
+		} else {
+			fmt.Printf("r=%#v\n", r)
+		}
 	}
 }
 
@@ -23,11 +27,12 @@ var (
 	Longest bool
 )
 
-func parse(longest bool, lex *er.Lexer) (res interface{}, err error, ptl int) {
+func parse(longest bool, lex *er.Lexer) (res interface{}, err error, parsed []byte) {
 	if longest {
 		return er.NewParser().ParseLongestPrefix(lex)
 	} else {
-		return er.NewParser().Parse(lex)
+		res, err = er.NewParser().Parse(lex)
+		parsed = []byte{}
 	}
 	return
 }

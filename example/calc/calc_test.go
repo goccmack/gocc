@@ -21,7 +21,7 @@ func Test1(t *testing.T) {
 	p := calc.NewParser()
 	for _, ts := range testData {
 		s := calc.NewLexerString(ts.src)
-		sum, err, _ := p.Parse(s)
+		sum, err := p.Parse(s)
 		if err != nil {
 			t.Error(err)
 		}

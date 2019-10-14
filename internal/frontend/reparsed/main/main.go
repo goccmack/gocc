@@ -9,11 +9,15 @@ import (
 	gocc2 "github.com/maxcalandrelli/gocc/internal/frontend/reparsed"
 )
 
-func showResult(r interface{}, e error, l int) {
+func showResult(r interface{}, e error, p []byte) {
 	if e != nil {
 		fmt.Fprintf(os.Stderr, "parsing returned the following error: %s\n", e.Error())
 	} else {
-		fmt.Printf("r=%#v, %d bytes\n", r, l)
+		if len(p) > 0 {
+			fmt.Printf("r=%#v, (%s)\n", r, string(p))
+		} else {
+			fmt.Printf("r=%#v\n", r)
+		}
 	}
 }
 
@@ -23,11 +27,12 @@ var (
 	Longest bool
 )
 
-func parse(longest bool, lex *gocc2.Lexer) (res interface{}, err error, ptl int) {
+func parse(longest bool, lex *gocc2.Lexer) (res interface{}, err error, parsed []byte) {
 	if longest {
 		return gocc2.NewParser().ParseLongestPrefix(lex)
 	} else {
-		return gocc2.NewParser().Parse(lex)
+		res, err = gocc2.NewParser().Parse(lex)
+		parsed = []byte{}
 	}
 	return
 }

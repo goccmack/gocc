@@ -9,11 +9,15 @@ import (
 	bools "github.com/maxcalandrelli/gocc/example/bools/bools.grammar/bools"
 )
 
-func showResult(r interface{}, e error, l int) {
+func showResult(r interface{}, e error, p []byte) {
 	if e != nil {
 		fmt.Fprintf(os.Stderr, "parsing returned the following error: %s\n", e.Error())
 	} else {
-		fmt.Printf("r=%#v, %d bytes\n", r, l)
+		if len(p) > 0 {
+			fmt.Printf("r=%#v, (%s)\n", r, string(p))
+		} else {
+			fmt.Printf("r=%#v\n", r)
+		}
 	}
 }
 
@@ -23,11 +27,12 @@ var (
 	Longest bool
 )
 
-func parse(longest bool, lex *bools.Lexer) (res interface{}, err error, ptl int) {
+func parse(longest bool, lex *bools.Lexer) (res interface{}, err error, parsed []byte) {
 	if longest {
 		return bools.NewParser().ParseLongestPrefix(lex)
 	} else {
-		return bools.NewParser().Parse(lex)
+		res, err = bools.NewParser().Parse(lex)
+		parsed = []byte{}
 	}
 	return
 }

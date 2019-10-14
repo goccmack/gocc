@@ -25,6 +25,7 @@ type (
 
 	CheckPoint interface {
 		DistanceFrom(CheckPoint) int
+		Advance(int) CheckPoint
 	}
 
 	CheckPointable interface {

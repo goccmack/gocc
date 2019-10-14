@@ -47,6 +47,7 @@ func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Confi
 		NumStates:      itemsets.Size(),
 		NumSymbols:     len(lexSymbols),
 		Symbols:        lexSymbols,
+		MyName:         cfg.ProjectName(),
 	}
 }
 
@@ -59,6 +60,7 @@ type lexerData struct {
 	NumSymbols     int
 	NextState      []byte
 	Symbols        []string
+	MyName         string
 }
 
 const lexerSrc string = `
@@ -142,6 +144,10 @@ func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
   return int (c.value() - o.(checkPoint).value())
 }
 
+func (c checkPoint) Advance (o int) iface.CheckPoint {
+  return checkPoint(c.value() + int64(o))
+}
+
 func (l *Lexer) GetCheckPoint() iface.CheckPoint {
   if l == nil {
     return checkPoint(0)
@@ -156,23 +162,23 @@ func (l Lexer) GotoCheckPoint(cp iface.CheckPoint) {
 
 func (l *Lexer) Scan() (tok *token.Token) {
 	{{- if .Debug}}
-	fmt.Printf("Lexer.Scan() pos=%d\n", l.position.Pos.Offset)
+	fmt.Printf("{{.MyName}}:lexer:Lexer.Scan() pos=%d\n", l.position.Pos.Offset)
 	{{- end}}
 	tok = new(token.Token)
 	tok.Type = token.INVALID
-	tok.Lit = []byte{}
   start := l.position
   state := 0
 	for state != -1  {
 		{{- if .Debug}}
-		fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.position.Pos.Offset, l.position.Pos.Line, l.position.Pos.Column, state)
+		fmt.Printf("{{.MyName}}:lexer:  pos=%d, line=%d, col=%d, state=%d\n", l.position.Pos.Offset, l.position.Pos.Line, l.position.Pos.Column, state)
 		{{- end}}
+    savePos := l.position.Pos
 	  curr, size, err := l.stream.ReadRune()
     if size < 1 || err != nil {
       curr = INVALID_RUNE
     }
 		{{- if .Debug}}
-		fmt.Printf("\trune=<%c> size=%d err=%v\n", curr, size, err)
+		fmt.Printf("{{.MyName}}:lexer:  rune=<%c> size=%d err=%v\n", curr, size, err)
 		{{- end}}
 		if size > 0 {
   		l.position.Pos.Offset += size
@@ -182,10 +188,10 @@ func (l *Lexer) Scan() (tok *token.Token) {
 			nextState = TransTab[state](curr)
 		}
 		{{- if .Debug}}
-		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(curr), curr, nextState)
-		fmt.Printf("\t\tpos=%d, size=%d, start=%d\n", l.position.Pos.Offset, size, start.Pos.Offset)
+		fmt.Printf("{{.MyName}}:lexer:S%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(curr), curr, nextState)
+		fmt.Printf("{{.MyName}}:lexer:    pos=%d, size=%d, start=%d\n", l.position.Pos.Offset, size, start.Pos.Offset)
 		if nextState != -1 {
-			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
+			fmt.Printf("{{.MyName}}:lexer:    action:%s\n", ActTab[nextState].String())
 		}
 		{{- end}}
 		state = nextState
@@ -209,12 +215,14 @@ func (l *Lexer) Scan() (tok *token.Token) {
 				start = l.position
 				state = 0
 				tok.Lit = []byte{}
+        tok.IgnoredPrefix=append(tok.IgnoredPrefix,string(curr)...)
 			}
 		} else if curr != INVALID_RUNE{
       if len(tok.Lit) == 0 {
 			  tok.Lit = append(tok.Lit, string(curr)...)
       } else {
         l.stream.UnreadRune()
+        l.position.Pos = savePos
       }
     }
   	if err == io.EOF && len(tok.Lit)==0 {
@@ -225,7 +233,7 @@ func (l *Lexer) Scan() (tok *token.Token) {
 	}
 	tok.Pos = start.Pos
 	{{- if .Debug}}
-	fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
+	fmt.Printf("{{.MyName}}:lexer:Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
 	{{- end}}
 	return
 }

@@ -10,7 +10,7 @@ import (
 func parse(src string) (stmt ast.Stmt, err error) {
 	lex := sr.NewLexerString(src)
 	p := sr.NewParser()
-	if res, err, _ := p.Parse(lex); err == nil {
+	if res, err := p.Parse(lex); err == nil {
 		stmt = res.(ast.Stmt)
 	}
 	return

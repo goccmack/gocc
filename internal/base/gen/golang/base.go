@@ -55,7 +55,7 @@ func Gen(pkg, outdir, internal, iface string, cfg config.Config, hasSyntax bool)
 }
 
 func genBase(d data) {
-	basePath := path.Join(d.Outdir, "grammar.go")
+	basePath := path.Join(d.Outdir, d.MyName+".go")
 	tmpl, err := template.New(d.MyName).Parse(baseSrc[1:])
 	if err != nil {
 		panic(err)
@@ -155,83 +155,83 @@ func NewParser() *parser.Parser {
 
 {{- if not .Config.NoLexer }}
 
-func ParseFile(fpath string) (interface{}, error, int) {
+func ParseFile(fpath string) (interface{}, error) {
   if lexer, err := NewLexerFile(fpath); err == nil {
     return NewParser().Parse(lexer)
   } else {
-    return nil, err, 0
+    return nil, err
   }
 }
 
-func ParseText(text string) (interface{}, error, int) {
+func ParseText(text string) (interface{}, error) {
   return NewParser().Parse(NewLexerBytes([]byte(text)))
 }
 
-func Parse(stream io.Reader) (interface{}, error, int) {
+func Parse(stream io.Reader) (interface{}, error) {
   lex, err := NewLexer(stream)
   if lex == nil {
-    return nil, err, 0
+    return nil, err
   }
   return NewParser().Parse(lex)
 }
 
-func ParseFileWithData(fpath string, userData interface{}) (interface{}, error, int) {
+func ParseFileWithData(fpath string, userData interface{}) (interface{}, error) {
   if lexer, err := NewLexerFile(fpath); err == nil {
     return NewParser().SetContext(userData).Parse(lexer)
   } else {
-    return nil, err, 0
+    return nil, err
   }
 }
 
-func ParseTextWithData(text string, userData interface{}) (interface{}, error, int) {
+func ParseTextWithData(text string, userData interface{}) (interface{}, error) {
   return NewParser().SetContext(userData).Parse(NewLexerBytes([]byte(text)))
 }
 
-func ParseWithData(stream io.Reader, userData interface{}) (interface{}, error, int) {
+func ParseWithData(stream io.Reader, userData interface{}) (interface{}, error) {
   lex, err := NewLexer(stream)
   if lex == nil {
-    return nil, err, 0
+    return nil, err
   }
   return NewParser().SetContext(userData).Parse(lex)
 }
 
 
-func ParseFilePartial(fpath string) (interface{}, error, int) {
+func ParseFilePartial(fpath string) (interface{}, error, []byte) {
   if lexer, err := NewLexerFile(fpath); err == nil {
     return NewParser().ParseLongestPrefix(lexer)
   } else {
-    return nil, err, 0
+    return nil, err, []byte{}
   }
 }
 
-func ParseTextPartial(text string) (interface{}, error, int) {
+func ParseTextPartial(text string) (interface{}, error, []byte) {
   return NewParser().ParseLongestPrefix(NewLexerBytes([]byte(text)))
 }
 
-func ParsePartial(stream io.Reader) (interface{}, error, int) {
+func ParsePartial(stream io.Reader) (interface{}, error, []byte) {
   lex, err := NewLexer(stream)
   if lex == nil {
-    return nil, err, 0
+    return nil, err, []byte{}
   }
   return NewParser().ParseLongestPrefix(lex)
 }
 
-func ParseFileWithDataPartial(fpath string, userData interface{}) (interface{}, error, int) {
+func ParseFileWithDataPartial(fpath string, userData interface{}) (interface{}, error, []byte) {
   if lexer, err := NewLexerFile(fpath); err == nil {
     return NewParser().SetContext(userData).ParseLongestPrefix(lexer)
   } else {
-    return nil, err, 0
+    return nil, err, []byte{}
   }
 }
 
-func ParseTextWithDataPartial(text string, userData interface{}) (interface{}, error, int) {
+func ParseTextWithDataPartial(text string, userData interface{}) (interface{}, error, []byte) {
   return NewParser().SetContext(userData).ParseLongestPrefix(NewLexerBytes([]byte(text)))
 }
 
-func ParseWithDataPartial(stream io.Reader, userData interface{}) (interface{}, error, int) {
+func ParseWithDataPartial(stream io.Reader, userData interface{}) (interface{}, error, []byte) {
   lex, err := NewLexer(stream)
   if lex == nil {
-    return nil, err, 0
+    return nil, err, []byte{}
   }
   return NewParser().SetContext(userData).ParseLongestPrefix(lex)
 }
@@ -291,11 +291,15 @@ import (
   {{.MyName}} "{{.Pkg}}"
 )
 
-func showResult (r interface{}, e error, l int) {
+func showResult (r interface{}, e error, p []byte) {
   if e != nil {
     fmt.Fprintf(os.Stderr, "parsing returned the following error: %s\n", e.Error())
   } else {
-    fmt.Printf("r=%#v, %d bytes\n", r, l)
+    if len(p) > 0 {
+      fmt.Printf("r=%#v, (%s)\n", r, string(p))
+    } else {
+      fmt.Printf("r=%#v\n", r)
+    }
   }
 }
 
@@ -305,11 +309,12 @@ var (
 	Longest bool
 )
 
-func parse (longest bool, lex *{{.MyName}}.Lexer) (res interface{}, err error, ptl int) {
+func parse (longest bool, lex *{{.MyName}}.Lexer) (res interface{}, err error, parsed []byte) {
   if longest {
     return {{.MyName}}.NewParser().ParseLongestPrefix(lex)
   } else {
-    return {{.MyName}}.NewParser().Parse(lex)
+    res, err = {{.MyName}}.NewParser().Parse(lex)
+    parsed = []byte{}
   }
   return
 }
@@ -366,10 +371,11 @@ type (
 
   CheckPoint interface {
     DistanceFrom(CheckPoint) int
+    Advance(int)CheckPoint
   }
 
   CheckPointable interface {
-  	  GetCheckPoint() CheckPoint
+  	GetCheckPoint() CheckPoint
     GotoCheckPoint(CheckPoint)
   }
 

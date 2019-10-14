@@ -36,7 +36,6 @@ func NewLexCharLitExt(tok interface{}, negate bool) (*LexCharLit, error) {
 func newLexCharLit(tok interface{}, negate bool) *LexCharLit {
 	c := new(LexCharLit)
 	lit := []byte(getString(tok))
-
 	c.Val = util.LitToRune(lit)
 	c.Lit = lit
 	c.s = util.RuneToString(c.Val)

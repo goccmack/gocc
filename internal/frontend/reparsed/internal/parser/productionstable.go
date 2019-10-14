@@ -191,13 +191,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `LexTerm : Λ<~> char_lit	<< ast.NewLexCharLitExt(X[0], true) >>`,
+		String: `LexTerm : Λ<~> char_lit	<< ast.NewLexCharLitExt(X[1], true) >>`,
 		Id:         "LexTerm",
 		NTType:     8,
 		Index:      17,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.NewLexCharLitExt(X[0], true)
+			return ast.NewLexCharLitExt(X[1], true)
 		},
 	},
 	ProdTabEntry{

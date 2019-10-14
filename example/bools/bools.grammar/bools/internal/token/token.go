@@ -8,7 +8,8 @@ import (
 
 type Token struct {
 	Type
-	Lit []byte
+	Lit           []byte
+	IgnoredPrefix []byte
 	Pos
 	ForeignAstNode interface{}
 	Foreign        bool
@@ -107,13 +108,13 @@ var TokMap = TokenMap{
 	},
 
 	litMap: map[string]Type{
-		"|":     3,
 		"(":     4,
 		"false": 7,
 		"<":     9,
 		">":     10,
-		"in":    12,
 		"&":     2,
+		"|":     3,
+		"in":    12,
 		")":     5,
 		"true":  6,
 	},

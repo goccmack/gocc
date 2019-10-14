@@ -93,10 +93,23 @@ type Parser struct {
 	stack       *stack
 	nextToken   *token.Token
 	userContext interface{}
+
+	//
+	//  Working data, should be method parameters/locals
+	//  but putting them here simplifies a bit the code
+	//  Useful only for longest prefix partial parsing
+	//
+	needsRepositioning bool
+	isNonDeterministic bool
+	tokens             iface.CheckPointable
+	afterPos           iface.CheckPoint
+	checkPoint         iface.CheckPoint
+	underlyingStream   iface.TokenStream
 }
 
+type TokenStream = iface.TokenStream
+
 type (
-	TokenStream        = iface.TokenStream
 	fakeCp             struct{}
 	fakeCheckPointable struct{}
 )
@@ -105,11 +118,15 @@ func (f fakeCheckPointable) GetCheckPoint() iface.CheckPoint {
 	return fakeCp{}
 }
 
-func (f fakeCheckPointable) GotoCheckPoint(iface.CheckPoint) {}
-
 func (f fakeCp) DistanceFrom(o iface.CheckPoint) int {
 	return 0
 }
+
+func (f fakeCp) Advance(o int) iface.CheckPoint {
+	return fakeCp{}
+}
+
+func (f fakeCheckPointable) GotoCheckPoint(iface.CheckPoint) {}
 
 func NewParser() *Parser {
 	return NewParserWithContext(nil)
@@ -205,62 +222,74 @@ func (p *Parser) newError(err error) error {
 	return e
 }
 
-func (p *Parser) Parse(scanner iface.Scanner) (res interface{}, err error, ptl int) {
+func (p *Parser) prepareParsing(scanner iface.Scanner, longest bool) error {
+	p.Reset()
+	p.needsRepositioning = longest
+	p.isNonDeterministic = false
+	if p.needsRepositioning {
+		if streamScanner, _ := scanner.(iface.StreamScanner); streamScanner != nil {
+			p.underlyingStream = streamScanner.GetStream()
+		}
+		if p.tokens, _ = scanner.(iface.CheckPointable); p.tokens == nil || p.underlyingStream == nil {
+			return errNotRepositionable
+		}
+	} else {
+		if p.tokens, _ = scanner.(iface.CheckPointable); p.tokens == nil {
+			p.tokens = fakeCheckPointable{}
+		}
+	}
+	return nil
+}
+
+func (p *Parser) Parse(scanner iface.Scanner) (res interface{}, err error) {
+	if err := p.prepareParsing(scanner, false); err != nil {
+		return nil, err
+	}
 	return p.parse(scanner, false)
 }
 
-func (p *Parser) ParseLongestPrefix(scanner iface.Scanner) (res interface{}, err error, ptl int) {
-	return p.parse(scanner, true)
+func (p *Parser) ParseLongestPrefix(scanner iface.Scanner) (res interface{}, err error, parsed []byte) {
+	if err := p.prepareParsing(scanner, true); err != nil {
+		return nil, err, []byte{}
+	}
+	startPoint := p.tokens.GetCheckPoint()
+	res, err = p.parse(scanner, true)
+	if err == nil {
+		currPoint := p.tokens.GetCheckPoint()
+		p.tokens.GotoCheckPoint(startPoint)
+		parsed = make([]byte, currPoint.DistanceFrom(startPoint))
+		p.underlyingStream.Read(parsed)
+		p.tokens.GotoCheckPoint(currPoint)
+	}
+	return
 }
 
 var errNotRepositionable = errors.New("scanner not repositionable")
 
-func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, err error, ptl int) {
-	var (
-		tokens     iface.CheckPointable
-		afterPos   iface.CheckPoint
-		checkPoint iface.CheckPoint
-	)
-	readNextToken := func() error {
-		if tokens == nil && (len(parserActions.table[p.stack.top()].cdActions) > 0 || longest) {
-			return errNotRepositionable
-		}
-		if longest {
-			checkPoint = tokens.GetCheckPoint()
-		}
+func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, err error) {
+	readNextToken := func() {
+		p.checkPoint = p.tokens.GetCheckPoint()
 		p.nextToken = scanner.Scan()
-		if longest {
-			afterPos = tokens.GetCheckPoint()
-		}
-		return nil
+		p.afterPos = p.tokens.GetCheckPoint()
+		return
 	}
-	p.Reset()
-	if tokens, _ = scanner.(iface.CheckPointable); tokens == nil {
-		tokens = fakeCheckPointable{}
-	}
-	underlyingStream := TokenStream(nil)
-	if streamScanner, _ := scanner.(iface.StreamScanner); streamScanner != nil {
-		underlyingStream = streamScanner.GetStream()
-	}
-	startCp := tokens.GetCheckPoint()
-	if err := readNextToken(); err != nil {
-		return nil, err, tokens.GetCheckPoint().DistanceFrom(startCp)
-	}
+	readNextToken()
 	for acc := false; !acc; {
 		action := parserActions.table[p.stack.top()].actions[p.nextToken.Type]
-		if action == nil && underlyingStream != nil && len(parserActions.table[p.stack.top()].cdActions) > 0 {
+		if action == nil && p.isNonDeterministic {
 			//
 			// If no action, check if we have some context dependent parsing to try
 			//
+			p.checkPoint = p.checkPoint.Advance(len(p.nextToken.IgnoredPrefix))
 			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
-				tokens.GotoCheckPoint(checkPoint)
-				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(underlyingStream, p.userContext)
-				if cd_err == nil && cd_parsed > 0 {
+				p.tokens.GotoCheckPoint(p.checkPoint)
+				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(p.underlyingStream, p.userContext)
+				if cd_err == nil && len(cd_parsed) > 0 {
 					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]
 					if action != nil {
 						p.nextToken.Foreign = true
 						p.nextToken.ForeignAstNode = cd_res
-						p.nextToken.Lit = []byte{}
+						p.nextToken.Lit = cd_parsed
 						p.nextToken.Type = token.Type(cdAction.tokenIndex)
 						break
 					}
@@ -275,13 +304,13 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 		//  Dirty, dirty, dirty... but I found it as it is, and I prefer not to touch
 		//
 		if action == nil && longest {
-			tokens.GotoCheckPoint(checkPoint)
+			p.tokens.GotoCheckPoint(p.checkPoint)
 			action = parserActions.table[p.stack.top()].actions[token.EOF]
 			if action == nil {
 				//
 				//  ok, let's consume the token then
 				//
-				tokens.GotoCheckPoint(afterPos)
+				p.tokens.GotoCheckPoint(p.afterPos)
 			}
 		}
 
@@ -291,7 +320,7 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 		if action == nil {
 			if recovered, errAttrib := p.Error(nil, scanner); !recovered {
 				p.nextToken = errAttrib.ErrorToken
-				return nil, p.newError(nil), tokens.GetCheckPoint().DistanceFrom(startCp)
+				return nil, p.newError(nil)
 			}
 			if action = parserActions.table[p.stack.top()].actions[p.nextToken.Type]; action == nil {
 				panic("Error recovery led to invalid action")
@@ -307,14 +336,12 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 			if p.nextToken.Foreign {
 				p.stack.push(int(act), p.nextToken.ForeignAstNode)
 			}
-			if err := readNextToken(); err != nil {
-				return nil, err, tokens.GetCheckPoint().DistanceFrom(startCp)
-			}
+			readNextToken()
 		case reduce:
 			prod := productionsTable[int(act)]
 			attrib, err := prod.ReduceFunc(p.userContext, p.stack.popN(prod.NumSymbols))
 			if err != nil {
-				return nil, p.newError(err), tokens.GetCheckPoint().DistanceFrom(startCp)
+				return nil, p.newError(err)
 			} else {
 				p.stack.push(gotoTab[p.stack.top()][prod.NTType], attrib)
 			}
@@ -322,5 +349,5 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 			panic("unknown action: " + action.String())
 		}
 	}
-	return res, nil, tokens.GetCheckPoint().DistanceFrom(startCp)
+	return res, nil
 }

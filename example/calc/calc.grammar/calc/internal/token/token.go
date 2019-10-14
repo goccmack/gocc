@@ -8,7 +8,8 @@ import (
 
 type Token struct {
 	Type
-	Lit []byte
+	Lit           []byte
+	IgnoredPrefix []byte
 	Pos
 	ForeignAstNode interface{}
 	Foreign        bool
@@ -78,7 +79,9 @@ var TokMap = TokenMap{
 		"INVALID",
 		"Ω",
 		"Λ<+>",
+		"Λ<->",
 		"Λ<*>",
+		"Λ</>",
 		"Λ<(>",
 		"Λ<)>",
 		"int64",
@@ -88,16 +91,20 @@ var TokMap = TokenMap{
 		"INVALID": 0,
 		"Ω":       1,
 		"Λ<+>":    2,
-		"Λ<*>":    3,
-		"Λ<(>":    4,
-		"Λ<)>":    5,
-		"int64":   6,
+		"Λ<->":    3,
+		"Λ<*>":    4,
+		"Λ</>":    5,
+		"Λ<(>":    6,
+		"Λ<)>":    7,
+		"int64":   8,
 	},
 
 	litMap: map[string]Type{
 		"+": 2,
-		"*": 3,
-		"(": 4,
-		")": 5,
+		"-": 3,
+		"*": 4,
+		"/": 5,
+		"(": 6,
+		")": 7,
 	},
 }

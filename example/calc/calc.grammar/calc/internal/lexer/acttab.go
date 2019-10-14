@@ -29,27 +29,35 @@ var ActTab = ActionTable{
 		Ignore: "!whitespace",
 	},
 	ActionRow{ // S2, Accept("Λ<(>")
-		Accept: 4,
+		Accept: 6,
 		Ignore: "",
 	},
 	ActionRow{ // S3, Accept("Λ<)>")
-		Accept: 5,
+		Accept: 7,
 		Ignore: "",
 	},
 	ActionRow{ // S4, Accept("Λ<*>")
-		Accept: 3,
+		Accept: 4,
 		Ignore: "",
 	},
 	ActionRow{ // S5, Accept("Λ<+>")
 		Accept: 2,
 		Ignore: "",
 	},
-	ActionRow{ // S6, Accept("int64")
-		Accept: 6,
+	ActionRow{ // S6, Accept("Λ<->")
+		Accept: 3,
 		Ignore: "",
 	},
-	ActionRow{ // S7, Accept("int64")
-		Accept: 6,
+	ActionRow{ // S7, Accept("Λ</>")
+		Accept: 5,
+		Ignore: "",
+	},
+	ActionRow{ // S8, Accept("int64")
+		Accept: 8,
+		Ignore: "",
+	},
+	ActionRow{ // S9, Accept("int64")
+		Accept: 8,
 		Ignore: "",
 	},
 }

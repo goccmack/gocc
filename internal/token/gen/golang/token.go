@@ -85,6 +85,7 @@ import (
 type Token struct {
 	Type
 	Lit []byte
+  IgnoredPrefix []byte
 	Pos
 	ForeignAstNode  interface{}
   Foreign         bool

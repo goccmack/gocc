@@ -27,7 +27,7 @@ import (
 )
 
 const (
-	VERSION = "1.2.0001"
+	VERSION = "1.2.0005"
 
 	INTERNAL_SYMBOL_EMPTY   = "ε"
 	INTERNAL_SYMBOL_ERROR   = "λ"       // (λάθος)

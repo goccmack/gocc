@@ -4,7 +4,7 @@ package parser
 
 type (
 	actionTable [numStates]actionRow
-	cdFunc      func(TokenStream, interface{}) (interface{}, error, int)
+	cdFunc      func(TokenStream, interface{}) (interface{}, error, []byte)
 	cdAction    struct {
 		tokenIndex   int
 		tokenScanner cdFunc
@@ -27,10 +27,12 @@ var parserActions = actions{
 				nil,      // ά<INVALID>
 				nil,      // Ω<EOF>
 				nil,      // "+"
+				shift(5), // "-"
 				nil,      // "*"
-				shift(5), // "("
+				nil,      // "/"
+				shift(6), // "("
 				nil,      // ")"
-				shift(6), // int64
+				shift(7), // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -40,7 +42,9 @@ var parserActions = actions{
 				nil,          // ά<INVALID>
 				accept(true), // Ω<EOF>
 				nil,          // "+"
+				nil,          // "-"
 				nil,          // "*"
+				nil,          // "/"
 				nil,          // "("
 				nil,          // ")"
 				nil,          // int64
@@ -52,8 +56,10 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				reduce(1), // Ω<EOF>, reduce: Calc
-				shift(7),  // "+"
+				nil,       // "+"
+				nil,       // "-"
 				nil,       // "*"
+				nil,       // "/"
 				nil,       // "("
 				nil,       // ")"
 				nil,       // int64
@@ -64,9 +70,11 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				reduce(3), // Ω<EOF>, reduce: Expr
-				reduce(3), // "+", reduce: Expr
-				shift(8),  // "*"
+				reduce(7), // Ω<EOF>, reduce: Expr
+				shift(8),  // "+"
+				shift(9),  // "-"
+				shift(10), // "*"
+				shift(11), // "/"
 				nil,       // "("
 				nil,       // ")"
 				nil,       // int64
@@ -77,9 +85,11 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				reduce(5), // Ω<EOF>, reduce: Term
-				reduce(5), // "+", reduce: Term
-				reduce(5), // "*", reduce: Term
+				reduce(9), // Ω<EOF>, reduce: Term
+				reduce(9), // "+", reduce: Term
+				reduce(9), // "-", reduce: Term
+				reduce(9), // "*", reduce: Term
+				reduce(9), // "/", reduce: Term
 				nil,       // "("
 				nil,       // ")"
 				nil,       // int64
@@ -92,10 +102,12 @@ var parserActions = actions{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
 				nil,       // "+"
+				nil,       // "-"
 				nil,       // "*"
-				shift(12), // "("
+				nil,       // "/"
+				shift(14), // "("
 				nil,       // ")"
-				shift(13), // int64
+				shift(15), // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -103,38 +115,44 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				reduce(7), // Ω<EOF>, reduce: Factor
-				reduce(7), // "+", reduce: Factor
-				reduce(7), // "*", reduce: Factor
-				nil,       // "("
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				shift(19), // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(20), // "("
 				nil,       // ")"
-				nil,       // int64
+				shift(21), // int64
 			},
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S7
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,      // ά<INVALID>
-				nil,      // Ω<EOF>
-				nil,      // "+"
-				nil,      // "*"
-				shift(5), // "("
-				nil,      // ")"
-				shift(6), // int64
+				nil,        // ά<INVALID>
+				reduce(11), // Ω<EOF>, reduce: Factor
+				reduce(11), // "+", reduce: Factor
+				reduce(11), // "-", reduce: Factor
+				reduce(11), // "*", reduce: Factor
+				reduce(11), // "/", reduce: Factor
+				nil,        // "("
+				nil,        // ")"
+				nil,        // int64
 			},
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S8
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,      // ά<INVALID>
-				nil,      // Ω<EOF>
-				nil,      // "+"
-				nil,      // "*"
-				shift(5), // "("
-				nil,      // ")"
-				shift(6), // int64
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(14), // "("
+				nil,       // ")"
+				shift(15), // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -143,24 +161,28 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
-				shift(16), // "+"
+				nil,       // "+"
+				nil,       // "-"
 				nil,       // "*"
-				nil,       // "("
-				shift(17), // ")"
-				nil,       // int64
+				nil,       // "/"
+				shift(14), // "("
+				nil,       // ")"
+				shift(15), // int64
 			},
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S10
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				reduce(3), // "+", reduce: Expr
-				shift(18), // "*"
-				nil,       // "("
-				reduce(3), // ")", reduce: Expr
-				nil,       // int64
+				nil,      // ά<INVALID>
+				nil,      // Ω<EOF>
+				nil,      // "+"
+				nil,      // "-"
+				nil,      // "*"
+				nil,      // "/"
+				shift(6), // "("
+				nil,      // ")"
+				shift(7), // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -169,11 +191,13 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
-				reduce(5), // "+", reduce: Term
-				reduce(5), // "*", reduce: Term
-				nil,       // "("
-				reduce(5), // ")", reduce: Term
-				nil,       // int64
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(26), // "("
+				nil,       // ")"
+				shift(27), // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -181,12 +205,14 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
+				reduce(4), // Ω<EOF>, reduce: Expr
 				nil,       // "+"
-				nil,       // "*"
-				shift(12), // "("
+				nil,       // "-"
+				shift(28), // "*"
+				nil,       // "/"
+				nil,       // "("
 				nil,       // ")"
-				shift(13), // int64
+				nil,       // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -194,11 +220,13 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				reduce(7), // "+", reduce: Factor
-				reduce(7), // "*", reduce: Factor
+				reduce(9), // Ω<EOF>, reduce: Term
+				nil,       // "+"
+				nil,       // "-"
+				reduce(9), // "*", reduce: Term
+				nil,       // "/"
 				nil,       // "("
-				reduce(7), // ")", reduce: Factor
+				nil,       // ")"
 				nil,       // int64
 			},
 			cdActions: []cdAction{},
@@ -207,25 +235,29 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				reduce(2), // Ω<EOF>, reduce: Expr
-				reduce(2), // "+", reduce: Expr
-				shift(8),  // "*"
-				nil,       // "("
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				shift(19), // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(20), // "("
 				nil,       // ")"
-				nil,       // int64
+				shift(21), // int64
 			},
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S15
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				reduce(4), // Ω<EOF>, reduce: Term
-				reduce(4), // "+", reduce: Term
-				reduce(4), // "*", reduce: Term
-				nil,       // "("
-				nil,       // ")"
-				nil,       // int64
+				nil,        // ά<INVALID>
+				reduce(11), // Ω<EOF>, reduce: Factor
+				nil,        // "+"
+				nil,        // "-"
+				reduce(11), // "*", reduce: Factor
+				nil,        // "/"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -235,10 +267,12 @@ var parserActions = actions{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
 				nil,       // "+"
+				nil,       // "-"
 				nil,       // "*"
-				shift(12), // "("
-				nil,       // ")"
-				shift(13), // int64
+				nil,       // "/"
+				nil,       // "("
+				shift(30), // ")"
+				nil,       // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -246,11 +280,13 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				reduce(6), // Ω<EOF>, reduce: Factor
-				reduce(6), // "+", reduce: Factor
-				reduce(6), // "*", reduce: Factor
+				nil,       // Ω<EOF>
+				shift(31), // "+"
+				shift(32), // "-"
+				shift(33), // "*"
+				shift(34), // "/"
 				nil,       // "("
-				nil,       // ")"
+				reduce(7), // ")", reduce: Expr
 				nil,       // int64
 			},
 			cdActions: []cdAction{},
@@ -260,11 +296,13 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
-				nil,       // "+"
-				nil,       // "*"
-				shift(12), // "("
-				nil,       // ")"
-				shift(13), // int64
+				reduce(9), // "+", reduce: Term
+				reduce(9), // "-", reduce: Term
+				reduce(9), // "*", reduce: Term
+				reduce(9), // "/", reduce: Term
+				nil,       // "("
+				reduce(9), // ")", reduce: Term
+				nil,       // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -273,11 +311,13 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
-				shift(16), // "+"
+				nil,       // "+"
+				nil,       // "-"
 				nil,       // "*"
-				nil,       // "("
-				shift(22), // ")"
-				nil,       // int64
+				nil,       // "/"
+				shift(37), // "("
+				nil,       // ")"
+				shift(38), // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -286,24 +326,28 @@ var parserActions = actions{
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
 				nil,       // Ω<EOF>
-				reduce(2), // "+", reduce: Expr
-				shift(18), // "*"
-				nil,       // "("
-				reduce(2), // ")", reduce: Expr
-				nil,       // int64
+				nil,       // "+"
+				shift(19), // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(20), // "("
+				nil,       // ")"
+				shift(21), // int64
 			},
 			cdActions: []cdAction{},
 		},
 		actionRow{ // S21
 			canRecover: false,
 			actions: [numSymbols]action{
-				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				reduce(4), // "+", reduce: Term
-				reduce(4), // "*", reduce: Term
-				nil,       // "("
-				reduce(4), // ")", reduce: Term
-				nil,       // int64
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				reduce(11), // "+", reduce: Factor
+				reduce(11), // "-", reduce: Factor
+				reduce(11), // "*", reduce: Factor
+				reduce(11), // "/", reduce: Factor
+				nil,        // "("
+				reduce(11), // ")", reduce: Factor
+				nil,        // int64
 			},
 			cdActions: []cdAction{},
 		},
@@ -311,12 +355,524 @@ var parserActions = actions{
 			canRecover: false,
 			actions: [numSymbols]action{
 				nil,       // ά<INVALID>
-				nil,       // Ω<EOF>
-				reduce(6), // "+", reduce: Factor
-				reduce(6), // "*", reduce: Factor
+				reduce(2), // Ω<EOF>, reduce: Expr
+				nil,       // "+"
+				nil,       // "-"
+				shift(28), // "*"
+				nil,       // "/"
 				nil,       // "("
-				reduce(6), // ")", reduce: Factor
+				nil,       // ")"
 				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S23
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				reduce(3), // Ω<EOF>, reduce: Expr
+				nil,       // "+"
+				nil,       // "-"
+				shift(28), // "*"
+				nil,       // "/"
+				nil,       // "("
+				nil,       // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S24
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				reduce(5), // Ω<EOF>, reduce: Expr
+				reduce(8), // "+", reduce: Term
+				reduce(8), // "-", reduce: Term
+				reduce(8), // "*", reduce: Term
+				reduce(8), // "/", reduce: Term
+				nil,       // "("
+				nil,       // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S25
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				reduce(6), // Ω<EOF>, reduce: Expr
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				nil,       // "("
+				nil,       // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S26
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				shift(19), // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(20), // "("
+				nil,       // ")"
+				shift(21), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S27
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				reduce(11), // Ω<EOF>, reduce: Factor
+				nil,        // "+"
+				nil,        // "-"
+				nil,        // "*"
+				nil,        // "/"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S28
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(14), // "("
+				nil,       // ")"
+				shift(15), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S29
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				nil,       // "("
+				shift(42), // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S30
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				reduce(10), // Ω<EOF>, reduce: Factor
+				reduce(10), // "+", reduce: Factor
+				reduce(10), // "-", reduce: Factor
+				reduce(10), // "*", reduce: Factor
+				reduce(10), // "/", reduce: Factor
+				nil,        // "("
+				nil,        // ")"
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S31
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(37), // "("
+				nil,       // ")"
+				shift(38), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S32
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(37), // "("
+				nil,       // ")"
+				shift(38), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S33
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(20), // "("
+				nil,       // ")"
+				shift(21), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S34
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(47), // "("
+				nil,       // ")"
+				shift(48), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S35
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				shift(49), // "*"
+				nil,       // "/"
+				nil,       // "("
+				reduce(4), // ")", reduce: Expr
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S36
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				reduce(9), // "*", reduce: Term
+				nil,       // "/"
+				nil,       // "("
+				reduce(9), // ")", reduce: Term
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S37
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				shift(19), // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(20), // "("
+				nil,       // ")"
+				shift(21), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S38
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // "+"
+				nil,        // "-"
+				reduce(11), // "*", reduce: Factor
+				nil,        // "/"
+				nil,        // "("
+				reduce(11), // ")", reduce: Factor
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S39
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				nil,       // "("
+				shift(51), // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S40
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				nil,       // "("
+				shift(52), // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S41
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				reduce(8), // Ω<EOF>, reduce: Term
+				nil,       // "+"
+				nil,       // "-"
+				reduce(8), // "*", reduce: Term
+				nil,       // "/"
+				nil,       // "("
+				nil,       // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S42
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				reduce(10), // Ω<EOF>, reduce: Factor
+				nil,        // "+"
+				nil,        // "-"
+				reduce(10), // "*", reduce: Factor
+				nil,        // "/"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S43
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				shift(49), // "*"
+				nil,       // "/"
+				nil,       // "("
+				reduce(2), // ")", reduce: Expr
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S44
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				shift(49), // "*"
+				nil,       // "/"
+				nil,       // "("
+				reduce(3), // ")", reduce: Expr
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S45
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				reduce(8), // "+", reduce: Term
+				reduce(8), // "-", reduce: Term
+				reduce(8), // "*", reduce: Term
+				reduce(8), // "/", reduce: Term
+				nil,       // "("
+				reduce(5), // ")", reduce: Expr
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S46
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				nil,       // "("
+				reduce(6), // ")", reduce: Expr
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S47
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				shift(19), // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(20), // "("
+				nil,       // ")"
+				shift(21), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S48
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // "+"
+				nil,        // "-"
+				nil,        // "*"
+				nil,        // "/"
+				nil,        // "("
+				reduce(11), // ")", reduce: Factor
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S49
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				shift(37), // "("
+				nil,       // ")"
+				shift(38), // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S50
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				nil,       // "("
+				shift(55), // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S51
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				reduce(10), // "+", reduce: Factor
+				reduce(10), // "-", reduce: Factor
+				reduce(10), // "*", reduce: Factor
+				reduce(10), // "/", reduce: Factor
+				nil,        // "("
+				reduce(10), // ")", reduce: Factor
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S52
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				reduce(10), // Ω<EOF>, reduce: Factor
+				nil,        // "+"
+				nil,        // "-"
+				nil,        // "*"
+				nil,        // "/"
+				nil,        // "("
+				nil,        // ")"
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S53
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				nil,       // "*"
+				nil,       // "/"
+				nil,       // "("
+				shift(56), // ")"
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S54
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,       // ά<INVALID>
+				nil,       // Ω<EOF>
+				nil,       // "+"
+				nil,       // "-"
+				reduce(8), // "*", reduce: Term
+				nil,       // "/"
+				nil,       // "("
+				reduce(8), // ")", reduce: Term
+				nil,       // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S55
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // "+"
+				nil,        // "-"
+				reduce(10), // "*", reduce: Factor
+				nil,        // "/"
+				nil,        // "("
+				reduce(10), // ")", reduce: Factor
+				nil,        // int64
+			},
+			cdActions: []cdAction{},
+		},
+		actionRow{ // S56
+			canRecover: false,
+			actions: [numSymbols]action{
+				nil,        // ά<INVALID>
+				nil,        // Ω<EOF>
+				nil,        // "+"
+				nil,        // "-"
+				nil,        // "*"
+				nil,        // "/"
+				nil,        // "("
+				reduce(10), // ")", reduce: Factor
+				nil,        // int64
 			},
 			cdActions: []cdAction{},
 		},

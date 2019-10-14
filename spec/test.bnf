@@ -8,14 +8,13 @@ _lowcase : 'a'-'z' ;
 _id_char : _upcase | _lowcase | '_' | _digit ;
 _upcase : 'A'-'Z' ;
 _digit : '0'-'9' ;
-
+_all_but_star : . | ~'*' ;
 
 !space    :  ' ' | '\t' ;
 hexdigit : '0'-'F'  | ~(':'-'@') ;
 
 <<
 import(
-	"fmt"
 )
 >>
 
@@ -30,7 +29,7 @@ Test1:
 Test2 : Test3 | Test1;
 
 Test3 :
-"not" "empty" << fmt.Printf("very well\n") >>
+"not" "empty" << []interface{}{"very well"}, nil >>
 |
 T
 |
@@ -47,44 +46,24 @@ X:
 	|
 		altro
 		@@
-				func () (interface {}, error, int) {
-					count := 0
-					ret := []byte{}
-					for {
-						r, _, _ := Stream.ReadRune()
-						switch r {
-							case ' ', '\t':
-								ret = append(ret, string(r)...)
-							case '/':
-								ret = append(ret, string(r)...)
-								count++
-							default:
-								Stream.UnreadRune()
-								fmt.Printf("count=%d rune=<%c> ret=<%s>\n", count, r, string(ret))
-								return count, nil, len(ret)
-						}
+				func () (interface {}, error, []byte) {
+					slashes := []byte{}
+					for r, _, _ := Stream.ReadRune(); r == '/' || r == '\\' || r == '\u2215' || r == '\u29f5'; r, _, _ = Stream.ReadRune() {
+						slashes = append(slashes, string(r)...)
 					}
-					return nil, nil, 0
+					Stream.UnreadRune()
+					return len(string(slashes)), nil, slashes
 				}()
 		@@
 		Test2
 			<<
-				func () (interface{}, error) {
-					fmt.Printf("$0=%#v\n$1=%#v\n", $0, $1)
-					return "buongiorno", nil
-				} ()
+				append(append([]interface{}{},$1),$2.([]interface{})...), nil
 			>>
 	|
-		"expr"
-		"("
 		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
-		")"
 		Test2
 			<<
-				func () (interface{}, error) {
-					fmt.Printf("EXPR A=%#v\nB=%#v\n", $2, $3)
-					return "expression", nil
-				} ()
+				append(append([]interface{}{},$1),$2.([]interface{})...), nil
 			>>
 ;
 

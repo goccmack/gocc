@@ -22,26 +22,89 @@
 /*
    Modified by: Massimiliano Calandrelli <max@maxcalandrelli.it>
 
-  Changes:
-    changed all go files using import from
-      https://github.com/goccmack/gocc
-    to import from
-      https://github.com/maxcalandrelli/gocc
-    use original gocc (https://github.com/goccmack/gocc) to reproduce
-    the initial (handwritten?) parser
-      added file internal/ast/sdthlp.go
-      changed file spec/gocc.bnf
-    add negative char and char ranges to lexer
-      changed file internal/lexer/items/disjunctrangeset.go
-      changed file internal/ast/lexcharlit.go
-      changed file internal/ast/lexcharrange.go
-    added support for a simple form of context-sensitive parsing by
-    providing the ability to store/restore scanner position and invoke
-    a different lexer/parser pair while scanning
-      changed template for token generation in internal/lexer/gen/token.go
-      changed template for lexer generation in internal/lexer/gen/lexer.go
-      changed template for parser generation in internal/lexer/gen/parse.go
-      changed template for parser generation in internal/lexer/gen/productionstable.go
+  Changes summary:
+
+    2019-10-14
+    Many changes, many new features. Streamed parsing, longest prefix parsing, nondeterministic subparsing.
+
+    - changed all go files using import from
+        https://github.com/goccmack/gocc
+      to import from
+        https://github.com/maxcalandrelli/gocc
+
+    - eliminated ambiguity between literals and labels of lexical or syntaxical productions; "error" can now
+      be specified as a literal, and a synonm name is "λ", while a synonim for "empty" is "ε"
+
+    - used original gocc (https://github.com/goccmack/gocc) to reproduce the initial (handwritten?) parser
+
+    - changed defaults for output directory
+
+    - changed output directory structure
+
+    - added the ability to specify negative char and char ranges to lexer, as in:
+
+        all_but_star : . | ~'*' ;
+        hexdigit : '0'-'F'  | ~(':'-'@') ;
+
+    - added a user defined context to parsing for simpler cases, where an AST is not required. the context is
+      available as an implicit variable with name "Context" in SDT snippets. a variable named "Stream" contains
+      the underlying lexer stream
+
+    - added the ability to parse only the longest possible prefix of data, returning the consumed bytes
+
+        subTree, err, parsed := myParser.ParseLongestPrefix(myScanner)
+
+    - added support for a simple form of context-sensitive (non deterministic) parsing by invoking a different
+      lexer/parser pair while scanning
+
+      - compact form, using a gocc generated parser for longest prefix sub-parsing:
+
+          NumericValue:
+              integer
+            |
+          		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+          			<<
+          				$1, nil
+          			>>
+
+        in compact form, an import alias can be specified (without changes in stack usage)to avoid naming conflicts;
+        the following example is totally equivalent to the former:
+
+          NumericValue:
+              integer
+            |
+          		@ calculator "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+          			<<
+          				$1, nil
+          			>>
+
+      - full form, like in the following example, where also the use of "Stream" is shown:
+
+          SlashesOrKeyword:
+          		"no-slashes"
+                << "no slashes", nil >>
+          	|
+          		somethingelse
+          		@@
+        				func () (interface {}, error, []byte) {
+        					slashes := []byte{}
+        					for r, _, _ := Stream.ReadRune(); r == '/' || r == '\\' || r == '\u2215' || r == '\u29f5'; r, _, _ = Stream.ReadRune() {
+        						slashes = append(slashes, string(r)...)
+        					}
+        					Stream.UnreadRune()
+        					return len(string(slashes)), nil, slashes
+        				}()
+          		@@
+          		OtherProduction
+          			<<
+          				append(append([]interface{}{},$1),$2.([]interface{})...), nil
+          			>>
+
+        either form of non deterministic parsing pushes two values on the stack:
+          - the pseudo-token built by taking as literal the longest prefix that the sub-parser rcognized
+          - the corresponding AST returned by the sun-parser
+
+
 
 */
 
@@ -97,7 +160,7 @@ func main() {
 		grammar interface{}
 	)
 	ast.StringGetter = func(v interface{}) string { return string(v.(*altfe.Token).Lit) }
-	grammar, err, _ = altfe.ParseFile(cfg.SourceFile())
+	grammar, err = altfe.ParseFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Printf("Parse error: %s\n", err)
 		os.Exit(1)

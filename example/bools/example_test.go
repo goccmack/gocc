@@ -24,7 +24,7 @@ import (
 func testEval(t *testing.T, exampleStr string, output bool) {
 	lex := bools.NewLexerString(exampleStr)
 	p := bools.NewParser()
-	st, err, _ := p.Parse(lex)
+	st, err := p.Parse(lex)
 	if err != nil {
 		panic(err)
 	}

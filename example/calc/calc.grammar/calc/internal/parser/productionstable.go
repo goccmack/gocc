@@ -44,7 +44,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Π<Expr> Λ<+> Π<Term>	<< X[0].(int64) + X[2].(int64), nil >>`,
+		String: `Expr : Π<Term> Λ<+> Π<Term>	<< X[0].(int64) + X[2].(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      2,
@@ -54,20 +54,60 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Π<Term>	<<  >>`,
+		String: `Expr : Π<Term> Λ<-> Π<Term>	<< X[0].(int64) - X[2].(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      3,
+		NumSymbols: 3,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return X[0].(int64) - X[2].(int64), nil
+		},
+	},
+	ProdTabEntry{
+		String: `Expr : Λ<-> Π<Term>	<< -X[1].(int64), nil >>`,
+		Id:         "Expr",
+		NTType:     2,
+		Index:      4,
+		NumSymbols: 2,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return -X[1].(int64), nil
+		},
+	},
+	ProdTabEntry{
+		String: `Expr : Π<Term> Λ<*> Π<Factor>	<< X[0].(int64) * X[2].(int64), nil >>`,
+		Id:         "Expr",
+		NTType:     2,
+		Index:      5,
+		NumSymbols: 3,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return X[0].(int64) * X[2].(int64), nil
+		},
+	},
+	ProdTabEntry{
+		String: `Expr : Π<Term> Λ</> Π<Factor>	<< X[0].(int64) / X[2].(int64), nil >>`,
+		Id:         "Expr",
+		NTType:     2,
+		Index:      6,
+		NumSymbols: 3,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return X[0].(int64) / X[2].(int64), nil
+		},
+	},
+	ProdTabEntry{
+		String: `Expr : Π<Term>	<< X[0].(int64), nil >>`,
+		Id:         "Expr",
+		NTType:     2,
+		Index:      7,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return X[0], nil
+			return X[0].(int64), nil
 		},
 	},
 	ProdTabEntry{
 		String: `Term : Π<Term> Λ<*> Π<Factor>	<< X[0].(int64) * X[2].(int64), nil >>`,
 		Id:         "Term",
 		NTType:     3,
-		Index:      4,
+		Index:      8,
 		NumSymbols: 3,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0].(int64) * X[2].(int64), nil
@@ -77,7 +117,7 @@ var productionsTable = ProdTab{
 		String: `Term : Π<Factor>	<<  >>`,
 		Id:         "Term",
 		NTType:     3,
-		Index:      5,
+		Index:      9,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -87,7 +127,7 @@ var productionsTable = ProdTab{
 		String: `Factor : Λ<(> Π<Expr> Λ<)>	<< X[1], nil >>`,
 		Id:         "Factor",
 		NTType:     4,
-		Index:      6,
+		Index:      10,
 		NumSymbols: 3,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[1], nil
@@ -97,7 +137,7 @@ var productionsTable = ProdTab{
 		String: `Factor : int64	<< util.IntValue(X[0].(*token.Token).Lit) >>`,
 		Id:         "Factor",
 		NTType:     4,
-		Index:      7,
+		Index:      11,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return util.IntValue(X[0].(*token.Token).Lit)

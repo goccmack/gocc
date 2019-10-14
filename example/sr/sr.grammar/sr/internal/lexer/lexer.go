@@ -78,6 +78,10 @@ func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
   return int (c.value() - o.(checkPoint).value())
 }
 
+func (c checkPoint) Advance (o int) iface.CheckPoint {
+  return checkPoint(c.value() + int64(o))
+}
+
 func (l *Lexer) GetCheckPoint() iface.CheckPoint {
   if l == nil {
     return checkPoint(0)
@@ -93,10 +97,10 @@ func (l Lexer) GotoCheckPoint(cp iface.CheckPoint) {
 func (l *Lexer) Scan() (tok *token.Token) {
 	tok = new(token.Token)
 	tok.Type = token.INVALID
-	tok.Lit = []byte{}
   start := l.position
   state := 0
 	for state != -1  {
+    savePos := l.position.Pos
 	  curr, size, err := l.stream.ReadRune()
     if size < 1 || err != nil {
       curr = INVALID_RUNE
@@ -129,12 +133,14 @@ func (l *Lexer) Scan() (tok *token.Token) {
 				start = l.position
 				state = 0
 				tok.Lit = []byte{}
+        tok.IgnoredPrefix=append(tok.IgnoredPrefix,string(curr)...)
 			}
 		} else if curr != INVALID_RUNE{
       if len(tok.Lit) == 0 {
 			  tok.Lit = append(tok.Lit, string(curr)...)
       } else {
         l.stream.UnreadRune()
+        l.position.Pos = savePos
       }
     }
   	if err == io.EOF && len(tok.Lit)==0 {
