@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"go/format"
 	"path"
+	"regexp"
 	"text/template"
 
 	"github.com/maxcalandrelli/gocc/internal/config"
@@ -31,9 +32,9 @@ import (
 )
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap, subpath string, cfg config.Config) {
+	itemsets *items.ItemSets, tokMap *token.TokenMap, internal string, cfg config.Config) {
 
-	fname := path.Join(outDir, subpath, "parser", "productionstable.go")
+	fname := path.Join(outDir, internal, "parser", "productionstable.go")
 	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc[1:])
 	if err != nil {
 		panic(err)
@@ -42,7 +43,7 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 	pTab := getProdsTab(header, prods, symbols, itemsets, tokMap)
 	pTab.Pkg = pkg
 	pTab.Outdir = outDir
-	pTab.Subpath = subpath
+	pTab.InternalDir = internal
 	pTab.Config = cfg
 
 	if err := tmpl.Execute(wr, pTab); err != nil {
@@ -81,7 +82,7 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 		}
 		switch {
 		case len(prod.Body.SDT) > 0:
-			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", prod.Body.SDT)
+			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", replaceSDTvars(prod.Body.SDT))
 		case isEmpty:
 			// Empty production with no semantic action.
 			data.ProdTab[i].ReduceFunc = "return nil, nil"
@@ -93,13 +94,28 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 	return data
 }
 
+var (
+	sdtReplacerBase   = regexp.MustCompile("\\$([0-9]+)")
+	sdtReplacerGetStr = regexp.MustCompile("\\$s([0-9]+)")
+	sdtReplacerGetUnq = regexp.MustCompile("\\$u([0-9]+)")
+)
+
+func replaceSDTvars(sdt string) string {
+	ret := sdt
+	ret = sdtReplacerBase.ReplaceAllString(ret, fmt.Sprintf("X[${1}]"))
+	ret = sdtReplacerGetStr.ReplaceAllString(ret, fmt.Sprintf("getString(X[${1}])"))
+	ret = sdtReplacerGetUnq.ReplaceAllString(ret, fmt.Sprintf("getUnquotedString(X[${1}])"))
+	//fmt.Printf("SDT:%s\n", ret)
+	return ret
+}
+
 type prodsTabData struct {
-	Header  string
-	ProdTab []prodTabEntry
-	Pkg     string
-	Outdir  string
-	Subpath string
-	Config  config.Config
+	Header      string
+	ProdTab     []prodTabEntry
+	Pkg         string
+	Outdir      string
+	InternalDir string
+	Config      config.Config
 }
 
 type prodTabEntry struct {
@@ -119,6 +135,28 @@ package parser
 {{.Header}}
 
 
+import (
+  "fmt"
+  "{{.Config.Package}}/{{.InternalDir}}/token"
+)
+
+func getString(X Attrib) string {
+  switch X.(type) {
+    case *token.Token: return string(X.(*token.Token).Lit)
+    case string: return X.(string)
+  }
+  return fmt.Sprintf("%q", X)
+}
+
+func getUnquotedString(X Attrib) string {
+  ret := getString(X)
+  if len(ret)>1 {
+    if (ret[0] == '\'' || ret[0] == '"') && ret[len(ret)-1]==ret[0] {
+      ret = ret[1:len(ret)-1]
+    }
+  }
+  return ret
+}
 
 type (
 	//TODO: change type and variable names to be consistent with other tables

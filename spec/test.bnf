@@ -12,9 +12,12 @@ _all_but_star : . | ~'*' ;
 
 !space    :  ' ' | '\t' ;
 hexdigit : '0'-'F'  | ~(':'-'@') ;
+qhexdigit : '"' ('0'-'F'  | ~(':'-'@')) '"' ;
+//quote: '"' ;
 
 <<
 import(
+	"fmt"
 )
 >>
 
@@ -32,18 +35,19 @@ Test3 :
 "not" "empty" << []interface{}{"very well"}, nil >>
 |
 T
-|
-hexdigit
 ;
 
 T : "a"  | "X" | ProdX | "λ1" | X;
 
 ProdX : "empty" | "ε" | "λ" | empty  | ε ;
 
-X:
-		"!"
-	| 	"hexdigit"
+Quoted :
+		qhexdigit
 	|
+		"\"" hexdigit "\""
+;
+
+X:
 		altro
 		@@
 				func () (interface {}, error, []byte) {
@@ -63,7 +67,16 @@ X:
 		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
 		Test2
 			<<
-				append(append([]interface{}{},$1),$2.([]interface{})...), nil
+				func () interface{} {
+					fmt.Printf("computed: %s=%d\n", $s0, $1)
+					return append(append([]interface{}{},$1),$2.([]interface{})...)
+				}() , nil
+			>>
+	|
+		Quoted
+		Test2
+			<<
+				append([]interface{}{fmt.Sprintf("string: %s",  $u0)},$1), nil
 			>>
 ;
 

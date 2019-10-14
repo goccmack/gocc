@@ -50,6 +50,13 @@
       available as an implicit variable with name "Context" in SDT snippets. a variable named "Stream" contains
       the underlying lexer stream
 
+    - added shorthand substitutions for SDT placeholders:
+      - $s<N> converts $<N> to string directly if it is a token in the target grammar; if it is some other object
+        (i.e. an AST branch returned by a reduce operation), it is converted to a string with a .(string) conversion
+        and, in case of failure, with a "%q" format string
+      - $u<N> does the same; additionally, if the resulting string is enclosed in single o double quotes, it is
+        unwrapped an the quotes are discarded
+
     - added the ability to parse only the longest possible prefix of data, returning the consumed bytes
 
         subTree, err, parsed := myParser.ParseLongestPrefix(myScanner)
@@ -181,7 +188,6 @@ func main() {
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
 	lexSets := lexItems.GetItemSets(g.LexPart)
-
 	if cfg.Verbose() {
 		io.WriteFileString(path.Join(outdir_log, "lexer_sets.txt"), lexSets.String())
 	}

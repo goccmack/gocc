@@ -50,6 +50,7 @@ func NewSyntaxSymbolsFromToken(tok interface{}) (SyntaxSymbols, error) {
 		return SyntaxSymbols{ErrorSymbol}, nil
 	}
 	sym, err := NewStringLit(tok)
+	fmt.Printf("LITERAL:<%q>\n", sym)
 	return SyntaxSymbols{sym}, err
 }
 
