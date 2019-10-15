@@ -105,7 +105,7 @@ func replaceSDTvars(sdt string) string {
 	ret = sdtReplacerBase.ReplaceAllString(ret, fmt.Sprintf("X[${1}]"))
 	ret = sdtReplacerGetStr.ReplaceAllString(ret, fmt.Sprintf("getString(X[${1}])"))
 	ret = sdtReplacerGetUnq.ReplaceAllString(ret, fmt.Sprintf("getUnquotedString(X[${1}])"))
-	//fmt.Printf("SDT:%s\n", ret)
+	// TODO: reorder this as: stringize, unquote, unescape, uppercase, lowercase, etc.
 	return ret
 }
 
