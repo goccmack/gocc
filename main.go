@@ -36,7 +36,7 @@
       to recognize a string like "<< a > b >>"
 
     - eliminated ambiguity between literals and labels of lexical or syntaxical productions; "error" can now
-      be specified as a literal, and a synonm name is "λ", while a synonim for "empty" is "ε"
+      be specified as a literal, and a synonym is "λ", while a synonim for "empty" is "ε"
 
     - used original gocc (https://github.com/goccmack/gocc) to reproduce the initial (handwritten?) parser
 
