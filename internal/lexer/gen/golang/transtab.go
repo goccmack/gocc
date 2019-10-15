@@ -54,7 +54,7 @@ type transitionTableData struct {
 func getTransitionTableData(itemsets *items.ItemSets) []transitionTableRowData {
 	data := make([]transitionTableRowData, itemsets.Size())
 	for setNo, set := range itemsets.List() {
-		if set.SymbolClasses.MatchAny {
+		if set.SymbolClasses.MatchAny || set.DotTransition >= 0 {
 			data[setNo].MatchAny = true
 			data[setNo].MatchAnyState = set.DotTransition
 		} else {

@@ -27,7 +27,7 @@ import (
 )
 
 const (
-	VERSION = "1.2.0009"
+	VERSION = "1.3.0001"
 
 	INTERNAL_SYMBOL_EMPTY   = "ε"
 	INTERNAL_SYMBOL_ERROR   = "λ"       // (λάθος)
@@ -195,7 +195,7 @@ func (this *ConfigRecord) getFlags() error {
 	this.help = flag.Bool("h", false, "help")
 	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
 	flag.StringVar(&this.outDir, "o", path.Join(this.workingDir, "@f.grammar", "@f"), "output directory format (@f='name' if input file is 'name.bnf')")
-	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
+	flag.StringVar(&this.pkg, "p", "", "package, empty defaults to "+defaultPackage(this.outDir))
 	flag.StringVar(&this.internal, "internal", "internal", "internal subdir name")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
@@ -210,10 +210,17 @@ func (this *ConfigRecord) getFlags() error {
 
 	this.srcFile = flag.Arg(0)
 	this.outDir = getOutDir(this.outDir, this.workingDir, this.srcFile)
-	if this.outDir != this.workingDir {
+	if this.pkg == "" {
 		this.pkg = defaultPackage(this.outDir)
 	}
+	this.pkg = actualize(this.pkg, this.srcFile)
 	return nil
+}
+
+func actualize(pattern, src string) string {
+	_, fname := path.Split(src)
+	fname = fname[:len(fname)-len(path.Ext(fname))]
+	return regexp.MustCompile("@f").ReplaceAllString(pattern, fname)
 }
 
 func getOutDir(outDirSpec, wd, src string) string {
@@ -226,10 +233,7 @@ func getOutDir(outDirSpec, wd, src string) string {
 		}
 		return path.Join(wd, outDirSpec)
 	}()
-	_, fname := path.Split(src)
-	fname = fname[:len(fname)-len(path.Ext(fname))]
-	res := regexp.MustCompile("@f").ReplaceAllString(pattern, fname)
-	return res
+	return actualize(pattern, src)
 }
 
 func defaultPackage(wd string) string {

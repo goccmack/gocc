@@ -56,7 +56,6 @@ func (this *ItemSets) Closure() *ItemSets {
 			if items := this.sets[i].Next(rng); len(items) != 0 {
 				setNo, nextState := this.Add(items), this.sets[i].Transitions[symI]
 				if nextState != -1 && nextState != setNo {
-					panic(fmt.Sprintf("Next set conflict in (S%d, %s) -> %d. Existing setNo: %d", i, rng, setNo, nextState))
 				}
 				this.sets[i].Transitions[symI] = setNo
 			}
@@ -75,7 +74,26 @@ func (this *ItemSets) Closure() *ItemSets {
 			this.sets[i].DotTransition = setNo
 		}
 	}
+	for i := 0; i < len(this.sets); i++ {
+		this.propagateDots(i)
+	}
 	return this
+}
+
+/*
+   this will allow to parse a '>' in a SDT construct, just to name a case...
+*/
+
+func (this *ItemSets) propagateDots(start int) {
+	//fmt.Printf("   --- start=%d #transitions=%d\n", start, len(this.sets[start].Transitions))
+	if this.sets[start].DotTransition > -1 {
+		for _, tr := range this.sets[start].Transitions {
+			//fmt.Printf("   --- start=%d t=%d t.dot=%d\n", start, tr, this.sets[tr].DotTransition)
+			if tr > start && this.sets[tr].DotTransition < 0 && len(this.sets[tr].Transitions) > 0 {
+				this.sets[tr].DotTransition = this.sets[start].DotTransition
+			}
+		}
+	}
 }
 
 func (this *ItemSets) Contain(items ItemList) (yes bool, index int) {

@@ -19,6 +19,7 @@ import (
 	"path"
 
 	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/util"
 )
 
 type SyntaxSubParser struct {
@@ -37,11 +38,11 @@ func NewSubParser(_import interface{}) (SyntaxSubParser, error) {
 }
 
 func newSubParser(alias, imp string) (SyntaxSubParser, error) {
-	imp, _, _ = unquoteString(imp)
+	imp, _, _ = util.EscapedString(imp).Unquote()
 	if alias == "" {
 		alias = path.Base(imp)
 	} else {
-		alias, _, _ = unquoteString(alias)
+		alias, _, _ = util.EscapedString(alias).Unquote()
 	}
 	return SyntaxSubParser{
 		fmt.Sprintf("%s_%d", alias, tokenIdCount),

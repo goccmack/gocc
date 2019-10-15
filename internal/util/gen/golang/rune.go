@@ -6,8 +6,8 @@ import (
 	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
-func GenRune(outDir, subpath string) {
-	io.WriteFileString(path.Join(outDir, subpath, "util", "rune.go"), runeSrc[1:])
+func GenRune(outDir, internal string) {
+	io.WriteFileString(path.Join(outDir, internal, "util", "rune.go"), runeSrc[1:])
 }
 
 var runeSrc = `

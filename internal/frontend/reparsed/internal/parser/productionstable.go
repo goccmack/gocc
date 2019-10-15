@@ -2,7 +2,11 @@
 
 package parser
 
-import "github.com/maxcalandrelli/gocc/internal/ast"
+import (
+	"github.com/maxcalandrelli/gocc/internal/ast"
+)
+
+// now a > b should work...
 
 import (
 	"fmt"

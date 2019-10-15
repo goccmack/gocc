@@ -118,8 +118,6 @@ func (this *ItemSet) getSymbolClasses() {
 				addNow = !chars.Negate
 			case *ast.LexCharRange:
 				addNow = !chars.Negate
-			default:
-				addNow = true
 			}
 			if addNow {
 				this.SymbolClasses.AddLexTNode(item.ExpectedSymbol())
@@ -128,7 +126,7 @@ func (this *ItemSet) getSymbolClasses() {
 	}
 	for _, item := range this.Items {
 		if !item.Reduce() {
-			addNow := false
+			addNow := true
 			switch chars := item.ExpectedSymbol().(type) {
 			case *ast.LexCharLit:
 				addNow = chars.Negate

@@ -107,7 +107,12 @@ string_lit
 
 /*** Syntactic items ***/
 
-<< import "github.com/maxcalandrelli/gocc/internal/ast" >>
+<<
+	import (
+		"github.com/maxcalandrelli/gocc/internal/ast"
+	)
+	// now a > b should work...
+ >>
 
 Grammar :
 		LexicalPart

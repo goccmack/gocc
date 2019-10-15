@@ -32,6 +32,9 @@
       to import from
         https://github.com/maxcalandrelli/gocc
 
+    - fixed a state machine generation bug (hopefully), that prevented a RE like '<' '<' . { . } '>' '>'
+      to recognize a string like "<< a > b >>"
+
     - eliminated ambiguity between literals and labels of lexical or syntaxical productions; "error" can now
       be specified as a literal, and a synonm name is "λ", while a synonim for "empty" is "ε"
 
