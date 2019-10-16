@@ -11,6 +11,8 @@ import (
 import (
 	"fmt"
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/util"
+	"strings"
 )
 
 func getString(X Attrib) string {
@@ -23,14 +25,21 @@ func getString(X Attrib) string {
 	return fmt.Sprintf("%q", X)
 }
 
-func getUnquotedString(X Attrib) string {
-	ret := getString(X)
-	if len(ret) > 1 {
-		if (ret[0] == '\'' || ret[0] == '"') && ret[len(ret)-1] == ret[0] {
-			ret = ret[1 : len(ret)-1]
-		}
-	}
-	return ret
+func unescape(s string) string {
+	return util.EscapedString(s).Unescape()
+}
+
+func unquote(s string) string {
+	r, _, _ := util.EscapedString(s).Unquote()
+	return r
+}
+
+func lc(s string) string {
+	return strings.ToLower(s)
+}
+
+func uc(s string) string {
+	return strings.ToUpper(s)
 }
 
 type (

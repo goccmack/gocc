@@ -33,7 +33,8 @@
         https://github.com/maxcalandrelli/gocc
 
     - fixed a state machine generation bug (hopefully), that prevented a RE like '<' '<' . { . } '>' '>'
-      to recognize a string like "<< a > b >>"
+      to recognize a string like "<< a > b >>" (this is done in ItemSets.propagateDots and in the generated
+      lexer/transitiontable.go)
 
     - eliminated ambiguity between literals and labels of lexical or syntaxical productions; "error" can now
       be specified as a literal, and a synonym is "λ", while a synonim for "empty" is "ε"
@@ -53,12 +54,34 @@
       available as an implicit variable with name "Context" in SDT snippets. a variable named "Stream" contains
       the underlying lexer stream
 
-    - added shorthand substitutions for SDT placeholders:
-      - $s<N> converts $<N> to string directly if it is a token in the target grammar; if it is some other object
-        (i.e. an AST branch returned by a reduce operation), it is converted to a string with a .(string) conversion
-        and, in case of failure, with a "%q" format string
-      - $u<N> does the same; additionally, if the resulting string is enclosed in single o double quotes, it is
-        unwrapped an the quotes are discarded
+    - added functions shorthand substitutions for SDT placeholders $<N>, with the format
+
+                            $<N>:<ops>
+
+      the operations in <ops> are applied to the token/ast; ops is a string where every character stays for an unary
+      function of a string, identified by one of the following:
+          - s:    converts $<N> to string directly if it is a token in the target grammar; if it is some other object
+                  (i.e. an AST branch returned by a reduce operation), it is converted to a string with a .(string) conversion
+                  and, in case of failure, with a "%q" format string
+          - q:    if the resulting string is enclosed in single o double quotes, it is unwrapped an the quotes are
+                  discarded
+          - e:    unescape the string, replacing control sequences with their corresponding represented values
+          - U:    uppercase conversion
+          - l:    lowercase conversion
+        for example, if the literal in the token in a terminal symbol in third position in a syntactical production is
+        <"'value of PI (\u03c0): \"3.14159\"'"> (angular braces used in this text to quote the values), like in:
+
+            ProdX: HeaderPart OptionalPart quoted_string Trailerpart << ast.PrepareWhatever(...) >> ;
+
+        then we will get the following results for quoted_string ($2):
+
+            $2       *token.Token object whose Lit field has the string value <"'value of PI (\u03c0): \"3.14159\"'">
+            $2s      <"'value of PI (\u03c0): \"3.14159\"'">
+            $2e      <"'value of PI (π): "3.14159"'">
+            $2eq     <'value of PI (π): "3.14159"'>
+            $2eqq    <value of PI (π): "3.14159">
+            $2eqU    <VALUE OF PI (Π): "3.14159">
+            $2eqUq   <VALUE OF PI (Π): "3.14159">
 
     - added the ability to parse only the longest possible prefix of data, returning the consumed bytes
 

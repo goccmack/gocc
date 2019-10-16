@@ -6,6 +6,40 @@ import (
 	"github.com/maxcalandrelli/gocc/example/ctx/ast"
 )
 
+import (
+	"fmt"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/token"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/util"
+	"strings"
+)
+
+func getString(X Attrib) string {
+	switch X.(type) {
+	case *token.Token:
+		return string(X.(*token.Token).Lit)
+	case string:
+		return X.(string)
+	}
+	return fmt.Sprintf("%q", X)
+}
+
+func unescape(s string) string {
+	return util.EscapedString(s).Unescape()
+}
+
+func unquote(s string) string {
+	r, _, _ := util.EscapedString(s).Unquote()
+	return r
+}
+
+func lc(s string) string {
+	return strings.ToLower(s)
+}
+
+func uc(s string) string {
+	return strings.ToUpper(s)
+}
+
 type (
 	//TODO: change type and variable names to be consistent with other tables
 	ProdTab      [numProductions]ProdTabEntry
@@ -33,37 +67,37 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `StmtList : Π<Stmt>	<< ast.NewStmtList(X[0]) >>`,
+		String: `StmtList : Π<Stmt>	<< ast.NewStmtList($0:s) >>`,
 		Id:         "StmtList",
 		NTType:     1,
 		Index:      1,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.NewStmtList(X[0])
+			return ast.NewStmtList(getString(X[0]))
 		},
 	},
 	ProdTabEntry{
-		String: `StmtList : Π<StmtList> Π<Stmt>	<< ast.AppendStmt(X[0], X[1]) >>`,
+		String: `StmtList : Π<StmtList> Π<Stmt>	<< ast.AppendStmt($0.(ast.StmtList), $1:s) >>`,
 		Id:         "StmtList",
 		NTType:     1,
 		Index:      2,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.AppendStmt(X[0], X[1])
+			return ast.AppendStmt(X[0].(ast.StmtList), getString(X[1]))
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : id	<< ast.NewStmt(X[0]) >>`,
+		String: `Stmt : id	<< ast.NewStmt($0:U) >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      3,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.NewStmt(X[0])
+			return ast.NewStmt(uc(getString(X[0])))
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : Λ<calc> μ<calc_0>	<< ast.CalcResult(X[2]) >>`,
+		String: `Stmt : Λ<calc> μ<calc_0>	<< ast.CalcResult($2) >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      4,

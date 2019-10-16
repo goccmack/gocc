@@ -19,12 +19,12 @@ id : (_letter | '_') {_idchar} ;
 >>
 
 StmtList :
-      Stmt             << ast.NewStmtList($0) >>
-    | StmtList Stmt    << ast.AppendStmt($0, $1) >>
+      Stmt             << ast.NewStmtList($0:s) >>
+    | StmtList Stmt    << ast.AppendStmt($0.(ast.StmtList), $1:s) >>
 ;
 
 Stmt :
-    		id               << ast.NewStmt($0) >>
+    		id               << ast.NewStmt($0:U) >>
    |
 		"calc"
 		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"

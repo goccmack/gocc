@@ -124,7 +124,7 @@ func (str EscapedString) EscapedFirstCharValue() (rune, int) {
 	for ; i > 0 && offset < len(str)-1; i-- {
 		ch, size := utf8.DecodeRuneInString(string(str)[offset:])
 		offset += size
-		d := uint32(EscapedString(ch).HexDigitValue())
+		d := uint32(HexDigitValue(ch))
 		if d >= base {
 			panic(fmt.Sprintf("charVal(%s): illegal character (%c) in escape sequence. size=%d, offset=%d", str, str[offset], size, offset))
 		}
@@ -137,8 +137,7 @@ func (str EscapedString) EscapedFirstCharValue() (rune, int) {
 	return rune(x), offset
 }
 
-func (str EscapedString) HexDigitValue() int {
-	ch := str[0]
+func HexDigitValue(ch rune) int {
 	switch {
 	case '0' <= ch && ch <= '9':
 		return int(ch) - '0'

@@ -1,0 +1,216 @@
+Item sets:
+S0{
+	!whitespace : ' ' | '\t' | '\n' | • '\r'
+	!whitespace : ' ' | '\t' | • '\n' | '\r'
+	!whitespace : ' ' | • '\t' | '\n' | '\r'
+	!whitespace : • ' ' | '\t' | '\n' | '\r'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | • '_') {_idchar}
+	id : (• _letter | '_') {_idchar}
+	Λ<calc> : • 'c' 'a' 'l' 'c'
+}
+Transitions:
+	['\t','\t'] -> S1
+	['\n','\n'] -> S1
+	['\r','\r'] -> S1
+	[' ',' '] -> S1
+	['A','Z'] -> S2
+	['_','_'] -> S3
+	['a','b'] -> S2
+	['c','c'] -> S4
+	['d','z'] -> S2
+Action: nil
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], ['A','Z'], ['_','_'], ['a','b'], ['c','c'], ['d','z']}
+
+S1{
+	!whitespace : (' ' | '\t' | '\n' | '\r') •
+}
+Transitions:
+Action: Ignore("!whitespace")
+Symbols classes: {}
+
+S2{
+	_digit : •  '0'-'9'
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : ( 'a'-'z' |  'A'-'Z') •
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S3{
+	_digit : •  '0'-'9'
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S4{
+	_digit : •  '0'-'9'
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : ( 'a'-'z' |  'A'-'Z') •
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+	Λ<calc> : 'c' • 'a' 'l' 'c'
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','a'] -> S8
+	['b','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','a'], ['b','z']}
+
+S5{
+	_digit :  '0'-'9' •
+	_digit : •  '0'-'9'
+	_idchar : (_letter | _digit | '_') •
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S6{
+	_digit : •  '0'-'9'
+	_idchar : (_letter | _digit | '_') •
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : ( 'a'-'z' |  'A'-'Z') •
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S7{
+	_digit : •  '0'-'9'
+	_idchar : (_letter | _digit | '_') •
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+
+S8{
+	_digit : •  '0'-'9'
+	_idchar : (_letter | _digit | '_') •
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : ( 'a'-'z' |  'A'-'Z') •
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+	Λ<calc> : 'c' 'a' • 'l' 'c'
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','k'] -> S6
+	['l','l'] -> S9
+	['m','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','k'], ['l','l'], ['m','z']}
+
+S9{
+	_digit : •  '0'-'9'
+	_idchar : (_letter | _digit | '_') •
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : ( 'a'-'z' |  'A'-'Z') •
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+	Λ<calc> : 'c' 'a' 'l' • 'c'
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','b'] -> S6
+	['c','c'] -> S10
+	['d','z'] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','b'], ['c','c'], ['d','z']}
+
+S10{
+	_digit : •  '0'-'9'
+	_idchar : (_letter | _digit | '_') •
+	_idchar : _letter | _digit | • '_'
+	_idchar : _letter | • _digit | '_'
+	_idchar : • _letter | _digit | '_'
+	_letter :  'a'-'z' | •  'A'-'Z'
+	_letter : ( 'a'-'z' |  'A'-'Z') •
+	_letter : •  'a'-'z' |  'A'-'Z'
+	id : (_letter | '_') {_idchar} •
+	id : (_letter | '_') {• _idchar}
+	Λ<calc> : 'c' 'a' 'l' 'c' •
+}
+Transitions:
+	['0','9'] -> S5
+	['A','Z'] -> S6
+	['_','_'] -> S7
+	['a','z'] -> S6
+Action: Accept("Λ<calc>")
+Symbols classes: {['0','9'], ['A','Z'], ['_','_'], ['a','z']}
+

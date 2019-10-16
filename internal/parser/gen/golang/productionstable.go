@@ -22,9 +22,8 @@ import (
 	"regexp"
 	"text/template"
 
-	"github.com/maxcalandrelli/gocc/internal/config"
-
 	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/config"
 	"github.com/maxcalandrelli/gocc/internal/io"
 	"github.com/maxcalandrelli/gocc/internal/parser/lr1/items"
 	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
@@ -52,7 +51,7 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 
 	source, err := format.Source(wr.Bytes())
 	if err != nil {
-		panic(err)
+		panic(fmt.Sprintf("%s in\n%s", err.Error(), wr.String()))
 	}
 	io.WriteFile(fname, source)
 }
@@ -82,7 +81,7 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 		}
 		switch {
 		case len(prod.Body.SDT) > 0:
-			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", replaceSDTvars(prod.Body.SDT))
+			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", sdtReplacer.ReplaceAllStringFunc(prod.Body.SDT, sdtReplacerFunc))
 		case isEmpty:
 			// Empty production with no semantic action.
 			data.ProdTab[i].ReduceFunc = "return nil, nil"
@@ -95,18 +94,28 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 }
 
 var (
-	sdtReplacerBase   = regexp.MustCompile("\\$([0-9]+)")
-	sdtReplacerGetStr = regexp.MustCompile("\\$s([0-9]+)")
-	sdtReplacerGetUnq = regexp.MustCompile("\\$u([0-9]+)")
+	sdtReplacer      = regexp.MustCompile("\\$[0-9]+(:[sqeUl]+)?")
+	sdtReplacerSplit = regexp.MustCompile("^\\$([0-9]+)(?::([sqeUl]+))?$")
 )
 
-func replaceSDTvars(sdt string) string {
-	ret := sdt
-	ret = sdtReplacerBase.ReplaceAllString(ret, fmt.Sprintf("X[${1}]"))
-	ret = sdtReplacerGetStr.ReplaceAllString(ret, fmt.Sprintf("getString(X[${1}])"))
-	ret = sdtReplacerGetUnq.ReplaceAllString(ret, fmt.Sprintf("getUnquotedString(X[${1}])"))
-	// TODO: reorder this as: stringize, unquote, unescape, uppercase, lowercase, etc.
-	return ret
+func sdtReplacerFunc(match string) string {
+	result, funcs := func(s []string) (string, string) { return fmt.Sprintf("X[%s]", s[0]), s[1] }(sdtReplacerSplit.FindStringSubmatch(match)[1:])
+	if funcs > "" {
+		result = fmt.Sprintf("getString(%s)", result)
+	}
+	for _, op := range funcs {
+		switch op {
+		case 'q':
+			result = fmt.Sprintf("unquote(%s)", result)
+		case 'U':
+			result = fmt.Sprintf("uc(%s)", result)
+		case 'e':
+			result = fmt.Sprintf("unescape(%s)", result)
+		case 'l':
+			result = fmt.Sprintf("lc(%s)", result)
+		}
+	}
+	return result
 }
 
 type prodsTabData struct {
@@ -134,10 +143,11 @@ package parser
 
 {{.Header}}
 
-
 import (
   "fmt"
+  "strings"
   "{{.Config.Package}}/{{.InternalDir}}/token"
+  "{{.Config.Package}}/{{.InternalDir}}/util"
 )
 
 func getString(X Attrib) string {
@@ -148,15 +158,23 @@ func getString(X Attrib) string {
   return fmt.Sprintf("%q", X)
 }
 
-func getUnquotedString(X Attrib) string {
-  ret := getString(X)
-  if len(ret)>1 {
-    if (ret[0] == '\'' || ret[0] == '"') && ret[len(ret)-1]==ret[0] {
-      ret = ret[1:len(ret)-1]
-    }
-  }
-  return ret
+func unescape(s string) string {
+  return util.EscapedString(s).Unescape()
 }
+
+func unquote(s string) string {
+  r, _, _ := util.EscapedString(s).Unquote()
+  return r
+}
+
+func lc(s string) string {
+  return strings.ToLower(s)
+}
+
+func uc(s string) string {
+  return strings.ToUpper(s)
+}
+
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
