@@ -8,8 +8,8 @@ import (
 
 import (
 	"fmt"
-	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/token"
-	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/util"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/internal/token"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/internal/util"
 	"strings"
 )
 

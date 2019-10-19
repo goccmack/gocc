@@ -9,15 +9,15 @@ import (
   "os"
 
   
-  "github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/iface"
-  "github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/token"
-  "github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/io/stream"
+  "github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/iface"
+  "github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/internal/token"
+  "github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/internal/io/stream"
 )
 
 const (
 	NoState    = -1
 	NumStates  = 9
-	NumSymbols = 19
+	NumSymbols = 20
   INVALID_RUNE = rune(-1)
 )
 

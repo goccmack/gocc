@@ -121,7 +121,7 @@ func (str EscapedString) EscapedFirstCharValue() (rune, int) {
 	}
 
 	var x uint32
-	for ; i > 0 && offset < len(str)-1; i-- {
+	for ; i > 0 && offset < len(str); i-- {
 		ch, size := utf8.DecodeRuneInString(string(str)[offset:])
 		offset += size
 		d := uint32(HexDigitValue(ch))

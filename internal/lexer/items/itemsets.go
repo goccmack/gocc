@@ -52,10 +52,16 @@ func (this *ItemSets) Add(items ItemList) (setNo int) {
 
 func (this *ItemSets) Closure() *ItemSets {
 	for i := 0; i < len(this.sets); i++ {
+		fmt.Printf("S%d/%d\n", i, len(this.sets))
 		for symI, rng := range this.sets[i].SymbolClasses.List() {
+			fmt.Printf("  rng: %q\n", rng)
 			if items := this.sets[i].Next(rng); len(items) != 0 {
+				for _ix, _it := range items {
+					fmt.Printf("    #%d: <%q>\n", _ix, _it)
+				}
 				setNo, nextState := this.Add(items), this.sets[i].Transitions[symI]
 				if nextState != -1 && nextState != setNo {
+					panic(fmt.Sprintf("Next set conflict in (S%d, %s) -> %d. Existing setNo: %d", i, rng, setNo, nextState))
 				}
 				this.sets[i].Transitions[symI] = setNo
 			}

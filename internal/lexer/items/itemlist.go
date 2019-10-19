@@ -61,7 +61,10 @@ func (this ItemList) AddNoDuplicate(items ...*Item) ItemList {
 	newList := this
 	for _, item := range items {
 		if !newList.Contain(item) {
+			//fmt.Printf("  AddNoDuplicate: adding <%q>\n", item)
 			newList = append(newList, item)
+		} else {
+			//fmt.Printf("  AddNoDuplicate: discarding <%q>\n", item)
 		}
 	}
 	return newList

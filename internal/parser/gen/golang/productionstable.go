@@ -94,8 +94,8 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 }
 
 var (
-	sdtReplacer      = regexp.MustCompile("\\$[0-9]+(:[sqeUl]+)?")
-	sdtReplacerSplit = regexp.MustCompile("^\\$([0-9]+)(?::([sqeUl]+))?$")
+	sdtReplacer      = regexp.MustCompile("\\$[0-9]+[sqeUl]*")
+	sdtReplacerSplit = regexp.MustCompile("^\\$([0-9]+)([sqeUl]*)$")
 )
 
 func sdtReplacerFunc(match string) string {

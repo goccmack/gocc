@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/iface"
-	parseError "github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/errors"
-	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx/internal/token"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/iface"
+	parseError "github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/internal/errors"
+	"github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1/internal/token"
 
 	calc "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
 )

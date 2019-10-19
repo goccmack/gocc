@@ -56,7 +56,7 @@
 
     - added functions shorthand substitutions for SDT placeholders $<N>, with the format
 
-                            $<N>:<ops>
+                            $<N>[<ops>]
 
       the operations in <ops> are applied to the token/ast; ops is a string where every character stays for an unary
       function of a string, identified by one of the following:

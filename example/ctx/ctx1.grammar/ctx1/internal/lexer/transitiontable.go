@@ -107,6 +107,8 @@ var TransTab = TransitionTable{
 			return 8
 		case r == 945: // [\u03b1,\u03b1]
 			return 4
+		case r == 946: // [\u03b2,\u03b2]
+			return 5
 		case r == 947: // [\u03b3,\u03b3]
 			return 6
 		}

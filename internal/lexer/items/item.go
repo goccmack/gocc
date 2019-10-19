@@ -115,6 +115,10 @@ func (this *Item) Emoves() (items []*Item) {
 
 		nt, pos := item.pos.top()
 
+		fmt.Printf("*** Item: %q\n ** emoves:\n", item)
+		for _, e := range items {
+			fmt.Printf("    %q\n", e)
+		}
 		switch node := nt.(type) {
 		case *ast.LexPattern:
 			newItems.Push(item.eMovesLexPattern(node, pos)...)
@@ -134,7 +138,6 @@ func (this *Item) Emoves() (items []*Item) {
 			panic(fmt.Sprintf("Unexpected type in items.Emoves(): %T", nt))
 		}
 	}
-
 	return
 }
 
@@ -305,7 +308,7 @@ func (this *Item) Move(rng CharRange) []*Item {
 	movedItem.getHashKey()
 
 	items := movedItem.Emoves()
-
+	fmt.Printf("  <%q>:move(%q):%q\n", this, rng, items)
 	return items
 }
 
