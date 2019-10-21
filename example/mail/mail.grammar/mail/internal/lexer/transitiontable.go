@@ -391,8 +391,9 @@ var TransTab = TransitionTable{
 		switch {
 		case r == 64: // ['@','@']
 			return 5
+		default:
+			return 7
 		}
-		return NoState
 	},
 	// S12
 	func(r rune) int {

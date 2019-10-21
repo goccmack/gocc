@@ -56,4 +56,16 @@ var ActTab = ActionTable{
 		Accept: 2,
 		Ignore: "",
 	},
+	ActionRow{ // S9, Accept("id")
+		Accept: 2,
+		Ignore: "",
+	},
+	ActionRow{ // S10, 
+		Accept: 0,
+		Ignore: "",
+	},
+	ActionRow{ // S11, Accept("id")
+		Accept: 2,
+		Ignore: "",
+	},
 }

@@ -97,7 +97,7 @@ func main() {
 
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
-	lexSets := lexItems.GetItemSets(g.LexPart)
+	lexSets := lexItems.GetItemSets(g.LexPart, cfg.BugOption("lexer_dots").Fix(), cfg.BugOption("lexer_regdefs").Fix())
 	if cfg.Verbose() {
 		io.WriteFileString(path.Join(outdir_log, "lexer_sets.txt"), lexSets.String())
 	}

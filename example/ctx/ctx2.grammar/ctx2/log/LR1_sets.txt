@@ -1,0 +1,72 @@
+S0{
+	S' : •Π<StmtList> «Ω<EOF>»
+	StmtList : •Π<Stmt> «Ω<EOF>»
+	StmtList : •Π<StmtList> Π<Stmt> «Ω<EOF>»
+	Stmt : •id «Ω<EOF>»
+	Stmt : •μ<calc_0> «Ω<EOF>»
+	StmtList : •Π<Stmt> «μ<calc_0>»
+	StmtList : •Π<Stmt> «id»
+	StmtList : •Π<StmtList> Π<Stmt> «μ<calc_0>»
+	StmtList : •Π<StmtList> Π<Stmt> «id»
+	Stmt : •id «μ<calc_0>»
+	Stmt : •μ<calc_0> «μ<calc_0>»
+	Stmt : •id «id»
+	Stmt : •μ<calc_0> «id»
+}
+Transitions:
+	Π<StmtList> -> 1
+	Π<Stmt> -> 2
+	id -> 3
+	μ<calc_0> -> 4
+
+
+S1{
+	S' : Π<StmtList>• «Ω<EOF>»
+	StmtList : Π<StmtList> •Π<Stmt> «Ω<EOF>»
+	StmtList : Π<StmtList> •Π<Stmt> «μ<calc_0>»
+	StmtList : Π<StmtList> •Π<Stmt> «id»
+	Stmt : •id «Ω<EOF>»
+	Stmt : •μ<calc_0> «Ω<EOF>»
+	Stmt : •id «μ<calc_0>»
+	Stmt : •μ<calc_0> «μ<calc_0>»
+	Stmt : •id «id»
+	Stmt : •μ<calc_0> «id»
+}
+Transitions:
+	id -> 3
+	μ<calc_0> -> 4
+	Π<Stmt> -> 5
+
+
+S2{
+	StmtList : Π<Stmt>• «Ω<EOF>»
+	StmtList : Π<Stmt>• «μ<calc_0>»
+	StmtList : Π<Stmt>• «id»
+}
+Transitions:
+
+
+S3{
+	Stmt : id• «Ω<EOF>»
+	Stmt : id• «μ<calc_0>»
+	Stmt : id• «id»
+}
+Transitions:
+
+
+S4{
+	Stmt : μ<calc_0>• «Ω<EOF>»
+	Stmt : μ<calc_0>• «μ<calc_0>»
+	Stmt : μ<calc_0>• «id»
+}
+Transitions:
+
+
+S5{
+	StmtList : Π<StmtList> Π<Stmt>• «Ω<EOF>»
+	StmtList : Π<StmtList> Π<Stmt>• «μ<calc_0>»
+	StmtList : Π<StmtList> Π<Stmt>• «id»
+}
+Transitions:
+
+

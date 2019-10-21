@@ -3,6 +3,7 @@
 package iface
 
 import (
+	"github.com/maxcalandrelli/gocc/example/mail/mail.grammar/mail/internal/io/stream"
 	"github.com/maxcalandrelli/gocc/example/mail/mail.grammar/mail/internal/token"
 	"io"
 )
@@ -44,4 +45,16 @@ const (
 
 func GetTokenMap() TokenMap {
 	return token.TokMap
+}
+
+func NewWindowReaderFromBytes(src []byte) stream.WindowReader {
+	return stream.NewWindowReaderFromBytes(src)
+}
+
+func NewWindowReader(rdr io.Reader) stream.WindowReader {
+	return stream.NewWindowReader(rdr)
+}
+
+func NewLimitedWindowReader(rdr io.Reader, sizeMin, sizeMax int) stream.WindowReader {
+	return stream.NewLimitedWindowReader(rdr, sizeMin, sizeMax)
 }

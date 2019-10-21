@@ -29,15 +29,20 @@ type ItemSets struct {
 	symbols *symbols.Symbols
 }
 
-func GetItemSets(lexPart *ast.LexPart) *ItemSets {
+var (
+	fix_dots_bug   bool
+	fix_regdef_bug bool
+)
+
+func GetItemSets(lexPart *ast.LexPart, _fix_dots_bug, _fix_regdefs_bug bool) *ItemSets {
+	fix_dots_bug = _fix_dots_bug
+	fix_regdef_bug = _fix_regdefs_bug
 	itemSets := &ItemSets{
 		sets:    make([]*ItemSet, 0, 256),
 		lexPart: lexPart,
 		symbols: symbols.NewSymbols(lexPart),
 	}
-
 	itemSets.Add(ItemsSet0(lexPart, itemSets.symbols))
-
 	return itemSets.Closure()
 }
 
@@ -46,19 +51,22 @@ func (this *ItemSets) Add(items ItemList) (setNo int) {
 		return setNo
 	}
 	setNo = this.Size()
+	if debug_deeply {
+		trace(setNo, "Calling NewItemSet, items:\n%s", items)
+	}
 	this.sets = append(this.sets, NewItemSet(setNo, this.lexPart, this.symbols, items))
 	return setNo
 }
 
 func (this *ItemSets) Closure() *ItemSets {
-	trace(-1, "")
+	if debug_deeply {
+		trace(-1, "calculating closure of %s", this)
+	}
 	for i := 0; i < len(this.sets); i++ {
-		dbg(-1, "S%d/%d\n", i, len(this.sets))
 		for symI, rng := range this.sets[i].SymbolClasses.List() {
-			dbg(i, "  rng: %q\n", rng)
 			if items := this.sets[i].Next(rng); len(items) != 0 {
-				for _ix, _it := range items {
-					dbg(i, "    #%d: <%q>\n", _ix, _it)
+				if debug_deeply {
+					dbg(i, "  rng: %q\nitems: %s\n", rng, items)
 				}
 				setNo, nextState := this.Add(items), this.sets[i].Transitions[symI]
 				if nextState != -1 && nextState != setNo {
@@ -81,8 +89,10 @@ func (this *ItemSets) Closure() *ItemSets {
 			this.sets[i].DotTransition = setNo
 		}
 	}
-	for i := 0; i < len(this.sets); i++ {
-		this.propagateDots(i)
+	if fix_dots_bug {
+		for i := 0; i < len(this.sets); i++ {
+			this.propagateDots(i)
+		}
 	}
 	return this
 }

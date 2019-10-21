@@ -1,20 +1,15 @@
 <<
-import (
-    "fmt"
-
-    "github.com/maxcalandrelli/gocc/example/nolexer/nolexer.grammar/nolexer/internal/token"
-)
 >>
 
 Hello : Saying name   << func () (Attrib, error) {
-							fmt.Println(string($1.(*token.Token).Lit)); 
-                       		return nil, nil} () >> 
+							fmt.Println(string($1.(*token.Token).Lit));
+                       		return nil, nil} () >>
       ;
 
 Saying : "hello"    << func () (Attrib, error) {
-							fmt.Print("hello "); 
+							fmt.Print("hello ");
                        		return nil, nil} () >>
        | "hiya"     << func () (Attrib, error) {
-							fmt.Print("hiya "); 
+							fmt.Print("hiya ");
                             return nil, nil} () >>
        ;

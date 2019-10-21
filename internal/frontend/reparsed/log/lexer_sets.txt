@@ -278,6 +278,7 @@ S19{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -300,6 +301,7 @@ S20{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -370,6 +372,7 @@ S27{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	ignoredTokId : '!' _tokId •
 	ignoredTokId : '!' • _tokId
@@ -728,6 +731,7 @@ S46{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -750,6 +754,7 @@ S47{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase :  'A'-'Z' •
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
@@ -773,6 +778,7 @@ S48{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -796,6 +802,7 @@ S49{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -819,6 +826,7 @@ S50{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -845,6 +853,7 @@ S51{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -871,6 +880,7 @@ S52{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	ignoredTokId : '!' _tokId •
 	ignoredTokId : '!' • _tokId
@@ -893,6 +903,7 @@ S53{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase :  'A'-'Z' •
 	_upcase : •  'A'-'Z'
 	ignoredTokId : '!' _tokId •
@@ -916,6 +927,7 @@ S54{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	ignoredTokId : '!' _tokId •
 	ignoredTokId : '!' • _tokId
@@ -939,6 +951,7 @@ S55{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	ignoredTokId : '!' _tokId •
 	ignoredTokId : '!' • _tokId
@@ -1161,6 +1174,7 @@ S71{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -1187,6 +1201,7 @@ S72{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -1361,6 +1376,7 @@ S84{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -1387,6 +1403,7 @@ S85{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -1567,6 +1584,7 @@ S96{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId
@@ -1591,6 +1609,7 @@ S97{
 	_lowcase : •  'a'-'z'
 	_tokId : _lowcase {_id_char} •
 	_tokId : _lowcase {• _id_char}
+	_tokId : • _lowcase {_id_char}
 	_upcase : •  'A'-'Z'
 	tokId : _tokId •
 	tokId : • _tokId

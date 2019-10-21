@@ -4,9 +4,37 @@ package parser
 
 import (
 	"fmt"
-
 	"github.com/maxcalandrelli/gocc/example/nolexer/nolexer.grammar/nolexer/internal/token"
+	"github.com/maxcalandrelli/gocc/example/nolexer/nolexer.grammar/nolexer/internal/util"
+	"strings"
 )
+
+func getString(X Attrib) string {
+	switch X.(type) {
+	case *token.Token:
+		return string(X.(*token.Token).Lit)
+	case string:
+		return X.(string)
+	}
+	return fmt.Sprintf("%q", X)
+}
+
+func unescape(s string) string {
+	return util.EscapedString(s).Unescape()
+}
+
+func unquote(s string) string {
+	r, _, _ := util.EscapedString(s).Unquote()
+	return r
+}
+
+func lc(s string) string {
+	return strings.ToLower(s)
+}
+
+func uc(s string) string {
+	return strings.ToUpper(s)
+}
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
@@ -36,7 +64,7 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Hello : Π<Saying> name	<< func () (Attrib, error) {
-							fmt.Println(string(X[1].(*token.Token).Lit)); 
+							fmt.Println(string($1.(*token.Token).Lit));
                        		return nil, nil} () >>`,
 		Id:         "Hello",
 		NTType:     1,
@@ -51,7 +79,7 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Saying : Λ<hello>	<< func () (Attrib, error) {
-							fmt.Print("hello "); 
+							fmt.Print("hello ");
                        		return nil, nil} () >>`,
 		Id:         "Saying",
 		NTType:     2,
@@ -66,7 +94,7 @@ var productionsTable = ProdTab{
 	},
 	ProdTabEntry{
 		String: `Saying : Λ<hiya>	<< func () (Attrib, error) {
-							fmt.Print("hiya "); 
+							fmt.Print("hiya ");
                             return nil, nil} () >>`,
 		Id:         "Saying",
 		NTType:     2,

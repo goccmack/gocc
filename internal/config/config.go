@@ -27,7 +27,7 @@ import (
 )
 
 const (
-	VERSION = "1.3.0001"
+	VERSION = "2.1.0001"
 
 	INTERNAL_SYMBOL_EMPTY   = "ε"
 	INTERNAL_SYMBOL_ERROR   = "λ"       // (λάθος)
@@ -66,7 +66,12 @@ type (
 		Package() string
 
 		PrintParams()
+
+		BugOption(string) bugOption
 	}
+
+	bugOption  string
+	bugOptions map[string]bugOption
 
 	ConfigRecord struct {
 		workingDir string
@@ -82,11 +87,65 @@ type (
 		srcFile           string
 		internal          string
 		verbose           *bool
+		bug_options       bugOptions
 	}
 )
 
+const (
+	bugopt_fix     = "fix"
+	bugopt_ignore  = "ignore"
+	bugopt_default = bugopt_fix
+)
+
+func (this bugOption) Fix() bool {
+	return strings.ToLower(string(this)) != bugopt_ignore
+}
+
+func (this bugOption) Ignore() bool {
+	return strings.ToLower(string(this)) == bugopt_ignore
+}
+
+func (this bugOptions) String() string {
+	b := &strings.Builder{}
+	for k, _ := range bugDescriptions {
+		v := bugDefaultOption
+		if _v, _f := this[k]; _f {
+			v = _v
+		}
+		if b.Len() > 0 {
+			b.WriteByte(',')
+		}
+		fmt.Fprintf(b, "%s:%s", k, v)
+	}
+	return b.String()
+}
+
+func (this bugOption) Option() string {
+	return string(this)
+}
+
+func (this bugOptions) Set(s string) error {
+	for _, s1 := range strings.Split(s, ",") {
+		s1v := strings.Split(s1, ":")
+		if len(s1v) < 2 {
+			s1v = append(s1v, bugopt_default)
+		}
+		s1v[0] = strings.ToLower(s1v[0])
+		if _, found := bugDescriptions[s1v[0]]; !found {
+			return errors.New("unknown bug name: " + s1v[0])
+		}
+		this[s1v[0]] = bugOption(strings.Join(s1v[1:], "="))
+	}
+	return nil
+}
+
 var (
 	CurrentConfiguration Config
+	bugDefaultOption     = bugOption(bugopt_default)
+	bugDescriptions      = map[string]string{
+		"lexer_dots":    "dots handling in regexps like \"--.--\" needs propagation of fallback states",
+		"lexer_regdefs": "incorrect calculation of symbol classes when both a shift and a reduce item exist for the same regdefid",
+	}
 )
 
 func New() (Config, error) {
@@ -96,7 +155,8 @@ func New() (Config, error) {
 	}
 
 	cfg := &ConfigRecord{
-		workingDir: wd,
+		workingDir:  wd,
+		bug_options: map[string]bugOption{},
 	}
 
 	if err := cfg.getFlags(); err != nil {
@@ -173,6 +233,16 @@ func (this *ConfigRecord) ProjectName() string {
 	return file
 }
 
+func (this *ConfigRecord) BugOption(name string) bugOption {
+	if _, exists := bugDescriptions[name]; !exists {
+		panic("unknown bug name: " + name)
+	}
+	if option, exists := this.bug_options[name]; exists {
+		return option
+	}
+	return bugDefaultOption
+}
+
 func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-a             = %v\n", *this.autoResolveLRConf)
 	fmt.Printf("-debug_lexer   = %v\n", *this.debugLexer)
@@ -184,12 +254,41 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-u             = %v\n", *this.allowUnreachable)
 	fmt.Printf("-v             = %v\n", *this.verbose)
 	fmt.Printf("-internal      = %v\n", this.internal)
+	fmt.Printf("-bugs          = %v\n", this.bug_options.String())
 }
 
 /*** Utility routines ***/
 
+func bugsHelp(pref string) string {
+	b := &strings.Builder{}
+	nl := func() {
+		b.WriteByte('\n')
+		b.WriteString(pref)
+	}
+	nl()
+	fmt.Fprintf(b, "use if you suspect that bug fixing strategies are causing other problems")
+	nl()
+	fmt.Fprintf(b, "use either --bugs=<bugopt1> --bugs=<bugopt2> or --bugs=<bugopt1>,<bugopt2> form")
+	nl()
+	fmt.Fprintf(b, "each <bugopt> can be specified as  <bugname> or <bugname>:<bugaction>")
+	nl()
+	fmt.Fprintf(b, "<bugaction> can be either 'fix' or 'ignore'; some bugs will also allow more options")
+	nl()
+	fmt.Fprintf(b, "the actually fixable bugs are:")
+	nl()
+	for name, descr := range bugDescriptions {
+		nl()
+		fmt.Fprintf(b, "  %-20s %s", name, descr)
+	}
+	nl()
+	nl()
+	fmt.Fprintf(b, "example:   gocc -v -bugs=lexer_dots:ignore myfile.bnf")
+	nl()
+	return b.String()
+}
+
 func (this *ConfigRecord) getFlags() error {
-	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
+	this.autoResolveLRConf = flag.Bool("a", true, "automatically resolve LR(1) conflicts")
 	this.debugLexer = flag.Bool("debug_lexer", false, "enable debug logging in lexer")
 	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
 	this.help = flag.Bool("h", false, "help")
@@ -197,6 +296,7 @@ func (this *ConfigRecord) getFlags() error {
 	flag.StringVar(&this.outDir, "o", path.Join(this.workingDir, "@f.grammar", "@f"), "output directory format (@f='name' if input file is 'name.bnf')")
 	flag.StringVar(&this.pkg, "p", "", "package, empty defaults to "+defaultPackage(this.outDir))
 	flag.StringVar(&this.internal, "internal", "internal", "internal subdir name")
+	flag.Var(this.bug_options, "bugs", "handle bugs in original implementation (default: fix all)"+bugsHelp("  "))
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
 	flag.Parse()

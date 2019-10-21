@@ -97,13 +97,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : μ<calc_0>	<< ast.CalcResult($2) >>`,
+		String: `Stmt : μ<calc_0>	<< ast.CalcResult($1) >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      4,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
-			return ast.CalcResult(X[2])
+			return ast.CalcResult(X[1])
 		},
 	},
 }

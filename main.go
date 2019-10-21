@@ -24,7 +24,7 @@
 
   Changes summary:
 
-    2019-10-14
+    2019-10-21
     Many changes, many new features. Streamed parsing, longest prefix parsing, nondeterministic subparsing.
 
     - changed all go files using import from
@@ -32,9 +32,38 @@
       to import from
         https://github.com/maxcalandrelli/gocc
 
-    - fixed a state machine generation bug (hopefully), that prevented a RE like '<' '<' . { . } '>' '>'
+    - bugfixes: I discovered and (hopefully) fixed two severe bugs in the generated lexical analyzer. Both
+      fixes are controllable by a command line option, thus leaving intact the possibility of restoring
+      original behaviour should the fix cause any other problem. These bugs are explained below
+
+    - BUG #1: state machine generation bug that prevented a regular expression like '<' '<' . { . } '>' '>'
       to recognize a string like "<< a > b >>" (this is done in ItemSets.propagateDots and in the generated
       lexer/transitiontable.go)
+
+    - BUG #2: state machine generation bug that had the following effect: given the following two alternative
+      sets of lexical productions:
+
+            1)  _digit : '0'-'9' ;
+                _x0 : 'α' ;
+                _x1 : 'β'  _digit { _digit } ;
+                _x : 'α' | ( 'β'  _digit { _digit } );
+                _test :  _x { _x  | 'γ' } ;
+                id: _x { _x0 | _x1  | 'γ' } ;
+                !whitespace : ' ' | '\t' | '\n' | '\r' ;
+
+        and 2)  _digit : '0'-'9' ;
+                _x0 : 'α' ;
+                _x : 'α' | ( 'β'  _digit { _digit } );
+                _test :  _x { _x  | 'γ' } ;
+                id:		_x { _x0 | ( 'β'  _digit { _digit } )  | 'γ' } ;
+
+      they should parse identically (since the only difference is that the single occurrence of regdef _x1 in
+      set #1 has been replaced by its expansion in set #2), while they don't. As an example (you can test it
+      in the "ctx" folder under example), the string "β11β1β11 αβ33", when parsed with lexical ruleset 1 gives
+      the three tokens:  "β11β1", "β11" and "αβ33". This result is incorrect, and the correct result is the set
+      of two tokens "β11β1β11" and "αβ33". This is the result we get when parsing with lexical ruleset #2.
+      This is because ItemList.Closure fails to add the ε-moves to the closure of a set of items when it contains
+      both a reduce and a shift for the same regdefid.
 
     - eliminated ambiguity between literals and labels of lexical or syntaxical productions; "error" can now
       be specified as a literal, and a synonym is "λ", while a synonim for "empty" is "ε"
@@ -101,7 +130,7 @@
           			>>
 
         in compact form, an import alias can be specified (without changes in stack usage)to avoid naming conflicts;
-        the following example is totally equivalent to the former:
+        the following example is equivalent to the former:
 
           NumericValue:
               integer
@@ -134,8 +163,8 @@
           			>>
 
         either form of non deterministic parsing pushes two values on the stack:
-          - the pseudo-token built by taking as literal the longest prefix that the sub-parser rcognized
-          - the corresponding AST returned by the sun-parser
+          - the pseudo-token built by taking as literal the longest prefix that the sub-parser recognized
+          - the corresponding AST returned by the sub-parser
 
 
 
@@ -213,7 +242,7 @@ func main() {
 
 	gSymbols.Add(g.LexPart.TokenIds()...)
 	g.LexPart.UpdateStringLitTokens(gSymbols.ListStringLitSymbols())
-	lexSets := lexItems.GetItemSets(g.LexPart)
+	lexSets := lexItems.GetItemSets(g.LexPart, cfg.BugOption("lexer_dots").Fix(), cfg.BugOption("lexer_regdefs").Fix())
 	if cfg.Verbose() {
 		io.WriteFileString(path.Join(outdir_log, "lexer_sets.txt"), lexSets.String())
 	}

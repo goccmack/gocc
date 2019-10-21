@@ -18,8 +18,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/maxcalandrelli/gocc/internal/util"
-
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	"github.com/maxcalandrelli/gocc/internal/lexer/symbols"
 )
@@ -41,6 +39,9 @@ type ItemSet struct {
 }
 
 func NewItemSet(setNo int, lexPart *ast.LexPart, symbols *symbols.Symbols, items ItemList) *ItemSet {
+	if debug_deeply {
+		trace(setNo, "creating, start items:\n%s", items)
+	}
 	set := &ItemSet{
 		setNo:         setNo,
 		Items:         items.Closure(lexPart, symbols),
@@ -50,6 +51,9 @@ func NewItemSet(setNo int, lexPart *ast.LexPart, symbols *symbols.Symbols, items
 	}
 	set.getSymbolClasses(lexPart, symbols)
 	set.newTransitions()
+	if debug_deeply {
+		trace(setNo, "created, items:\n%s\nsymbol classes:\n%s", set.Items, set.SymbolClasses)
+	}
 	return set
 }
 
@@ -187,7 +191,8 @@ func (this *ItemSet) dependentsClosure(items ItemList) ItemList {
 	if len(items) == 0 {
 		return items
 	}
-	trace(this.setNo, "dependentsClosure S%d\n    actual: %s\n    items: %s\n", this.setNo, util.EscapedString(this.String()).Unescape(), util.EscapedString(fmt.Sprintf("%q", items)).Unescape())
+	//trace(this.setNo, "dependentsClosure\n    actual: %s\n    items: %s\n", util.EscapedString(this.String()).Unescape(), util.EscapedString(fmt.Sprintf("%q", items)).Unescape())
+	trace(this.setNo, "dependentsClosure\n")
 	for i := 0; i < len(items); i++ {
 		for _, thisItem := range this.Items {
 			if expSym := thisItem.ExpectedSymbol(); expSym != nil && expSym.String() == items[i].Id {

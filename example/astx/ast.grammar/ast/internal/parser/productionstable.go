@@ -4,6 +4,40 @@ package parser
 
 import "github.com/maxcalandrelli/gocc/example/astx/ast"
 
+import (
+	"fmt"
+	"github.com/maxcalandrelli/gocc/example/astx/ast.grammar/ast/internal/token"
+	"github.com/maxcalandrelli/gocc/example/astx/ast.grammar/ast/internal/util"
+	"strings"
+)
+
+func getString(X Attrib) string {
+	switch X.(type) {
+	case *token.Token:
+		return string(X.(*token.Token).Lit)
+	case string:
+		return X.(string)
+	}
+	return fmt.Sprintf("%q", X)
+}
+
+func unescape(s string) string {
+	return util.EscapedString(s).Unescape()
+}
+
+func unquote(s string) string {
+	r, _, _ := util.EscapedString(s).Unquote()
+	return r
+}
+
+func lc(s string) string {
+	return strings.ToLower(s)
+}
+
+func uc(s string) string {
+	return strings.ToUpper(s)
+}
+
 type (
 	//TODO: change type and variable names to be consistent with other tables
 	ProdTab      [numProductions]ProdTabEntry
@@ -31,7 +65,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `StmtList : Π<Stmt>	<< ast.NewStmtList(X[0]) >>`,
+		String: `StmtList : Π<Stmt>	<< ast.NewStmtList($0) >>`,
 		Id:         "StmtList",
 		NTType:     1,
 		Index:      1,
@@ -41,7 +75,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `StmtList : Π<StmtList> Π<Stmt>	<< ast.AppendStmt(X[0], X[1]) >>`,
+		String: `StmtList : Π<StmtList> Π<Stmt>	<< ast.AppendStmt($0, $1) >>`,
 		Id:         "StmtList",
 		NTType:     1,
 		Index:      2,
@@ -51,7 +85,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : id	<< ast.NewStmt(X[0]) >>`,
+		String: `Stmt : id	<< ast.NewStmt($0) >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      3,

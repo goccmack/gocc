@@ -40,6 +40,6 @@ Stmt :
     		id               << ast.NewStmt($0e) >>
    |
 		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
-						<< ast.CalcResult($2) >>
+						<< ast.CalcResult($1) >>
 
 ;

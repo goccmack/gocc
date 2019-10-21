@@ -3,9 +3,38 @@
 package parser
 
 import (
+	"fmt"
 	"github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc/internal/token"
 	"github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc/internal/util"
+	"strings"
 )
+
+func getString(X Attrib) string {
+	switch X.(type) {
+	case *token.Token:
+		return string(X.(*token.Token).Lit)
+	case string:
+		return X.(string)
+	}
+	return fmt.Sprintf("%q", X)
+}
+
+func unescape(s string) string {
+	return util.EscapedString(s).Unescape()
+}
+
+func unquote(s string) string {
+	r, _, _ := util.EscapedString(s).Unquote()
+	return r
+}
+
+func lc(s string) string {
+	return strings.ToLower(s)
+}
+
+func uc(s string) string {
+	return strings.ToUpper(s)
+}
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
@@ -44,7 +73,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Π<Term> Λ<+> Π<Term>	<< X[0].(int64) + X[2].(int64), nil >>`,
+		String: `Expr : Π<Term> Λ<+> Π<Term>	<< $0.(int64) + $2.(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      2,
@@ -54,7 +83,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Π<Term> Λ<-> Π<Term>	<< X[0].(int64) - X[2].(int64), nil >>`,
+		String: `Expr : Π<Term> Λ<-> Π<Term>	<< $0.(int64) - $2.(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      3,
@@ -64,7 +93,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Λ<-> Π<Term>	<< -X[1].(int64), nil >>`,
+		String: `Expr : Λ<-> Π<Term>	<< -$1.(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      4,
@@ -74,7 +103,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Π<Term> Λ<*> Π<Factor>	<< X[0].(int64) * X[2].(int64), nil >>`,
+		String: `Expr : Π<Term> Λ<*> Π<Factor>	<< $0.(int64) * $2.(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      5,
@@ -84,7 +113,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Π<Term> Λ</> Π<Factor>	<< X[0].(int64) / X[2].(int64), nil >>`,
+		String: `Expr : Π<Term> Λ</> Π<Factor>	<< $0.(int64) / $2.(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      6,
@@ -94,7 +123,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Π<Term>	<< X[0].(int64), nil >>`,
+		String: `Expr : Π<Term>	<< $0.(int64), nil >>`,
 		Id:         "Expr",
 		NTType:     2,
 		Index:      7,
@@ -104,7 +133,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Term : Π<Term> Λ<*> Π<Factor>	<< X[0].(int64) * X[2].(int64), nil >>`,
+		String: `Term : Π<Term> Λ<*> Π<Factor>	<< $0.(int64) * $2.(int64), nil >>`,
 		Id:         "Term",
 		NTType:     3,
 		Index:      8,
@@ -124,7 +153,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : Λ<(> Π<Expr> Λ<)>	<< X[1], nil >>`,
+		String: `Factor : Λ<(> Π<Expr> Λ<)>	<< $1, nil >>`,
 		Id:         "Factor",
 		NTType:     4,
 		Index:      10,
@@ -134,7 +163,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : int64	<< util.IntValue(X[0].(*token.Token).Lit) >>`,
+		String: `Factor : int64	<< util.IntValue($0.(*token.Token).Lit) >>`,
 		Id:         "Factor",
 		NTType:     4,
 		Index:      11,

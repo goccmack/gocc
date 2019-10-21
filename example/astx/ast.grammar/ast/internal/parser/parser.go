@@ -280,8 +280,9 @@ func (p *Parser) parse(scanner iface.Scanner, longest bool) (res interface{}, er
 			//
 			// If no action, check if we have some context dependent parsing to try
 			//
+			p.checkPoint = p.checkPoint.Advance(len(p.nextToken.IgnoredPrefix))
 			for _, cdAction := range parserActions.table[p.stack.top()].cdActions {
-				p.tokens.GotoCheckPoint(p.checkPoint.Advance(len(p.nextToken.IgnoredPrefix)))
+				p.tokens.GotoCheckPoint(p.checkPoint)
 				cd_res, cd_err, cd_parsed := cdAction.tokenScanner(p.underlyingStream, p.userContext)
 				if cd_err == nil && len(cd_parsed) > 0 {
 					action = parserActions.table[p.stack.top()].actions[cdAction.tokenIndex]

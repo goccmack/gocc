@@ -75,7 +75,7 @@ ignoredTokId : '!' _tokId ;
 
 func _TestItemSets2(t *testing.T) {
 	g := parse(testItemsets2src, t)
-	itemSets := GetItemSets(g.LexPart)
+	itemSets := GetItemSets(g.LexPart, false, false)
 	fmt.Printf("%s\n", itemSets)
 }
 
@@ -89,7 +89,7 @@ comment : _lineComment | _blockComment ;
 
 func _TestItemSets3(t *testing.T) {
 	g := parse(testItemsets3src, t)
-	itemSets := GetItemSets(g.LexPart)
+	itemSets := GetItemSets(g.LexPart, false, false)
 	fmt.Printf("%s\n", itemSets)
 }
 

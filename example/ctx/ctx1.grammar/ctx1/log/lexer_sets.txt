@@ -93,6 +93,8 @@ S7{
 	_digit : •  '0'-'9'
 	_x : (\u03b1 | (\u03b2 _digit {_digit})) •
 	_x : \u03b1 | (\u03b2 _digit {• _digit})
+	_x : \u03b1 | (• \u03b2 _digit {_digit})
+	_x : • \u03b1 | (\u03b2 _digit {_digit})
 	_x0 : • \u03b1
 	id : _x {_x0 | (\u03b2 _digit {_digit}) | \u03b3} •
 	id : _x {_x0 | (\u03b2 _digit {_digit}) | • \u03b3}
@@ -102,8 +104,8 @@ S7{
 }
 Transitions:
 	['0','9'] -> S7
-	[\u03b1,\u03b1] -> S4
-	[\u03b2,\u03b2] -> S5
+	[\u03b1,\u03b1] -> S9
+	[\u03b2,\u03b2] -> S10
 	[\u03b3,\u03b3] -> S6
 Action: Accept("id")
 Symbols classes: {['0','9'], [\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}
@@ -122,6 +124,56 @@ Transitions:
 	['0','9'] -> S8
 	[\u03b1,\u03b1] -> S4
 	[\u03b2,\u03b2] -> S5
+	[\u03b3,\u03b3] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], [\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}
+
+S9{
+	_x : (\u03b1 | (\u03b2 _digit {_digit})) •
+	_x0 : \u03b1 •
+	_x0 : • \u03b1
+	id : _x {_x0 | (\u03b2 _digit {_digit}) | \u03b3} •
+	id : _x {_x0 | (\u03b2 _digit {_digit}) | • \u03b3}
+	id : _x {_x0 | (• \u03b2 _digit {_digit}) | \u03b3}
+	id : _x {• _x0 | (\u03b2 _digit {_digit}) | \u03b3}
+}
+Transitions:
+	[\u03b1,\u03b1] -> S4
+	[\u03b2,\u03b2] -> S5
+	[\u03b3,\u03b3] -> S6
+Action: Accept("id")
+Symbols classes: {[\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}
+
+S10{
+	_digit : •  '0'-'9'
+	_x : \u03b1 | (\u03b2 • _digit {_digit})
+	id : _x {_x0 | (\u03b2 • _digit {_digit}) | \u03b3}
+	id : • _x {_x0 | (\u03b2 _digit {_digit}) | \u03b3}
+}
+Transitions:
+	['0','9'] -> S11
+Action: nil
+Symbols classes: {['0','9']}
+
+S11{
+	_digit :  '0'-'9' •
+	_digit : •  '0'-'9'
+	_x : (\u03b1 | (\u03b2 _digit {_digit})) •
+	_x : \u03b1 | (\u03b2 _digit {• _digit})
+	_x : \u03b1 | (• \u03b2 _digit {_digit})
+	_x : • \u03b1 | (\u03b2 _digit {_digit})
+	_x0 : • \u03b1
+	id : _x {_x0 | (\u03b2 _digit {_digit}) | \u03b3} •
+	id : _x {_x0 | (\u03b2 _digit {_digit}) | • \u03b3}
+	id : _x {_x0 | (\u03b2 _digit {• _digit}) | \u03b3}
+	id : _x {_x0 | (• \u03b2 _digit {_digit}) | \u03b3}
+	id : _x {• _x0 | (\u03b2 _digit {_digit}) | \u03b3}
+	id : • _x {_x0 | (\u03b2 _digit {_digit}) | \u03b3}
+}
+Transitions:
+	['0','9'] -> S11
+	[\u03b1,\u03b1] -> S9
+	[\u03b2,\u03b2] -> S10
 	[\u03b3,\u03b3] -> S6
 Action: Accept("id")
 Symbols classes: {['0','9'], [\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}

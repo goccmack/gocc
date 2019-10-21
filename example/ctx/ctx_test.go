@@ -5,47 +5,45 @@ import (
 	"testing"
 
 	"github.com/maxcalandrelli/gocc/example/ctx/ast"
-	"github.com/maxcalandrelli/gocc/example/ctx/ctx.grammar/ctx"
-	"github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1"
+	ctx0 "github.com/maxcalandrelli/gocc/example/ctx/ctx0.grammar/ctx0"
+	ctx1 "github.com/maxcalandrelli/gocc/example/ctx/ctx1.grammar/ctx1"
+	ctx2 "github.com/maxcalandrelli/gocc/example/ctx/ctx2.grammar/ctx2"
 )
 
 func TestPass(t *testing.T) {
 	//sml, err := test("\\u0022AA\\u0022 other a b c calc 12 * 6 + 4 \\u03b3k\\u03b5 d e  \\u03b3_\\u03b5 \\u03b3\\u03b5 f")
-	sml0, sml1, err0, err1 := test("β1α αβ1α β11β1β11 αβ33 αβ0β9 ")
-	if err0 != nil {
-		t.Error(err0.Error())
+	sml, err := test("β1α αβ1α 6 + 4 β11β1β11 αβ33 αβ0β9 ")
+	for _ix := 0; _ix < len(sml); _ix++ {
+		if err[_ix] != nil {
+			t.Log(err[_ix].Error())
+			t.Fail()
+		}
+		fmt.Printf("output #%d: %s\n", _ix+1, sml[_ix])
 	}
-	if err1 != nil {
-		t.Error(err1.Error())
-	}
-	fmt.Printf("output0: %s\n", sml0)
-	fmt.Printf("output1: %s\n", sml1)
 }
 
 func TestFail(t *testing.T) {
-	_, _, err0, err1 := test("a b 22 c d e f")
-	if err0 == nil {
-		t.Fatal("expected parse error (0)")
-	} else {
-		fmt.Printf("Parsing failed as expected (0): %v\n", err0)
-	}
-	if err1 == nil {
-		t.Fatal("expected parse error (1)")
-	} else {
-		fmt.Printf("Parsing failed as expected (1): %v\n", err0)
+	_, err := test("αβ1α β0 22 β9 α a α")
+	for _ix := 0; _ix < len(err); _ix++ {
+		if err[_ix] == nil {
+			t.Fatal("expected parse error")
+		} else {
+			fmt.Printf("Parsing failed as expected: %v\n", err[_ix])
+		}
 	}
 }
 
-func test(src string) (astree0, astree1 ast.StmtList, err0, err1 error) {
-	var a0, a1 interface{}
-	a0, err0 = ctx.ParseText(src)
-	a1, err1 = ctx1.ParseText(src)
+func test1(src string, astree []ast.StmtList, errors []error, p func(string) (interface{}, error)) ([]ast.StmtList, []error) {
+	at := ast.StmtList(nil)
+	a, err := p(src)
+	at, _ = a.(ast.StmtList)
+	return append(astree, at), append(errors, err)
+}
+
+func test(src string) (astree []ast.StmtList, err []error) {
 	fmt.Printf("input: %s\n", src)
-	if err0 == nil {
-		astree0 = a0.(ast.StmtList)
-	}
-	if err1 == nil {
-		astree1 = a1.(ast.StmtList)
-	}
+	astree, err = test1(src, astree, err, ctx0.ParseText)
+	astree, err = test1(src, astree, err, ctx1.ParseText)
+	astree, err = test1(src, astree, err, ctx2.ParseText)
 	return
 }

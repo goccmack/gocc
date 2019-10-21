@@ -99,6 +99,7 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 		if len(symConflicts) > 0 {
 			conflicts[sym] = symConflicts
 		}
+		checkNonDeterministic := false
 		switch act1 := act.(type) {
 		case action.Accept:
 			data.Actions[i] = fmt.Sprintf("accept(true), // %s", sym)
@@ -106,8 +107,14 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 			data.Actions[i] = fmt.Sprintf("nil, // %s", sym)
 		case action.Reduce:
 			data.Actions[i] = fmt.Sprintf("reduce(%d), // %s, reduce: %s", int(act1), sym, prods[int(act1)].Id)
+			checkNonDeterministic = true
 		case action.Shift:
 			data.Actions[i] = fmt.Sprintf("shift(%d), // %s", int(act1), sym)
+			checkNonDeterministic = true
+		default:
+			panic(fmt.Sprintf("Unknown action type: %T", act1))
+		}
+		if checkNonDeterministic {
 			switch s := sym.(type) {
 			case ast.SyntaxContextDependentTokId, ast.SyntaxSubParser:
 				data.CdActions = append(data.CdActions, cdActionFunc{
@@ -115,8 +122,6 @@ func getActionRowData(prods ast.SyntaxProdList, set *items.ItemSet, tokMap *toke
 					fmt.Sprintf("cdFunc_%s", s.SymbolString()),
 				})
 			}
-		default:
-			panic(fmt.Sprintf("Unknown action type: %T", act1))
 		}
 	}
 	return

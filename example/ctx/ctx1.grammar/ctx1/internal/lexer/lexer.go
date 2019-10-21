@@ -16,7 +16,7 @@ import (
 
 const (
 	NoState    = -1
-	NumStates  = 9
+	NumStates  = 12
 	NumSymbols = 20
   INVALID_RUNE = rune(-1)
 )

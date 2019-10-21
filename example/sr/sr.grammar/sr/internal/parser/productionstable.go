@@ -4,6 +4,40 @@ package parser
 
 import "github.com/maxcalandrelli/gocc/example/sr/ast"
 
+import (
+	"fmt"
+	"github.com/maxcalandrelli/gocc/example/sr/sr.grammar/sr/internal/token"
+	"github.com/maxcalandrelli/gocc/example/sr/sr.grammar/sr/internal/util"
+	"strings"
+)
+
+func getString(X Attrib) string {
+	switch X.(type) {
+	case *token.Token:
+		return string(X.(*token.Token).Lit)
+	case string:
+		return X.(string)
+	}
+	return fmt.Sprintf("%q", X)
+}
+
+func unescape(s string) string {
+	return util.EscapedString(s).Unescape()
+}
+
+func unquote(s string) string {
+	r, _, _ := util.EscapedString(s).Unquote()
+	return r
+}
+
+func lc(s string) string {
+	return strings.ToLower(s)
+}
+
+func uc(s string) string {
+	return strings.ToUpper(s)
+}
+
 type (
 	//TODO: change type and variable names to be consistent with other tables
 	ProdTab      [numProductions]ProdTabEntry
@@ -31,7 +65,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : Λ<if> id Λ<then> Π<Stmt>	<< ast.NewIf(X[1], X[3]), nil >>`,
+		String: `Stmt : Λ<if> id Λ<then> Π<Stmt>	<< ast.NewIf($1, $3), nil >>`,
 		Id:         "Stmt",
 		NTType:     1,
 		Index:      1,
@@ -41,7 +75,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : Λ<if> id Λ<then> Π<Stmt> Λ<else> Π<Stmt>	<< ast.NewIfElse(X[1], X[3], X[5]), nil >>`,
+		String: `Stmt : Λ<if> id Λ<then> Π<Stmt> Λ<else> Π<Stmt>	<< ast.NewIfElse($1, $3, $5), nil >>`,
 		Id:         "Stmt",
 		NTType:     1,
 		Index:      2,
@@ -51,7 +85,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : id	<< ast.NewIdStmt(X[0]), nil >>`,
+		String: `Stmt : id	<< ast.NewIdStmt($0), nil >>`,
 		Id:         "Stmt",
 		NTType:     1,
 		Index:      3,

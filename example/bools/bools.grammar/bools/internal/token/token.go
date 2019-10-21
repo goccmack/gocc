@@ -108,14 +108,14 @@ var TokMap = TokenMap{
 	},
 
 	litMap: map[string]Type{
+		"&":     2,
+		"|":     3,
 		"(":     4,
+		")":     5,
+		"true":  6,
 		"false": 7,
 		"<":     9,
 		">":     10,
-		"&":     2,
-		"|":     3,
 		"in":    12,
-		")":     5,
-		"true":  6,
 	},
 }
