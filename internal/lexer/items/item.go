@@ -104,6 +104,7 @@ For a general description of dotted items (items) and ℇ-moves of items, see:
   T : x(...|y•|...)z  =>  T : x(...|y|...)•z
 */
 func (this *Item) Emoves() (items []*Item) {
+	trace(-1, "%s\n", this.Id)
 	newItems := util.NewStack(8).Push(this)
 	for newItems.Len() > 0 {
 		item := newItems.Pop().(*Item)
@@ -115,9 +116,9 @@ func (this *Item) Emoves() (items []*Item) {
 
 		nt, pos := item.pos.top()
 
-		fmt.Printf("*** Item: %q\n ** emoves:\n", item)
+		dbg(-1, "*** Item: %q\n ** emoves:\n", item)
 		for _, e := range items {
-			fmt.Printf("    %q\n", e)
+			dbg(-1, "    %q\n", e)
 		}
 		switch node := nt.(type) {
 		case *ast.LexPattern:
@@ -308,7 +309,7 @@ func (this *Item) Move(rng CharRange) []*Item {
 	movedItem.getHashKey()
 
 	items := movedItem.Emoves()
-	fmt.Printf("  <%q>:move(%q):%q\n", this, rng, items)
+	dbg(-1, "  <%q>:move(%q):%q\n", this, rng, items)
 	return items
 }
 
@@ -329,6 +330,7 @@ func (this *Item) MoveRegDefId(id string) []*Item {
 		movedItem := this.Clone()
 		movedItem.pos.inc()
 		movedItem.getHashKey()
+		trace(-1, "   * moved item:\n%s\nwas:\n%s)\n", util.EscapedString(movedItem.pos.String()).Unescape(), util.EscapedString(this.pos.String()).Unescape())
 		items := movedItem.Emoves()
 		return items
 	}

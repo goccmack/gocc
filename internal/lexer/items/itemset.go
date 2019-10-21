@@ -18,6 +18,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/maxcalandrelli/gocc/internal/util"
+
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	"github.com/maxcalandrelli/gocc/internal/lexer/symbols"
 )
@@ -154,7 +156,7 @@ func (this *ItemSet) newTransitions() {
 See algorithm: set.Next() in package doc
 */
 func (this *ItemSet) Next(rng CharRange) ItemList {
-	fmt.Printf("S%d rng=%q\n", this.setNo, rng)
+	trace(this.setNo, "rng=%q\n", rng)
 	nextItems := NewItemList(16)
 	for _, item := range this.Items {
 		nextItems = nextItems.AddNoDuplicate(item.Move(rng)...)
@@ -185,18 +187,18 @@ func (this *ItemSet) dependentsClosure(items ItemList) ItemList {
 	if len(items) == 0 {
 		return items
 	}
-	fmt.Printf("dependentsClosure S%d, %s\n", this.setNo, items)
+	trace(this.setNo, "dependentsClosure S%d\n    actual: %s\n    items: %s\n", this.setNo, util.EscapedString(this.String()).Unescape(), util.EscapedString(fmt.Sprintf("%q", items)).Unescape())
 	for i := 0; i < len(items); i++ {
 		for _, thisItem := range this.Items {
 			if expSym := thisItem.ExpectedSymbol(); expSym != nil && expSym.String() == items[i].Id {
 				if items[i].Reduce() {
 					mv := thisItem.MoveRegDefId(items[i].Id)
 					for _, mvi := range mv {
-						fmt.Printf("  ====> %s\n", mvi)
+						dbg(this.setNo, "  ====> %s\n", mvi)
 					}
 					items = items.AddNoDuplicate(thisItem.MoveRegDefId(items[i].Id)...)
 				} else {
-					fmt.Printf("  ==>   %s\n", thisItem)
+					dbg(this.setNo, "  ==>   %s\n", thisItem)
 					items = items.AddNoDuplicate(thisItem)
 				}
 			}

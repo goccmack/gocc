@@ -13,10 +13,10 @@ func TestPass(t *testing.T) {
 	//sml, err := test("\\u0022AA\\u0022 other a b c calc 12 * 6 + 4 \\u03b3k\\u03b5 d e  \\u03b3_\\u03b5 \\u03b3\\u03b5 f")
 	sml0, sml1, err0, err1 := test("β1α αβ1α β11β1β11 αβ33 αβ0β9 ")
 	if err0 != nil {
-		t.Fatal(err0.Error())
+		t.Error(err0.Error())
 	}
 	if err1 != nil {
-		t.Fatal(err1.Error())
+		t.Error(err1.Error())
 	}
 	fmt.Printf("output0: %s\n", sml0)
 	fmt.Printf("output1: %s\n", sml1)

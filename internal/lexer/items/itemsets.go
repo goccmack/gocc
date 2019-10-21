@@ -51,13 +51,14 @@ func (this *ItemSets) Add(items ItemList) (setNo int) {
 }
 
 func (this *ItemSets) Closure() *ItemSets {
+	trace(-1, "")
 	for i := 0; i < len(this.sets); i++ {
-		fmt.Printf("S%d/%d\n", i, len(this.sets))
+		dbg(-1, "S%d/%d\n", i, len(this.sets))
 		for symI, rng := range this.sets[i].SymbolClasses.List() {
-			fmt.Printf("  rng: %q\n", rng)
+			dbg(i, "  rng: %q\n", rng)
 			if items := this.sets[i].Next(rng); len(items) != 0 {
 				for _ix, _it := range items {
-					fmt.Printf("    #%d: <%q>\n", _ix, _it)
+					dbg(i, "    #%d: <%q>\n", _ix, _it)
 				}
 				setNo, nextState := this.Add(items), this.sets[i].Transitions[symI]
 				if nextState != -1 && nextState != setNo {
@@ -91,10 +92,8 @@ func (this *ItemSets) Closure() *ItemSets {
 */
 
 func (this *ItemSets) propagateDots(start int) {
-	//fmt.Printf("   --- start=%d #transitions=%d\n", start, len(this.sets[start].Transitions))
 	if this.sets[start].DotTransition > -1 {
 		for _, tr := range this.sets[start].Transitions {
-			//fmt.Printf("   --- start=%d t=%d t.dot=%d\n", start, tr, this.sets[tr].DotTransition)
 			if tr > start && this.sets[tr].DotTransition < 0 && len(this.sets[tr].Transitions) > 0 {
 				this.sets[tr].DotTransition = this.sets[start].DotTransition
 			}

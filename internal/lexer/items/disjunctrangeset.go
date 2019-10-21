@@ -38,13 +38,9 @@ func (this *DisjunctRangeSet) AddLexTNode(sym ast.LexTNode) {
 	switch s := sym.(type) {
 	case *ast.LexCharRange:
 		if s.Negate {
-			//fmt.Printf("Set is: %q, will remove '%c'-'%c'\n", this, s.From.Val, s.To.Val)
 			this.SubtractRange(s.From.Val, s.To.Val)
-			//fmt.Printf("Set now: %q\n", this)
 		} else {
-			//fmt.Printf("Set is: %q, will add '%c'-'%c'\n", this, s.From.Val, s.To.Val)
 			this.AddRange(s.From.Val, s.To.Val)
-			//fmt.Printf("Set now: %q\n", this)
 		}
 	case *ast.LexCharLit:
 		if s.Negate {
@@ -143,7 +139,6 @@ func (this *DisjunctRangeSet) AddRange(from, to rune) {
 
 func (this *DisjunctRangeSet) subtractRange(index int, from, to rune) int {
 	if index < len(this.set) {
-		//fmt.Printf("subtracting <%c-%c> at index %d<%c-%c>\n", from, to, index, this.set[index].From, this.set[index].To)
 		rng := this.set[index]
 		if to >= from && to >= rng.From {
 			if from > rng.To || to < rng.From {
@@ -158,7 +153,6 @@ func (this *DisjunctRangeSet) subtractRange(index int, from, to rune) int {
 			//
 			//  from >= rng.to && to <= rng.to
 			//
-			//fmt.Printf("actually deleting range <%c-%c> at index %d<%c-%c>\n", from, to, index, this.set[index].From, this.set[index].To)
 			switch {
 			case from == rng.From && to == rng.To:
 				copy(this.set[index:], this.set[index+1:])
