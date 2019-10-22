@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	parseError "github.com/goccmack/gocc/internal/test/t1/errors"
-	"github.com/goccmack/gocc/internal/test/t1/token"
+	"github.com/maxcalandrelli/gocc/internal/config"
+
+	parseError "github.com/maxcalandrelli/gocc/internal/test/t1/errors"
+	"github.com/maxcalandrelli/gocc/internal/test/t1/token"
 )
 
 const (
@@ -121,7 +123,7 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		}
 	}
 
-	if action := actionTab[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
+	if action := actionTab[p.stack.top()].actions[token.TokMap.Type(config.CurrentConfiguration.GetCanonicalSymbols(config.SYMBOL_ERROR)[0])]; action != nil {
 		p.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
 	} else {
 		return

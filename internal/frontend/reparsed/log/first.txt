@@ -1,0 +1,109 @@
+Π<S'>: {
+	g_sdt_lit
+	ignoredTokId
+	prodId
+	regDefId
+	tokId
+}
+Π<Grammar>: {
+	g_sdt_lit
+	ignoredTokId
+	prodId
+	regDefId
+	tokId
+}
+Π<LexicalPart>: {
+	ignoredTokId
+	regDefId
+	tokId
+}
+Π<SyntaxPart>: {
+	g_sdt_lit
+	prodId
+}
+Π<LexProductions>: {
+	ignoredTokId
+	regDefId
+	tokId
+}
+Π<LexProduction>: {
+	ignoredTokId
+	regDefId
+	tokId
+}
+Π<LexPattern>: {
+	char_lit
+	regDefId
+	Λ<(>
+	Λ<.>
+	Λ<[>
+	Λ<{>
+	Λ<~>
+}
+Π<LexAlt>: {
+	char_lit
+	regDefId
+	Λ<(>
+	Λ<.>
+	Λ<[>
+	Λ<{>
+	Λ<~>
+}
+Π<LexTerm>: {
+	char_lit
+	regDefId
+	Λ<(>
+	Λ<.>
+	Λ<[>
+	Λ<{>
+	Λ<~>
+}
+Π<FileHeader>: {
+	g_sdt_lit
+}
+Π<SyntaxProdList>: {
+	prodId
+}
+Π<SyntaxProduction>: {
+	prodId
+}
+Π<Alternatives>: {
+	prodId
+	string_lit
+	tokId
+	Λ<@>
+	Λ<empty>
+	Λ<error>
+	Λ<ε>
+	Λ<λ>
+}
+Π<SyntaxBody>: {
+	prodId
+	string_lit
+	tokId
+	Λ<@>
+	Λ<empty>
+	Λ<error>
+	Λ<ε>
+	Λ<λ>
+}
+Π<Symbols>: {
+	prodId
+	string_lit
+	tokId
+	Λ<@>
+}
+Π<ErrorSymbol>: {
+	Λ<error>
+	Λ<λ>
+}
+Π<EpsilonSymbol>: {
+	Λ<empty>
+	Λ<ε>
+}
+Π<Symbol>: {
+	prodId
+	string_lit
+	tokId
+	Λ<@>
+}

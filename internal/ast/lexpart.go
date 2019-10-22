@@ -113,22 +113,22 @@ func (this *LexPart) ProdIndex(id string) LexProdIndex {
 	return idx
 }
 
-func (this *LexPart) TokenIds() []string {
-	tids := make([]string, 0, len(this.TokDefs))
-	for tid := range this.TokDefs {
-		tids = append(tids, tid)
+func (this *LexPart) TokenIds() SyntaxSymbols {
+	tids := make(SyntaxSymbolsByName, 0, len(this.TokDefs))
+	for _, tid := range this.TokDefs {
+		tids = append(tids, NewTokIdFromString(tid.Id()))
 	}
-	sort.Strings(tids)
-	return tids
+	sort.Sort(&tids)
+	return SyntaxSymbols(tids)
 }
 
-func (this *LexPart) UpdateStringLitTokens(tokens []string) {
+func (this *LexPart) UpdateStringLitTokens(tokens SyntaxSymbols) {
 	for _, strLit := range tokens {
 		tokDef := NewLexStringLitTokDef(strLit)
 		this.ProdMap.Add(tokDef)
 		this.TokDefsList = append(this.TokDefsList, tokDef)
-		this.TokDefs[strLit] = tokDef
-		this.stringLitToks[strLit] = tokDef
+		this.TokDefs[strLit.SymbolName()] = tokDef
+		this.stringLitToks[strLit.SymbolName()] = tokDef
 		this.ProdList.Productions = append(this.ProdList.Productions, tokDef)
 	}
 }

@@ -1,7 +1,7 @@
 package scanner
 
 import (
-	"github.com/goccmack/gocc/example/nolexer/token"
+	"github.com/maxcalandrelli/gocc/example/nolexer/nolexer.grammar/nolexer/iface"
 )
 
 type Scanner struct {
@@ -35,11 +35,11 @@ func (S *Scanner) scanId() string {
 	return string(S.src[pos : S.pos-1])
 }
 
-func (S *Scanner) Scan() (tok *token.Token) {
+func (S *Scanner) Scan() (tok *iface.Token) {
 	S.skipWhiteSpace()
 
 	if S.pos >= len(S.src) {
-		return &token.Token{Type: token.EOF}
+		return &iface.Token{Type: iface.EOF}
 	}
 
 	pos := S.pos
@@ -47,16 +47,16 @@ func (S *Scanner) Scan() (tok *token.Token) {
 	lit := S.scanId()
 	switch lit {
 	case "hiya":
-		return &token.Token{Type: token.TokMap.Type("hiya"),
+		return &iface.Token{Type: iface.GetTokenMap().Type("hiya"),
 			Lit: []byte("hiya"),
-			Pos: token.Pos{Offset: pos}}
+			Pos: iface.Pos{Offset: pos}}
 	case "hello":
-		return &token.Token{Type: token.TokMap.Type("hello"),
+		return &iface.Token{Type: iface.GetTokenMap().Type("hello"),
 			Lit: []byte("hello"),
-			Pos: token.Pos{Offset: pos}}
+			Pos: iface.Pos{Offset: pos}}
 	default:
-		return &token.Token{Type: token.TokMap.Type("name"),
+		return &iface.Token{Type: iface.GetTokenMap().Type("name"),
 			Lit: []byte(lit),
-			Pos: token.Pos{Offset: pos}}
+			Pos: iface.Pos{Offset: pos}}
 	}
 }

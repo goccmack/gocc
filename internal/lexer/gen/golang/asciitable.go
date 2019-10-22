@@ -19,8 +19,8 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/lexer/symbols"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/lexer/symbols"
 )
 
 func genAsciiTable(outDir string, symbols *symbols.Symbols) {

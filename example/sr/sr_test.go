@@ -3,14 +3,13 @@ package sr
 import (
 	"testing"
 
-	"github.com/goccmack/gocc/example/sr/ast"
-	"github.com/goccmack/gocc/example/sr/lexer"
-	"github.com/goccmack/gocc/example/sr/parser"
+	"github.com/maxcalandrelli/gocc/example/sr/ast"
+	"github.com/maxcalandrelli/gocc/example/sr/sr.grammar/sr"
 )
 
 func parse(src string) (stmt ast.Stmt, err error) {
-	lex := lexer.NewLexer([]byte(src))
-	p := parser.NewParser()
+	lex := sr.NewLexerString(src)
+	p := sr.NewParser()
 	if res, err := p.Parse(lex); err == nil {
 		stmt = res.(ast.Stmt)
 	}

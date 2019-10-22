@@ -18,8 +18,6 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
-
-	"github.com/goccmack/gocc/internal/frontend/token"
 )
 
 type LexTokDef struct {
@@ -29,21 +27,22 @@ type LexTokDef struct {
 
 func NewLexTokDef(tokId, lexPattern interface{}) (*LexTokDef, error) {
 	tokDef := &LexTokDef{
-		id:      string(tokId.(*token.Token).Lit),
+		id:      getString(tokId),
 		pattern: lexPattern.(*LexPattern),
 	}
 	return tokDef, nil
 }
 
-func NewLexStringLitTokDef(tokId string) *LexTokDef {
-	runes := bytes.Runes([]byte(tokId))
+func NewLexStringLitTokDef(tok SyntaxSymbol) *LexTokDef {
+	runes := bytes.Runes([]byte(tok.SymbolString()))
 	alt, _ := NewLexAlt(newLexCharLitFromRune(runes[0]))
 	for i := 1; i < len(runes); i++ {
 		alt, _ = AppendLexTerm(alt, newLexCharLitFromRune(runes[i]))
 	}
 	ptrn, _ := NewLexPattern(alt)
+	id := tok.SymbolName()
 	return &LexTokDef{
-		id:      tokId,
+		id:      id,
 		pattern: ptrn,
 	}
 }

@@ -21,19 +21,28 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
-func GenToken(pkg, outdir string, tokMap *token.TokenMap) {
-	tokenPath := path.Join(outdir, "token", "token.go")
+func GenToken(pkg, outdir string, tokMap *token.TokenMap, subpath string, cfg config.Config) {
+	tokenPath := path.Join(outdir, subpath, "token", "token.go")
 	tmpl, err := template.New("token").Parse(TokenMapSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
-	err = tmpl.Execute(buf, TokenData{TypMap: tokMap.TypeMap, IdMap: typeMap(tokMap)})
-	// Use go/format to indent the idMap literal correctly.
+	data := TokenData{TypMap: make([]string, len(tokMap.TypeMap)), IdMap: make([]string, len(tokMap.TypeMap)), LitMap: []string{}, NoLexer: cfg.NoLexer()}
+	for i, sym := range tokMap.TypeMap {
+		data.IdMap[i] = fmt.Sprintf("\"%s\": %d", sym.SymbolName(), i)
+		data.TypMap[i] = fmt.Sprintf("\"%s\"", sym.SymbolName())
+		if lit, found := tokMap.LitMap[i]; found {
+			data.LitMap = append(data.LitMap, fmt.Sprintf("\"%s\": %d", lit, i))
+		}
+	}
+	err = tmpl.Execute(buf, data)
+	//err = tmpl.Execute(buf, TokenData{TypMap: makeTypeMap(tokMap), IdMap: makeIdMap(tokMap), LitMap: makeLitMap(tokMap), NoLexer: cfg.NoLexer()})
 	source, err := format.Source(buf.Bytes())
 	if err != nil {
 		println(err.Error())
@@ -42,17 +51,11 @@ func GenToken(pkg, outdir string, tokMap *token.TokenMap) {
 	io.WriteFile(tokenPath, source)
 }
 
-func typeMap(tokMap *token.TokenMap) []string {
-	tm := make([]string, len(tokMap.TypeMap))
-	for i, sym := range tokMap.TypeMap {
-		tm[i] = fmt.Sprintf("\"%s\": %d", sym, i)
-	}
-	return tm
-}
-
 type TokenData struct {
-	IdMap  []string
-	TypMap []string
+	IdMap   []string
+	TypMap  []string
+	LitMap  []string
+	NoLexer bool
 }
 
 const TokenMapSrc string = `
@@ -69,7 +72,10 @@ import (
 type Token struct {
 	Type
 	Lit []byte
+  IgnoredPrefix []byte
 	Pos
+	ForeignAstNode  interface{}
+  Foreign         bool
 }
 
 type Type int
@@ -89,9 +95,24 @@ func (p Pos) String() string {
 	return fmt.Sprintf("Pos(offset=%d, line=%d, column=%d)", p.Offset, p.Line, p.Column)
 }
 
+func (p Pos) StartingFrom(base Pos) Pos {
+	r := base
+	r.Offset += p.Offset
+	r.Line += p.Line
+	r.Column = p.Column
+	if p.Line > 0 && base.Line > 0 {
+		r.Line--
+	}
+	if r.Column < 1 {
+		r.Column = 1
+	}
+	return r
+}
+
 type TokenMap struct {
 	typeMap []string
 	idMap   map[string]Type
+	litMap  map[string]Type
 }
 
 func (m TokenMap) Id(tok Type) string {
@@ -105,12 +126,16 @@ func (m TokenMap) Type(tok string) Type {
 	if typ, exist := m.idMap[tok]; exist {
 		return typ
 	}
+  {{- if .NoLexer }}
+	if typ, exist := m.litMap[tok]; exist {
+		return typ
+	}
+  {{- end }}
 	return INVALID
 }
 
 func (m TokenMap) TokenString(tok *Token) string {
-	//TODO: refactor to print pos & token string properly
-	return fmt.Sprintf("%s(%d,%s)", m.Id(tok.Type), tok.Type, tok.Lit)
+	return fmt.Sprintf("%s(%d,<%s>)", m.Id(tok.Type), tok.Type, tok.Lit)
 }
 
 func (m TokenMap) StringType(typ Type) string {
@@ -178,7 +203,7 @@ func (t *Token) StringValue() string {
 var TokMap = TokenMap{
 	typeMap: []string{
 {{- range .TypMap }}
-		{{printf "%q" .}},
+		{{printf "%s" .}},
 {{- end }}
 	},
 
@@ -186,6 +211,14 @@ var TokMap = TokenMap{
 {{- range .IdMap }}
 		{{printf "%s" .}},
 {{- end }}
+
+	},
+
+	litMap: map[string]Type{
+{{- range .LitMap }}
+		{{printf "%s" .}},
+{{- end }}
+
 	},
 }
 

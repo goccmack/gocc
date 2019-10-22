@@ -1,0 +1,12 @@
+gocc version 2.1.0001
+-a             = true
+-debug_lexer   = false
+-debug_parser  = false
+-h             = false
+-no_lexer      = false
+-o             = /home/max/go/src/github.com/maxcalandrelli/gocc/example/ctx/ctx2.grammar/ctx2
+-p             = github.com/maxcalandrelli/gocc/example/ctx/ctx2.grammar/ctx2
+-u             = false
+-v             = true
+-internal      = internal
+-bugs          = lexer_dots:fix,lexer_regdefs:ignore

@@ -17,6 +17,8 @@ package ast
 import (
 	"fmt"
 	"strings"
+
+	"github.com/maxcalandrelli/gocc/internal/config"
 )
 
 type SyntaxSymbols []SyntaxSymbol
@@ -35,7 +37,35 @@ func (this SyntaxSymbols) String() string {
 		if i > 0 {
 			fmt.Fprintf(w, " ")
 		}
-		fmt.Fprintf(w, sym.String())
+		fmt.Fprintf(w, sym.SymbolName())
 	}
 	return w.String()
+}
+
+func NewSyntaxSymbolsFromToken(tok interface{}) (SyntaxSymbols, error) {
+	switch getString(tok) {
+	case config.SYMBOL_EMPTY:
+		return SyntaxSymbols{EmptySymbol}, nil
+	case config.SYMBOL_ERROR:
+		return SyntaxSymbols{ErrorSymbol}, nil
+	}
+	sym, err := NewStringLit(tok)
+	fmt.Printf("LITERAL:<%q>\n", sym)
+	return SyntaxSymbols{sym}, err
+}
+
+type SyntaxSymbolsByName SyntaxSymbols
+
+func (s *SyntaxSymbolsByName) Len() int {
+	return len(*s)
+}
+
+func (s *SyntaxSymbolsByName) Less(i, j int) bool {
+	return (*s)[i].SymbolString() < (*s)[j].SymbolString()
+}
+
+func (s *SyntaxSymbolsByName) Swap(i, j int) {
+	t := (*s)[i]
+	(*s)[i] = (*s)[j]
+	(*s)[j] = t
 }

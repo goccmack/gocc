@@ -1,3 +1,6 @@
 gocc
 sm_*
+build/
+*.debug
 .vscode
+

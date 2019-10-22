@@ -20,12 +20,12 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/lexer/items"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/lexer/items"
 )
 
-func genTransitionTable(pkg, outDir, header string, itemSets *items.ItemSets) {
-	fname := path.Join(outDir, "lexer", "transitiontable.go")
+func genTransitionTable(pkg, outDir, header string, itemSets *items.ItemSets, subpath string) {
+	fname := path.Join(outDir, subpath, "lexer", "transitiontable.go")
 	io.WriteFile(fname, getTransitionTable(itemSets, header))
 }
 
@@ -54,7 +54,7 @@ type transitionTableData struct {
 func getTransitionTableData(itemsets *items.ItemSets) []transitionTableRowData {
 	data := make([]transitionTableRowData, itemsets.Size())
 	for setNo, set := range itemsets.List() {
-		if set.SymbolClasses.MatchAny {
+		if set.SymbolClasses.MatchAny || set.DotTransition >= 0 {
 			data[setNo].MatchAny = true
 			data[setNo].MatchAnyState = set.DotTransition
 		} else {

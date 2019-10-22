@@ -14,18 +14,54 @@
 
 package ast
 
+import (
+	"github.com/maxcalandrelli/gocc/internal/config"
+)
+
 /*
 All syntax symbols are types of string
 */
 type SyntaxSymbol interface {
+	SymbolName() string
 	SymbolString() string
 	String() string
+	IsError() bool
+	IsEpsilon() bool
+	IsTerminal() bool
+	IsNonTerminal() bool
 	gSymbol()
 }
 
-func (SyntaxEmpty) gSymbol()     {}
-func (SyntaxEof) gSymbol()       {}
-func (SyntaxError) gSymbol()     {}
-func (SyntaxProdId) gSymbol()    {}
-func (SyntaxTokId) gSymbol()     {}
-func (SyntaxStringLit) gSymbol() {}
+type StdSyntaxSymbol struct{}
+type InvalidSyntaxSymbol struct{ StdSyntaxSymbol }
+
+func (StdSyntaxSymbol) IsError() bool       { return false }
+func (StdSyntaxSymbol) IsEpsilon() bool     { return false }
+func (StdSyntaxSymbol) IsTerminal() bool    { return false }
+func (StdSyntaxSymbol) IsNonTerminal() bool { return false }
+
+func (SyntaxEmpty) gSymbol()                 {}
+func (SyntaxEof) gSymbol()                   {}
+func (SyntaxError) gSymbol()                 {}
+func (SyntaxProdId) gSymbol()                {}
+func (SyntaxTokId) gSymbol()                 {}
+func (SyntaxStringLit) gSymbol()             {}
+func (InvalidSyntaxSymbol) gSymbol()         {}
+func (SyntaxContextDependentTokId) gSymbol() {}
+func (SyntaxSubParser) gSymbol()             {}
+
+func (InvalidSyntaxSymbol) SymbolName() string {
+	return config.INTERNAL_SYMBOL_INVALID
+}
+
+func (InvalidSyntaxSymbol) SymbolString() string {
+	return config.INTERNAL_SYMBOL_INVALID
+}
+
+func (InvalidSyntaxSymbol) String() string {
+	return config.SYMBOL_INVALID
+}
+
+func (InvalidSyntaxSymbol) IsTerminal() bool {
+	return true
+}

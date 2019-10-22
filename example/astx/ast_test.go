@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/goccmack/gocc/example/astx/ast"
-	"github.com/goccmack/gocc/example/astx/lexer"
-	"github.com/goccmack/gocc/example/astx/parser"
+	"github.com/maxcalandrelli/gocc/example/astx/ast"
+	grammar "github.com/maxcalandrelli/gocc/example/astx/ast.grammar/ast"
 )
 
 func TestPass(t *testing.T) {
@@ -28,8 +27,8 @@ func TestFail(t *testing.T) {
 
 func test(src []byte) (astree ast.StmtList, err error) {
 	fmt.Printf("input: %s\n", src)
-	s := lexer.NewLexer(src)
-	p := parser.NewParser()
+	s := grammar.NewLexerBytes(src)
+	p := grammar.NewParser()
 	a, err := p.Parse(s)
 	if err == nil {
 		astree = a.(ast.StmtList)

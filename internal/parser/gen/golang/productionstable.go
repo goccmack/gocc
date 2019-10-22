@@ -17,29 +17,43 @@ package golang
 import (
 	"bytes"
 	"fmt"
+	"go/format"
 	"path"
+	"regexp"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/parser/lr1/items"
+	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
+	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap) {
+	itemsets *items.ItemSets, tokMap *token.TokenMap, internal string, cfg config.Config) {
 
-	fname := path.Join(outDir, "parser", "productionstable.go")
+	fname := path.Join(outDir, internal, "parser", "productionstable.go")
 	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	if err := tmpl.Execute(wr, getProdsTab(header, prods, symbols, itemsets, tokMap)); err != nil {
+	pTab := getProdsTab(header, prods, symbols, itemsets, tokMap)
+	pTab.Pkg = pkg
+	pTab.Outdir = outDir
+	pTab.InternalDir = internal
+	pTab.Config = cfg
+
+	if err := tmpl.Execute(wr, pTab); err != nil {
 		panic(err)
 	}
-	io.WriteFile(fname, wr.Bytes())
+
+	source, err := format.Source(wr.Bytes())
+	if err != nil {
+		panic(fmt.Sprintf("%s in\n%s", err.Error(), wr.String()))
+	}
+	io.WriteFile(fname, source)
 }
 
 func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
@@ -51,17 +65,23 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 	}
 	for i, prod := range prods {
 		data.ProdTab[i].String = fmt.Sprintf("`%s`", prod.String())
-		data.ProdTab[i].Id = prod.Id
-		data.ProdTab[i].NTType = symbols.NTType(prod.Id)
-		isEmpty := prod.Body.Symbols[0].SymbolString() == "empty"
+		data.ProdTab[i].Id = prod.Id.SymbolString()
+		data.ProdTab[i].NTType = symbols.NTType(prod.Id.SymbolString())
+		isEmpty := prod.Body.Empty()
 		if isEmpty {
 			data.ProdTab[i].NumSymbols = 0
 		} else {
 			data.ProdTab[i].NumSymbols = len(prod.Body.Symbols)
+			for _, s := range prod.Body.Symbols {
+				switch s.(type) {
+				case ast.SyntaxContextDependentTokId, ast.SyntaxSubParser:
+					data.ProdTab[i].NumSymbols++
+				}
+			}
 		}
 		switch {
 		case len(prod.Body.SDT) > 0:
-			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", prod.Body.SDT)
+			data.ProdTab[i].ReduceFunc = fmt.Sprintf("return %s", sdtReplacer.ReplaceAllStringFunc(prod.Body.SDT, sdtReplacerFunc))
 		case isEmpty:
 			// Empty production with no semantic action.
 			data.ProdTab[i].ReduceFunc = "return nil, nil"
@@ -73,17 +93,47 @@ func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbo
 	return data
 }
 
+var (
+	sdtReplacer      = regexp.MustCompile("\\$[0-9]+[sqeUl]*")
+	sdtReplacerSplit = regexp.MustCompile("^\\$([0-9]+)([sqeUl]*)$")
+)
+
+func sdtReplacerFunc(match string) string {
+	result, funcs := func(s []string) (string, string) { return fmt.Sprintf("X[%s]", s[0]), s[1] }(sdtReplacerSplit.FindStringSubmatch(match)[1:])
+	if funcs > "" {
+		result = fmt.Sprintf("getString(%s)", result)
+	}
+	for _, op := range funcs {
+		switch op {
+		case 'q':
+			result = fmt.Sprintf("unquote(%s)", result)
+		case 'U':
+			result = fmt.Sprintf("uc(%s)", result)
+		case 'e':
+			result = fmt.Sprintf("unescape(%s)", result)
+		case 'l':
+			result = fmt.Sprintf("lc(%s)", result)
+		}
+	}
+	return result
+}
+
 type prodsTabData struct {
-	Header  string
-	ProdTab []prodTabEntry
+	Header      string
+	ProdTab     []prodTabEntry
+	Pkg         string
+	Outdir      string
+	InternalDir string
+	Config      config.Config
 }
 
 type prodTabEntry struct {
-	String     string
-	Id         string
-	NTType     int
-	NumSymbols int
-	ReduceFunc string
+	String      string
+	Id          string
+	NTType      int
+	NumSymbols  int
+	ReduceFunc  string
+	TokenImport string
 }
 
 const prodsTabSrc = `
@@ -91,7 +141,41 @@ const prodsTabSrc = `
 
 package parser
 
+import (
+
+  "fmt"
+  "strings"
+  "{{.Config.Package}}/{{.InternalDir}}/token"
+  "{{.Config.Package}}/{{.InternalDir}}/util"
+)
+
 {{.Header}}
+
+func getString(X Attrib) string {
+  switch X.(type) {
+    case *token.Token: return string(X.(*token.Token).Lit)
+    case string: return X.(string)
+  }
+  return fmt.Sprintf("%q", X)
+}
+
+func unescape(s string) string {
+  return util.EscapedString(s).Unescape()
+}
+
+func unquote(s string) string {
+  r, _, _ := util.EscapedString(s).Unquote()
+  return r
+}
+
+func lc(s string) string {
+  return strings.ToLower(s)
+}
+
+func uc(s string) string {
+  return strings.ToUpper(s)
+}
+
 
 type (
 	//TODO: change type and variable names to be consistent with other tables
@@ -102,7 +186,7 @@ type (
 		NTType     int
 		Index      int
 		NumSymbols int
-		ReduceFunc func([]Attrib) (Attrib, error)
+		ReduceFunc func(interface{}, []Attrib) (Attrib, error)
 	}
 	Attrib interface {
 	}
@@ -116,7 +200,7 @@ var productionsTable = ProdTab{
 		NTType:     {{$entry.NTType}},
 		Index:      {{$i}},
 		NumSymbols: {{$entry.NumSymbols}},
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			{{$entry.ReduceFunc}}
 		},
 	},

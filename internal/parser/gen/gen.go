@@ -18,23 +18,22 @@ This package controls the generation of all parser-related code.
 package gen
 
 import (
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/parser/gen/golang"
-	"github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/parser/gen/golang"
+	"github.com/maxcalandrelli/gocc/internal/parser/lr1/items"
+	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
+	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
 func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
-	itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config) (conflicts map[int]items.RowConflicts) {
+	itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config, internal, iface string) (conflicts map[int]items.RowConflicts) {
 
-	golang.GenAction(outDir)
-	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap, cfg.Zip())
-	golang.GenErrors(pkg, outDir)
-	golang.GenGotoTable(outDir, itemsets, symbols, cfg.Zip())
-	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg)
-	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap)
-
+	golang.GenAction(outDir, internal)
+	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap, internal, header)
+	golang.GenErrors(pkg, outDir, internal)
+	golang.GenGotoTable(outDir, itemsets, symbols, internal)
+	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg, internal, iface)
+	golang.GenProductionsTable(pkg, outDir, header, prods, symbols, itemsets, tokMap, internal, cfg)
 	return
 }

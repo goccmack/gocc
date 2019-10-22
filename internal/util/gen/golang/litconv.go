@@ -3,11 +3,11 @@ package golang
 import (
 	"path"
 
-	"github.com/goccmack/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
-func GenLitConv(outDir string) {
-	io.WriteFileString(path.Join(outDir, "util", "litconv.go"), litConvSrc[1:])
+func GenLitConv(outDir, internal string) {
+	io.WriteFileString(path.Join(outDir, internal, "util", "litconv.go"), litConvSrc[1:])
 }
 
 const litConvSrc = `

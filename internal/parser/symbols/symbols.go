@@ -21,110 +21,112 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/ast"
 )
 
 type Symbols struct {
-	//key: symbol id
-	//val: symbol type
-	idMap map[string]int
-
-	//key: symbol ntTypeMap index
-	//val: symbol type
-	ntIdMap   map[string]int
-	ntTypeMap []string
-
-	//key: symbol id
-	//val: symbol type
-	stringLitIdMap map[string]int
-	stringLitList  []string
-
-	//key: symbol type
-	//val: symbol id
-	typeMap []string
+	tSymbols        ast.SyntaxSymbols
+	ntSymbols       ast.SyntaxSymbols
+	symbols         map[ast.SyntaxSymbol]struct{}
+	literalType     map[string]int
+	nonTerminalType map[string]int
 }
 
 func NewSymbols(grammar *ast.Grammar) *Symbols {
 	symbols := &Symbols{
-		idMap:          make(map[string]int),
-		typeMap:        make([]string, 0, 16),
-		ntIdMap:        make(map[string]int),
-		ntTypeMap:      make([]string, 0, 16),
-		stringLitIdMap: make(map[string]int),
-		stringLitList:  make([]string, 0, 16),
+		symbols:         make(map[ast.SyntaxSymbol]struct{}),
+		tSymbols:        make(ast.SyntaxSymbols, 0, 16),
+		ntSymbols:       make(ast.SyntaxSymbols, 0, 16),
+		literalType:     make(map[string]int),
+		nonTerminalType: make(map[string]int),
 	}
 
-	symbols.Add("INVALID")
-	symbols.Add("$")
+	symbols.Add(ast.InvalidSyntaxSymbol{})
+	symbols.Add(ast.EofSymbol)
 
 	if grammar.SyntaxPart == nil {
 		return symbols
 	}
 
 	for _, p := range grammar.SyntaxPart.ProdList {
-		if _, exist := symbols.ntIdMap[p.Id]; !exist {
-			symbols.ntTypeMap = append(symbols.ntTypeMap, p.Id)
-			symbols.ntIdMap[p.Id] = len(symbols.ntTypeMap) - 1
-		}
 		symbols.Add(p.Id)
 		for _, sym := range p.Body.Symbols {
-			symStr := sym.SymbolString()
-			symbols.Add(symStr)
-			if _, ok := sym.(ast.SyntaxStringLit); ok {
-				if _, exist := symbols.ntIdMap[symStr]; exist {
-					panic(fmt.Sprintf("string_lit \"%s\" conflicts with production name %s", symStr, symStr))
-				}
-				if _, exist := symbols.stringLitIdMap[symStr]; !exist {
-					symbols.stringLitIdMap[symStr] = symbols.Type(symStr)
-					symbols.stringLitList = append(symbols.stringLitList, symStr)
-				}
-			}
+			symbols.Add(sym)
 		}
 	}
 	return symbols
 }
 
-func (this *Symbols) Add(symbols ...string) {
+func (this *Symbols) Add(symbols ...ast.SyntaxSymbol) {
 	for _, sym := range symbols {
-		if _, exist := this.idMap[sym]; !exist {
-			this.typeMap = append(this.typeMap, sym)
-			this.idMap[sym] = len(this.typeMap) - 1
+		if _, exist := this.symbols[sym]; !exist {
+			if sym.IsTerminal() {
+				id := len(this.tSymbols)
+				this.symbols[sym] = struct{}{}
+				this.tSymbols = append(this.tSymbols, sym)
+				this.literalType[sym.SymbolString()] = id
+			} else if sym.IsNonTerminal() {
+				id := len(this.ntSymbols)
+				this.symbols[sym] = struct{}{}
+				this.ntSymbols = append(this.ntSymbols, sym)
+				this.nonTerminalType[sym.SymbolString()] = id
+			}
 		}
 	}
 }
 
-func (this *Symbols) Id(typ int) string {
-	return this.typeMap[typ]
+func (this *Symbols) List() ast.SyntaxSymbols {
+	return append(this.ntSymbols, this.tSymbols...)
 }
 
-func (this *Symbols) IsTerminal(sym string) bool {
-	_, nt := this.ntIdMap[sym]
-	return !nt
+func (this *Symbols) listMatchingSymbols(match func(ast.SyntaxSymbol) bool) ast.SyntaxSymbols {
+	res := make(ast.SyntaxSymbols, 0, 16)
+	for sym := range this.symbols {
+		if match(sym) {
+			res = append(res, sym)
+		}
+	}
+	return res
 }
 
-func (this *Symbols) List() []string {
-	return this.typeMap
+func (this *Symbols) ListContextDependentTokenSymbols() ast.SyntaxSymbols {
+	return this.listMatchingSymbols(func(s ast.SyntaxSymbol) bool {
+		switch s.(type) {
+		case ast.SyntaxContextDependentTokId:
+			return true
+		}
+		return false
+	})
+}
+
+func (this *Symbols) ListSubParserSymbols() ast.SyntaxSymbols {
+	return this.listMatchingSymbols(func(s ast.SyntaxSymbol) bool {
+		switch s.(type) {
+		case ast.SyntaxSubParser:
+			return true
+		}
+		return false
+	})
 }
 
 /*
 Return a slice containing the ids of all symbols declared as string literals in the grammar.
 */
-func (this *Symbols) ListStringLitSymbols() []string {
-	return this.stringLitList
+func (this *Symbols) ListStringLitSymbols() ast.SyntaxSymbols {
+	return this.listMatchingSymbols(func(s ast.SyntaxSymbol) bool {
+		_, r := s.(ast.SyntaxStringLit)
+		return r
+	})
 }
 
-func (this *Symbols) ListTerminals() []string {
-	terminals := make([]string, 0, 16)
-	for _, sym := range this.typeMap {
-		if this.IsTerminal(sym) {
-			terminals = append(terminals, sym)
-		}
-	}
-	return terminals
+func (this *Symbols) ListTerminals() ast.SyntaxSymbols {
+	ret := ast.SyntaxSymbolsByName(this.tSymbols)
+	//sort.Sort(&ret)
+	return ast.SyntaxSymbols(ret)
 }
 
 func (this *Symbols) StringLitType(id string) int {
-	if typ, exist := this.stringLitIdMap[id]; exist {
+	if typ, exist := this.literalType[id]; exist {
 		return typ
 	}
 	return -1
@@ -134,31 +136,33 @@ func (this *Symbols) StringLitType(id string) int {
 Return the id of the NT with index idx, or "" if there is no NT symbol with index, idx.
 */
 func (this *Symbols) NTId(idx int) string {
-	if idx < 0 || idx >= len(this.ntTypeMap) {
+	if idx < 0 || idx >= len(this.nonTerminalType) {
 		return ""
 	}
-	return this.ntTypeMap[idx]
+	return this.ntSymbols[idx].SymbolName()
 }
 
 /*
 Return the number of NT symbols in the grammar
 */
 func (this *Symbols) NumNTSymbols() int {
-	return len(this.ntTypeMap)
+	return len(this.ntSymbols)
 }
 
 /*
 Returns a slice containing all the non-terminal symbols of the grammar.
 */
-func (this *Symbols) NTList() []string {
-	return this.ntTypeMap
+func (this *Symbols) NTList() ast.SyntaxSymbols {
+	ret := ast.SyntaxSymbolsByName(this.ntSymbols)
+	//sort.Sort(&ret)
+	return ast.SyntaxSymbols(ret)
 }
 
 /*
 Returns the NT index of a symbol (index in 0..|NT|-1) or -1 if the symbol is not in NT.
 */
 func (this *Symbols) NTType(symbol string) int {
-	if idx, exist := this.ntIdMap[symbol]; exist {
+	if idx, exist := this.nonTerminalType[symbol]; exist {
 		return idx
 	}
 	return -1
@@ -168,20 +172,22 @@ func (this *Symbols) NTType(symbol string) int {
 Returns the total number of symbols in grammar: the sum of the terminals and non-terminals.
 */
 func (this *Symbols) NumSymbols() int {
-	return len(this.typeMap)
+	return len(this.symbols)
 }
 
 func (this *Symbols) String() string {
 	w := new(strings.Builder)
-	for i, sym := range this.typeMap {
-		fmt.Fprintf(w, "%3d: %s\n", i, sym)
+	for i, sym := range this.List() {
+		fmt.Fprintf(w, "%3d: %s\n", i, sym.SymbolName())
 	}
 	return w.String()
 }
 
-func (this *Symbols) Type(id string) int {
-	if typ, ok := this.idMap[id]; ok {
+/*
+func (this *Symbols) Type(id ast.SyntaxSymbol) int {
+	if typ, ok := this.idMap[id.SymbolName()]; ok {
 		return typ
 	}
 	return -1
 }
+*/

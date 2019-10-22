@@ -16,10 +16,11 @@ package items
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/lexer/symbols"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/lexer/symbols"
 )
 
 type ItemSets struct {
@@ -28,15 +29,20 @@ type ItemSets struct {
 	symbols *symbols.Symbols
 }
 
-func GetItemSets(lexPart *ast.LexPart) *ItemSets {
+var (
+	fix_dots_bug   bool
+	fix_regdef_bug bool
+)
+
+func GetItemSets(lexPart *ast.LexPart, _fix_dots_bug, _fix_regdefs_bug bool) *ItemSets {
+	fix_dots_bug = _fix_dots_bug
+	fix_regdef_bug = _fix_regdefs_bug
 	itemSets := &ItemSets{
 		sets:    make([]*ItemSet, 0, 256),
 		lexPart: lexPart,
 		symbols: symbols.NewSymbols(lexPart),
 	}
-
 	itemSets.Add(ItemsSet0(lexPart, itemSets.symbols))
-
 	return itemSets.Closure()
 }
 
@@ -45,14 +51,23 @@ func (this *ItemSets) Add(items ItemList) (setNo int) {
 		return setNo
 	}
 	setNo = this.Size()
+	if debug_deeply {
+		trace(setNo, "Calling NewItemSet, items:\n%s", items)
+	}
 	this.sets = append(this.sets, NewItemSet(setNo, this.lexPart, this.symbols, items))
 	return setNo
 }
 
 func (this *ItemSets) Closure() *ItemSets {
+	if debug_deeply {
+		trace(-1, "calculating closure of %s", this)
+	}
 	for i := 0; i < len(this.sets); i++ {
 		for symI, rng := range this.sets[i].SymbolClasses.List() {
 			if items := this.sets[i].Next(rng); len(items) != 0 {
+				if debug_deeply {
+					dbg(i, "  rng: %q\nitems: %s\n", rng, items)
+				}
 				setNo, nextState := this.Add(items), this.sets[i].Transitions[symI]
 				if nextState != -1 && nextState != setNo {
 					panic(fmt.Sprintf("Next set conflict in (S%d, %s) -> %d. Existing setNo: %d", i, rng, setNo, nextState))
@@ -74,7 +89,26 @@ func (this *ItemSets) Closure() *ItemSets {
 			this.sets[i].DotTransition = setNo
 		}
 	}
+	if fix_dots_bug {
+		for i := 0; i < len(this.sets); i++ {
+			this.propagateDots(i)
+		}
+	}
 	return this
+}
+
+/*
+   this will allow to parse a '>' in a SDT construct, just to name a case...
+*/
+
+func (this *ItemSets) propagateDots(start int) {
+	if this.sets[start].DotTransition > -1 {
+		for _, tr := range this.sets[start].Transitions {
+			if tr > start && this.sets[tr].DotTransition < 0 && len(this.sets[tr].Transitions) > 0 {
+				this.sets[tr].DotTransition = this.sets[start].DotTransition
+			}
+		}
+	}
 }
 
 func (this *ItemSets) Contain(items ItemList) (yes bool, index int) {
@@ -103,7 +137,9 @@ func (this *ItemSets) String() string {
 	fmt.Fprintf(buf, "Item sets:\n")
 	for i, s := range this.sets {
 		fmt.Fprintf(buf, "S%d{\n", i)
-		for _, item := range s.Items {
+		s_items := s.Items
+		sort.Sort(s_items)
+		for _, item := range s_items {
 			fmt.Fprintf(buf, "\t%s\n", item)
 		}
 		fmt.Fprintf(buf, "}\n")

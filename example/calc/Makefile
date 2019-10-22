@@ -1,2 +1,2 @@
 regenerate:
-	gocc calc.bnf
+	gocc -a calc.bnf

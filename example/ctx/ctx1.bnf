@@ -1,0 +1,45 @@
+/* Lexical elements */
+
+_digit : '0'-'9' ;
+_letter : 'a'-'z' | 'A'-'Z'    |   ( '\\' 'u' _hex { _hex } ) ;
+_hex : _digit | ( 'a'-'f' ) | ('A' - 'F') ;
+_idchar : _letter | _digit | '_';
+
+_x0 : 'α' ;
+_x1 : 'β'  _digit { _digit } ;
+_x : 'α' | ( 'β'  _digit { _digit } );
+_test :  _x { _x  | 'γ' } ;
+
+//id : (_letter | '_') {_idchar} ;
+
+id:
+/*
+		 (_letter | '_') {_idchar}
+		('a'-'z' | 'A'-'Z'    |   ( '\\' 'u' _hex { _hex } ) | '_')
+	{ 	('a'-'z' | 'A'-'Z'    |   ( '\\' 'u' _hex { _hex } ) | '_')	| _digit	}
+*/
+		_x { _x0 | ( 'β'  _digit { _digit } )  | 'γ' }
+;
+
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+
+/* Syntax elements */
+
+<<
+	import (
+		"github.com/maxcalandrelli/gocc/example/ctx/ast"
+	)
+>>
+
+StmtList :
+      Stmt             << ast.NewStmtList($0s) >>
+    | StmtList Stmt    << ast.AppendStmt($0.(ast.StmtList), $1s) >>
+;
+
+Stmt :
+    		id               << ast.NewStmt($0e) >>
+   |
+		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+						<< ast.CalcResult($1) >>
+
+;

@@ -1,0 +1,81 @@
+!comment      : _lineComment | _blockComment ;
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+
+_lineComment : '$' '/' '/' {.} '\n' ;
+_blockComment : '/' '*' {. | '*'} '*' '/' ;
+_tokId : _lowcase {_id_char} ;
+_lowcase : 'a'-'z' ;
+_id_char : _upcase | _lowcase | '_' | _digit ;
+_upcase : 'A'-'Z' ;
+_digit : '0'-'9' ;
+_all_but_star : . | ~'*' ;
+
+!space    :  ' ' | '\t' ;
+hexdigit : '0'-'F'  | ~(':'-'@') ;
+qhexdigit : '"' ('0'-'F'  | ~(':'-'@')) '"' ;
+//quote: '"' ;
+
+<<
+import(
+)
+>>
+
+Test :
+		Test1
+;
+
+Test1:
+ "try" Test2  << $1, nil >>
+;
+
+Test2 : Test3 | Test1;
+
+Test3 :
+"not" "empty" << []interface{}{"very well"}, nil >>
+|
+T
+;
+
+T : "a"  | "X" | ProdX | "λ1" | X;
+
+ProdX : "empty" | "ε" | "λ" | empty  | ε ;
+
+Quoted :
+		qhexdigit
+	|
+		"\"" hexdigit "\""
+;
+
+X:
+		altro
+		@@
+				func () (interface {}, error, []byte) {
+					slashes := []byte{}
+					for r, _, _ := Stream.ReadRune(); r == '/' || r == '\\' || r == '\u2215' || r == '\u29f5'; r, _, _ = Stream.ReadRune() {
+						slashes = append(slashes, string(r)...)
+					}
+					Stream.UnreadRune()
+					return len(string(slashes)), nil, slashes
+				}()
+		@@
+		Test2
+			<<
+				append(append([]interface{}{},$1),$2.([]interface{})...), nil
+			>>
+	|
+		@ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+		Test2
+			<<
+				func () interface{} {
+					fmt.Printf("computed: %s=%d\n", $s0, $1)
+					return append(append([]interface{}{},$1),$2.([]interface{})...)
+				}() , nil
+			>>
+	|
+		Quoted
+		Test2
+			<<
+				append([]interface{}{fmt.Sprintf("string: %s",  $u0)},$1), nil
+			>>
+;
+

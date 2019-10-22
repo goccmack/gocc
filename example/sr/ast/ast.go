@@ -1,7 +1,7 @@
 package ast
 
 import (
-	"github.com/goccmack/gocc/example/sr/token"
+	"github.com/maxcalandrelli/gocc/example/sr/sr.grammar/sr/iface"
 )
 
 type (
@@ -30,7 +30,7 @@ type (
 
 func NewIf(cnd, stmt Attrib) (ifs *If) {
 	ifs = &If{
-		C: string(cnd.(*token.Token).Lit),
+		C: string(cnd.(*iface.Token).Lit),
 		S: stmt.(Stmt),
 	}
 	return
@@ -38,7 +38,7 @@ func NewIf(cnd, stmt Attrib) (ifs *If) {
 
 func NewIfElse(cnd, stmt1, stmt2 Attrib) (ies *IfElse) {
 	ies = &IfElse{
-		C:  string(cnd.(*token.Token).Lit),
+		C:  string(cnd.(*iface.Token).Lit),
 		S1: stmt1.(Stmt),
 		S2: stmt2.(Stmt),
 	}
@@ -46,7 +46,7 @@ func NewIfElse(cnd, stmt1, stmt2 Attrib) (ies *IfElse) {
 }
 
 func NewIdStmt(s Attrib) (is IdStmt) {
-	is = IdStmt(string(s.(*token.Token).Lit))
+	is = IdStmt(string(s.(*iface.Token).Lit))
 	return
 }
 

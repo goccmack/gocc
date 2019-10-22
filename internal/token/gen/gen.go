@@ -15,10 +15,11 @@
 package gen
 
 import (
-	"github.com/goccmack/gocc/internal/token"
-	"github.com/goccmack/gocc/internal/token/gen/golang"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/token/gen/golang"
 )
 
-func Gen(pkg, outdir string, tokenMap *token.TokenMap) {
-	golang.GenToken(pkg, outdir, tokenMap)
+func Gen(pkg, outdir string, tokenMap *token.TokenMap, subpath string, cfg config.Config) {
+	golang.GenToken(pkg, outdir, tokenMap, subpath, cfg)
 }

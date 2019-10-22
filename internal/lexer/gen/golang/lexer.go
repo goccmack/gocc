@@ -19,44 +19,48 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/lexer/items"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/lexer/items"
 )
 
-func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) {
+func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, internal, iface string) {
 	tmpl, err := template.New("lexer").Parse(lexerSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	buf := new(bytes.Buffer)
-	err = tmpl.Execute(buf, getLexerData(pkg, outDir, itemsets, cfg))
+	err = tmpl.Execute(buf, getLexerData(pkg, outDir, itemsets, cfg, internal, iface))
 	if err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "lexer", "lexer.go"), buf.Bytes())
+	io.WriteFile(path.Join(outDir, internal, "lexer", "lexer.go"), buf.Bytes())
 }
 
-func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) *lexerData {
+func getLexerData(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config, internal, iface string) *lexerData {
 	lexSymbols := itemsets.Symbols().List()
 	return &lexerData{
-		Debug:       cfg.DebugLexer(),
-		TokenImport: path.Join(pkg, "token"),
-		UtilImport:  path.Join(pkg, "util"),
-		NumStates:   itemsets.Size(),
-		NumSymbols:  len(lexSymbols),
-		Symbols:     lexSymbols,
+		Debug:          cfg.DebugLexer(),
+		PkgPath:        pkg,
+		InternalSubdir: internal,
+		IfaceSubdir:    iface,
+		NumStates:      itemsets.Size(),
+		NumSymbols:     len(lexSymbols),
+		Symbols:        lexSymbols,
+		MyName:         cfg.ProjectName(),
 	}
 }
 
 type lexerData struct {
-	Debug       bool
-	TokenImport string
-	UtilImport  string
-	NumStates   int
-	NumSymbols  int
-	NextState   []byte
-	Symbols     []string
+	Debug          bool
+	PkgPath        string
+	InternalSubdir string
+	IfaceSubdir    string
+	NumStates      int
+	NumSymbols     int
+	NextState      []byte
+	Symbols        []string
+	MyName         string
 }
 
 const lexerSrc string = `
@@ -65,137 +69,192 @@ const lexerSrc string = `
 package lexer
 
 import (
-{{if .Debug}}	"fmt"
-{{end}}	"io/ioutil"
-	"unicode/utf8"
+  {{if .Debug}}	"fmt" {{end}}
+  "io"
+  "bytes"
+  "os"
 
-{{if .Debug}}	"{{.UtilImport}}"
-{{end}}	"{{.TokenImport}}"
+  {{if .Debug}}	"{{.PkgPath}}/{{.InternalSubdir}}/util" {{end}}
+  "{{.PkgPath}}/{{.IfaceSubdir}}"
+  "{{.PkgPath}}/{{.InternalSubdir}}/token"
+  "{{.PkgPath}}/{{.InternalSubdir}}/io/stream"
 )
 
 const (
 	NoState    = -1
 	NumStates  = {{.NumStates}}
 	NumSymbols = {{.NumSymbols}}
+  INVALID_RUNE = rune(-1)
 )
 
-type Lexer struct {
-	src    []byte
-	pos    int
-	line   int
-	column int
+type position struct {
+	token.Pos
 }
 
-func NewLexer(src []byte) *Lexer {
-	lexer := &Lexer{
-		src:    src,
-		pos:    0,
-		line:   1,
-		column: 1,
-	}
+type Lexer struct {
+	position
+	stream   iface.TokenStream
+	eof      bool
+}
+
+func NewLexerBytes(src []byte) *Lexer {
+	lexer := &Lexer{stream: bytes.NewReader(src)}
+	lexer.reset()
 	return lexer
 }
 
+func NewLexerString(src string) *Lexer {
+	return NewLexerBytes([]byte(src))
+}
+
 func NewLexerFile(fpath string) (*Lexer, error) {
-	src, err := ioutil.ReadFile(fpath)
+	s, err := os.Open(fpath)
 	if err != nil {
 		return nil, err
 	}
-	return NewLexer(src), nil
+	lexer := &Lexer{stream: stream.NewWindowReader(s)}
+	lexer.reset()
+	return lexer, nil
+}
+
+func NewLexer(reader io.Reader) (*Lexer, error) {
+	lexer := &Lexer{}
+	lexer.reset()
+	if lexer.stream, _ = reader.(iface.TokenStream); lexer.stream == nil {
+		lexer.stream = stream.NewWindowReader(reader)
+	}
+	return lexer, nil
+}
+
+func (l *Lexer) reset () {
+  l.position.Reset()
+}
+
+func (l Lexer) GetStream() iface.TokenStream {
+  return l.stream
+}
+
+type checkPoint int64
+
+func (c checkPoint) value () int64 {
+  return int64(c)
+}
+
+func (c checkPoint) DistanceFrom (o iface.CheckPoint) int {
+  return int (c.value() - o.(checkPoint).value())
+}
+
+func (c checkPoint) Advance (o int) iface.CheckPoint {
+  return checkPoint(c.value() + int64(o))
+}
+
+func (l *Lexer) GetCheckPoint() iface.CheckPoint {
+  if l == nil {
+    return checkPoint(0)
+  }
+  pos, _ := l.stream.Seek(0, io.SeekCurrent)
+  return checkPoint(pos)
+}
+
+func (l Lexer) GotoCheckPoint(cp iface.CheckPoint) {
+  l.stream.Seek(int64(cp.(checkPoint)), io.SeekStart)
 }
 
 func (l *Lexer) Scan() (tok *token.Token) {
 	{{- if .Debug}}
-	fmt.Printf("Lexer.Scan() pos=%d\n", l.pos)
+	fmt.Printf("{{.MyName}}:lexer:Lexer.Scan() pos=%d\n", l.position.Pos.Offset)
 	{{- end}}
 	tok = new(token.Token)
-	if l.pos >= len(l.src) {
-		tok.Type = token.EOF
-		tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = l.pos, l.line, l.column
-		return
-	}
-	start, startLine, startColumn, end := l.pos, l.line, l.column, 0
 	tok.Type = token.INVALID
-	state, rune1, size := 0, rune(-1), 0
-	for state != -1 {
+  start := l.position
+  state := 0
+	for state != -1  {
 		{{- if .Debug}}
-		fmt.Printf("\tpos=%d, line=%d, col=%d, state=%d\n", l.pos, l.line, l.column, state)
+		fmt.Printf("{{.MyName}}:lexer:  pos=%d, line=%d, col=%d, state=%d\n", l.position.Pos.Offset, l.position.Pos.Line, l.position.Pos.Column, state)
 		{{- end}}
-		if l.pos >= len(l.src) {
-			rune1 = -1
-		} else {
-			rune1, size = utf8.DecodeRune(l.src[l.pos:])
-			l.pos += size
-		}
-
+    savePos := l.position.Pos
+	  curr, size, err := l.stream.ReadRune()
+    if size < 1 || err != nil {
+      curr = INVALID_RUNE
+    }
+		{{- if .Debug}}
+		fmt.Printf("{{.MyName}}:lexer:  rune=<%c> size=%d err=%v\n", curr, size, err)
+		{{- end}}
+		if size > 0 {
+  		l.position.Pos.Offset += size
+    }
 		nextState := -1
-		if rune1 != -1 {
-			nextState = TransTab[state](rune1)
+		if curr != INVALID_RUNE {
+			nextState = TransTab[state](curr)
 		}
 		{{- if .Debug}}
-		fmt.Printf("\tS%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(rune1), rune1, nextState)
-		fmt.Printf("\t\tpos=%d, size=%d, start=%d, end=%d\n", l.pos, size, start, end)
+		fmt.Printf("{{.MyName}}:lexer:S%d, : tok=%s, rune == %s(%x), next state == %d\n", state, token.TokMap.Id(tok.Type), util.RuneToString(curr), curr, nextState)
+		fmt.Printf("{{.MyName}}:lexer:    pos=%d, size=%d, start=%d\n", l.position.Pos.Offset, size, start.Pos.Offset)
 		if nextState != -1 {
-			fmt.Printf("\t\taction:%s\n", ActTab[nextState].String())
+			fmt.Printf("{{.MyName}}:lexer:    action:%s\n", ActTab[nextState].String())
 		}
 		{{- end}}
 		state = nextState
-
 		if state != -1 {
-
-			switch rune1 {
-			case '\n':
-				l.line++
-				l.column = 1
-			case '\r':
-				l.column = 1
-			case '\t':
-				l.column += 4
-			default:
-				l.column++
-			}
-
+      	switch curr {
+      	case '\n':
+      		l.position.Pos.Line++
+      		l.position.Pos.Column = 1
+      	case '\r':
+      		l.position.Pos.Column = 1
+      	case '\t':
+      		l.position.Pos.Column += 4
+      	default:
+      		l.position.Pos.Column++
+      	}
 			switch {
 			case ActTab[state].Accept != -1:
 				tok.Type = ActTab[state].Accept
-				end = l.pos
+				tok.Lit = append(tok.Lit, string(curr)...)
 			case ActTab[state].Ignore != "":
-				start, startLine, startColumn = l.pos, l.line, l.column
+				start = l.position
 				state = 0
-				if start >= len(l.src) {
-					tok.Type = token.EOF
-				}
-
+				tok.Lit = []byte{}
+        tok.IgnoredPrefix=append(tok.IgnoredPrefix,string(curr)...)
 			}
-		} else {
-			if tok.Type == token.INVALID {
-				end = l.pos
-			}
-		}
+		} else if curr != INVALID_RUNE{
+      if len(tok.Lit) == 0 {
+			  tok.Lit = append(tok.Lit, string(curr)...)
+      } else {
+        l.stream.UnreadRune()
+        l.position.Pos = savePos
+      }
+    }
+  	if err == io.EOF && len(tok.Lit)==0 {
+  		tok.Type = token.EOF
+  		tok.Pos = start.Pos
+  		return
+  	}
 	}
-	if end > start {
-		l.pos = end
-		tok.Lit = l.src[start:end]
-	} else {
-		tok.Lit = []byte{}
-	}
-	tok.Pos.Offset, tok.Pos.Line, tok.Pos.Column = start, startLine, startColumn
-
+	tok.Pos = start.Pos
 	{{- if .Debug}}
-	fmt.Printf("Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
+	fmt.Printf("{{.MyName}}:lexer:Token at %s: %s \"%s\"\n", tok.String(), token.TokMap.Id(tok.Type), tok.Lit)
 	{{- end}}
-
 	return
 }
 
 func (l *Lexer) Reset() {
-	l.pos = 0
+	l.position.Reset()
 }
 
-/*
-Lexer symbols:
-{{- range $i, $sym := .Symbols}}
-{{- printf "\n%d: %s" $i $sym}}
-{{- end}}
-*/
+func (l Lexer) CurrentPosition() position {
+	return l.position
+}
+
+func (p *position) Reset() {
+	p.Offset = 0
+	p.Line = 1
+	p.Column = 1
+}
+
+func (p position) StartingFrom(base position) position {
+	r := p
+	r.Pos = p.Pos.StartingFrom(base.Pos)
+	return r
+}
 `

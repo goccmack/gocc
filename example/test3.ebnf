@@ -1,0 +1,6 @@
+_blockComment : '/' '*' { . } '*' '/' ;
+_g_sdt_lit : '<' '<' . { . } '.' '>' ;
+
+g_sdt_lit: _g_sdt_lit ;
+
+Grammar :  blockComment | g_sdt_lit ;

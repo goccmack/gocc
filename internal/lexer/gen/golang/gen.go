@@ -15,13 +15,13 @@
 package golang
 
 import (
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/lexer/items"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/maxcalandrelli/gocc/internal/config"
+	"github.com/maxcalandrelli/gocc/internal/lexer/items"
+	"github.com/maxcalandrelli/gocc/internal/token"
 )
 
-func Gen(pkg, outDir string, header string, itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config) {
-	genLexer(pkg, outDir, itemsets, cfg)
-	genTransitionTable(pkg, outDir, header, itemsets)
-	genActionTable(pkg, outDir, itemsets, tokMap)
+func Gen(pkg, outDir string, header string, itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config, internal, iface string) {
+	genLexer(pkg, outDir, itemsets, cfg, internal, iface)
+	genTransitionTable(pkg, outDir, header, itemsets, internal)
+	genActionTable(pkg, outDir, itemsets, tokMap, internal)
 }

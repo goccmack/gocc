@@ -20,9 +20,9 @@ import (
 	"io"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/lexer/symbols"
-	"github.com/goccmack/gocc/internal/util"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/lexer/symbols"
+	"github.com/maxcalandrelli/gocc/internal/util"
 )
 
 type Item struct {
@@ -104,6 +104,7 @@ For a general description of dotted items (items) and ℇ-moves of items, see:
   T : x(...|y•|...)z  =>  T : x(...|y|...)•z
 */
 func (this *Item) Emoves() (items []*Item) {
+	trace(-1, "computing ε-moves of %s\n", this)
 	newItems := util.NewStack(8).Push(this)
 	for newItems.Len() > 0 {
 		item := newItems.Pop().(*Item)
@@ -112,9 +113,7 @@ func (this *Item) Emoves() (items []*Item) {
 			items = append(items, item)
 			continue
 		}
-
 		nt, pos := item.pos.top()
-
 		switch node := nt.(type) {
 		case *ast.LexPattern:
 			newItems.Push(item.eMovesLexPattern(node, pos)...)
@@ -134,7 +133,7 @@ func (this *Item) Emoves() (items []*Item) {
 			panic(fmt.Sprintf("Unexpected type in items.Emoves(): %T", nt))
 		}
 	}
-
+	dbg(-1, "ε-moves:{\n%s\n}\n", items)
 	return
 }
 
@@ -251,8 +250,14 @@ func (this *Item) newLexPatternBasicItems(nt *ast.LexPattern, pos int) []interfa
 
 func (this *Item) nextIsTerminal() bool {
 	nt, pos := this.pos.top()
+	trace(-1, "<%s>: checking that node %s next to pos %d is terminal: ", this.Id, nt.String(), pos)
 	if pos >= nt.Len() {
+		dbg(-1, "no, pos is after end\n")
 		return false
+	}
+	if debug_deeply {
+		nte := nt.Element(pos)
+		dbg(-1, "%t [%T:%s]\n", nte.LexTerminal(), nte, nte.String())
 	}
 	return nt.Element(pos).LexTerminal()
 }
@@ -305,7 +310,7 @@ func (this *Item) Move(rng CharRange) []*Item {
 	movedItem.getHashKey()
 
 	items := movedItem.Emoves()
-
+	dbg(-1, "  <%q>:move(%q):%q\n", this, rng, items)
 	return items
 }
 
@@ -326,6 +331,9 @@ func (this *Item) MoveRegDefId(id string) []*Item {
 		movedItem := this.Clone()
 		movedItem.pos.inc()
 		movedItem.getHashKey()
+		if debug_deeply {
+			trace(-1, "   * moved item:\n%s\nwas:\n%s)\n", movedItem.pos.String(), this.pos.String())
+		}
 		items := movedItem.Emoves()
 		return items
 	}

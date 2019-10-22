@@ -18,9 +18,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/parser/first"
-	"github.com/goccmack/gocc/internal/parser/symbols"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/parser/first"
+	"github.com/maxcalandrelli/gocc/internal/parser/symbols"
 )
 
 //A list of a list of Items.
@@ -118,6 +118,6 @@ func InitialItemSet(g *ast.Grammar, symbols *symbols.Symbols, fs *first.FirstSet
 	set := NewItemSet(symbols, g.SyntaxPart.ProdList, fs)
 	set.SetNo = 0
 	prod := g.SyntaxPart.ProdList[0]
-	set.AddItem(NewItem(0, prod, 0, "$"))
+	set.AddItem(NewItem(0, prod, 0, ast.EofSymbol))
 	return set
 }

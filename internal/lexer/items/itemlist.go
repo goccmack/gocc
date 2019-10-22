@@ -19,12 +19,26 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/lexer/symbols"
+	"github.com/maxcalandrelli/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/lexer/symbols"
 )
 
 // Each Itemset element is a ItemList
 type ItemList []*Item
+
+func (l ItemList) Len() int {
+	return len(l)
+}
+
+func (l ItemList) Less(i, j int) bool {
+	return l[i].String() < l[j].String()
+}
+
+func (l ItemList) Swap(i, j int) {
+	t := l[i]
+	l[i] = l[j]
+	l[j] = t
+}
 
 func NewItemList(len int) ItemList {
 	if len < 8 {
@@ -48,6 +62,7 @@ func (this ItemList) AddNoDuplicate(items ...*Item) ItemList {
 	for _, item := range items {
 		if !newList.Contain(item) {
 			newList = append(newList, item)
+		} else {
 		}
 	}
 	return newList
@@ -58,10 +73,13 @@ See Algorithm: set.Closure() in package doc
 */
 func (this ItemList) Closure(lexPart *ast.LexPart, symbols *symbols.Symbols) ItemList {
 	closure := this
+	trace(-1, "calculating closure of <%s>\n", this)
 	for i := 0; i < len(closure); i++ {
 		expSym := closure[i].ExpectedSymbol()
 		if regDefId, isRegDefId := expSym.(*ast.LexRegDefId); isRegDefId {
-			if !this.ContainShift(expSym.String()) && !symbols.IsImport(regDefId.Id) {
+			dbg(-1, "found regexp %s examining %s; shift found: %t \n", regDefId.Id, closure[i].String(), this.ContainShift(expSym.String()))
+			if (!this.ContainShift(expSym.String()) || (fix_regdef_bug && this.ContainReduce(expSym.String()))) && !symbols.IsImport(regDefId.Id) {
+				dbg(-1, "adding %s to closure with its ε-moves\n", regDefId.Id)
 				closure = closure.AddNoDuplicate(NewItem(regDefId.Id, lexPart, symbols).Emoves()...)
 			}
 		}
@@ -81,6 +99,15 @@ func (this ItemList) Contain(that *Item) bool {
 func (this ItemList) ContainShift(id string) bool {
 	for _, item := range this {
 		if item.Id == id && !item.Reduce() {
+			return true
+		}
+	}
+	return false
+}
+
+func (this ItemList) ContainReduce(id string) bool {
+	for _, item := range this {
+		if item.Id == id && item.Reduce() {
 			return true
 		}
 	}

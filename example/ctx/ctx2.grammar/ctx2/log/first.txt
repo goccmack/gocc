@@ -1,0 +1,12 @@
+Π<S'>: {
+	id
+	μ<calc_0>
+}
+Π<StmtList>: {
+	id
+	μ<calc_0>
+}
+Π<Stmt>: {
+	id
+	μ<calc_0>
+}

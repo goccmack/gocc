@@ -1,0 +1,133 @@
+Item sets:
+S0{
+	!whitespace : ' ' | '\t' | '\n' | • '\r'
+	!whitespace : ' ' | '\t' | • '\n' | '\r'
+	!whitespace : ' ' | • '\t' | '\n' | '\r'
+	!whitespace : • ' ' | '\t' | '\n' | '\r'
+	_x : \u03b1 | (• \u03b2 _digit {_digit})
+	_x : • \u03b1 | (\u03b2 _digit {_digit})
+	id : • _x {_x0 | _x1 | \u03b3}
+}
+Transitions:
+	['\t','\t'] -> S1
+	['\n','\n'] -> S1
+	['\r','\r'] -> S1
+	[' ',' '] -> S1
+	[\u03b1,\u03b1] -> S2
+	[\u03b2,\u03b2] -> S3
+Action: nil
+Symbols classes: {['\t','\t'], ['\n','\n'], ['\r','\r'], [' ',' '], [\u03b1,\u03b1], [\u03b2,\u03b2]}
+
+S1{
+	!whitespace : (' ' | '\t' | '\n' | '\r') •
+}
+Transitions:
+Action: Ignore("!whitespace")
+Symbols classes: {}
+
+S2{
+	_x : (\u03b1 | (\u03b2 _digit {_digit})) •
+	_x0 : • \u03b1
+	_x1 : • \u03b2 _digit {_digit}
+	id : _x {_x0 | _x1 | \u03b3} •
+	id : _x {_x0 | _x1 | • \u03b3}
+	id : _x {_x0 | • _x1 | \u03b3}
+	id : _x {• _x0 | _x1 | \u03b3}
+}
+Transitions:
+	[\u03b1,\u03b1] -> S4
+	[\u03b2,\u03b2] -> S5
+	[\u03b3,\u03b3] -> S6
+Action: Accept("id")
+Symbols classes: {[\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}
+
+S3{
+	_digit : •  '0'-'9'
+	_x : \u03b1 | (\u03b2 • _digit {_digit})
+	id : • _x {_x0 | _x1 | \u03b3}
+}
+Transitions:
+	['0','9'] -> S7
+Action: nil
+Symbols classes: {['0','9']}
+
+S4{
+	_x0 : \u03b1 •
+	_x0 : • \u03b1
+	_x1 : • \u03b2 _digit {_digit}
+	id : _x {_x0 | _x1 | \u03b3} •
+	id : _x {_x0 | _x1 | • \u03b3}
+	id : _x {_x0 | • _x1 | \u03b3}
+	id : _x {• _x0 | _x1 | \u03b3}
+}
+Transitions:
+	[\u03b1,\u03b1] -> S4
+	[\u03b2,\u03b2] -> S5
+	[\u03b3,\u03b3] -> S6
+Action: Accept("id")
+Symbols classes: {[\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}
+
+S5{
+	_digit : •  '0'-'9'
+	_x1 : \u03b2 • _digit {_digit}
+	id : _x {_x0 | • _x1 | \u03b3}
+}
+Transitions:
+	['0','9'] -> S8
+Action: nil
+Symbols classes: {['0','9']}
+
+S6{
+	_x0 : • \u03b1
+	_x1 : • \u03b2 _digit {_digit}
+	id : _x {_x0 | _x1 | \u03b3} •
+	id : _x {_x0 | _x1 | • \u03b3}
+	id : _x {_x0 | • _x1 | \u03b3}
+	id : _x {• _x0 | _x1 | \u03b3}
+}
+Transitions:
+	[\u03b1,\u03b1] -> S4
+	[\u03b2,\u03b2] -> S5
+	[\u03b3,\u03b3] -> S6
+Action: Accept("id")
+Symbols classes: {[\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}
+
+S7{
+	_digit :  '0'-'9' •
+	_digit : •  '0'-'9'
+	_x : (\u03b1 | (\u03b2 _digit {_digit})) •
+	_x : \u03b1 | (\u03b2 _digit {• _digit})
+	_x0 : • \u03b1
+	_x1 : • \u03b2 _digit {_digit}
+	id : _x {_x0 | _x1 | \u03b3} •
+	id : _x {_x0 | _x1 | • \u03b3}
+	id : _x {_x0 | • _x1 | \u03b3}
+	id : _x {• _x0 | _x1 | \u03b3}
+	id : • _x {_x0 | _x1 | \u03b3}
+}
+Transitions:
+	['0','9'] -> S7
+	[\u03b1,\u03b1] -> S4
+	[\u03b2,\u03b2] -> S5
+	[\u03b3,\u03b3] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], [\u03b1,\u03b1], [\u03b2,\u03b2], [\u03b3,\u03b3]}
+
+S8{
+	_digit :  '0'-'9' •
+	_digit : •  '0'-'9'
+	_x0 : • \u03b1
+	_x1 : \u03b2 _digit {_digit} •
+	_x1 : \u03b2 _digit {• _digit}
+	id : _x {_x0 | _x1 | \u03b3} •
+	id : _x {_x0 | _x1 | • \u03b3}
+	id : _x {_x0 | • _x1 | \u03b3}
+	id : _x {• _x0 | _x1 | \u03b3}
+}
+Transitions:
+	['0','9'] -> S8
+	[\u03b1,\u03b1] -> S4
+	[\u03b3,\u03b3] -> S6
+Action: Accept("id")
+Symbols classes: {['0','9'], [\u03b1,\u03b1], [\u03b3,\u03b3]}
+

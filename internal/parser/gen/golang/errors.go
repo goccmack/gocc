@@ -18,19 +18,19 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
+	"github.com/maxcalandrelli/gocc/internal/io"
 )
 
-func GenErrors(pkg, outDir string) {
+func GenErrors(pkg, outDir, subpath string) {
 	tmpl, err := template.New("parser errors").Parse(errorsSrc[1:])
 	if err != nil {
 		panic(err)
 	}
 	wr := new(bytes.Buffer)
-	if err := tmpl.Execute(wr, path.Join(pkg, "token")); err != nil {
+	if err := tmpl.Execute(wr, path.Join(pkg, subpath, "token")); err != nil {
 		panic(err)
 	}
-	io.WriteFile(path.Join(outDir, "errors", "errors.go"), wr.Bytes())
+	io.WriteFile(path.Join(outDir, subpath, "errors", "errors.go"), wr.Bytes())
 }
 
 const errorsSrc = `

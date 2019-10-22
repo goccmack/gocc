@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
+	"github.com/maxcalandrelli/gocc/internal/ast"
 )
 
 // set is kept sorted
@@ -37,9 +37,17 @@ func NewDisjunctRangeSet() *DisjunctRangeSet {
 func (this *DisjunctRangeSet) AddLexTNode(sym ast.LexTNode) {
 	switch s := sym.(type) {
 	case *ast.LexCharRange:
-		this.AddRange(s.From.Val, s.To.Val)
+		if s.Negate {
+			this.SubtractRange(s.From.Val, s.To.Val)
+		} else {
+			this.AddRange(s.From.Val, s.To.Val)
+		}
 	case *ast.LexCharLit:
-		this.AddRange(s.Val, s.Val)
+		if s.Negate {
+			this.SubtractRange(s.Val, s.Val)
+		} else {
+			this.AddRange(s.Val, s.Val)
+		}
 	case *ast.LexDot:
 		this.MatchAny = true
 	case *ast.LexRegDefId:
@@ -126,6 +134,46 @@ func (this *DisjunctRangeSet) AddRange(from, to rune) {
 	}
 	if from <= to {
 		this.set = append(this.set, CharRange{from, to})
+	}
+}
+
+func (this *DisjunctRangeSet) subtractRange(index int, from, to rune) int {
+	if index < len(this.set) {
+		rng := this.set[index]
+		if to >= from && to >= rng.From {
+			if from > rng.To || to < rng.From {
+				return index + 1
+			}
+			if from < rng.From {
+				return this.subtractRange(index, rng.From, to)
+			}
+			if to > rng.To {
+				return this.subtractRange(this.subtractRange(index, from, rng.To), rng.To+1, to)
+			}
+			//
+			//  from >= rng.to && to <= rng.to
+			//
+			switch {
+			case from == rng.From && to == rng.To:
+				copy(this.set[index:], this.set[index+1:])
+				this.set = this.set[:len(this.set)-1]
+				return index
+			case from == rng.From:
+				this.set[index].From = to + 1
+			case to == rng.To:
+				this.set[index].To = from - 1
+			default:
+				this.set[index].From = this.set[index].From
+				this.set[index].To = from - 1
+				this.AddRange(to+1, rng.To)
+			}
+		}
+	}
+	return len(this.set)
+}
+
+func (this *DisjunctRangeSet) SubtractRange(from, to rune) {
+	for index := 0; index < len(this.set); index = this.subtractRange(index, from, to) {
 	}
 }
 

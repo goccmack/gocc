@@ -14,20 +14,30 @@
 
 package token
 
+import (
+	"github.com/maxcalandrelli/gocc/internal/ast"
+)
+
 type TokenMap struct {
 	IdMap   map[string]int
-	TypeMap []string
+	TypeMap []ast.SyntaxSymbol
+	LitMap  map[int]string
 }
 
-func NewTokenMap(symbols []string) *TokenMap {
+func NewTokenMap(symbols ast.SyntaxSymbols) *TokenMap {
 	tm := &TokenMap{
 		IdMap:   make(map[string]int),
-		TypeMap: make([]string, len(symbols)),
+		TypeMap: make([]ast.SyntaxSymbol, len(symbols)),
+		LitMap:  make(map[int]string),
 	}
 
 	for i, sym := range symbols {
-		tm.IdMap[sym] = i
+		tm.IdMap[sym.SymbolName()] = i
 		tm.TypeMap[i] = sym
+		switch lit := sym.(type) {
+		case ast.SyntaxStringLit:
+			tm.LitMap[i] = lit.SymbolString()
+		}
 	}
 	return tm
 }
