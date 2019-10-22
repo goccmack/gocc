@@ -217,7 +217,7 @@ func main() {
 	}
 
 	config.CurrentConfiguration = cfg
-  
+
 	var (
 		grammar interface{}
 	)
@@ -270,23 +270,6 @@ func main() {
 	genUtil.Gen(outdir_base, cfg.InternalSubdir())
 	genBase.Gen(cfg.Package(), outdir_base, cfg.InternalSubdir(), outdir_iface, cfg, hasSyntax)
 	genIo.Gen(cfg.Package(), outdir_base, cfg.InternalSubdir())
-}
-
-func getSource(cfg config.Config) []byte {
-	if strings.HasSuffix(cfg.SourceFile(), ".md") {
-		str, err := md.GetSource(cfg.SourceFile())
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		return []byte(str)
-	}
-	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	return srcBuffer
 }
 
 func usage() {
