@@ -3,17 +3,17 @@
 package parser
 
 import (
-	"github.com/maxcalandrelli/gocc/internal/ast"
-)
-
-// now a > b should work...
-
-import (
 	"fmt"
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token"
 	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/util"
 	"strings"
 )
+
+import (
+	"github.com/maxcalandrelli/gocc/internal/ast"
+)
+
+// now a > b should work...
 
 func getString(X Attrib) string {
 	switch X.(type) {
@@ -439,10 +439,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
+		String: `SyntaxBody : Π<EpsilonSymbol> g_sdt_lit	<< ast.NewEmptyBodyGen() >>`,
+		Id:         "SyntaxBody",
+		NTType:     13,
+		Index:      38,
+		NumSymbols: 2,
+		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
+			return ast.NewEmptyBodyGen()
+		},
+	},
+	ProdTabEntry{
 		String: `Symbols : Π<Symbol>	<< ast.NewSyntaxSymbols($0) >>`,
 		Id:         "Symbols",
 		NTType:     14,
-		Index:      38,
+		Index:      39,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxSymbols(X[0])
@@ -452,7 +462,7 @@ var productionsTable = ProdTab{
 		String: `Symbols : Π<Symbols> Π<Symbol>	<< ast.AddSyntaxSymbol($0, $1) >>`,
 		Id:         "Symbols",
 		NTType:     14,
-		Index:      39,
+		Index:      40,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.AddSyntaxSymbol(X[0], X[1])
@@ -462,7 +472,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : prodId	<< ast.NewSyntaxProdId($0) >>`,
 		Id:         "Symbol",
 		NTType:     17,
-		Index:      40,
+		Index:      41,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSyntaxProdId(X[0])
@@ -472,7 +482,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : tokId	<< ast.NewTokId($0) >>`,
 		Id:         "Symbol",
 		NTType:     17,
-		Index:      41,
+		Index:      42,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewTokId(X[0])
@@ -482,7 +492,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : string_lit	<< ast.NewStringLit($0) >>`,
 		Id:         "Symbol",
 		NTType:     17,
-		Index:      42,
+		Index:      43,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewStringLit(X[0])
@@ -492,7 +502,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : tokId g_ctxdep_lit	<< ast.NewContextDependentTokId($0,$1) >>`,
 		Id:         "Symbol",
 		NTType:     17,
-		Index:      43,
+		Index:      44,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewContextDependentTokId(X[0], X[1])
@@ -502,7 +512,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : Λ<@> tokId string_lit	<< ast.NewAliasedSubParser($1,$2) >>`,
 		Id:         "Symbol",
 		NTType:     17,
-		Index:      44,
+		Index:      45,
 		NumSymbols: 3,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewAliasedSubParser(X[1], X[2])
@@ -512,7 +522,7 @@ var productionsTable = ProdTab{
 		String: `Symbol : Λ<@> string_lit	<< ast.NewSubParser($1) >>`,
 		Id:         "Symbol",
 		NTType:     17,
-		Index:      45,
+		Index:      46,
 		NumSymbols: 2,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return ast.NewSubParser(X[1])
@@ -522,7 +532,7 @@ var productionsTable = ProdTab{
 		String: `ErrorSymbol : Λ<error>	<<  >>`,
 		Id:         "ErrorSymbol",
 		NTType:     15,
-		Index:      46,
+		Index:      47,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -532,7 +542,7 @@ var productionsTable = ProdTab{
 		String: `ErrorSymbol : Λ<λ>	<<  >>`,
 		Id:         "ErrorSymbol",
 		NTType:     15,
-		Index:      47,
+		Index:      48,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -542,7 +552,7 @@ var productionsTable = ProdTab{
 		String: `EpsilonSymbol : Λ<empty>	<<  >>`,
 		Id:         "EpsilonSymbol",
 		NTType:     16,
-		Index:      48,
+		Index:      49,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil
@@ -552,7 +562,7 @@ var productionsTable = ProdTab{
 		String: `EpsilonSymbol : Λ<ε>	<<  >>`,
 		Id:         "EpsilonSymbol",
 		NTType:     16,
-		Index:      49,
+		Index:      50,
 		NumSymbols: 1,
 		ReduceFunc: func(Context interface{}, X []Attrib) (Attrib, error) {
 			return X[0], nil

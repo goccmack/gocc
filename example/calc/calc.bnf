@@ -2,7 +2,7 @@
 
 _digit : '0'-'9' ;
 
-int64 : '1'-'9' {_digit} ;
+int64 : '0'-'9' {_digit} ;
 
 !whitespace : ' ' | '\t' | '\n' | '\r' ;
 

@@ -141,14 +141,15 @@ const prodsTabSrc = `
 
 package parser
 
-{{.Header}}
-
 import (
+
   "fmt"
   "strings"
   "{{.Config.Package}}/{{.InternalDir}}/token"
   "{{.Config.Package}}/{{.InternalDir}}/util"
 )
+
+{{.Header}}
 
 func getString(X Attrib) string {
   switch X.(type) {

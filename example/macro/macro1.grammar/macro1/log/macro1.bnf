@@ -1,0 +1,47 @@
+!whitespace : ' ' | '\t' | '\n' | '\r' ;
+_digit : '0'-'9' ;
+_letter : 'a'-'z' | 'A'-'Z' | ( '\\' 'u' _hex { _hex } ) ;
+_hex : _digit | ( 'a'-'f' ) | ('A' - 'F') ;
+_idchar : _letter | _digit | '_';
+_x0 : 'α' ;
+_x1 : 'β' _digit { _digit } ;
+_x : 'α' | ( 'β' _digit { _digit } );
+id:
+    _x { _x0 | _x1 | 'γ' }
+;
+<<
+func first_one(x string) []string {
+  fmt.Printf("start with this this one: %s\n", x)
+  return []string{x}
+}
+func add_one(c []string, x string) []string {
+  fmt.Printf("add to %q that %s\n", c, x)
+  return append([]string{x},c...)
+}
+func summary(v interface{}) string {
+  return fmt.Sprintf("ok, so we got <%q> as a final result.\n", v)
+}
+func definition(deftype, defname string, defval int64) (interface{}, error) {
+  fmt.Printf("Definition of variable <%s> with '%s' as %d\n", defname, deftype, defval)
+  return fmt.Sprintf("%s <- %d", defname, defval), nil
+}
+>>
+StmtList :
+    Stmt_s
+      <<
+        func() (interface{}, error) {fmt.Printf("%s", summary($0)); return 42, nil}()
+      >>
+;
+Stmt_s : Stmt << first_one($0.(string)),nil >> | Stmt_s ";" Stmt << add_one($0.([]string),$2.(string)),nil >>;
+StmtPref:
+        "let"| "define"
+;
+Stmt :
+    StmtPref
+    id
+    "="
+    @ "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
+      <<
+        definition($0s,$1s,$4.(int64))
+      >>
+;

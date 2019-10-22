@@ -27,11 +27,11 @@ import (
 )
 
 const (
-	VERSION = "2.1.0001"
+	VERSION = "2.1.1001"
 
 	INTERNAL_SYMBOL_EMPTY   = "ε"
-	INTERNAL_SYMBOL_ERROR   = "λ"       // (λάθος)
-	INTERNAL_SYMBOL_INVALID = "INVALID" // (άκυρος)
+	INTERNAL_SYMBOL_ERROR   = "λ"
+	INTERNAL_SYMBOL_INVALID = "INVALID"
 	INTERNAL_SYMBOL_EOF     = "Ω"
 	INTERNAL_SYMBOL_PROD    = "Π"
 	INTERNAL_SYMBOL_LIT     = "Λ"
@@ -64,6 +64,7 @@ type (
 
 		ProjectName() string
 		Package() string
+		PreProcessor() string
 
 		PrintParams()
 
@@ -88,6 +89,7 @@ type (
 		internal          string
 		verbose           *bool
 		bug_options       bugOptions
+		preprocessor      string
 	}
 )
 
@@ -227,6 +229,10 @@ func (this *ConfigRecord) Package() string {
 	return this.pkg
 }
 
+func (this *ConfigRecord) PreProcessor() string {
+	return this.preprocessor
+}
+
 func (this *ConfigRecord) ProjectName() string {
 	_, file := path.Split(this.srcFile)
 	file = file[:len(file)-len(path.Ext(file))]
@@ -255,6 +261,7 @@ func (this *ConfigRecord) PrintParams() {
 	fmt.Printf("-v             = %v\n", *this.verbose)
 	fmt.Printf("-internal      = %v\n", this.internal)
 	fmt.Printf("-bugs          = %v\n", this.bug_options.String())
+	fmt.Printf("-preprocessor  = %v\n", this.preprocessor)
 }
 
 /*** Utility routines ***/
@@ -296,6 +303,7 @@ func (this *ConfigRecord) getFlags() error {
 	flag.StringVar(&this.outDir, "o", path.Join(this.workingDir, "@f.grammar", "@f"), "output directory format (@f='name' if input file is 'name.bnf')")
 	flag.StringVar(&this.pkg, "p", "", "package, empty defaults to "+defaultPackage(this.outDir))
 	flag.StringVar(&this.internal, "internal", "internal", "internal subdir name")
+	flag.StringVar(&this.preprocessor, "preprocessor", "none", "preprocessor: 'none','internal', or any command string with placeholders @in and @out")
 	flag.Var(this.bug_options, "bugs", "handle bugs in original implementation (default: fix all)"+bugsHelp("  "))
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")

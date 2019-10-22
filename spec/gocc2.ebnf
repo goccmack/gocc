@@ -276,6 +276,9 @@ SyntaxBody :
 	|
 		EpsilonSymbol
 			<< ast.NewEmptyBodyGen() >>
+	|
+		EpsilonSymbol g_sdt_lit
+			<< ast.NewEmptyBodyGen() >>
 ;
 
 Symbols :

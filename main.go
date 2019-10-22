@@ -180,6 +180,8 @@ import (
 	"path"
 	"strings"
 
+	"github.com/maxcalandrelli/gocc/internal/macro"
+
 	"github.com/maxcalandrelli/gocc/internal/ast"
 	genBase "github.com/maxcalandrelli/gocc/internal/base/gen"
 	"github.com/maxcalandrelli/gocc/internal/config"
@@ -222,15 +224,25 @@ func main() {
 		grammar interface{}
 	)
 	ast.StringGetter = func(v interface{}) string { return string(v.(*altfe.Token).Lit) }
-	grammar, err = altfe.ParseFile(cfg.SourceFile())
-	if err != nil {
-		fmt.Printf("Parse error: %s\n", err)
-		os.Exit(1)
-	}
 
 	outdir_base := cfg.OutDir()
 	outdir_log := path.Join(outdir_base, "log")
 	outdir_iface := path.Join("iface")
+
+	source := cfg.SourceFile()
+	if cfg.PreProcessor() != "none" {
+		tmpsrc := path.Join(outdir_log, path.Base(source))
+		if err := macro.PreProcess(cfg.PreProcessor(), source, tmpsrc); err != nil {
+			fmt.Printf("Preprocessing error: %s\n", err.Error())
+			os.Exit(1)
+		}
+		source = tmpsrc
+	}
+	grammar, err = altfe.ParseFile(source)
+	if err != nil {
+		fmt.Printf("Parse error: %s\n", err)
+		os.Exit(1)
+	}
 	g := grammar.(*ast.Grammar)
 
 	gSymbols := symbols.NewSymbols(g)

@@ -647,6 +647,7 @@ S21{
 	SyntaxBody : •Π<ErrorSymbol> Π<Symbols> g_sdt_lit «";"»
 	SyntaxBody : •Π<ErrorSymbol> g_sdt_lit «";"»
 	SyntaxBody : •Π<EpsilonSymbol> «";"»
+	SyntaxBody : •Π<EpsilonSymbol> g_sdt_lit «";"»
 	Alternatives : •Π<SyntaxBody> «"|"»
 	Alternatives : •Π<Alternatives> Λ<|> Π<SyntaxBody> «"|"»
 	Symbols : •Π<Symbol> «";"»
@@ -667,6 +668,8 @@ S21{
 	ErrorSymbol : •Λ<λ> «g_sdt_lit»
 	EpsilonSymbol : •Λ<empty> «";"»
 	EpsilonSymbol : •Λ<ε> «";"»
+	EpsilonSymbol : •Λ<empty> «g_sdt_lit»
+	EpsilonSymbol : •Λ<ε> «g_sdt_lit»
 	SyntaxBody : •Π<Symbols> «"|"»
 	SyntaxBody : •Π<Symbols> g_sdt_lit «"|"»
 	SyntaxBody : •Π<ErrorSymbol> «"|"»
@@ -674,6 +677,7 @@ S21{
 	SyntaxBody : •Π<ErrorSymbol> Π<Symbols> g_sdt_lit «"|"»
 	SyntaxBody : •Π<ErrorSymbol> g_sdt_lit «"|"»
 	SyntaxBody : •Π<EpsilonSymbol> «"|"»
+	SyntaxBody : •Π<EpsilonSymbol> g_sdt_lit «"|"»
 	Symbol : •prodId «";"»
 	Symbol : •tokId «";"»
 	Symbol : •string_lit «";"»
@@ -1530,9 +1534,12 @@ Transitions:
 
 S38{
 	SyntaxBody : Π<EpsilonSymbol>• «";"»
+	SyntaxBody : Π<EpsilonSymbol> •g_sdt_lit «";"»
 	SyntaxBody : Π<EpsilonSymbol>• «"|"»
+	SyntaxBody : Π<EpsilonSymbol> •g_sdt_lit «"|"»
 }
 Transitions:
+	g_sdt_lit -> 92
 
 
 S39{
@@ -1564,7 +1571,7 @@ S40{
 	Symbol : tokId •g_ctxdep_lit «"|"»
 }
 Transitions:
-	g_ctxdep_lit -> 92
+	g_ctxdep_lit -> 93
 
 
 S41{
@@ -1608,8 +1615,8 @@ S43{
 	Symbol : Λ<@> •string_lit «"|"»
 }
 Transitions:
-	tokId -> 93
-	string_lit -> 94
+	tokId -> 94
+	string_lit -> 95
 
 
 S44{
@@ -1638,6 +1645,7 @@ Transitions:
 
 S46{
 	EpsilonSymbol : Λ<empty>• «";"»
+	EpsilonSymbol : Λ<empty>• «g_sdt_lit»
 	EpsilonSymbol : Λ<empty>• «"|"»
 }
 Transitions:
@@ -1645,6 +1653,7 @@ Transitions:
 
 S47{
 	EpsilonSymbol : Λ<ε>• «";"»
+	EpsilonSymbol : Λ<ε>• «g_sdt_lit»
 	EpsilonSymbol : Λ<ε>• «"|"»
 }
 Transitions:
@@ -1773,7 +1782,7 @@ Transitions:
 	Λ<(> -> 29
 	Λ<[> -> 30
 	Λ<{> -> 31
-	Π<LexAlt> -> 95
+	Π<LexAlt> -> 96
 
 
 S50{
@@ -1802,7 +1811,7 @@ S51{
 	LexTerm : char_lit Λ<-> •char_lit «"|"»
 }
 Transitions:
-	char_lit -> 96
+	char_lit -> 97
 
 
 S52{
@@ -1831,7 +1840,7 @@ S53{
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 97
+	char_lit -> 98
 
 
 S54{
@@ -1848,8 +1857,8 @@ S54{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 98
-	Λ<)> -> 99
+	Λ<|> -> 99
+	Λ<)> -> 100
 
 
 S55{
@@ -1954,7 +1963,7 @@ Transitions:
 	Λ<(> -> 61
 	Λ<[> -> 62
 	Λ<{> -> 63
-	Π<LexTerm> -> 100
+	Π<LexTerm> -> 101
 
 
 S56{
@@ -2020,7 +2029,7 @@ S59{
 	LexTerm : char_lit •Λ<-> char_lit «"|"»
 }
 Transitions:
-	Λ<-> -> 101
+	Λ<-> -> 102
 
 
 S60{
@@ -2044,8 +2053,8 @@ S60{
 	LexTerm : Λ<~> •Λ<(> char_lit Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 102
-	Λ<(> -> 103
+	char_lit -> 103
+	Λ<(> -> 104
 
 
 S61{
@@ -2172,7 +2181,7 @@ Transitions:
 	Λ<(> -> 61
 	Λ<[> -> 62
 	Λ<{> -> 63
-	Π<LexPattern> -> 104
+	Π<LexPattern> -> 105
 
 
 S62{
@@ -2299,7 +2308,7 @@ Transitions:
 	Λ<(> -> 71
 	Λ<[> -> 72
 	Λ<{> -> 73
-	Π<LexPattern> -> 105
+	Π<LexPattern> -> 106
 
 
 S63{
@@ -2426,7 +2435,7 @@ Transitions:
 	Λ<(> -> 81
 	Λ<[> -> 82
 	Λ<{> -> 83
-	Π<LexPattern> -> 106
+	Π<LexPattern> -> 107
 
 
 S64{
@@ -2443,8 +2452,8 @@ S64{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 107
-	Λ<]> -> 108
+	Λ<|> -> 108
+	Λ<]> -> 109
 
 
 S65{
@@ -2549,7 +2558,7 @@ Transitions:
 	Λ<(> -> 71
 	Λ<[> -> 72
 	Λ<{> -> 73
-	Π<LexTerm> -> 109
+	Π<LexTerm> -> 110
 
 
 S66{
@@ -2615,7 +2624,7 @@ S69{
 	LexTerm : char_lit •Λ<-> char_lit «"|"»
 }
 Transitions:
-	Λ<-> -> 110
+	Λ<-> -> 111
 
 
 S70{
@@ -2639,8 +2648,8 @@ S70{
 	LexTerm : Λ<~> •Λ<(> char_lit Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 111
-	Λ<(> -> 112
+	char_lit -> 112
+	Λ<(> -> 113
 
 
 S71{
@@ -2767,7 +2776,7 @@ Transitions:
 	Λ<(> -> 61
 	Λ<[> -> 62
 	Λ<{> -> 63
-	Π<LexPattern> -> 113
+	Π<LexPattern> -> 114
 
 
 S72{
@@ -2894,7 +2903,7 @@ Transitions:
 	Λ<(> -> 71
 	Λ<[> -> 72
 	Λ<{> -> 73
-	Π<LexPattern> -> 114
+	Π<LexPattern> -> 115
 
 
 S73{
@@ -3021,7 +3030,7 @@ Transitions:
 	Λ<(> -> 81
 	Λ<[> -> 82
 	Λ<{> -> 83
-	Π<LexPattern> -> 115
+	Π<LexPattern> -> 116
 
 
 S74{
@@ -3038,8 +3047,8 @@ S74{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 116
-	Λ<}> -> 117
+	Λ<|> -> 117
+	Λ<}> -> 118
 
 
 S75{
@@ -3144,7 +3153,7 @@ Transitions:
 	Λ<(> -> 81
 	Λ<[> -> 82
 	Λ<{> -> 83
-	Π<LexTerm> -> 118
+	Π<LexTerm> -> 119
 
 
 S76{
@@ -3210,7 +3219,7 @@ S79{
 	LexTerm : char_lit •Λ<-> char_lit «"|"»
 }
 Transitions:
-	Λ<-> -> 119
+	Λ<-> -> 120
 
 
 S80{
@@ -3234,8 +3243,8 @@ S80{
 	LexTerm : Λ<~> •Λ<(> char_lit Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 120
-	Λ<(> -> 121
+	char_lit -> 121
+	Λ<(> -> 122
 
 
 S81{
@@ -3362,7 +3371,7 @@ Transitions:
 	Λ<(> -> 61
 	Λ<[> -> 62
 	Λ<{> -> 63
-	Π<LexPattern> -> 122
+	Π<LexPattern> -> 123
 
 
 S82{
@@ -3489,7 +3498,7 @@ Transitions:
 	Λ<(> -> 71
 	Λ<[> -> 72
 	Λ<{> -> 73
-	Π<LexPattern> -> 123
+	Π<LexPattern> -> 124
 
 
 S83{
@@ -3616,7 +3625,7 @@ Transitions:
 	Λ<(> -> 81
 	Λ<[> -> 82
 	Λ<{> -> 83
-	Π<LexPattern> -> 124
+	Π<LexPattern> -> 125
 
 
 S84{
@@ -3658,6 +3667,7 @@ S87{
 	SyntaxBody : •Π<ErrorSymbol> Π<Symbols> g_sdt_lit «";"»
 	SyntaxBody : •Π<ErrorSymbol> g_sdt_lit «";"»
 	SyntaxBody : •Π<EpsilonSymbol> «";"»
+	SyntaxBody : •Π<EpsilonSymbol> g_sdt_lit «";"»
 	SyntaxBody : •Π<Symbols> «"|"»
 	SyntaxBody : •Π<Symbols> g_sdt_lit «"|"»
 	SyntaxBody : •Π<ErrorSymbol> «"|"»
@@ -3665,6 +3675,7 @@ S87{
 	SyntaxBody : •Π<ErrorSymbol> Π<Symbols> g_sdt_lit «"|"»
 	SyntaxBody : •Π<ErrorSymbol> g_sdt_lit «"|"»
 	SyntaxBody : •Π<EpsilonSymbol> «"|"»
+	SyntaxBody : •Π<EpsilonSymbol> g_sdt_lit «"|"»
 	Symbols : •Π<Symbol> «";"»
 	Symbols : •Π<Symbols> Π<Symbol> «";"»
 	Symbols : •Π<Symbol> «g_sdt_lit»
@@ -3683,6 +3694,8 @@ S87{
 	ErrorSymbol : •Λ<λ> «g_sdt_lit»
 	EpsilonSymbol : •Λ<empty> «";"»
 	EpsilonSymbol : •Λ<ε> «";"»
+	EpsilonSymbol : •Λ<empty> «g_sdt_lit»
+	EpsilonSymbol : •Λ<ε> «g_sdt_lit»
 	Symbols : •Π<Symbol> «"|"»
 	Symbols : •Π<Symbols> Π<Symbol> «"|"»
 	ErrorSymbol : •Λ<error> «"|"»
@@ -3753,7 +3766,7 @@ Transitions:
 	Λ<λ> -> 45
 	Λ<empty> -> 46
 	Λ<ε> -> 47
-	Π<SyntaxBody> -> 125
+	Π<SyntaxBody> -> 126
 
 
 S88{
@@ -3836,7 +3849,7 @@ Transitions:
 	string_lit -> 42
 	Λ<@> -> 43
 	Π<Symbol> -> 88
-	g_sdt_lit -> 126
+	g_sdt_lit -> 127
 
 
 S91{
@@ -3847,6 +3860,13 @@ Transitions:
 
 
 S92{
+	SyntaxBody : Π<EpsilonSymbol> g_sdt_lit• «";"»
+	SyntaxBody : Π<EpsilonSymbol> g_sdt_lit• «"|"»
+}
+Transitions:
+
+
+S93{
 	Symbol : tokId g_ctxdep_lit• «";"»
 	Symbol : tokId g_ctxdep_lit• «g_sdt_lit»
 	Symbol : tokId g_ctxdep_lit• «"@"»
@@ -3858,7 +3878,7 @@ S92{
 Transitions:
 
 
-S93{
+S94{
 	Symbol : Λ<@> tokId •string_lit «";"»
 	Symbol : Λ<@> tokId •string_lit «g_sdt_lit»
 	Symbol : Λ<@> tokId •string_lit «"@"»
@@ -3868,10 +3888,10 @@ S93{
 	Symbol : Λ<@> tokId •string_lit «"|"»
 }
 Transitions:
-	string_lit -> 127
+	string_lit -> 128
 
 
-S94{
+S95{
 	Symbol : Λ<@> string_lit• «";"»
 	Symbol : Λ<@> string_lit• «g_sdt_lit»
 	Symbol : Λ<@> string_lit• «"@"»
@@ -3883,7 +3903,7 @@ S94{
 Transitions:
 
 
-S95{
+S96{
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «";"»
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «"|"»
 	LexAlt : Π<LexAlt> •Π<LexTerm> «";"»
@@ -3988,7 +4008,7 @@ Transitions:
 	Π<LexTerm> -> 50
 
 
-S96{
+S97{
 	LexTerm : char_lit Λ<-> char_lit• «";"»
 	LexTerm : char_lit Λ<-> char_lit• «"("»
 	LexTerm : char_lit Λ<-> char_lit• «"."»
@@ -4002,7 +4022,7 @@ S96{
 Transitions:
 
 
-S97{
+S98{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «";"»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"."»
@@ -4014,10 +4034,10 @@ S97{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	Λ<-> -> 128
+	Λ<-> -> 129
 
 
-S98{
+S99{
 	LexPattern : Π<LexPattern> Λ<|> •Π<LexAlt> «")"»
 	LexPattern : Π<LexPattern> Λ<|> •Π<LexAlt> «"|"»
 	LexAlt : •Π<LexTerm> «")"»
@@ -4129,10 +4149,10 @@ Transitions:
 	Λ<(> -> 61
 	Λ<[> -> 62
 	Λ<{> -> 63
-	Π<LexAlt> -> 129
+	Π<LexAlt> -> 130
 
 
-S99{
+S100{
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «";"»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"("»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"."»
@@ -4146,7 +4166,7 @@ S99{
 Transitions:
 
 
-S100{
+S101{
 	LexAlt : Π<LexAlt> Π<LexTerm>• «")"»
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"("»
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"."»
@@ -4160,7 +4180,7 @@ S100{
 Transitions:
 
 
-S101{
+S102{
 	LexTerm : char_lit Λ<-> •char_lit «")"»
 	LexTerm : char_lit Λ<-> •char_lit «"("»
 	LexTerm : char_lit Λ<-> •char_lit «"."»
@@ -4172,10 +4192,10 @@ S101{
 	LexTerm : char_lit Λ<-> •char_lit «"|"»
 }
 Transitions:
-	char_lit -> 130
+	char_lit -> 131
 
 
-S102{
+S103{
 	LexTerm : Λ<~> char_lit• «")"»
 	LexTerm : Λ<~> char_lit• «"("»
 	LexTerm : Λ<~> char_lit• «"."»
@@ -4189,7 +4209,7 @@ S102{
 Transitions:
 
 
-S103{
+S104{
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «")"»
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"."»
@@ -4201,10 +4221,10 @@ S103{
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 131
+	char_lit -> 132
 
 
-S104{
+S105{
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «")"»
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"("»
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"."»
@@ -4218,11 +4238,11 @@ S104{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 98
-	Λ<)> -> 132
+	Λ<|> -> 99
+	Λ<)> -> 133
 
 
-S105{
+S106{
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «")"»
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"("»
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"."»
@@ -4236,11 +4256,11 @@ S105{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 107
-	Λ<]> -> 133
+	Λ<|> -> 108
+	Λ<]> -> 134
 
 
-S106{
+S107{
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «")"»
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"("»
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"."»
@@ -4254,11 +4274,11 @@ S106{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 116
-	Λ<}> -> 134
+	Λ<|> -> 117
+	Λ<}> -> 135
 
 
-S107{
+S108{
 	LexPattern : Π<LexPattern> Λ<|> •Π<LexAlt> «"]"»
 	LexPattern : Π<LexPattern> Λ<|> •Π<LexAlt> «"|"»
 	LexAlt : •Π<LexTerm> «"]"»
@@ -4370,10 +4390,10 @@ Transitions:
 	Λ<(> -> 71
 	Λ<[> -> 72
 	Λ<{> -> 73
-	Π<LexAlt> -> 135
+	Π<LexAlt> -> 136
 
 
-S108{
+S109{
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «";"»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"("»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"."»
@@ -4387,7 +4407,7 @@ S108{
 Transitions:
 
 
-S109{
+S110{
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"]"»
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"("»
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"."»
@@ -4401,7 +4421,7 @@ S109{
 Transitions:
 
 
-S110{
+S111{
 	LexTerm : char_lit Λ<-> •char_lit «"]"»
 	LexTerm : char_lit Λ<-> •char_lit «"("»
 	LexTerm : char_lit Λ<-> •char_lit «"."»
@@ -4413,10 +4433,10 @@ S110{
 	LexTerm : char_lit Λ<-> •char_lit «"|"»
 }
 Transitions:
-	char_lit -> 136
+	char_lit -> 137
 
 
-S111{
+S112{
 	LexTerm : Λ<~> char_lit• «"]"»
 	LexTerm : Λ<~> char_lit• «"("»
 	LexTerm : Λ<~> char_lit• «"."»
@@ -4430,7 +4450,7 @@ S111{
 Transitions:
 
 
-S112{
+S113{
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"]"»
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"."»
@@ -4442,10 +4462,10 @@ S112{
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 137
+	char_lit -> 138
 
 
-S113{
+S114{
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"]"»
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"("»
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"."»
@@ -4459,11 +4479,11 @@ S113{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 98
-	Λ<)> -> 138
+	Λ<|> -> 99
+	Λ<)> -> 139
 
 
-S114{
+S115{
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"]"»
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"("»
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"."»
@@ -4477,11 +4497,11 @@ S114{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 107
-	Λ<]> -> 139
+	Λ<|> -> 108
+	Λ<]> -> 140
 
 
-S115{
+S116{
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"]"»
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"("»
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"."»
@@ -4495,11 +4515,11 @@ S115{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 116
-	Λ<}> -> 140
+	Λ<|> -> 117
+	Λ<}> -> 141
 
 
-S116{
+S117{
 	LexPattern : Π<LexPattern> Λ<|> •Π<LexAlt> «"}"»
 	LexPattern : Π<LexPattern> Λ<|> •Π<LexAlt> «"|"»
 	LexAlt : •Π<LexTerm> «"}"»
@@ -4611,10 +4631,10 @@ Transitions:
 	Λ<(> -> 81
 	Λ<[> -> 82
 	Λ<{> -> 83
-	Π<LexAlt> -> 141
+	Π<LexAlt> -> 142
 
 
-S117{
+S118{
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «";"»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"("»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"."»
@@ -4628,7 +4648,7 @@ S117{
 Transitions:
 
 
-S118{
+S119{
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"}"»
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"("»
 	LexAlt : Π<LexAlt> Π<LexTerm>• «"."»
@@ -4642,7 +4662,7 @@ S118{
 Transitions:
 
 
-S119{
+S120{
 	LexTerm : char_lit Λ<-> •char_lit «"}"»
 	LexTerm : char_lit Λ<-> •char_lit «"("»
 	LexTerm : char_lit Λ<-> •char_lit «"."»
@@ -4654,10 +4674,10 @@ S119{
 	LexTerm : char_lit Λ<-> •char_lit «"|"»
 }
 Transitions:
-	char_lit -> 142
+	char_lit -> 143
 
 
-S120{
+S121{
 	LexTerm : Λ<~> char_lit• «"}"»
 	LexTerm : Λ<~> char_lit• «"("»
 	LexTerm : Λ<~> char_lit• «"."»
@@ -4671,7 +4691,7 @@ S120{
 Transitions:
 
 
-S121{
+S122{
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"}"»
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"."»
@@ -4683,10 +4703,10 @@ S121{
 	LexTerm : Λ<~> Λ<(> •char_lit Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 143
+	char_lit -> 144
 
 
-S122{
+S123{
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"}"»
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"("»
 	LexTerm : Λ<(> Π<LexPattern> •Λ<)> «"."»
@@ -4700,11 +4720,11 @@ S122{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 98
-	Λ<)> -> 144
+	Λ<|> -> 99
+	Λ<)> -> 145
 
 
-S123{
+S124{
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"}"»
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"("»
 	LexTerm : Λ<[> Π<LexPattern> •Λ<]> «"."»
@@ -4718,11 +4738,11 @@ S123{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 107
-	Λ<]> -> 145
+	Λ<|> -> 108
+	Λ<]> -> 146
 
 
-S124{
+S125{
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"}"»
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"("»
 	LexTerm : Λ<{> Π<LexPattern> •Λ<}> «"."»
@@ -4736,25 +4756,25 @@ S124{
 	LexPattern : Π<LexPattern> •Λ<|> Π<LexAlt> «"|"»
 }
 Transitions:
-	Λ<|> -> 116
-	Λ<}> -> 146
+	Λ<|> -> 117
+	Λ<}> -> 147
 
 
-S125{
+S126{
 	Alternatives : Π<Alternatives> Λ<|> Π<SyntaxBody>• «";"»
 	Alternatives : Π<Alternatives> Λ<|> Π<SyntaxBody>• «"|"»
 }
 Transitions:
 
 
-S126{
+S127{
 	SyntaxBody : Π<ErrorSymbol> Π<Symbols> g_sdt_lit• «";"»
 	SyntaxBody : Π<ErrorSymbol> Π<Symbols> g_sdt_lit• «"|"»
 }
 Transitions:
 
 
-S127{
+S128{
 	Symbol : Λ<@> tokId string_lit• «";"»
 	Symbol : Λ<@> tokId string_lit• «g_sdt_lit»
 	Symbol : Λ<@> tokId string_lit• «"@"»
@@ -4766,7 +4786,7 @@ S127{
 Transitions:
 
 
-S128{
+S129{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «";"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"."»
@@ -4778,10 +4798,10 @@ S128{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"|"»
 }
 Transitions:
-	char_lit -> 147
+	char_lit -> 148
 
 
-S129{
+S130{
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «")"»
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «"|"»
 	LexAlt : Π<LexAlt> •Π<LexTerm> «")"»
@@ -4883,10 +4903,10 @@ Transitions:
 	Λ<(> -> 61
 	Λ<[> -> 62
 	Λ<{> -> 63
-	Π<LexTerm> -> 100
+	Π<LexTerm> -> 101
 
 
-S130{
+S131{
 	LexTerm : char_lit Λ<-> char_lit• «")"»
 	LexTerm : char_lit Λ<-> char_lit• «"("»
 	LexTerm : char_lit Λ<-> char_lit• «"."»
@@ -4900,7 +4920,7 @@ S130{
 Transitions:
 
 
-S131{
+S132{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «")"»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"."»
@@ -4912,10 +4932,10 @@ S131{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	Λ<-> -> 148
+	Λ<-> -> 149
 
 
-S132{
+S133{
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «")"»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"("»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"."»
@@ -4929,7 +4949,7 @@ S132{
 Transitions:
 
 
-S133{
+S134{
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «")"»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"("»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"."»
@@ -4943,7 +4963,7 @@ S133{
 Transitions:
 
 
-S134{
+S135{
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «")"»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"("»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"."»
@@ -4957,7 +4977,7 @@ S134{
 Transitions:
 
 
-S135{
+S136{
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «"]"»
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «"|"»
 	LexAlt : Π<LexAlt> •Π<LexTerm> «"]"»
@@ -5059,10 +5079,10 @@ Transitions:
 	Λ<(> -> 71
 	Λ<[> -> 72
 	Λ<{> -> 73
-	Π<LexTerm> -> 109
+	Π<LexTerm> -> 110
 
 
-S136{
+S137{
 	LexTerm : char_lit Λ<-> char_lit• «"]"»
 	LexTerm : char_lit Λ<-> char_lit• «"("»
 	LexTerm : char_lit Λ<-> char_lit• «"."»
@@ -5076,7 +5096,7 @@ S136{
 Transitions:
 
 
-S137{
+S138{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"]"»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"."»
@@ -5088,10 +5108,10 @@ S137{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	Λ<-> -> 149
+	Λ<-> -> 150
 
 
-S138{
+S139{
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"]"»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"("»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"."»
@@ -5105,7 +5125,7 @@ S138{
 Transitions:
 
 
-S139{
+S140{
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"]"»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"("»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"."»
@@ -5119,7 +5139,7 @@ S139{
 Transitions:
 
 
-S140{
+S141{
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"]"»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"("»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"."»
@@ -5133,7 +5153,7 @@ S140{
 Transitions:
 
 
-S141{
+S142{
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «"}"»
 	LexPattern : Π<LexPattern> Λ<|> Π<LexAlt>• «"|"»
 	LexAlt : Π<LexAlt> •Π<LexTerm> «"}"»
@@ -5235,10 +5255,10 @@ Transitions:
 	Λ<(> -> 81
 	Λ<[> -> 82
 	Λ<{> -> 83
-	Π<LexTerm> -> 118
+	Π<LexTerm> -> 119
 
 
-S142{
+S143{
 	LexTerm : char_lit Λ<-> char_lit• «"}"»
 	LexTerm : char_lit Λ<-> char_lit• «"("»
 	LexTerm : char_lit Λ<-> char_lit• «"."»
@@ -5252,7 +5272,7 @@ S142{
 Transitions:
 
 
-S143{
+S144{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"}"»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"."»
@@ -5264,10 +5284,10 @@ S143{
 	LexTerm : Λ<~> Λ<(> char_lit •Λ<-> char_lit Λ<)> «"|"»
 }
 Transitions:
-	Λ<-> -> 150
+	Λ<-> -> 151
 
 
-S144{
+S145{
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"}"»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"("»
 	LexTerm : Λ<(> Π<LexPattern> Λ<)>• «"."»
@@ -5281,7 +5301,7 @@ S144{
 Transitions:
 
 
-S145{
+S146{
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"}"»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"("»
 	LexTerm : Λ<[> Π<LexPattern> Λ<]>• «"."»
@@ -5295,7 +5315,7 @@ S145{
 Transitions:
 
 
-S146{
+S147{
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"}"»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"("»
 	LexTerm : Λ<{> Π<LexPattern> Λ<}>• «"."»
@@ -5309,7 +5329,7 @@ S146{
 Transitions:
 
 
-S147{
+S148{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «";"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"."»
@@ -5321,26 +5341,11 @@ S147{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"|"»
 }
 Transitions:
-	Λ<)> -> 151
-
-
-S148{
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «")"»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"("»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"."»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"["»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «char_lit»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «regDefId»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"{"»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"~"»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"|"»
-}
-Transitions:
-	char_lit -> 152
+	Λ<)> -> 152
 
 
 S149{
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"]"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «")"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"."»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"["»
@@ -5355,7 +5360,7 @@ Transitions:
 
 
 S150{
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"}"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"]"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"."»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"["»
@@ -5370,6 +5375,21 @@ Transitions:
 
 
 S151{
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"}"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"("»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"."»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"["»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «char_lit»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «regDefId»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"{"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"~"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> •char_lit Λ<)> «"|"»
+}
+Transitions:
+	char_lit -> 155
+
+
+S152{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «";"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"."»
@@ -5383,23 +5403,8 @@ S151{
 Transitions:
 
 
-S152{
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «")"»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"("»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"."»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"["»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «char_lit»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «regDefId»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"{"»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"~"»
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"|"»
-}
-Transitions:
-	Λ<)> -> 155
-
-
 S153{
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"]"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «")"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"."»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"["»
@@ -5414,7 +5419,7 @@ Transitions:
 
 
 S154{
-	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"}"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"]"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"."»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"["»
@@ -5429,6 +5434,21 @@ Transitions:
 
 
 S155{
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"}"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"("»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"."»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"["»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «char_lit»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «regDefId»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"{"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"~"»
+	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit •Λ<)> «"|"»
+}
+Transitions:
+	Λ<)> -> 158
+
+
+S156{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «")"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"."»
@@ -5442,7 +5462,7 @@ S155{
 Transitions:
 
 
-S156{
+S157{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"]"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"."»
@@ -5456,7 +5476,7 @@ S156{
 Transitions:
 
 
-S157{
+S158{
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"}"»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"("»
 	LexTerm : Λ<~> Λ<(> char_lit Λ<-> char_lit Λ<)>• «"."»

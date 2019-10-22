@@ -7,15 +7,17 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/iface"
-	parseError "github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/errors"
-	"github.com/maxcalandrelli/gocc/internal/frontend/reparsed/internal/token"
+	"github.com/maxcalandrelli/gocc/example/macro/macro2.grammar/macro2/iface"
+	parseError "github.com/maxcalandrelli/gocc/example/macro/macro2.grammar/macro2/internal/errors"
+	"github.com/maxcalandrelli/gocc/example/macro/macro2.grammar/macro2/internal/token"
+
+	calc "github.com/maxcalandrelli/gocc/example/calc/calc.grammar/calc"
 )
 
 const (
-	numProductions = 51
-	numStates      = 159
-	numSymbols     = 45
+	numProductions = 7
+	numStates      = 12
+	numSymbols     = 13
 )
 
 // Stack
@@ -128,6 +130,10 @@ func (f fakeCp) Advance(o int) iface.CheckPoint {
 
 func (f fakeCheckPointable) GotoCheckPoint(iface.CheckPoint) {}
 
+func cdFunc_calc_0(Stream TokenStream, Context interface{}) (interface{}, error, []byte) {
+	return calc.ParseWithDataPartial(Stream, Context)
+}
+
 func NewParser() *Parser {
 	return NewParserWithContext(nil)
 }
@@ -224,8 +230,8 @@ func (p *Parser) newError(err error) error {
 
 func (p *Parser) prepareParsing(scanner iface.Scanner, longest bool) error {
 	p.Reset()
-	p.needsRepositioning = longest
-	p.isNonDeterministic = false
+	p.needsRepositioning = true
+	p.isNonDeterministic = true
 	if p.needsRepositioning {
 		if streamScanner, _ := scanner.(iface.StreamScanner); streamScanner != nil {
 			p.underlyingStream = streamScanner.GetStream()
