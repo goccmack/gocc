@@ -43,7 +43,7 @@ import (
 
 	genParser "github.com/goccmack/gocc/internal/parser/gen"
 
-	"github.com/goccmack/goutil/md"
+	"github.com/goccmack/gocc/internal/util/md"
 )
 
 func main() {
