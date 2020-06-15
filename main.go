@@ -40,9 +40,10 @@ import (
 	outToken "github.com/goccmack/gocc/internal/token"
 	genToken "github.com/goccmack/gocc/internal/token/gen"
 	genUtil "github.com/goccmack/gocc/internal/util/gen"
-	"github.com/goccmack/gocc/internal/util/md"
 
 	genParser "github.com/goccmack/gocc/internal/parser/gen"
+
+	"github.com/goccmack/goutil/md"
 )
 
 func main() {
