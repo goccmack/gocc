@@ -195,3 +195,4 @@ These projects use gocc:
 * [mewmew/uc](https://github.com/mewmew/uc) - [BNF file](https://github.com/mewmew/uc/blob/master/gocc/uc.bnf) - A compiler for the µC language
 * [gographviz](https://github.com/awalterschulze/gographviz) - [BNF file](https://github.com/awalterschulze/gographviz/blob/master/dot.bnf) - Parses the Graphviz DOT language in golang 
 * [katydid/relapse](http://katydid.github.io/) - [BNF file](https://github.com/katydid/katydid/blob/master/relapse/bnf/all.bnf) - Encoding agnostic validation language
+* [skius/stringlang](https://github.com/skius/stringlang) - [BNF file](https://github.com/skius/stringlang/blob/main/lang.bnf) - An interpreter for the expression-oriented language StringLang
