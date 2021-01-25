@@ -196,5 +196,5 @@ These projects use gocc:
 * [gographviz](https://github.com/awalterschulze/gographviz) - [BNF file](https://github.com/awalterschulze/gographviz/blob/master/dot.bnf) - Parses the Graphviz DOT language in golang 
 * [katydid/relapse](http://katydid.github.io/) - [BNF file](https://github.com/katydid/katydid/blob/master/relapse/bnf/all.bnf) - Encoding agnostic validation language
 * [skius/stringlang](https://github.com/skius/stringlang) - [BNF file](https://github.com/skius/stringlang/blob/main/lang.bnf) - An interpreter for the expression-oriented language StringLang  
-*[miller](https://github.com/johnkerl/miller/blob/master/go/README.md) - Miller is like awk, sed, cut, join, and sort for name-indexed data such as CSV, TSV, and tabular JSON.
+* [miller](https://github.com/johnkerl/miller/blob/master/go/README.md) - Miller is like awk, sed, cut, join, and sort for name-indexed data such as CSV, TSV, and tabular JSON.
 
