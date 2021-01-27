@@ -34,6 +34,7 @@ import (
 	genLexer "github.com/goccmack/gocc/internal/lexer/gen/golang"
 	lexItems "github.com/goccmack/gocc/internal/lexer/items"
 	"github.com/goccmack/gocc/internal/parser/first"
+	"github.com/goccmack/gocc/internal/parser/follow"
 	lr1Action "github.com/goccmack/gocc/internal/parser/lr1/action"
 	lr1Items "github.com/goccmack/gocc/internal/parser/lr1/items"
 	"github.com/goccmack/gocc/internal/parser/symbols"
@@ -97,6 +98,11 @@ func main() {
 		firstSets := first.GetFirstSets(g, gSymbols)
 		if cfg.Verbose() {
 			io.WriteFileString(path.Join(cfg.OutDir(), "first.txt"), firstSets.String())
+		}
+
+		followSets := follow.GetFollowSets(g, gSymbols, firstSets)
+		if cfg.Verbose() {
+			io.WriteFileString(path.Join(cfg.OutDir(), "follow.txt"), followSets.String())
 		}
 
 		lr1Sets := lr1Items.GetItemSets(g, gSymbols, firstSets)
