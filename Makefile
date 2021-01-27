@@ -30,6 +30,7 @@ travis:
 	make errcheck
 	make test
 	git diff --exit-code .
+	make test
 
 errcheck:
 	go get github.com/kisielk/errcheck

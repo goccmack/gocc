@@ -48,8 +48,4 @@ var ActTab = ActionTable{
 		Accept: 6,
 		Ignore: "",
 	},
-	ActionRow{ // S7
-		Accept: 6,
-		Ignore: "",
-	},
 }
