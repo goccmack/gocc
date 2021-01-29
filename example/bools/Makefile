@@ -1,2 +1,2 @@
 regenerate:
-	gocc -a example.bnf
+	gocc -p github.com/goccmack/gocc/example/bools -a example.bnf

@@ -1,2 +1,2 @@
 regenerate:
-	gocc -a rr.bnf
+	gocc -p github.com/goccmack/gocc/example/rr -a rr.bnf

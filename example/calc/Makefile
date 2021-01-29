@@ -1,2 +1,2 @@
 regenerate:
-	gocc calc.bnf
+	gocc -p github.com/goccmack/gocc/example/calc calc.bnf
