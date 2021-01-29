@@ -16,7 +16,7 @@ govet:
 	go vet -methods=false .
 
 errcheck:
-	go get github.com/kisielk/errcheck
+	go get github.com/kisielk/errcheck@v1.2.0
 	errcheck -exclude .errcheck-ignore ./...
 
 lint: govet errcheck ## run linter checks
