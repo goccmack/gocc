@@ -108,7 +108,6 @@ func main() {
 
 	genToken.Gen(cfg.Package(), cfg.OutDir(), tokenMap)
 	genUtil.Gen(cfg.OutDir())
-
 }
 
 func getSource(cfg config.Config) []byte {

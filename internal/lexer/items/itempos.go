@@ -102,7 +102,6 @@ func (this *itemPos) equal(that *itemPos) bool {
 	for i := 0; i < len(this.stack); i++ {
 		if this.stack[i].node != that.stack[i].node ||
 			this.stack[i].pos != that.stack[i].pos {
-
 			return false
 		}
 	}

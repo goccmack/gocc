@@ -15,7 +15,6 @@
 package ast
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 )
@@ -45,7 +44,7 @@ Return false if lexImport is a duplicate.
 */
 func (this *LexImports) Add(lexImport *LexImport) (*LexImports, error) {
 	if _, exist := this.Imports[lexImport.Id]; exist {
-		return nil, errors.New(fmt.Sprintf("Duplicate builtin declaration: %s", lexImport.String()))
+		return nil, fmt.Errorf("duplicate builtin declaration: %s", lexImport.String())
 	}
 	this.Imports[lexImport.Id] = lexImport
 	return this, nil

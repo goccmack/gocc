@@ -29,7 +29,6 @@ import (
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
 	itemsets *items.ItemSets, tokMap *token.TokenMap) {
-
 	fname := path.Join(outDir, "parser", "productionstable.go")
 	tmpl, err := template.New("parser productions table").Parse(prodsTabSrc[1:])
 	if err != nil {
@@ -44,7 +43,6 @@ func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, s
 
 func getProdsTab(header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,
 	itemsets *items.ItemSets, tokMap *token.TokenMap) *prodsTabData {
-
 	data := &prodsTabData{
 		Header:  header,
 		ProdTab: make([]prodTabEntry, len(prods)),

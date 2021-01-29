@@ -15,7 +15,6 @@
 package items
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"strings"
@@ -410,7 +409,7 @@ func WriteStringNode(w io.Writer, node ast.LexNode, pos *itemPos) {
 		writeStringPattern(w, n.LexPattern, pos)
 		fmt.Fprintf(w, "}")
 	default:
-		panic(errors.New(fmt.Sprintf("Unexpected type of node, %T", node)))
+		panic(fmt.Sprintf("Unexpected type of node, %T", node))
 	}
 }
 

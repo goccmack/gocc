@@ -82,7 +82,6 @@ func (this *ItemSet) AddItem(items ...*Item) {
 			this.Items = append(this.Items, i)
 		}
 	}
-
 }
 
 func (this *ItemSet) AddTransition(symbol string, nextSet int) {
@@ -184,7 +183,7 @@ func (this *ItemSet) Equal(that *ItemSet) bool {
 // alphabetical order.
 func first1(firstSets *first.FirstSets, symbols []string, following string) []string {
 	firsts := first.FirstS(firstSets, append(symbols, following))
-	var keys []string
+	keys := make([]string, 0, len(firsts))
 	for key := range firsts {
 		keys = append(keys, key)
 	}

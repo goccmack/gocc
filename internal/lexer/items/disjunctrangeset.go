@@ -139,7 +139,6 @@ func (this *DisjunctRangeSet) insertRange(at int, from, to rune) {
 	if mvSegSize > 0 {
 		copy(this.set[at+1:], this.set[at:at+mvSegSize])
 		this.set[at].From, this.set[at].To = from, to
-
 	}
 }
 

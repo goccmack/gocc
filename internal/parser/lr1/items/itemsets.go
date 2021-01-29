@@ -113,7 +113,7 @@ func (this *ItemSets) String() string {
 	return buf.String()
 }
 
-//Returns the inital Item of a Grammar.
+//Returns the initial Item of a Grammar.
 func InitialItemSet(g *ast.Grammar, symbols *symbols.Symbols, fs *first.FirstSets) *ItemSet {
 	set := NewItemSet(symbols, g.SyntaxPart.ProdList, fs)
 	set.SetNo = 0

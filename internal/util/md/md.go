@@ -21,10 +21,8 @@ import (
 	"io/ioutil"
 )
 
-var ch rune
-
 /*
-GetSource returns code sections eclosed in triple backticks.
+GetSource returns code sections enclosed in triple backticks.
 */
 func GetSource(mdfile string) (string, error) {
 	inbuf, err := ioutil.ReadFile(mdfile)

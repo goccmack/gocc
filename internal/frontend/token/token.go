@@ -93,7 +93,7 @@ func (T *Token) UintValue() (uint64, error) {
 
 func (T *Token) SDTVal() string {
 	sdt := string(T.Lit)
-	rex, err := regexp.Compile("\\$[0-9]+")
+	rex, err := regexp.Compile(`\$[0-9]+`)
 	if err != nil {
 		panic(err)
 	}

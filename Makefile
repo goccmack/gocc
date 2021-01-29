@@ -34,6 +34,6 @@ regenerate: ## regenerate all example and test files
 ci: ## run all ci checks
 	make regenerate
 	make goimports
-	make lint
 	make test
+	golangci-lint run
 	git diff --exit-code .

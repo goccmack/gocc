@@ -17,7 +17,7 @@ package ast
 type SyntaxProdList []*SyntaxProd
 
 func NewSyntaxProdList(prods interface{}) (SyntaxProdList, error) {
-	return SyntaxProdList(prods.([]*SyntaxProd)), nil
+	return prods.([]*SyntaxProd), nil
 }
 
 func AddSyntaxProds(prodList, prods interface{}) (SyntaxProdList, error) {

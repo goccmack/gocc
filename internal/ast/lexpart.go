@@ -15,7 +15,6 @@
 package ast
 
 import (
-	"errors"
 	"fmt"
 	"sort"
 	"strings"
@@ -66,20 +65,20 @@ func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 			case *LexTokDef:
 				//TODO: decide whether to handle in separate semantic check
 				if _, exist := lexPart.TokDefs[pid]; exist {
-					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
+					return nil, fmt.Errorf("duplicate token def: %s", pid)
 				}
 				lexPart.TokDefs[pid] = p1
 				lexPart.TokDefsList = append(lexPart.TokDefsList, p1)
 			case *LexRegDef:
 				//TODO: decide whether to handle in separate semantic check
 				if _, exist := lexPart.RegDefs[pid]; exist {
-					return nil, errors.New(fmt.Sprintf("Duplicate token def: %s", pid))
+					return nil, fmt.Errorf("duplicate token def: %s", pid)
 				}
 				lexPart.RegDefs[pid] = p1
 				lexPart.RegDefsList = append(lexPart.RegDefsList, p1)
 			case *LexIgnoredTokDef:
 				if _, exist := lexPart.IgnoredTokDefs[pid]; exist {
-					return nil, errors.New(fmt.Sprintf("Duplicate ignored token def: %s", pid))
+					return nil, fmt.Errorf("duplicate ignored token def: %s", pid)
 				}
 				lexPart.IgnoredTokDefs[pid] = p1
 				lexPart.IgnoredTokDefsList = append(lexPart.IgnoredTokDefsList, p1)
@@ -93,7 +92,7 @@ func NewLexPart(header, imports, prodList interface{}) (*LexPart, error) {
 }
 
 func (this *LexPart) StringLitTokDef(id string) *LexTokDef {
-	tokDef, _ := this.stringLitToks[id]
+	tokDef := this.stringLitToks[id]
 	return tokDef
 }
 

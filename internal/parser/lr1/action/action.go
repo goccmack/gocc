@@ -68,7 +68,7 @@ func (this Accept) ResolveConflict(that Action) Action {
 	if _, ok := that.(Error); ok {
 		return this
 	}
-	panic(fmt.Sprintf("Cannot have LR1 conflict with Accept."))
+	panic("Cannot have LR1 conflict with Accept.")
 }
 
 func (Error) ResolveConflict(that Action) Action {

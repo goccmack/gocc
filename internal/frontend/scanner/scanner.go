@@ -163,7 +163,6 @@ func (S *Scanner) scanComment(pos token.Position) {
 				return
 			}
 		}
-
 	} else {
 		// / *-style comment * /
 		S.expect('*')
