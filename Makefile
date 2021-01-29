@@ -34,6 +34,7 @@ regenerate: ## regenerate all example and test files
 ci: ## run all ci checks
 	make regenerate
 	make goimports
-	make lint
+	git diff .
+	#make lint
 	make test
 	git diff --exit-code .
