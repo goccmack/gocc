@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [1.11, 1.12, 1.15]
+        go: [1.12, 1.15]
 
     steps:
       - name: Set up Go 1.x
