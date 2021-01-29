@@ -1,0 +1,31 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+    timeout-minutes: 15
+
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [1.11, 1.12, 1.15]
+
+    steps:
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Check
+        run: make ci
