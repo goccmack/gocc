@@ -3,11 +3,10 @@ package parser
 import (
 	"errors"
 	"strconv"
+
+	errs "github.com/goccmack/gocc/internal/frontend/errors"
+	"github.com/goccmack/gocc/internal/frontend/token"
 )
-
-import errs "github.com/goccmack/gocc/internal/frontend/errors"
-
-import "github.com/goccmack/gocc/internal/frontend/token"
 
 // ParserUTab
 

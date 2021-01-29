@@ -13,8 +13,9 @@ import (
 	"strconv"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/goccmack/gocc/internal/frontend/token"
 )
-import "github.com/goccmack/gocc/internal/frontend/token"
 
 // A Scanner holds the scanner's internal state while processing
 // a given text.  It can be allocated as part of another data

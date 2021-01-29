@@ -34,15 +34,13 @@ import (
 	genLexer "github.com/goccmack/gocc/internal/lexer/gen/golang"
 	lexItems "github.com/goccmack/gocc/internal/lexer/items"
 	"github.com/goccmack/gocc/internal/parser/first"
+	genParser "github.com/goccmack/gocc/internal/parser/gen"
 	lr1Action "github.com/goccmack/gocc/internal/parser/lr1/action"
 	lr1Items "github.com/goccmack/gocc/internal/parser/lr1/items"
 	"github.com/goccmack/gocc/internal/parser/symbols"
 	outToken "github.com/goccmack/gocc/internal/token"
 	genToken "github.com/goccmack/gocc/internal/token/gen"
 	genUtil "github.com/goccmack/gocc/internal/util/gen"
-
-	genParser "github.com/goccmack/gocc/internal/parser/gen"
-
 	"github.com/goccmack/gocc/internal/util/md"
 )
 
