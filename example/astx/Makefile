@@ -1,2 +1,2 @@
 regenerate:
-	gocc ast.bnf
+	gocc -p github.com/goccmack/gocc/example/astx ast.bnf

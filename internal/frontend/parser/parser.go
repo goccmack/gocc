@@ -4,11 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+
+	errs "github.com/goccmack/gocc/internal/frontend/errors"
+	"github.com/goccmack/gocc/internal/frontend/token"
 )
-
-import errs "github.com/goccmack/gocc/internal/frontend/errors"
-
-import "github.com/goccmack/gocc/internal/frontend/token"
 
 type (
 	ActionTab []*ActionRow
