@@ -167,13 +167,15 @@ func (this *ConfigRecord) PrintParams() {
 /*** Utility routines ***/
 
 func (this *ConfigRecord) getFlags() error {
+	pkgDefault, _ := defaultPackage(this.workingDir)
+
 	this.autoResolveLRConf = flag.Bool("a", false, "automatically resolve LR(1) conflicts")
 	this.debugLexer = flag.Bool("debug_lexer", false, "enable debug logging in lexer")
 	this.debugParser = flag.Bool("debug_parser", false, "enable debug logging in parser")
 	this.help = flag.Bool("h", false, "help")
 	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
 	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
-	flag.StringVar(&this.pkg, "p", "", "package")
+	flag.StringVar(&this.pkg, "p", pkgDefault, "package")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
 	this.zip = flag.Bool("zip", false, "zip the actiontable and gototable (experimental)")
@@ -184,7 +186,7 @@ func (this *ConfigRecord) getFlags() error {
 	}
 
 	this.outDir = getOutDir(this.outDir, this.workingDir)
-	if this.pkg == "" {
+	if this.outDir != this.workingDir {
 		pkg, err := defaultPackage(this.outDir)
 		if err != nil {
 			return fmt.Errorf("getting package: %s", err)
