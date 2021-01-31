@@ -187,7 +187,7 @@ func (this *ConfigRecord) getFlags() error {
 	if this.pkg == "" {
 		pkg, err := defaultPackage(this.outDir)
 		if err != nil {
-			return fmt.Errorf("getting package: %w", err)
+			return fmt.Errorf("getting package: %s", err)
 		}
 		this.pkg = pkg
 	}
@@ -241,7 +241,7 @@ func currentModule() (string, string, error) {
 	parent, err := os.Getwd()
 	if err != nil {
 		// A nonexistent working directory can't be in a module.
-		return "", "", fmt.Errorf("getting working directory: %w", err)
+		return "", "", fmt.Errorf("getting working directory: %s", err)
 	}
 
 	var info os.FileInfo
@@ -260,12 +260,12 @@ func currentModule() (string, string, error) {
 	full := path.Join(parent, info.Name())
 	data, err := ioutil.ReadFile(full)
 	if err != nil {
-		return "", "", fmt.Errorf("reading file '%s': %w", full, err)
+		return "", "", fmt.Errorf("reading file '%s': %s", full, err)
 	}
 
 	f, err := modfile.Parse(info.Name(), data, nil)
 	if err != nil {
-		return "", "", fmt.Errorf("parsing file '%s': %w", full, err)
+		return "", "", fmt.Errorf("parsing file '%s': %s", full, err)
 	}
 
 	m := f.Module.Mod.Path
