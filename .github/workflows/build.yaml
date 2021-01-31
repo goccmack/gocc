@@ -21,7 +21,7 @@ jobs:
       matrix:
         go: [1.12, 1.15]
     env:
-      GOPATH: $GITHUB_WORKSPACE/go
+      GOPATH: /home/runner/work/gocc/gocc/go
 
     steps:
       - name: Set up Go 1.x
