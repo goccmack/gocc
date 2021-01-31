@@ -21,7 +21,7 @@ jobs:
       matrix:
         go: [1.12, 1.15]
     env:
-      GOPATH: /home/runner/work/gocc/gocc/go
+      GOPATH: $GITHUB_WORKSPACE/go
 
     steps:
       - name: Set up Go 1.x
@@ -39,4 +39,4 @@ jobs:
         run: "curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.36.0"
 
       - name: Check
-        run: env && pwd && make ci
+        run: go get && make ci
