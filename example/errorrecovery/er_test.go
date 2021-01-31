@@ -29,7 +29,7 @@ func TestFail(t *testing.T) {
 
 func test(src []byte) (astree ast.StmtList, err error) {
 	fmt.Printf("input: %s\n", src)
-	s := lexer.NewLexer([]byte(src))
+	s := lexer.NewLexer(src)
 	p := parser.NewParser()
 	a, err := p.Parse(s)
 	if err == nil {

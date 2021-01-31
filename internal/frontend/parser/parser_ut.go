@@ -68,7 +68,7 @@ func (P *ParserUTab) Error(err error, scanner Scanner) (recovered bool, errorAtt
 
 func (P *ParserUTab) popNonRecoveryStates() (removedAttribs []errs.ErrorSymbol) {
 	if rs, ok := P.firstRecoveryState(); ok {
-		errorSymbols := P.stack.PopN(int(P.stack.TopIndex() - rs))
+		errorSymbols := P.stack.PopN(P.stack.TopIndex() - rs)
 		removedAttribs = make([]errs.ErrorSymbol, len(errorSymbols))
 		for i, e := range errorSymbols {
 			removedAttribs[i] = e

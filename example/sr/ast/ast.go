@@ -46,7 +46,7 @@ func NewIfElse(cnd, stmt1, stmt2 Attrib) (ies *IfElse) {
 }
 
 func NewIdStmt(s Attrib) (is IdStmt) {
-	is = IdStmt(string(s.(*token.Token).Lit))
+	is = IdStmt(s.(*token.Token).Lit)
 	return
 }
 
@@ -120,7 +120,7 @@ func (this IdStmt) MatchId(s string) bool {
 }
 
 func (this *If) String() string {
-	return "*If: " + string(this.C) + this.S.String()
+	return "*If: " + this.C + this.S.String()
 }
 
 func (this *IfElse) String() string {

@@ -51,13 +51,12 @@ type actionTableData struct {
 
 func getActionTableData(prods ast.SyntaxProdList, itemSets *items.ItemSets,
 	tokMap *token.TokenMap) (actTab *actionTableData, conflicts map[int]items.RowConflicts) {
-
 	actTab = &actionTableData{
 		Rows: make([]*actRow, itemSets.Size()),
 	}
 	conflicts = make(map[int]items.RowConflicts)
+	var cnflcts items.RowConflicts
 	var row *actRow
-	cnflcts := items.RowConflicts{}
 	for i := range actTab.Rows {
 		if row, cnflcts = getActionRowData(prods, itemSets.Set(i), tokMap); len(cnflcts) > 0 {
 			conflicts[i] = cnflcts

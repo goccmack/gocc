@@ -186,7 +186,7 @@ func (this *ConfigRecord) getFlags() error {
 	}
 
 	if len(flag.Args()) != 1 && !*this.help {
-		return errors.New("Too few arguments")
+		return errors.New("too few arguments")
 	}
 
 	this.srcFile = flag.Arg(0)
@@ -213,8 +213,6 @@ func defaultPackage(wd string) string {
 
 func sanitizePackage(pkg string) string {
 	pkg = filepath.ToSlash(pkg)
-	if strings.HasPrefix(pkg, "/") {
-		pkg = pkg[1:]
-	}
+	pkg = strings.TrimPrefix(pkg, "/")
 	return pkg
 }

@@ -70,7 +70,6 @@ func (this *ItemSet) Action() Action {
 			if actionItem == nil ||
 				this.lexPart.StringLitTokDef(item.Id) != nil ||
 				(this.lexPart.StringLitTokDef(actionItem.Id) == nil && item.ProdIndex < actionItem.ProdIndex) {
-
 				actionItem = item
 			}
 		}

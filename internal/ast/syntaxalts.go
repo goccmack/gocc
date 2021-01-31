@@ -17,7 +17,7 @@ package ast
 type SyntaxAlts []*SyntaxBody
 
 func NewSyntaxAlts(body interface{}) (SyntaxAlts, error) {
-	return SyntaxAlts{(body.(*SyntaxBody))}, nil
+	return SyntaxAlts{body.(*SyntaxBody)}, nil
 }
 
 func AddSyntaxAlt(alts, body interface{}) (SyntaxAlts, error) {

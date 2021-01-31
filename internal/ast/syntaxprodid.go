@@ -22,7 +22,7 @@ import (
 type SyntaxProdId string
 
 func NewSyntaxProdId(tok interface{}) (SyntaxProdId, error) {
-	return SyntaxProdId(string(tok.(*token.Token).Lit)), nil
+	return SyntaxProdId(tok.(*token.Token).Lit), nil
 }
 
 func (this SyntaxProdId) SymbolString() string {

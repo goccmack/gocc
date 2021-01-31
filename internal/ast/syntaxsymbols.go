@@ -35,7 +35,7 @@ func (this SyntaxSymbols) String() string {
 		if i > 0 {
 			fmt.Fprintf(w, " ")
 		}
-		fmt.Fprintf(w, sym.String())
+		fmt.Fprint(w, sym.String())
 	}
 	return w.String()
 }

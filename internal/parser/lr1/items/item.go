@@ -133,7 +133,7 @@ func (this *Item) getString() string {
 			if this.Pos == i {
 				fmt.Fprintf(buf, "•")
 			}
-			fmt.Fprintf(buf, s)
+			fmt.Fprint(buf, s)
 			if i < this.Len-1 {
 				fmt.Fprintf(buf, " ")
 			}

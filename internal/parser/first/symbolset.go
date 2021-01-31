@@ -46,7 +46,7 @@ func (this SymbolSet) Equal(that SymbolSet) bool {
 func (this SymbolSet) String() string {
 	buf := new(strings.Builder)
 	fmt.Fprintf(buf, "{\n")
-	var keys []string
+	keys := make([]string, 0, len(this))
 	for key := range this {
 		keys = append(keys, key)
 	}

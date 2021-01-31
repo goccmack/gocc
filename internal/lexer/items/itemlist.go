@@ -15,7 +15,6 @@
 package items
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -35,7 +34,7 @@ func NewItemList(len int) ItemList {
 
 func (this ItemList) AddExclusive(item *Item) (ItemList, error) {
 	if this.Contain(item) {
-		return nil, errors.New(fmt.Sprintf("Duplicate item: %s in set:\n%s", item.String(), this.PrefixString("\t")))
+		return nil, fmt.Errorf("duplicate item: %s in set:\n%s", item.String(), this.PrefixString("\t"))
 	}
 	return append(this, item), nil
 }
