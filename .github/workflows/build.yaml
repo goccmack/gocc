@@ -6,6 +6,10 @@ on:
       - master
   pull_request:
 
+defaults:
+  run:
+    working-directory: go/src/github.com/goccmack/gocc
+
 jobs:
   build:
     if: "!contains(github.event.commits[0].message, '[skip ci]')"
@@ -16,6 +20,8 @@ jobs:
     strategy:
       matrix:
         go: [1.12, 1.15]
+    env:
+      GOPATH: /home/runner/work/goccmack/go
 
     steps:
       - name: Set up Go 1.x
@@ -26,12 +32,9 @@ jobs:
 
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
-        with:
-          path: go/src/github.com/goccmack/gocc
 
       - name: Install linter
         run: "curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.36.0"
 
       - name: Check
-        working-directory: ./go/src/github.com/goccmack/gocc
         run: make ci
