@@ -19,10 +19,13 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
+
+	"golang.org/x/mod/modfile"
 )
 
 type Config interface {
@@ -170,7 +173,7 @@ func (this *ConfigRecord) getFlags() error {
 	this.help = flag.Bool("h", false, "help")
 	this.noLexer = flag.Bool("no_lexer", false, "do not generate a lexer")
 	flag.StringVar(&this.outDir, "o", this.workingDir, "output dir.")
-	flag.StringVar(&this.pkg, "p", defaultPackage(this.outDir), "package")
+	flag.StringVar(&this.pkg, "p", "", "package")
 	this.allowUnreachable = flag.Bool("u", false, "allow unreachable productions")
 	this.verbose = flag.Bool("v", false, "verbose")
 	this.zip = flag.Bool("zip", false, "zip the actiontable and gototable (experimental)")
@@ -181,8 +184,12 @@ func (this *ConfigRecord) getFlags() error {
 	}
 
 	this.outDir = getOutDir(this.outDir, this.workingDir)
-	if this.outDir != this.workingDir {
-		this.pkg = defaultPackage(this.outDir)
+	if this.pkg == "" {
+		pkg, err := defaultPackage(this.outDir)
+		if err != nil {
+			return fmt.Errorf("getting package: %w", err)
+		}
+		this.pkg = pkg
 	}
 
 	if len(flag.Args()) != 1 && !*this.help {
@@ -201,18 +208,66 @@ func getOutDir(outDirSpec, wd string) string {
 	return path.Join(wd, outDirSpec)
 }
 
-func defaultPackage(wd string) string {
-	for _, srcDir := range build.Default.SrcDirs() {
+func defaultPackage(wd string) (string, error) {
+	pkg, parent, err := currentModule()
+	if err != nil {
+		pkg = pkg + strings.TrimPrefix(wd, parent)
+		return pkg, nil
+	}
+
+	dirs := build.Default.SrcDirs()
+	for _, srcDir := range dirs {
 		if strings.HasPrefix(wd, srcDir) {
-			pkg := strings.Replace(wd, srcDir, "", -1)
-			return sanitizePackage(pkg)
+			pkg = strings.TrimPrefix(wd, srcDir)
+			pkg = sanitizePackage(pkg)
+			return pkg, nil
 		}
 	}
-	return sanitizePackage(wd)
+
+	return "", errors.New("can not determine default package name")
 }
 
 func sanitizePackage(pkg string) string {
 	pkg = filepath.ToSlash(pkg)
 	pkg = strings.TrimPrefix(pkg, "/")
 	return pkg
+}
+
+var errNoModules = errors.New("not using modules")
+
+// currentModule looks in all parent dirs for a go.mod file containing
+// a module name.
+func currentModule() (string, string, error) {
+	parent, err := os.Getwd()
+	if err != nil {
+		// A nonexistent working directory can't be in a module.
+		return "", "", fmt.Errorf("getting working directory: %w", err)
+	}
+
+	var info os.FileInfo
+	for {
+		info, err = os.Stat(filepath.Join(parent, "go.mod"))
+		if err == nil && !info.IsDir() {
+			break
+		}
+		d := filepath.Dir(parent)
+		if len(d) >= len(parent) {
+			return "", "", errNoModules // reached top of file system, no go.mod
+		}
+		parent = d
+	}
+
+	full := path.Join(parent, info.Name())
+	data, err := ioutil.ReadFile(full)
+	if err != nil {
+		return "", "", fmt.Errorf("reading file '%s': %w", full, err)
+	}
+
+	f, err := modfile.Parse(info.Name(), data, nil)
+	if err != nil {
+		return "", "", fmt.Errorf("parsing file '%s': %w", full, err)
+	}
+
+	m := f.Module.Mod.Path
+	return m, parent, nil
 }
