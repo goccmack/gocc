@@ -2,7 +2,7 @@
 import (
     "fmt"
 
-    "github.com/goccmack/gocc/example/nolexer/token"
+    "github.com/johnkerl/gocc/example/nolexer/token"
 )
 >>
 

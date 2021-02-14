@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/frontend/token"
+	"github.com/johnkerl/gocc/internal/frontend/token"
 )
 
 type LexTokDef struct {

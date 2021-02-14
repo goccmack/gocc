@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/example/astx/token"
+	"github.com/johnkerl/gocc/example/astx/token"
 )
 
 type ErrorSymbol interface {

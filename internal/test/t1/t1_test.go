@@ -3,9 +3,9 @@ package t1
 import (
 	"testing"
 
-	"github.com/goccmack/gocc/internal/test/t1/errors"
-	"github.com/goccmack/gocc/internal/test/t1/lexer"
-	"github.com/goccmack/gocc/internal/test/t1/parser"
+	"github.com/johnkerl/gocc/internal/test/t1/errors"
+	"github.com/johnkerl/gocc/internal/test/t1/lexer"
+	"github.com/johnkerl/gocc/internal/test/t1/parser"
 )
 
 func Test1(t *testing.T) {

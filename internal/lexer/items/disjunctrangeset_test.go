@@ -18,7 +18,7 @@ import (
 	// "fmt"
 	"testing"
 
-	"github.com/goccmack/gocc/internal/ast"
+	"github.com/johnkerl/gocc/internal/ast"
 	// "unicode"
 )
 

@@ -19,9 +19,9 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/lexer/items"
+	"github.com/johnkerl/gocc/internal/config"
+	"github.com/johnkerl/gocc/internal/io"
+	"github.com/johnkerl/gocc/internal/lexer/items"
 )
 
 func genLexer(pkg, outDir string, itemsets *items.ItemSets, cfg config.Config) {

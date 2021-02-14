@@ -18,12 +18,12 @@ This package controls the generation of all parser-related code.
 package gen
 
 import (
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/parser/gen/golang"
-	"github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/johnkerl/gocc/internal/ast"
+	"github.com/johnkerl/gocc/internal/config"
+	"github.com/johnkerl/gocc/internal/parser/gen/golang"
+	"github.com/johnkerl/gocc/internal/parser/lr1/items"
+	"github.com/johnkerl/gocc/internal/parser/symbols"
+	"github.com/johnkerl/gocc/internal/token"
 )
 
 func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,

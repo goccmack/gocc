@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"unicode/utf8"
 
-	"github.com/goccmack/gocc/example/errorrecovery/token"
+	"github.com/johnkerl/gocc/example/errorrecovery/token"
 )
 
 const (

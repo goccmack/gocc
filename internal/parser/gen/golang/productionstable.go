@@ -20,11 +20,11 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/johnkerl/gocc/internal/ast"
+	"github.com/johnkerl/gocc/internal/io"
+	"github.com/johnkerl/gocc/internal/parser/lr1/items"
+	"github.com/johnkerl/gocc/internal/parser/symbols"
+	"github.com/johnkerl/gocc/internal/token"
 )
 
 func GenProductionsTable(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.Symbols,

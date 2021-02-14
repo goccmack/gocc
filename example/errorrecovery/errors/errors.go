@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/example/errorrecovery/token"
+	"github.com/johnkerl/gocc/example/errorrecovery/token"
 )
 
 type ErrorSymbol interface {

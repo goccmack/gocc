@@ -21,8 +21,8 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/johnkerl/gocc/internal/io"
+	"github.com/johnkerl/gocc/internal/token"
 )
 
 func GenToken(pkg, outdir string, tokMap *token.TokenMap) {

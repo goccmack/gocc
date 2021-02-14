@@ -22,9 +22,9 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
+	"github.com/johnkerl/gocc/internal/io"
+	"github.com/johnkerl/gocc/internal/parser/lr1/items"
+	"github.com/johnkerl/gocc/internal/parser/symbols"
 )
 
 type gotoTableData struct {

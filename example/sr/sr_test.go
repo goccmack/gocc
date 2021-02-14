@@ -3,9 +3,9 @@ package sr
 import (
 	"testing"
 
-	"github.com/goccmack/gocc/example/sr/ast"
-	"github.com/goccmack/gocc/example/sr/lexer"
-	"github.com/goccmack/gocc/example/sr/parser"
+	"github.com/johnkerl/gocc/example/sr/ast"
+	"github.com/johnkerl/gocc/example/sr/lexer"
+	"github.com/johnkerl/gocc/example/sr/parser"
 )
 
 func parse(src string) (stmt ast.Stmt, err error) {

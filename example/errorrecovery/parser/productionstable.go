@@ -2,7 +2,7 @@
 
 package parser
 
-import "github.com/goccmack/gocc/example/errorrecovery/ast"
+import "github.com/johnkerl/gocc/example/errorrecovery/ast"
 
 type (
 	ProdTab      [numProductions]ProdTabEntry

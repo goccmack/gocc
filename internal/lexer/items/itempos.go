@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
+	"github.com/johnkerl/gocc/internal/ast"
 )
 
 type itemPos struct {

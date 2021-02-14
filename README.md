@@ -2,7 +2,7 @@
 Have a look at [https://github.com/goccmack/gogll](https://github.com/goccmack/gogll) for scannerless GLL parser generation.
 # Gocc
 
-[![Build Status](https://travis-ci.org/goccmack/gocc.svg?branch=master)](https://travis-ci.org/goccmack/gocc)
+[![Build Status](https://travis-ci.org/johnkerl/gocc.svg?branch=master)](https://travis-ci.org/johnkerl/gocc)
 
 ## Introduction
 
@@ -20,14 +20,14 @@ For complex applications the user typically uses an abstract syntax tree (AST) t
 
 See the [README](example/bools/README) for an included example.
 
-[User Guide (PDF): Learn You a gocc for Great Good](https://raw.githubusercontent.com/goccmack/gocc/master/doc/gocc_user_guide.pdf) (gocc3 user guide will be published shortly)
+[User Guide (PDF): Learn You a gocc for Great Good](https://raw.githubusercontent.com/johnkerl/gocc/master/doc/gocc_user_guide.pdf) (gocc3 user guide will be published shortly)
 
 ## Installation
 
 * First download and Install Go From http://golang.org/
 * Setup your GOPATH environment variable.
-* Next in your command line run: go get github.com/goccmack/gocc (go get will git clone gocc into GOPATH/src/github.com/goccmack/gocc and run go install)
-* Alternatively clone the source: https://github.com/goccmack/gocc . Followed by go install github.com/goccmack/gocc
+* Next in your command line run: go get github.com/johnkerl/gocc (go get will git clone gocc into GOPATH/src/github.com/johnkerl/gocc and run go install)
+* Alternatively clone the source: https://github.com/johnkerl/gocc . Followed by go install github.com/johnkerl/gocc
 * Finally make sure that the bin folder where the gocc binary is located is in your PATH environment variable.
 
 ## Getting Started

@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/lexer/symbols"
+	"github.com/johnkerl/gocc/internal/ast"
+	"github.com/johnkerl/gocc/internal/lexer/symbols"
 )
 
 /*

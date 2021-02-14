@@ -2,7 +2,7 @@
 
 package parser
 
-import "github.com/goccmack/gocc/example/sr/ast"
+import "github.com/johnkerl/gocc/example/sr/ast"
 
 type (
 	ProdTab      [numProductions]ProdTabEntry

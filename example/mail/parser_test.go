@@ -3,8 +3,8 @@ package mail
 import (
 	"testing"
 
-	"github.com/goccmack/gocc/example/mail/lexer"
-	"github.com/goccmack/gocc/example/mail/token"
+	"github.com/johnkerl/gocc/example/mail/lexer"
+	"github.com/johnkerl/gocc/example/mail/token"
 )
 
 var testData1 = map[string]bool{

@@ -15,7 +15,7 @@
 package ast
 
 import (
-	"github.com/goccmack/gocc/internal/frontend/token"
+	"github.com/johnkerl/gocc/internal/frontend/token"
 )
 
 type SyntaxTokId string

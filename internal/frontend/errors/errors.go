@@ -1,6 +1,6 @@
 package errors
 
-import "github.com/goccmack/gocc/internal/frontend/token"
+import "github.com/johnkerl/gocc/internal/frontend/token"
 
 type ErrorSymbol interface {
 }

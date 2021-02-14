@@ -1,7 +1,7 @@
 package scanner
 
 import (
-	"github.com/goccmack/gocc/example/nolexer/token"
+	"github.com/johnkerl/gocc/example/nolexer/token"
 )
 
 type Scanner struct {

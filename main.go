@@ -13,7 +13,7 @@
 //   limitations under the License.
 
 //Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
-//Please see https://github.com/goccmack/gocc/ for more documentation.
+//Please see https://github.com/johnkerl/gocc/ for more documentation.
 package main
 
 import (
@@ -25,23 +25,23 @@ import (
 	"path"
 	"strings"
 
-	"github.com/goccmack/gocc/internal/ast"
-	"github.com/goccmack/gocc/internal/config"
-	"github.com/goccmack/gocc/internal/frontend/parser"
-	"github.com/goccmack/gocc/internal/frontend/scanner"
-	"github.com/goccmack/gocc/internal/frontend/token"
-	"github.com/goccmack/gocc/internal/io"
-	genLexer "github.com/goccmack/gocc/internal/lexer/gen/golang"
-	lexItems "github.com/goccmack/gocc/internal/lexer/items"
-	"github.com/goccmack/gocc/internal/parser/first"
-	genParser "github.com/goccmack/gocc/internal/parser/gen"
-	lr1Action "github.com/goccmack/gocc/internal/parser/lr1/action"
-	lr1Items "github.com/goccmack/gocc/internal/parser/lr1/items"
-	"github.com/goccmack/gocc/internal/parser/symbols"
-	outToken "github.com/goccmack/gocc/internal/token"
-	genToken "github.com/goccmack/gocc/internal/token/gen"
-	genUtil "github.com/goccmack/gocc/internal/util/gen"
-	"github.com/goccmack/gocc/internal/util/md"
+	"github.com/johnkerl/gocc/internal/ast"
+	"github.com/johnkerl/gocc/internal/config"
+	"github.com/johnkerl/gocc/internal/frontend/parser"
+	"github.com/johnkerl/gocc/internal/frontend/scanner"
+	"github.com/johnkerl/gocc/internal/frontend/token"
+	"github.com/johnkerl/gocc/internal/io"
+	genLexer "github.com/johnkerl/gocc/internal/lexer/gen/golang"
+	lexItems "github.com/johnkerl/gocc/internal/lexer/items"
+	"github.com/johnkerl/gocc/internal/parser/first"
+	genParser "github.com/johnkerl/gocc/internal/parser/gen"
+	lr1Action "github.com/johnkerl/gocc/internal/parser/lr1/action"
+	lr1Items "github.com/johnkerl/gocc/internal/parser/lr1/items"
+	"github.com/johnkerl/gocc/internal/parser/symbols"
+	outToken "github.com/johnkerl/gocc/internal/token"
+	genToken "github.com/johnkerl/gocc/internal/token/gen"
+	genUtil "github.com/johnkerl/gocc/internal/util/gen"
+	"github.com/johnkerl/gocc/internal/util/md"
 )
 
 func main() {

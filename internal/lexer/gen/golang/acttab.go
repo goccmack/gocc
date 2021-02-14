@@ -19,9 +19,9 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
-	"github.com/goccmack/gocc/internal/lexer/items"
-	"github.com/goccmack/gocc/internal/token"
+	"github.com/johnkerl/gocc/internal/io"
+	"github.com/johnkerl/gocc/internal/lexer/items"
+	"github.com/johnkerl/gocc/internal/token"
 )
 
 func genActionTable(pkg, outDir string, itemsets *items.ItemSets, tokMap *token.TokenMap) {

@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/goccmack/gocc/internal/lexer/symbols"
+	"github.com/johnkerl/gocc/internal/lexer/symbols"
 )
 
 /*

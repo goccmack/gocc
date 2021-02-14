@@ -17,7 +17,7 @@ package ast
 import (
 	"fmt"
 
-	"github.com/goccmack/gocc/internal/frontend/token"
+	"github.com/johnkerl/gocc/internal/frontend/token"
 )
 
 type FileHeader struct {
