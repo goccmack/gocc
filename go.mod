@@ -1,4 +1,4 @@
-module github.com/goccmack/gocc
+module github.com/johnkerl/gocc
 
 go 1.12
 
