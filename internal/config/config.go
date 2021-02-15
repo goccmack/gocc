@@ -212,7 +212,7 @@ func getOutDir(outDirSpec, wd string) string {
 
 func defaultPackage(wd string) (string, error) {
 	pkg, parent, err := currentModule()
-	if err != nil {
+	if err == nil {
 		pkg = pkg + strings.TrimPrefix(wd, parent)
 		return pkg, nil
 	}
