@@ -11,17 +11,19 @@ import (
 )
 
 func TestFail(t *testing.T) {
+	errors.Severity = "as-expected"
+	defer func() { errors.Severity = "error" }()
 	sml, err := test([]byte("a b ; d e f"))
 	if err != nil {
 		t.Fail()
 	}
 	fmt.Print("output: [\n")
-	for _, s := range sml {
+	for idx, s := range sml {
 		switch sym := s.(type) {
 		case *errors.Error:
-			fmt.Printf("%s\n", sym)
+			fmt.Printf("#%d %q\n", idx, sym)
 		default:
-			fmt.Printf("\t%v\n", sym)
+			fmt.Printf("#%d\t%v\n", idx, sym)
 		}
 	}
 	fmt.Println("]")

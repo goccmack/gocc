@@ -30,10 +30,10 @@ regenerate: ## regenerate all example and test files
 	make -C example regenerate
 	make -C internal/test regenerate
 	make gofmt
+	make goimports
 
 ci: ## run all ci checks
 	make regenerate
-	make goimports
 	make test
 	golangci-lint run
 	git diff --exit-code .

@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/goccmack/gocc/example/astx/ast"
+	"github.com/goccmack/gocc/example/astx/errors"
 	"github.com/goccmack/gocc/example/astx/lexer"
 	"github.com/goccmack/gocc/example/astx/parser"
 )
@@ -18,6 +19,8 @@ func TestPass(t *testing.T) {
 }
 
 func TestFail(t *testing.T) {
+	errors.Severity = "as-expected"
+	defer func() { errors.Severity = "error" }()
 	_, err := test([]byte("a b ; d e f"))
 	if err == nil {
 		t.Fatal("expected parse error")
