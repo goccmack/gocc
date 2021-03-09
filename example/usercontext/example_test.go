@@ -72,6 +72,7 @@ func TestUserContext(t *testing.T) {
 			[]string{"life", "universe", "everything"}},
 	}
 	for _, tc := range testCases {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			testEval(t, tc.code, tc.names)
 		})
