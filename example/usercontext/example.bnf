@@ -1,0 +1,25 @@
+!whitespace : ' ' | '\t' | '\r' | '\n';
+!hashcmt    : '#' { . } '\n';
+
+identifier : 'a'-'z' { 'a'-'z' };
+
+<< import "github.com/goccmack/gocc/example/usercontext/ast" >>
+
+// This grammar requires zero or more Imports followed by the literal: ...42...
+File
+    : ImportList "...42..."
+    ;
+
+ImportList
+	: Imports
+	| empty
+	;
+
+Imports
+    : Import << ast.NewImportList($0) >>
+    | Imports Import << ast.AppendImportToList($0, $1) >>
+    ;
+
+Import
+    : "import" identifier ";" << ast.NewImport($1, $Context) >>
+    ;

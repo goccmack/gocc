@@ -1,0 +1,7 @@
+# demonstrate the use of '$Context'
+# might have forgotten some semicolons here.
+# expect file at 5:13 ("import", because missing ;)
+
+import life import universe import everything
+
+...42...

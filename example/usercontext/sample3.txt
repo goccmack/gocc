@@ -1,0 +1,6 @@
+# demonstrate the use of '$Context'
+# expect fail at 4:1 ("so")
+
+so long and thanks for all the fish?
+
+...42...

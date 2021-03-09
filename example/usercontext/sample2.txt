@@ -1,0 +1,9 @@
+# demonstrate the use of '$Context'
+# this file won't compile because 6x9 is the question, not the answer.
+# expect fail at line 9 "...6x9..."
+
+import life;
+import universe;
+import everything;
+
+...6x9...

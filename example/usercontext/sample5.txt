@@ -1,0 +1,8 @@
+# demonstrate the use of '$Context'
+# this file should compile without an error.
+
+import life;
+import universe;
+import everything;
+
+...42...

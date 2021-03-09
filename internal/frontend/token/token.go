@@ -91,13 +91,11 @@ func (T *Token) UintValue() (uint64, error) {
 	return strconv.ParseUint(string(T.Lit), 10, 64)
 }
 
+var sdtRex = regexp.MustCompile(`\$(?:[0-9]+|Context)`)
+
 func (T *Token) SDTVal() string {
 	sdt := string(T.Lit)
-	rex, err := regexp.Compile(`\$[0-9]+`)
-	if err != nil {
-		panic(err)
-	}
-	idx := rex.FindAllStringIndex(sdt, -1)
+	idx := sdtRex.FindAllStringIndex(sdt, -1)
 	res := ""
 	if len(idx) <= 0 {
 		res = sdt
@@ -110,9 +108,13 @@ func (T *Token) SDTVal() string {
 					res += sdt[0:loc[0]]
 				}
 			}
-			res += "X["
-			res += sdt[loc[0]+1 : loc[1]]
-			res += "]"
+			if sdt[loc[0]+1] != 'C' { // positional
+				res += "X["
+				res += sdt[loc[0]+1 : loc[1]]
+				res += "]"
+			} else {
+				res += "C"
+			}
 		}
 		if idx[len(idx)-1][1] < len(sdt) {
 			res += sdt[idx[len(idx)-1][1]:]

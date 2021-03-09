@@ -2,10 +2,7 @@
 
 package parser
 
-import (
-	"github.com/goccmack/gocc/example/calc/token"
-	"github.com/goccmack/gocc/example/calc/util"
-)
+import "github.com/goccmack/gocc/example/usercontext/ast"
 
 type (
 	ProdTab      [numProductions]ProdTabEntry
@@ -23,7 +20,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : Calc	<<  >>`,
+		String: `S' : File	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -33,73 +30,63 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Calc : Expr	<<  >>`,
-		Id:         "Calc",
+		String: `File : ImportList "...42..."	<<  >>`,
+		Id:         "File",
 		NTType:     1,
 		Index:      1,
-		NumSymbols: 1,
+		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Expr "+" Term	<< X[0].(int64) + X[2].(int64), nil >>`,
-		Id:         "Expr",
+		String: `ImportList : Imports	<<  >>`,
+		Id:         "ImportList",
 		NTType:     2,
 		Index:      2,
-		NumSymbols: 3,
+		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0].(int64) + X[2].(int64), nil
+			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `Expr : Term	<<  >>`,
-		Id:         "Expr",
+		String: `ImportList : empty	<<  >>`,
+		Id:         "ImportList",
 		NTType:     2,
 		Index:      3,
-		NumSymbols: 1,
+		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return nil, nil
 		},
 	},
 	ProdTabEntry{
-		String: `Term : Term "*" Factor	<< X[0].(int64) * X[2].(int64), nil >>`,
-		Id:         "Term",
+		String: `Imports : Import	<< ast.NewImportList(X[0]) >>`,
+		Id:         "Imports",
 		NTType:     3,
 		Index:      4,
-		NumSymbols: 3,
-		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0].(int64) * X[2].(int64), nil
-		},
-	},
-	ProdTabEntry{
-		String: `Term : Factor	<<  >>`,
-		Id:         "Term",
-		NTType:     3,
-		Index:      5,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[0], nil
+			return ast.NewImportList(X[0])
 		},
 	},
 	ProdTabEntry{
-		String: `Factor : "(" Expr ")"	<< X[1], nil >>`,
-		Id:         "Factor",
+		String: `Imports : Imports Import	<< ast.AppendImportToList(X[0], X[1]) >>`,
+		Id:         "Imports",
+		NTType:     3,
+		Index:      5,
+		NumSymbols: 2,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ast.AppendImportToList(X[0], X[1])
+		},
+	},
+	ProdTabEntry{
+		String: `Import : "import" identifier ";"	<< ast.NewImport(X[1], C) >>`,
+		Id:         "Import",
 		NTType:     4,
 		Index:      6,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return X[1], nil
-		},
-	},
-	ProdTabEntry{
-		String: `Factor : int64	<< util.IntValue(X[0].(*token.Token).Lit) >>`,
-		Id:         "Factor",
-		NTType:     4,
-		Index:      7,
-		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
-			return util.IntValue(X[0].(*token.Token).Lit)
+			return ast.NewImport(X[1], C)
 		},
 	},
 }

@@ -88,9 +88,10 @@ func (s *stack) String() string {
 // Parser
 
 type Parser struct {
-	stack     *stack
-	nextToken *token.Token
-	pos       int
+	stack       *stack
+	nextToken   *token.Token
+	pos         int
+	UserContext interface{} // optional user-supplied field, accessible as $Context
 }
 
 type Scanner interface {
@@ -114,6 +115,7 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 		ErrorToken:     p.nextToken,
 		ErrorSymbols:   p.popNonRecoveryStates(),
 		ExpectedTokens: make([]string, 0, 8),
+		UserContext:    p.UserContext,
 	}
 	for t, action := range actionTab[p.stack.top()].actions {
 		if action != nil {
@@ -165,9 +167,10 @@ func (p *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
 
 func (p *Parser) newError(err error) error {
 	e := &parseError.Error{
-		Err:        err,
-		StackTop:   p.stack.top(),
-		ErrorToken: p.nextToken,
+		Err:         err,
+		StackTop:    p.stack.top(),
+		ErrorToken:  p.nextToken,
+		UserContext: p.UserContext,
 	}
 	actRow := actionTab[p.stack.top()]
 	for i, t := range actRow.actions {
@@ -202,7 +205,7 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 			p.nextToken = scanner.Scan()
 		case reduce:
 			prod := productionsTable[int(act)]
-			attrib, err := prod.ReduceFunc(p.stack.popN(prod.NumSymbols))
+			attrib, err := prod.ReduceFunc(p.stack.popN(prod.NumSymbols), p.UserContext)
 			if err != nil {
 				return nil, p.newError(err)
 			} else {

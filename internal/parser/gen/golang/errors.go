@@ -54,6 +54,7 @@ type Error struct {
 	ErrorSymbols   []ErrorSymbol
 	ExpectedTokens []string
 	StackTop       int
+	UserContext    interface{}
 }
 
 func (e *Error) String() string {
