@@ -136,7 +136,7 @@ An action expression is specified as "<", "<", goccExpressionList , ">", ">" . T
 type Attrib interface {}
 ```
 
-Also parsed elements of the corresponding bnf rule can be represented in the expressionList as "$", digit.
+Also, parsed elements of the corresponding bnf rule can be represented in the expressionList as "$", digit.
 
 Some action expression examples:
 
@@ -148,6 +148,13 @@ Some action expression examples:
 ```
 
 Contants, functions, etc. that are returned or called should be programmed by the user in his ast (Abstract Syntax Tree) package. The ast package requires that you define your own Attrib interface as shown above. All parameters passed to functions will be of this type.
+
+For raw elements that you know to be a `*token.Token`, you can use the short-hand: `$T0` etc, leading the following expressions to produce identical results:
+
+```
+<< $3.(*token.Token), nil >>
+<< $T3, nil >>
+```
 
 Some example of functions:
 

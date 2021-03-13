@@ -2,7 +2,10 @@
 
 package parser
 
-import "github.com/goccmack/gocc/example/astx/ast"
+import (
+	"github.com/goccmack/gocc/example/astx/ast"
+	"github.com/goccmack/gocc/example/astx/token"
+)
 
 type (
 	ProdTab      [numProductions]ProdTabEntry
@@ -50,13 +53,13 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : id	<< ast.NewStmt(X[0]) >>`,
+		String: `Stmt : id	<< ast.NewStmt(X[0].(*token.Token)) >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      3,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib) (Attrib, error) {
-			return ast.NewStmt(X[0])
+			return ast.NewStmt(X[0].(*token.Token))
 		},
 	},
 }
