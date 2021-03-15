@@ -23,17 +23,18 @@ lint: govet errcheck ## run linter checks
 
 goimports:  ## sort all imports
 	go get golang.org/x/tools/cmd/goimports
-	goimports -w .
+	goimports -l -w .
 
 regenerate: ## regenerate all example and test files
 	make install
 	make -C example regenerate
 	make -C internal/test regenerate
 	make gofmt
+	make goimports
 
 ci: ## run all ci checks
 	make regenerate
-	make goimports
+	git diff --exit-code . || { echo "ERROR: commit and working copy differ after 'make regenerate'"; exit 22 ; }
 	make test
 	golangci-lint run
-	git diff --exit-code .
+	git diff --exit-code . || { echo "ERROR: commit and working copy differ after 'make ci'" ; exit 2  ; }
