@@ -91,13 +91,16 @@ func (T *Token) UintValue() (uint64, error) {
 	return strconv.ParseUint(string(T.Lit), 10, 64)
 }
 
-var sdtRex = regexp.MustCompile(`\$([0-9]+|T[0-9]+)`)
+var sdtRex = regexp.MustCompile(`\$([0-9]+|T[0-9]+|Context)`)
 
 func (T *Token) SDTVal() string {
 	res := sdtRex.ReplaceAllStringFunc(string(T.Lit), func(match string) string {
 		switch match[1] {
 		case 'T': // user wants this as a token.
 			return "X[" + match[2:] + "].(*token.Token)"
+
+		case 'C': // user wants context.
+			return "C"
 
 		default: // just pass it as an attrib.
 			return "X[" + match[1:] + "]"
