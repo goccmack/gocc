@@ -23,13 +23,20 @@ const (
 )
 
 type Pos struct {
-	Offset int
-	Line   int
-	Column int
+	Offset  int
+	Line    int
+	Column  int
+	Context Context
 }
 
 func (p Pos) String() string {
-	return fmt.Sprintf("Pos(offset=%d, line=%d, column=%d)", p.Offset, p.Line, p.Column)
+	// If the context provides a filename, provide a human-readable File:Line:Column representation.
+	switch src := p.Context.(type) {
+	case Sourcer:
+		return fmt.Sprintf("%s:%d:%d", src.Source(), p.Line, p.Column)
+	default:
+		return fmt.Sprintf("Pos(offset=%d, line=%d, column=%d)", p.Offset, p.Line, p.Column)
+	}
 }
 
 type TokenMap struct {

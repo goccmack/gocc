@@ -8,3 +8,4 @@ regenerate:
 	make -C nolexer regenerate
 	make -C rr regenerate
 	make -C sr regenerate
+	make -C usercontext regenerate

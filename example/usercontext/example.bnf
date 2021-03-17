@@ -1,0 +1,24 @@
+!whitespace : ' ' | '\r' '\n' | '\n' ;
+
+lowercase   : 'a'-'z' { 'a'-'z' };
+
+capitalized : 'A'-'Z' { 'a'-'z' | 'A'-'Z' };
+
+<< import "github.com/goccmack/gocc/example/usercontext/ast" >>
+
+// This grammar supports some random number of identifiers (1,N),
+// and must be ended with the literal "...42..."
+
+Grammar
+	: Words "...42..." << $0, nil >>
+	;
+
+// Capitalized words get no special treatment, lowercase words invoke an ast function
+// that expects a valid ParserContext.
+Words
+	: capitalized
+	| Words capitalized
+	| lowercase << ast.NewIdentifier($0, $Context) >>
+	| Words lowercase << ast.NewIdentifier($1, $Context) >>
+	;
+
