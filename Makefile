@@ -13,7 +13,7 @@ gofmt: ## format all go files
 	gofmt -l -s -w .
 
 govet:
-	go vet -methods=false .
+	go vet ./...
 
 errcheck:
 	go get github.com/kisielk/errcheck@v1.2.0
@@ -31,10 +31,22 @@ regenerate: ## regenerate all example and test files
 	make -C internal/test regenerate
 	make gofmt
 	make goimports
+	make lint
+
+check: ## regenerate, lint and run a terse version of check
+	@# quietly install and regenerate
+	@make --quiet install
+	@make --quiet -C example regenerate
+	@make --quiet -C internal/test regenerate
+	@# promote formatting changes to errors
+	@if [ -n "$(gofmt -l -s .)" ]; then { echo "gofmt errors:"; gofmt -d -l -s . ; exit 1; }; fi
+	@if [ -n "$(gomports -l . )" ]; then { echo "goimports errors:"; goimports -l . ; exit 1; }; fi
+	@make --quiet lint
+	@go test ./... | grep -v "\[no test"
 
 ci: ## run all ci checks
 	make regenerate
-	git diff --exit-code . || { echo "ERROR: commit and working copy differ after 'make regenerate'"; exit 22 ; }
+	@git diff --exit-code . || { echo "ERROR: commit and working copy differ after 'make regenerate'"; exit 22 ; }
 	make test
 	golangci-lint run
-	git diff --exit-code . || { echo "ERROR: commit and working copy differ after 'make ci'" ; exit 2  ; }
+	@git diff --exit-code . || { echo "ERROR: commit and working copy differ after 'make ci'" ; exit 2  ; }
