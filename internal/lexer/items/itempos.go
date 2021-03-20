@@ -66,20 +66,18 @@ func (this *itemPos) top() (nt ast.LexNTNode, pos int) {
 	return
 }
 
-// returns level of stacking in the item. Bottom is 0
+// level returns the level of stacking in the item, where the bottom is 0.
 func (this *itemPos) level() int {
 	return len(this.stack) - 1
 }
 
-/*
-This function returns the ast.Node at the top of the stack
-*/
+// ntNode returns the ast.Node at the top of the stack.
 func (this *itemPos) ntNode() ast.LexNTNode {
 	n, _ := this.top()
 	return n
 }
 
-// returns the position within the top level of the stack
+// pos returns the position within the top level of the stack.
 func (this *itemPos) pos() int {
 	_, pos := this.top()
 	return pos

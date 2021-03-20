@@ -12,9 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-/*
-Support for the symbols of the language defined by the input grammar, G. This package supports code generation.
-*/
+// Support for the symbols of the language defined by the input grammar, G. This package supports code generation.
 package symbols
 
 import (
@@ -106,9 +104,8 @@ func (this *Symbols) List() []string {
 	return this.typeMap
 }
 
-/*
-Return a slice containing the ids of all symbols declared as string literals in the grammar.
-*/
+// ListStringLitSymbols will return a slice containing the ids of
+// all symbols declared as string literals in the grammar.
 func (this *Symbols) ListStringLitSymbols() []string {
 	return this.stringLitList
 }
@@ -130,9 +127,8 @@ func (this *Symbols) StringLitType(id string) int {
 	return -1
 }
 
-/*
-Return the id of the NT with index idx, or "" if there is no NT symbol with index, idx.
-*/
+// NTId will return the id of the NT with index idx, or "" if
+// there is no NT symbol with index, idx.
 func (this *Symbols) NTId(idx int) string {
 	if idx < 0 || idx >= len(this.ntTypeMap) {
 		return ""
@@ -140,23 +136,18 @@ func (this *Symbols) NTId(idx int) string {
 	return this.ntTypeMap[idx]
 }
 
-/*
-Return the number of NT symbols in the grammar
-*/
+// NumNTSymbols will return the number of NT symbols in the grammar.
 func (this *Symbols) NumNTSymbols() int {
 	return len(this.ntTypeMap)
 }
 
-/*
-Returns a slice containing all the non-terminal symbols of the grammar.
-*/
+// NTList returns a slice containing all the non-terminal symbols of the grammar.
 func (this *Symbols) NTList() []string {
 	return this.ntTypeMap
 }
 
-/*
-Returns the NT index of a symbol (index in 0..|NT|-1) or -1 if the symbol is not in NT.
-*/
+// NTType returns the NT index of a symbol (index in 0..|NT|-1)
+// or -1 if the symbol is not in NT.
 func (this *Symbols) NTType(symbol string) int {
 	if idx, exist := this.ntIdMap[symbol]; exist {
 		return idx
@@ -164,9 +155,8 @@ func (this *Symbols) NTType(symbol string) int {
 	return -1
 }
 
-/*
-Returns the total number of symbols in grammar: the sum of the terminals and non-terminals.
-*/
+// NumSymbols returns the total number of symbols in grammar:
+// the sum of the terminals and non-terminals.
 func (this *Symbols) NumSymbols() int {
 	return len(this.typeMap)
 }
