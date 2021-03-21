@@ -91,7 +91,7 @@ func (T *Token) UintValue() (uint64, error) {
 	return strconv.ParseUint(string(T.Lit), 10, 64)
 }
 
-var sdtRex = regexp.MustCompile(`\$([0-9]+|T[0-9]+|Context)`)
+var sdtRex = regexp.MustCompile(`\$(?:[0-9]+|T[0-9]+|Context)`)
 
 func (T *Token) SDTVal() string {
 	res := sdtRex.ReplaceAllStringFunc(string(T.Lit), func(match string) string {
