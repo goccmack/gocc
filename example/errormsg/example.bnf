@@ -1,0 +1,35 @@
+// Simple grammar that provides has increasing number of options for each
+// position in its declaration type. The first token has to be "var",
+// the second can be an idetifier or "_', the third could be "=", ":=" or
+// ";", and so on.
+
+!_whitespace : ' ' ;
+
+_letter : 'a'-'z' | 'A'-'Z' | '_' ;
+_digit : '0'-'9' ;
+
+identifier : _letter { _letter } ;
+
+float : _digit { _digit } '.' { _digit } ;
+integer : _digit { _digit } ;
+
+
+Declaration
+	: "var" Name Equal Default ";"
+	| "var" Name ";"
+	;
+
+
+Name
+	: identifier 
+	| "_"
+	;
+
+Equal
+	: "=" | ":="
+	;
+
+Default
+	: identifier | "_" | float | integer
+	;
+
