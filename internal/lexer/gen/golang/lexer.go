@@ -192,8 +192,10 @@ func (l *Lexer) Reset() {
 	l.pos = 0
 }
 
-// Lexer symbols:
+/*
+Lexer symbols:
 {{- range $i, $sym := .Symbols}}
-{{- printf "// %d: %s\n" $i $sym}}
+{{- printf "\n%d: %s" $i $sym}}
 {{- end}}
+*/
 `

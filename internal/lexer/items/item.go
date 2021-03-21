@@ -34,9 +34,15 @@ type Item struct {
 	*symbols.Symbols
 }
 
-// NewItem will return `T : •s` for a lex production `T : s` without executing
-// the ℇ-moves for s. Func *Item.Emoves must be called to return the set of basic
-// items for T : •s.
+/*
+NewItem will return
+  T : s
+for a lex production,
+  T : •s
+without executing the ℇ-moves for s.
+
+Func *Item.Emoves must be called to return the set of basic items for T : •s.
+*/
 func NewItem(prodId string, lexPart *ast.LexPart, symbols *symbols.Symbols) *Item {
 	prod := lexPart.Production(prodId)
 	item := &Item{
