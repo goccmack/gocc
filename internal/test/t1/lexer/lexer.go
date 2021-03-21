@@ -111,7 +111,10 @@ func (l *Lexer) Reset() {
 	l.pos = 0
 }
 
-// Lexer symbols:// 0: 'c'
-// 1: 'b'
-// 2: ' '
-// 3: .
+/*
+Lexer symbols:
+0: 'c'
+1: 'b'
+2: ' '
+3: .
+*/
