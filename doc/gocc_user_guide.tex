@@ -308,10 +308,10 @@
 			\item Each alternative of a production may optionally have an action expression. E.g.:
 
 			\begin{verbatim}
-				Factor : int64                 << util.IntValue($0.(*token.Token).Lit) >>
+				Factor : int64                 << util.IntValue($T0.Lit) >>
 			\end{verbatim}
 
-			has an action expression, \verb|<< util.IntValue($0.(*token.Token).Lit) >>|, which contains a call to the function, IntValue, in the generated file util/litconv.go. Attribute \verb|$0|, associated with the symbol \verb|int64| in the body of the production, is type asserted to \verb|*token.Token|, of which the field \verb|Lit| is passed as parameter to the function.
+			has an action expression, \verb|<< util.IntValue($T0.Lit) >>|, which contains a call to the function, IntValue, in the generated file util/litconv.go. Attribute \verb|$T0|, associated with the symbol \verb|int64| in the body of the production, is type asserted to \verb|*token.Token|, of which the field \verb|Lit| is passed as parameter to the function.
 			Action expressions must always return a value of type, \verb|(interface{}, error)|. If the returned error parameter is \verb|nil|, the \verb|interface{}| parameter is placed on the parser stack as the attribute of the recognised production.
 
 			\item Each recognised term in a production has an associated attribute. For example: the production alternative:
@@ -324,6 +324,8 @@
 
 			The action expression in this example means the following: {\em return the product of \$0 and \$2, both cast to type \verb|int64|, together with \verb|nil|.}
 		\end{enumerate}
+
+			If an attribute is known to be a \verb|*token.Token| they can be referenced through the shorthand syntax, \$T0, \$T1 and \$T2, respectively. Note, you will need to import the token package.
 
 		When the parser has recognised the whole body of a production alternative, it calls the associated action expression with the attributes of the recognised language symbols of that body. If the action expression returns a non-nil error the parser stops and returns the error to the calling user application. If the action expression returns a nil error the parser replaces the recognised language symbols of the production on its stack with the attribute returned by the action expression.
 
@@ -707,7 +709,10 @@ Error: 1 LR-1 conflicts
 	The grammar is in \verb|ast.bnf|:
 
 	\begin{verbatim}
-		<< import "github.com/goccmack/gocc/example/astx/ast" >>
+		<<
+		import "github.com/goccmack/gocc/example/astx/ast"
+		import "github.com/goccmack/gocc/example/astx/token"
+		>>
 
 		StmtList :
 		      Stmt             << ast.NewStmtList($0) >>
@@ -715,7 +720,7 @@ Error: 1 LR-1 conflicts
 		;
 
 		Stmt :
-		      id               << ast.NewStmt($0) >>
+		      id               << ast.NewStmt($T0) >>
 		;
 	\end{verbatim}
 
@@ -749,8 +754,9 @@ Error: 1 LR-1 conflicts
 		    return append(stmtList.(StmtList), stmt.(Stmt)), nil
 		}
 
-		func NewStmt(stmtList interface{}) (Stmt, error) {
-		    return Stmt(stmtList.(*token.Token).Lit), nil
+		// stmtList is passed using $T0.
+		func NewStmt(stmtList *token.Token) (Stmt, error) {
+		    return Stmt(stmtList.Lit), nil
 		}
 	\end{verbatim}
 
