@@ -34,9 +34,10 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Hello : Saying name	<< func () (Attrib, error) {
-							fmt.Println(string(X[1].(*token.Token).Lit)); 
-                       		return nil, nil} () >>`,
+		String: `Hello : Saying name	<< func() (Attrib, error) {
+				fmt.Println(string(X[1].(*token.Token).Lit))
+				return nil, nil
+			}() >>`,
 		Id:         "Hello",
 		NTType:     1,
 		Index:      1,
@@ -49,9 +50,10 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Saying : "hello"	<< func () (Attrib, error) {
-							fmt.Print("hello "); 
-                       		return nil, nil} () >>`,
+		String: `Saying : "hello"	<< func() (Attrib, error) {
+				fmt.Print("hello ")
+				return nil, nil
+			}() >>`,
 		Id:         "Saying",
 		NTType:     2,
 		Index:      2,
@@ -64,9 +66,10 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Saying : "hiya"	<< func () (Attrib, error) {
-							fmt.Print("hiya "); 
-                            return nil, nil} () >>`,
+		String: `Saying : "hiya"	<< func() (Attrib, error) {
+				fmt.Print("hiya ")
+				return nil, nil
+			}() >>`,
 		Id:         "Saying",
 		NTType:     2,
 		Index:      3,
