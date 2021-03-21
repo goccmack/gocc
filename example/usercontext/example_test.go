@@ -49,7 +49,7 @@ func TestTokenContext(t *testing.T) {
 			if err == nil {
 				t.Fatalf("expecting an error")
 			}
-			const expected = `Error in S0: ...42...(2,...42...), Pos(offset=0, line=1, column=1), expected one of: capitalized lowercase `
+			const expected = `1:1: error: expected either capitalized or lowercase; got: "...42..."`
 			if err.Error() != expected {
 				t.Fatalf("incorrect error:\nexpected: %q\nactual  : %q", expected, err.Error())
 			}
@@ -65,7 +65,7 @@ func TestTokenContext(t *testing.T) {
 			}
 			// not sure why err.ErrorToken has 12 in its pos.Column field, but currently
 			// this is correct.
-			const expected = `Error in S0: ...42...(2,...42...), Pos(offset=11, line=1, column=12): sixbyseven: NewIdentifier expected ParserContext, got <nil>`
+			const expected = `1:12: error: sixbyseven: NewIdentifier expected ParserContext, got <nil>`
 			if err.Error() != expected {
 				t.Fatalf("incorrect error:\nexpected: %q\nactual  : %q", expected, err.Error())
 			}
