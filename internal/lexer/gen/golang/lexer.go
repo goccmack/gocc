@@ -80,19 +80,19 @@ const (
 )
 
 type Lexer struct {
-	src    []byte
-	pos    int
-	line   int
-	column int
+	src     []byte
+	pos     int
+	line    int
+	column  int
 	Context token.Context
 }
 
 func NewLexer(src []byte) *Lexer {
 	lexer := &Lexer{
-		src:    src,
-		pos:    0,
-		line:   1,
-		column: 1,
+		src:     src,
+		pos:     0,
+		line:    1,
+		column:  1,
 		Context: nil,
 	}
 	return lexer
