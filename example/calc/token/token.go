@@ -59,9 +59,8 @@ func (m TokenMap) StringType(typ Type) string {
 	return fmt.Sprintf("%s(%d)", m.Id(typ), typ)
 }
 
-// Equal implements the Equal interface for Token, returning true if the
-// token Type and Lit are matches.
-func (t *Token) Equal(rhs interface{}) bool {
+// Equals returns returns true if the token Type and Lit are matches.
+func (t *Token) Equals(rhs interface{}) bool {
 	switch rhsT := rhs.(type) {
 	case *Token:
 		return t == rhsT || (t.Type == rhsT.Type && bytes.Equal(t.Lit, rhsT.Lit))

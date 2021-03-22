@@ -9,8 +9,8 @@ import (
 	"github.com/goccmack/gocc/internal/test/t1/token"
 )
 
-type Equaler interface {
-	Equal(interface{}) bool
+type Equals interface {
+	Equals(interface{}) bool
 }
 
 func Test1(t *testing.T) {
@@ -91,24 +91,24 @@ func mockToken(name string, tokenType token.Type, line, column int) *token.Token
 	}
 }
 
-// assertEqualityIs will verify that lhs.Equal(rhs) and rhs.Equal(lhs) is true/false
+// assertEqualityIs will verify that lhs.Equals(rhs) and rhs.Equals(lhs) is true/false
 // depending on 'equality'.
-func assertEqualityIs(t *testing.T, lhs, rhs Equaler, equality bool) {
+func assertEqualityIs(t *testing.T, lhs, rhs Equals, equality bool) {
 	t.Helper()
-	if lhs.Equal(rhs) != equality {
-		t.Fatalf("expected lhs.Equal(rhs) to be %v: %v vs %v", equality, lhs, rhs)
+	if lhs.Equals(rhs) != equality {
+		t.Fatalf("expected lhs.Equals(rhs) to be %v: %v vs %v", equality, lhs, rhs)
 	}
-	if rhs.Equal(lhs) != equality {
-		t.Fatalf("expected rhs.Equal(lhs) to be %v: %v vs %v", equality, rhs, lhs)
+	if rhs.Equals(lhs) != equality {
+		t.Fatalf("expected rhs.Equals(lhs) to be %v: %v vs %v", equality, rhs, lhs)
 	}
 }
 
-func assertEqual(t *testing.T, lhs, rhs Equaler) {
+func assertEqual(t *testing.T, lhs, rhs Equals) {
 	t.Helper()
 	assertEqualityIs(t, lhs, rhs, true)
 }
 
-func assertNotEqual(t *testing.T, lhs, rhs Equaler) {
+func assertNotEqual(t *testing.T, lhs, rhs Equals) {
 	t.Helper()
 	assertEqualityIs(t, lhs, rhs, false)
 }
