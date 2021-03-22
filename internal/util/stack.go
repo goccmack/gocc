@@ -18,21 +18,18 @@ type Stack struct {
 	stack []interface{}
 }
 
+// NewStack will return a new, initialized stack.
 func NewStack(capacity int) *Stack {
 	return &Stack{make([]interface{}, 0, capacity)}
 }
 
-/*
-Returns the number of items on the stack or 0 if the stack is empty
-*/
+// Len returns the number of items on the stack, or 0 if it is empty.
 func (this *Stack) Len() int {
 	return len(this.stack)
 }
 
-/*
-Returns the item at index in the stack. The index of the bottom of the stack is 0.
-Returns nil if index is higher than stack.Len()-1
-*/
+// Peek will return the item at `index` in the stack, where 0 is the bottom. Returns
+// nil if the index exceeds the length of the stack.
 func (this *Stack) Peek(index int) interface{} {
 	if index > len(this.stack)-1 {
 		return nil
@@ -40,9 +37,7 @@ func (this *Stack) Peek(index int) interface{} {
 	return this.stack[index]
 }
 
-/*
-Removes and returns the last item pushed or nil if the stack is empty
-*/
+// Pop removes and returns the item at the top of the stack or nil.
 func (this *Stack) Pop() (item interface{}) {
 	if len(this.stack) == 0 {
 		return nil
@@ -52,9 +47,7 @@ func (this *Stack) Pop() (item interface{}) {
 	return
 }
 
-/*
-Push a new item onto the stack. item may not be nil
-*/
+// Push places an item at the top of the stack or panics if item is nil.
 func (this *Stack) Push(items ...interface{}) *Stack {
 	for _, item := range items {
 		if item == nil {
@@ -65,9 +58,7 @@ func (this *Stack) Push(items ...interface{}) *Stack {
 	return this
 }
 
-/*
-Returns the top element without popping the stack
-*/
+// Top returns the item at the top of the stack without altering the stack.
 func (this *Stack) Top() interface{} {
 	return this.stack[len(this.stack)-1]
 }

@@ -14,9 +14,7 @@
 
 package ast
 
-/*
-All syntax symbols are types of string
-*/
+// All syntax symbols are types of string.
 type SyntaxSymbol interface {
 	SymbolString() string
 	String() string

@@ -38,10 +38,7 @@ func AddLexImport(imports, lexImport interface{}) (*LexImports, error) {
 	return imports.(*LexImports).Add(lexImport.(*LexImport))
 }
 
-/*
-Return true if a new lex import has been added.
-Return false if lexImport is a duplicate.
-*/
+// Add will return true if a new lex import has been added, otherwise false.
 func (this *LexImports) Add(lexImport *LexImport) (*LexImports, error) {
 	if _, exist := this.Imports[lexImport.Id]; exist {
 		return nil, fmt.Errorf("duplicate builtin declaration: %s", lexImport.String())
