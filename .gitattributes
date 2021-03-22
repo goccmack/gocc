@@ -1,0 +1,12 @@
+*.go        text eol=lf
+*.bnf       text eol=lf
+*.md        text eol=lf
+*.txt       text eol=lf
+*.tex       text eol=lf
+*.sh        text eol=lf
+
+Makefile    text eol=lf
+LICENSE     text eol=lf
+
+*.pdf       -text
+*.jpg       -text
