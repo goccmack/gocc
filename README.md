@@ -2,7 +2,7 @@
 Have a look at [https://github.com/goccmack/gogll](https://github.com/goccmack/gogll) for scannerless GLL parser generation.
 # Gocc
 
-![Build Status](https://github.com/goccmack/gogll/workflows/build/badge.svg)
+![Build Status](https://github.com/goccmack/gocc/workflows/build/badge.svg)
 
 ## Introduction
 
