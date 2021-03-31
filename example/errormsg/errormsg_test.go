@@ -134,3 +134,14 @@ func TestErrors_Error(t *testing.T) {
 		assertEqual(t, "7:6: error: expected one of var, let or struct; got: \"42\"", err.Error())
 	})
 }
+
+func TestErrors_ErrorConext(t *testing.T) {
+	// "Before": error without a way to know the source file.
+	err := &errors.Error{ErrorToken: mockToken(111, "moyles", 16, 5), ExpectedTokens: []string{"ant", "dec"}}
+	assertEqual(t, `16:5: error: expected either ant or dec; got: "moyles"`, err.Error())
+
+	// Now attach a Context that implements `Source() string` and verify we
+	// get a proper File-Line-Column error using the same err.
+	err.ErrorToken.Context = &lexer.SourceContext{Filepath: "/addicted/to/plaice.lyrics"}
+	assertEqual(t, `/addicted/to/plaice.lyrics:16:5: error: expected either ant or dec; got: "moyles"`, err.Error())
+}

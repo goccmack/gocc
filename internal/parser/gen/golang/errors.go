@@ -118,6 +118,12 @@ func (e *Error) Error() string {
 	// by editors and IDEs; user will need to prefix it with a filename.
 	text := fmt.Sprintf("%d:%d: error: ", e.ErrorToken.Pos.Line, e.ErrorToken.Pos.Column)
 
+	// See if the error token can provide us with the filename.
+	switch src := e.ErrorToken.Pos.Context.(type) {
+	case token.Sourcer:
+		text = src.Source() + ":" + text
+	}
+
 	if e.Err != nil {
 		// Custom error specified, e.g. by << nil, errors.New("missing newline") >>
 		text += e.Err.Error()
