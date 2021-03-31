@@ -2,7 +2,7 @@
 Have a look at [https://github.com/goccmack/gogll](https://github.com/goccmack/gogll) for scannerless GLL parser generation.
 # Gocc
 
-[![Build Status](https://travis-ci.org/goccmack/gocc.svg?branch=master)](https://travis-ci.org/goccmack/gocc)
+[![Build Status](https://github.com/goccmack/gogll/workflows/build/badge.svg)]
 
 ## Introduction
 
@@ -200,8 +200,8 @@ These projects use gocc:
 * [gonum/gonum](https://github.com/gonum/gonum) - [BNF file](https://github.com/gonum/gonum/blob/master/graph/formats/dot/internal/dot.bnf) - DOT decoder (part of the graph library of Gonum)
 * [llir/llvm](https://github.com/llir/llvm) - [BNF file](https://github.com/llir/llvm/blob/master/asm/internal/ll.bnf) - LLVM IR library in pure Go
 * [mewmew/uc](https://github.com/mewmew/uc) - [BNF file](https://github.com/mewmew/uc/blob/master/gocc/uc.bnf) - A compiler for the µC language
-* [gographviz](https://github.com/awalterschulze/gographviz) - [BNF file](https://github.com/awalterschulze/gographviz/blob/master/dot.bnf) - Parses the Graphviz DOT language in golang 
+* [gographviz](https://github.com/awalterschulze/gographviz) - [BNF file](https://github.com/awalterschulze/gographviz/blob/master/dot.bnf) - Parses the Graphviz DOT language in golang
 * [katydid/relapse](http://katydid.github.io/) - [BNF file](https://github.com/katydid/katydid/blob/master/relapse/bnf/all.bnf) - Encoding agnostic validation language
-* [skius/stringlang](https://github.com/skius/stringlang) - [BNF file](https://github.com/skius/stringlang/blob/main/lang.bnf) - An interpreter for the expression-oriented language StringLang  
+* [skius/stringlang](https://github.com/skius/stringlang) - [BNF file](https://github.com/skius/stringlang/blob/main/lang.bnf) - An interpreter for the expression-oriented language StringLang
 * [miller](https://github.com/johnkerl/miller/blob/master/go/README.md) - [BNF file](https://github.com/johnkerl/miller/blob/master/go/src/miller/parsing/mlr.bnf) - Miller is like awk, sed, cut, join, and sort for name-indexed data such as CSV, TSV, and tabular JSON.
 
