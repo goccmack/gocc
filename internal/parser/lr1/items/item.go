@@ -35,9 +35,7 @@ type Item struct {
 	str             string
 }
 
-/*
-following symbol: the symbol expected after this item has been reduced
-*/
+// following symbol: the symbol expected after this item has been reduced.
 func NewItem(prodIdx int, prod *ast.SyntaxProd, pos int, followingSymbol string) *Item {
 	item := &Item{
 		ProdIdx:         prodIdx,
@@ -76,9 +74,7 @@ func (this *Item) accept(sym string) bool {
 		sym == "$"
 }
 
-/*
-If the action is shift the next state is nextState
-*/
+// If the action is shift the next state is nextState.
 func (this *Item) action(sym string, nextState int) action.Action {
 	switch {
 	case sym == "INVALID":
@@ -97,7 +93,7 @@ func (this *Item) canRecover() bool {
 	return this.Len > 0 && this.Body[0] == "error"
 }
 
-//Returns whether two Items are equal based on their ProdIdx, Pos and NextToken.
+// Equals weturns whether two Items are equal based on their ProdIdx, Pos and NextToken.
 func (this *Item) Equals(that *Item) bool {
 	if that == nil {
 		return false
@@ -112,9 +108,7 @@ func (this *Item) Move() (next *Item) {
 	return NewItem(this.ProdIdx, this.Prod, this.Pos+1, this.FollowingSymbol)
 }
 
-/*
-Returns true if this is a reduce item
-*/
+// reduce returns true if this is a reduce item.
 func (this *Item) reduce() bool {
 	return this.Len == 0 || this.Pos >= this.Len
 }

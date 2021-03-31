@@ -35,9 +35,9 @@ type Item struct {
 }
 
 /*
-For a lex production,
+NewItem will return
   T : s
-func NewItem returns
+for a lex production,
   T : •s
 without executing the ℇ-moves for s.
 
@@ -263,11 +263,8 @@ func (this *Item) Equal(that *Item) bool {
 	return this.hashKey == that.hashKey
 }
 
-/*
-This function returns the expected symbol for shift items and
-nil for reduce items.
-This is the position of a basic item -- no ℇ-moves are possible.
-*/
+// ExpectedSymbol returns the expected symbol for shift items and nil for reduce
+// items. This is the position of a basic item -- no ℇ-moves are possible.
 func (this *Item) ExpectedSymbol() (node ast.LexTNode) {
 	nt, pos := this.pos.top()
 	if pos >= nt.Len() {
@@ -331,12 +328,7 @@ func (this *Item) MoveRegDefId(id string) []*Item {
 	return nil
 }
 
-/*
-returns true for reduce items, like:
-	T : xyz •
-
-and false otherwise
-*/
+// Reduce returns true for return items, such as `T : xyz •`, otherwise returns false.
 func (this *Item) Reduce() bool {
 	if this.pos.level() != 0 {
 		return false
