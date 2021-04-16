@@ -19,9 +19,9 @@ type SyntaxEof int
 var EOF SyntaxEof = 0
 
 func (SyntaxEof) SymbolsString() string {
-	return "$"
+	return "␚"
 }
 
 func (SyntaxEof) String() string {
-	return "$"
+	return "␚"
 }
