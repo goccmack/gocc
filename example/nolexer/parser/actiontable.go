@@ -15,7 +15,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			nil,      // name
 			shift(3), // hello
 			shift(4), // hiya
@@ -25,7 +25,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,          // INVALID
-			accept(true), // $
+			accept(true), // ␚
 			nil,          // name
 			nil,          // hello
 			nil,          // hiya
@@ -35,7 +35,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			shift(5), // name
 			nil,      // hello
 			nil,      // hiya
@@ -45,7 +45,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			reduce(2), // name, reduce: Saying
 			nil,       // hello
 			nil,       // hiya
@@ -55,7 +55,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			reduce(3), // name, reduce: Saying
 			nil,       // hello
 			nil,       // hiya
@@ -65,7 +65,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			reduce(1), // $, reduce: Hello
+			reduce(1), // ␚, reduce: Hello
 			nil,       // name
 			nil,       // hello
 			nil,       // hiya

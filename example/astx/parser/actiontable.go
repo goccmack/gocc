@@ -15,7 +15,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			shift(3), // id
 		},
 	},
@@ -23,7 +23,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,          // INVALID
-			accept(true), // $
+			accept(true), // ␚
 			shift(3),     // id
 		},
 	},
@@ -31,7 +31,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			reduce(1), // $, reduce: StmtList
+			reduce(1), // ␚, reduce: StmtList
 			reduce(1), // id, reduce: StmtList
 		},
 	},
@@ -39,7 +39,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			reduce(3), // $, reduce: Stmt
+			reduce(3), // ␚, reduce: Stmt
 			reduce(3), // id, reduce: Stmt
 		},
 	},
@@ -47,7 +47,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			reduce(2), // $, reduce: StmtList
+			reduce(2), // ␚, reduce: StmtList
 			reduce(2), // id, reduce: StmtList
 		},
 	},

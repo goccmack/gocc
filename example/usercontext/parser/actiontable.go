@@ -15,7 +15,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			nil,      // ...42...
 			shift(3), // capitalized
 			shift(4), // lowercase
@@ -25,7 +25,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,          // INVALID
-			accept(true), // $
+			accept(true), // ␚
 			nil,          // ...42...
 			nil,          // capitalized
 			nil,          // lowercase
@@ -35,7 +35,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			shift(5), // ...42...
 			shift(6), // capitalized
 			shift(7), // lowercase
@@ -45,7 +45,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			reduce(2), // ...42..., reduce: Words
 			reduce(2), // capitalized, reduce: Words
 			reduce(2), // lowercase, reduce: Words
@@ -55,7 +55,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			reduce(4), // ...42..., reduce: Words
 			reduce(4), // capitalized, reduce: Words
 			reduce(4), // lowercase, reduce: Words
@@ -65,7 +65,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			reduce(1), // $, reduce: Grammar
+			reduce(1), // ␚, reduce: Grammar
 			nil,       // ...42...
 			nil,       // capitalized
 			nil,       // lowercase
@@ -75,7 +75,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			reduce(3), // ...42..., reduce: Words
 			reduce(3), // capitalized, reduce: Words
 			reduce(3), // lowercase, reduce: Words
@@ -85,7 +85,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			reduce(5), // ...42..., reduce: Words
 			reduce(5), // capitalized, reduce: Words
 			reduce(5), // lowercase, reduce: Words

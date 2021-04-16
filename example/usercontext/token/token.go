@@ -137,7 +137,7 @@ func (t *Token) StringValue() string {
 var TokMap = TokenMap{
 	typeMap: []string{
 		"INVALID",
-		"$",
+		"␚",
 		"...42...",
 		"capitalized",
 		"lowercase",
@@ -145,7 +145,7 @@ var TokMap = TokenMap{
 
 	idMap: map[string]Type{
 		"INVALID":     0,
-		"$":           1,
+		"␚":           1,
 		"...42...":    2,
 		"capitalized": 3,
 		"lowercase":   4,

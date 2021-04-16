@@ -15,7 +15,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			shift(2), // var
 			nil,      // ;
 			nil,      // identifier
@@ -30,7 +30,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,          // INVALID
-			accept(true), // $
+			accept(true), // ␚
 			nil,          // var
 			nil,          // ;
 			nil,          // identifier
@@ -45,7 +45,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			nil,      // var
 			nil,      // ;
 			shift(4), // identifier
@@ -60,7 +60,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,      // INVALID
-			nil,      // $
+			nil,      // ␚
 			nil,      // var
 			shift(7), // ;
 			nil,      // identifier
@@ -75,7 +75,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			reduce(3), // ;, reduce: Name
 			nil,       // identifier
@@ -90,7 +90,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			reduce(4), // ;, reduce: Name
 			nil,       // identifier
@@ -105,7 +105,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			nil,       // ;
 			shift(11), // identifier
@@ -120,7 +120,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			reduce(2), // $, reduce: Declaration
+			reduce(2), // ␚, reduce: Declaration
 			nil,       // var
 			nil,       // ;
 			nil,       // identifier
@@ -135,7 +135,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			nil,       // ;
 			reduce(5), // identifier, reduce: Equal
@@ -150,7 +150,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			nil,       // ;
 			reduce(6), // identifier, reduce: Equal
@@ -165,7 +165,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			shift(15), // ;
 			nil,       // identifier
@@ -180,7 +180,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			reduce(7), // ;, reduce: Default
 			nil,       // identifier
@@ -195,7 +195,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			reduce(8), // ;, reduce: Default
 			nil,       // identifier
@@ -210,7 +210,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			nil,       // $
+			nil,       // ␚
 			nil,       // var
 			reduce(9), // ;, reduce: Default
 			nil,       // identifier
@@ -225,7 +225,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,        // INVALID
-			nil,        // $
+			nil,        // ␚
 			nil,        // var
 			reduce(10), // ;, reduce: Default
 			nil,        // identifier
@@ -240,7 +240,7 @@ var actionTab = actionTable{
 		canRecover: false,
 		actions: [numSymbols]action{
 			nil,       // INVALID
-			reduce(1), // $, reduce: Declaration
+			reduce(1), // ␚, reduce: Declaration
 			nil,       // var
 			nil,       // ;
 			nil,       // identifier
