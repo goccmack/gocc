@@ -480,7 +480,7 @@ scanAgain:
 		S.next() // always make progress
 		switch ch {
 		case -1:
-			tok = S.tokenMap.Type("$")
+			tok = S.tokenMap.Type("␚")
 		case '"':
 			tok = S.tokenMap.Type("string_lit")
 			S.scanString(pos)
