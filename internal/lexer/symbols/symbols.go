@@ -70,10 +70,8 @@ func (this *Symbols) makeMaps() {
 	}
 }
 
-/*
-This function returns the external function associated with the import id.
-If there is no registered import id the function returns "".
-*/
+// ExternalFunction returns the external function associated with the import id
+// or "" if there is none.
 func (this *Symbols) ExternalFunction(id string) string {
 	if extFunc, exist := this.importFuncMap[id]; exist {
 		return extFunc

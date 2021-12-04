@@ -12,7 +12,12 @@ id : (_letter | '_') {_idchar} ;
 
 /* Syntax elements */
 
-<< import "github.com/goccmack/gocc/example/astx/ast" >>
+<<
+import (
+	"github.com/goccmack/gocc/example/astx/ast"
+	"github.com/goccmack/gocc/example/astx/token"
+)
+>>
 
 StmtList : 
       Stmt             << ast.NewStmtList($0) >>
@@ -20,5 +25,5 @@ StmtList :
 ;
 
 Stmt : 
-      id               << ast.NewStmt($0) >>
+      id               << ast.NewStmt($T0) >>
 ;

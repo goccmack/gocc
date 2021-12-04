@@ -21,4 +21,5 @@ import (
 
 func Gen(pkg, outdir string, tokenMap *token.TokenMap) {
 	golang.GenToken(pkg, outdir, tokenMap)
+	golang.GenContext(pkg, outdir)
 }

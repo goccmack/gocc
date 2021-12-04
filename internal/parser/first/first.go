@@ -22,9 +22,7 @@ import (
 	"github.com/goccmack/gocc/internal/parser/symbols"
 )
 
-/*
-key: Id of production
-*/
+// FirstSets represents a map of id->production.
 type FirstSets struct {
 	firstSets map[string]SymbolSet
 	symbols   *symbols.Symbols
@@ -32,7 +30,7 @@ type FirstSets struct {
 
 const EMPTY = "empty"
 
-//Returns the FirstSets of the Grammar.
+// GetFirstSets returns the FirstSets of the Grammar.
 func GetFirstSets(g *ast.Grammar, symbols *symbols.Symbols) *FirstSets {
 	firstSets := &FirstSets{
 		firstSets: make(map[string]SymbolSet),
@@ -99,7 +97,7 @@ func (this *FirstSets) AddToken(prodName string, terminal string) (symbolAdded b
 	return
 }
 
-//Returns a set.
+// GetSet will return the SymbolSet corresponding to `prodName` or nil.
 func (this *FirstSets) GetSet(prodName string) SymbolSet {
 	if set, ok := this.firstSets[prodName]; ok {
 		return set
@@ -107,7 +105,7 @@ func (this *FirstSets) GetSet(prodName string) SymbolSet {
 	return nil
 }
 
-//Returns a string representing the FirstSets.
+// String will return the string representing the FirstSets.
 func (this *FirstSets) String() string {
 	buf := new(strings.Builder)
 	for _, nt := range this.symbols.NTList() {
@@ -117,7 +115,7 @@ func (this *FirstSets) String() string {
 	return buf.String()
 }
 
-//Returns the First SymbolSet given the ast.SyntaxSymbol.
+// First returns the first `SymbolSet` given the ast.SyntaxSymbol.
 func First(fs *FirstSets, sym string) SymbolSet {
 	if fs.symbols.IsTerminal(sym) {
 		return SymbolSet{sym: true}

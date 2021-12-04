@@ -20,7 +20,7 @@ string_lit : '"' {.} '"' ;
 
 !whitespace : ' ' | '\t' | '\n' | '\r' ;
 
-<<import ( "github.com/goccmack/gocc/example/bools/ast" )>>
+<<import "github.com/goccmack/gocc/example/bools/ast">>
 
 BoolExpr
 	:	BoolExpr1													<< $0, nil >>
