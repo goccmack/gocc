@@ -113,9 +113,6 @@ func TestErrors_Error(t *testing.T) {
 	// Direct testing by manually constructing Error objects.
 	t.Run("custom error", func(t *testing.T) {
 		err := &errors.Error{ErrorToken: mockToken(999, "", 6, 7), Err: fmt.Errorf("source on fire")}
-		if err == nil {
-			t.Fatalf("failed to produce an error")
-		}
 		assertEqual(t, "6:7: error: source on fire", err.Error())
 	})
 

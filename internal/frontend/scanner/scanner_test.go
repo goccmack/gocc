@@ -39,10 +39,10 @@ func Test1(tst *testing.T) {
 		s.Init([]byte(t.src), token.FRONTENDTokens)
 		tok, _ := s.Scan()
 		if tok.Type != t.typ {
-			tst.Error(fmt.Sprintf("src: %s, type: %d -- got type: %d\n", t.src, t.typ, tok.Type))
+			tst.Errorf("src: %s, type: %d -- got type: %d\n", t.src, t.typ, tok.Type)
 		}
 		if string(tok.Lit) != t.tokLit {
-			tst.Error(fmt.Sprintf("src: %s, expected lit: %s, got: %s\n", t.src, t.tokLit, string(tok.Lit)))
+			tst.Errorf("src: %s, expected lit: %s, got: %s\n", t.src, t.tokLit, string(tok.Lit))
 		}
 	}
 }
@@ -53,9 +53,9 @@ func Test2(t *testing.T) {
 	s.Init([]byte(fmt.Sprintf("<< %s >>", lit)), token.FRONTENDTokens)
 	tok, _ := s.Scan()
 	if tok.Type != token.FRONTENDTokens.Type("g_sdt_lit") {
-		t.Error(fmt.Sprintf("Expected tok type: g_sdt_lit, got: %s", token.FRONTENDTokens.TokenString(tok.Type)))
+		t.Errorf("Expected tok type: g_sdt_lit, got: %s", token.FRONTENDTokens.TokenString(tok.Type))
 	}
 	if tok.SDTVal() != lit {
-		t.Error(fmt.Sprintf("Expected SDTVal: %s, got: %s\n", lit, tok.SDTVal()))
+		t.Errorf("Expected SDTVal: %s, got: %s\n", lit, tok.SDTVal())
 	}
 }
