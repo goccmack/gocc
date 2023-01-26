@@ -20,7 +20,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : BoolExpr	<<  >>`,
+		String:     `S' : BoolExpr	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -30,7 +30,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `BoolExpr : BoolExpr1	<< X[0], nil >>`,
+		String:     `BoolExpr : BoolExpr1	<< X[0], nil >>`,
 		Id:         "BoolExpr",
 		NTType:     1,
 		Index:      1,
@@ -40,7 +40,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `BoolExpr1 : Val	<< X[0], nil >>`,
+		String:     `BoolExpr1 : Val	<< X[0], nil >>`,
 		Id:         "BoolExpr1",
 		NTType:     2,
 		Index:      2,
@@ -50,7 +50,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `BoolExpr1 : BoolExpr "&" BoolExpr1	<< ast.NewBoolAndExpr(X[0], X[2]) >>`,
+		String:     `BoolExpr1 : BoolExpr "&" BoolExpr1	<< ast.NewBoolAndExpr(X[0], X[2]) >>`,
 		Id:         "BoolExpr1",
 		NTType:     2,
 		Index:      3,
@@ -60,7 +60,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `BoolExpr1 : BoolExpr "|" BoolExpr1	<< ast.NewBoolOrExpr(X[0], X[2]) >>`,
+		String:     `BoolExpr1 : BoolExpr "|" BoolExpr1	<< ast.NewBoolOrExpr(X[0], X[2]) >>`,
 		Id:         "BoolExpr1",
 		NTType:     2,
 		Index:      4,
@@ -70,7 +70,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `BoolExpr1 : "(" BoolExpr ")"	<< ast.NewBoolGroupExpr(X[1]) >>`,
+		String:     `BoolExpr1 : "(" BoolExpr ")"	<< ast.NewBoolGroupExpr(X[1]) >>`,
 		Id:         "BoolExpr1",
 		NTType:     2,
 		Index:      5,
@@ -80,7 +80,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Val : "true"	<< ast.TRUE, nil >>`,
+		String:     `Val : "true"	<< ast.TRUE, nil >>`,
 		Id:         "Val",
 		NTType:     3,
 		Index:      6,
@@ -90,7 +90,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Val : "false"	<< ast.FALSE, nil >>`,
+		String:     `Val : "false"	<< ast.FALSE, nil >>`,
 		Id:         "Val",
 		NTType:     3,
 		Index:      7,
@@ -100,7 +100,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Val : CompareExpr	<< X[0], nil >>`,
+		String:     `Val : CompareExpr	<< X[0], nil >>`,
 		Id:         "Val",
 		NTType:     3,
 		Index:      8,
@@ -110,7 +110,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Val : SubStringExpr	<< X[0], nil >>`,
+		String:     `Val : SubStringExpr	<< X[0], nil >>`,
 		Id:         "Val",
 		NTType:     3,
 		Index:      9,
@@ -120,7 +120,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `CompareExpr : int_lit "<" int_lit	<< ast.NewLessThanExpr(X[0], X[2]) >>`,
+		String:     `CompareExpr : int_lit "<" int_lit	<< ast.NewLessThanExpr(X[0], X[2]) >>`,
 		Id:         "CompareExpr",
 		NTType:     4,
 		Index:      10,
@@ -130,7 +130,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `CompareExpr : int_lit ">" int_lit	<< ast.NewLessThanExpr(X[2], X[0]) >>`,
+		String:     `CompareExpr : int_lit ">" int_lit	<< ast.NewLessThanExpr(X[2], X[0]) >>`,
 		Id:         "CompareExpr",
 		NTType:     4,
 		Index:      11,
@@ -140,7 +140,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `SubStringExpr : string_lit "in" string_lit	<< ast.NewSubStringExpr(X[0], X[2]) >>`,
+		String:     `SubStringExpr : string_lit "in" string_lit	<< ast.NewSubStringExpr(X[0], X[2]) >>`,
 		Id:         "SubStringExpr",
 		NTType:     5,
 		Index:      12,

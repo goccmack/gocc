@@ -126,14 +126,14 @@ func First(fs *FirstSets, sym string) SymbolSet {
 /*
 Returns First of the string, xyz, e.g.: for the item,
 
-  X  : w • xyz
+	  X  : w • xyz
 
-  Let x, y, z be strings from the union of T and NT.
-  First(xy...z) =
-	First(x) if First(x) does not contain ϵ
- 	First(x) + First(y) if First(x) contains ϵ but First(y) does not contain ϵ
- 	...
- 	First(x) + First(y) + ... + First(z)
+	  Let x, y, z be strings from the union of T and NT.
+	  First(xy...z) =
+		First(x) if First(x) does not contain ϵ
+	 	First(x) + First(y) if First(x) contains ϵ but First(y) does not contain ϵ
+	 	...
+	 	First(x) + First(y) + ... + First(z)
 */
 func FirstS(firstSets *FirstSets, symbols []string) (first SymbolSet) {
 	first = make(SymbolSet)

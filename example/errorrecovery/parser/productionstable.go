@@ -20,7 +20,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : StmtList	<<  >>`,
+		String:     `S' : StmtList	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -30,7 +30,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `StmtList : Stmt	<< ast.NewStmtList(X[0]) >>`,
+		String:     `StmtList : Stmt	<< ast.NewStmtList(X[0]) >>`,
 		Id:         "StmtList",
 		NTType:     1,
 		Index:      1,
@@ -40,7 +40,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `StmtList : StmtList Stmt	<< ast.AppendStmt(X[0], X[1]) >>`,
+		String:     `StmtList : StmtList Stmt	<< ast.AppendStmt(X[0], X[1]) >>`,
 		Id:         "StmtList",
 		NTType:     1,
 		Index:      2,
@@ -50,7 +50,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : id	<< ast.NewStmt(X[0]) >>`,
+		String:     `Stmt : id	<< ast.NewStmt(X[0]) >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      3,
@@ -60,7 +60,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Stmt : error	<<  >>`,
+		String:     `Stmt : error	<<  >>`,
 		Id:         "Stmt",
 		NTType:     2,
 		Index:      4,

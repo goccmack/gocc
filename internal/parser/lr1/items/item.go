@@ -22,7 +22,7 @@ import (
 	"github.com/goccmack/gocc/internal/parser/lr1/action"
 )
 
-//An LR1 Item.
+// An LR1 Item.
 type Item struct {
 	ProdIdx         int             // index in list of productions in Grammar.Prod
 	Prod            *ast.SyntaxProd // The syntax production of this item

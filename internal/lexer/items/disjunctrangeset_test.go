@@ -62,7 +62,9 @@ ABCDEF GHIJKL MNOPQR STUVWX YZ
 
 /*
 ABCDEF 		 MNOPQR
-			|===========|
+
+	|===========|
+
 |-------|	|===========| 1
 */
 func TestDisjunctSets1(t *testing.T) {
@@ -85,7 +87,9 @@ func TestDisjunctSets1(t *testing.T) {
 
 /*
 ABCDEF 		 MNOPQR
-			|===========|
+
+	|===========|
+
 |-----------+---|-------+ 2
 */
 func TestDisjunctSets2(t *testing.T) {
@@ -113,7 +117,9 @@ func TestDisjunctSets2(t *testing.T) {
 
 /*
 ABCDEF 		GHIJKL
-			|===========|
+
+	|===========|
+
 |-----------+-----------| 3
 */
 func TestDisjunctSets3(t *testing.T) {
@@ -140,7 +146,9 @@ func TestDisjunctSets3(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
+
+	|===========|
+
 |-----------+-----------+---| 4
 */
 func TestDisjunctSets4(t *testing.T) {
@@ -168,8 +176,9 @@ func TestDisjunctSets4(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
-			|---|-------+ 5
+
+	|===========|
+	|---|-------+ 5
 */
 func TestDisjunctSets5(t *testing.T) {
 	set := NewDisjunctRangeSet()
@@ -195,8 +204,9 @@ func TestDisjunctSets5(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
-			|===========| 6
+
+	|===========|
+	|===========| 6
 */
 func TestDisjunctSets6(t *testing.T) {
 	set := NewDisjunctRangeSet()
@@ -221,8 +231,9 @@ func TestDisjunctSets6(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
-			|-----------+---| 7
+
+	|===========|
+	|-----------+---| 7
 */
 func TestDisjunctSets7(t *testing.T) {
 	set := NewDisjunctRangeSet()
@@ -248,8 +259,9 @@ func TestDisjunctSets7(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
-			+===========+	|----| 8
+
+	|===========|
+	+===========+	|----| 8
 */
 func TestDisjunctSets8(t *testing.T) {
 	set := NewDisjunctRangeSet()
@@ -275,8 +287,9 @@ func TestDisjunctSets8(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
-			+---|----|--+ 9
+
+	|===========|
+	+---|----|--+ 9
 */
 func TestDisjunctSets9(t *testing.T) {
 	set := NewDisjunctRangeSet()
@@ -303,8 +316,9 @@ func TestDisjunctSets9(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
-			+---|-------| 10
+
+	|===========|
+	+---|-------| 10
 */
 func TestDisjunctSets10(t *testing.T) {
 	set := NewDisjunctRangeSet()
@@ -330,8 +344,9 @@ func TestDisjunctSets10(t *testing.T) {
 
 /*
 ABCDEF GHIJKL MNOPQR STUVWX YZ
-			|===========|
-			+---|-------+---| 11
+
+	|===========|
+	+---|-------+---| 11
 */
 func TestDisjunctSets11(t *testing.T) {
 	set := NewDisjunctRangeSet()
@@ -358,7 +373,9 @@ func TestDisjunctSets11(t *testing.T) {
 
 /*
 ABC DEF GHI JKL MNO PQR STUVWX YZ
+
 	|=======|	|=======|
+
 |---+-------+---+-----------+
 */
 func TestDisjunctSets12(t *testing.T) {

@@ -24,7 +24,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : Hello	<<  >>`,
+		String:     `S' : Hello	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
