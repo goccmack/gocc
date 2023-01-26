@@ -70,8 +70,8 @@ func NewItem(prodIdx int, prod *ast.SyntaxProd, pos int, followingSymbol string)
 func (this *Item) accept(sym string) bool {
 	return this.ProdIdx == 0 &&
 		this.Pos >= this.Len &&
-		this.FollowingSymbol == "$" &&
-		sym == "$"
+		this.FollowingSymbol == "␚" &&
+		sym == "␚"
 }
 
 // If the action is shift the next state is nextState.

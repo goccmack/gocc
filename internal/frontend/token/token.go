@@ -33,7 +33,7 @@ func (this *Token) Equals(that *Token) bool {
 func (this *Token) String() string {
 	str := ""
 	if this.Type == EOF {
-		str += "\"$\""
+		str += "\"␚\""
 	} else {
 		str += "\"" + string(this.Lit) + "\""
 	}
@@ -118,7 +118,7 @@ type TokenMap struct {
 
 func NewMap() *TokenMap {
 	tm := &TokenMap{make([]string, 0, 10), make(map[string]Type)}
-	tm.AddToken("$")
+	tm.AddToken("␚")
 	// tm.AddToken("ε")
 	return tm
 }

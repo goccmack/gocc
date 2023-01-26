@@ -53,7 +53,7 @@ func NewSymbols(grammar *ast.Grammar) *Symbols {
 	}
 
 	symbols.Add("INVALID")
-	symbols.Add("$")
+	symbols.Add("␚")
 
 	if grammar.SyntaxPart == nil {
 		return symbols
