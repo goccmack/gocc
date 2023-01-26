@@ -23,13 +23,16 @@ import (
 
 /*
 id : _a | _b _a =>
+
 	id : • _a | _b _a
 	id : _a | • _b _a
 
 id : • a | _b =>
+
 	id : (_a | _b _a) •
 
 id : a | • _b _a =>
+
 	id : _a | _b • _a =>
 		id : (_a | _b _A) •
 */
@@ -51,9 +54,9 @@ func Test1(t *testing.T) {
 }
 
 /*
-
 /*
 id : _a {_b} =>
+
 	id : • _a {_b} =>
 		id : _a {• _b}
 		id : _a {_b} •
@@ -76,10 +79,12 @@ func Test2(t *testing.T) {
 
 /*
 id : [.] . =>
+
 	id : [• .] .
 	id : [.] • .
 
 id : [.] • . =>
+
 	id : [.] . •
 */
 func Test3(t *testing.T) {
@@ -98,15 +103,18 @@ func Test3(t *testing.T) {
 
 /*
 id : _a (_a | _b) _c =>
+
 	id : •a (_a | _b) _c =>
 		id : _a (• _a | _b) _c
 		id : _a (_a | • _b) _c
 
 id : _a (• _a | _b) _c =>
+
 	id : _a (_a | _b) •_c =>
 		id : _a (_a | _b) _c •
 
 id : _a (_a | • _b) _c
+
 	id : _a (_a | _b) •_c =>
 		id : _a (_a | _b) _c •
 */
@@ -139,11 +147,13 @@ func Test4(t *testing.T) {
 
 /*
 id : {_a | _b} =>
+
 	id : {• _a | _b}
 	id : {_a | • _b}
 	id : {_a | _b} •
 
 id : {• _a | _b} =>
+
 	id : {• _a | _b}
 	id : {_a | • _b}
 	id : {_a | _b} •

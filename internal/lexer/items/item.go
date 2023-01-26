@@ -36,9 +36,13 @@ type Item struct {
 
 /*
 NewItem will return
-  T : s
+
+	T : s
+
 for a lex production,
-  T : •s
+
+	T : •s
+
 without executing the ℇ-moves for s.
 
 Func *Item.Emoves must be called to return the set of basic items for T : •s.
@@ -71,36 +75,36 @@ func (this *Item) Clone() *Item {
 
 For a general description of dotted items (items) and ℇ-moves of items, see:
 
-  Modern Compiler Design. Dick Grune, et al. Second Edition. Springer 2012.
+	Modern Compiler Design. Dick Grune, et al. Second Edition. Springer 2012.
 
 ℇ-moves for lex items:
 
-  Lex T be any production.
-  Let w,x,y,z be any strings of lexical symbols.
-  Let s = x|...|y have one or more alternatives.
+	Lex T be any production.
+	Let w,x,y,z be any strings of lexical symbols.
+	Let s = x|...|y have one or more alternatives.
 
-  Then
+	Then
 
-  T : •s              =>  T : •x|...|z
-                          ...
-                          T :  x|...|•z
+	T : •s              =>  T : •x|...|z
+	                        ...
+	                        T :  x|...|•z
 
-  T : x•[y]z          =>  T : x[•y]z
-                          T : x[y]•z
+	T : x•[y]z          =>  T : x[•y]z
+	                        T : x[y]•z
 
-  T : x[y•]z          =>  T : x[y]•z
+	T : x[y•]z          =>  T : x[y]•z
 
-  T : x•{y}z          =>  T : x{•y}z
-                          T : x{y}•z
+	T : x•{y}z          =>  T : x{•y}z
+	                        T : x{y}•z
 
-  T : x{y•}z          =>  T : x{•y}z
-                          T : x{y}•z
+	T : x{y•}z          =>  T : x{•y}z
+	                        T : x{y}•z
 
-  T : w•(x|...|y)z    =>  T : w(•x|...|y)z
-                          ...
-                          T : w( x|...|•y)z
+	T : w•(x|...|y)z    =>  T : w(•x|...|y)z
+	                        ...
+	                        T : w( x|...|•y)z
 
-  T : x(...|y•|...)z  =>  T : x(...|y|...)•z
+	T : x(...|y•|...)z  =>  T : x(...|y|...)•z
 */
 func (this *Item) Emoves() (items []*Item) {
 	newItems := util.NewStack(8).Push(this)

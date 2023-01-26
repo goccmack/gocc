@@ -15,7 +15,7 @@
 /*
 This package contains the Abstract Syntax Tree (AST) elements used by gocc to generate a target lexer and parser.
 
-The top-level node is Grammar in grammar.go
+# The top-level node is Grammar in grammar.go
 
 The EBNF accepted by gocc consists of two parts:
 

@@ -18,7 +18,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : Declaration	<<  >>`,
+		String:     `S' : Declaration	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -28,7 +28,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Declaration : "var" Name Equal Default ";"	<<  >>`,
+		String:     `Declaration : "var" Name Equal Default ";"	<<  >>`,
 		Id:         "Declaration",
 		NTType:     1,
 		Index:      1,
@@ -38,7 +38,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Declaration : "var" Name ";"	<<  >>`,
+		String:     `Declaration : "var" Name ";"	<<  >>`,
 		Id:         "Declaration",
 		NTType:     1,
 		Index:      2,
@@ -48,7 +48,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Name : identifier	<<  >>`,
+		String:     `Name : identifier	<<  >>`,
 		Id:         "Name",
 		NTType:     2,
 		Index:      3,
@@ -58,7 +58,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Name : "_"	<<  >>`,
+		String:     `Name : "_"	<<  >>`,
 		Id:         "Name",
 		NTType:     2,
 		Index:      4,
@@ -68,7 +68,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Equal : "="	<<  >>`,
+		String:     `Equal : "="	<<  >>`,
 		Id:         "Equal",
 		NTType:     3,
 		Index:      5,
@@ -78,7 +78,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Equal : ":="	<<  >>`,
+		String:     `Equal : ":="	<<  >>`,
 		Id:         "Equal",
 		NTType:     3,
 		Index:      6,
@@ -88,7 +88,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Default : identifier	<<  >>`,
+		String:     `Default : identifier	<<  >>`,
 		Id:         "Default",
 		NTType:     4,
 		Index:      7,
@@ -98,7 +98,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Default : "_"	<<  >>`,
+		String:     `Default : "_"	<<  >>`,
 		Id:         "Default",
 		NTType:     4,
 		Index:      8,
@@ -108,7 +108,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Default : float	<<  >>`,
+		String:     `Default : float	<<  >>`,
 		Id:         "Default",
 		NTType:     4,
 		Index:      9,
@@ -118,7 +118,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Default : integer	<<  >>`,
+		String:     `Default : integer	<<  >>`,
 		Id:         "Default",
 		NTType:     4,
 		Index:      10,

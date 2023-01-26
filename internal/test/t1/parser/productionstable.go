@@ -18,7 +18,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : A	<<  >>`,
+		String:     `S' : A	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -28,7 +28,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `A : B "c"	<< []interface{}{X[0], "c"}, nil >>`,
+		String:     `A : B "c"	<< []interface{}{X[0], "c"}, nil >>`,
 		Id:         "A",
 		NTType:     1,
 		Index:      1,
@@ -38,7 +38,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `B : empty	<<  >>`,
+		String:     `B : empty	<<  >>`,
 		Id:         "B",
 		NTType:     2,
 		Index:      2,
@@ -48,7 +48,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `B : "b"	<< "b", nil >>`,
+		String:     `B : "b"	<< "b", nil >>`,
 		Id:         "B",
 		NTType:     2,
 		Index:      3,

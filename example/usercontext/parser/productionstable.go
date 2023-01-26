@@ -20,7 +20,7 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : Grammar	<<  >>`,
+		String:     `S' : Grammar	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
@@ -30,7 +30,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Grammar : Words "...42..."	<< X[0], nil >>`,
+		String:     `Grammar : Words "...42..."	<< X[0], nil >>`,
 		Id:         "Grammar",
 		NTType:     1,
 		Index:      1,
@@ -40,7 +40,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Words : capitalized	<<  >>`,
+		String:     `Words : capitalized	<<  >>`,
 		Id:         "Words",
 		NTType:     2,
 		Index:      2,
@@ -50,7 +50,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Words : Words capitalized	<<  >>`,
+		String:     `Words : Words capitalized	<<  >>`,
 		Id:         "Words",
 		NTType:     2,
 		Index:      3,
@@ -60,7 +60,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Words : lowercase	<< ast.NewIdentifier(X[0], C) >>`,
+		String:     `Words : lowercase	<< ast.NewIdentifier(X[0], C) >>`,
 		Id:         "Words",
 		NTType:     2,
 		Index:      4,
@@ -70,7 +70,7 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Words : Words lowercase	<< ast.NewIdentifier(X[1], C) >>`,
+		String:     `Words : Words lowercase	<< ast.NewIdentifier(X[1], C) >>`,
 		Id:         "Words",
 		NTType:     2,
 		Index:      5,

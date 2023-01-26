@@ -55,7 +55,6 @@ func (T Type) String() string {
 // Position describes an arbitrary source position
 // including the file, line, and column location.
 // A Position is valid if the line number is > 0.
-//
 type Position struct {
 	Offset int // offset, starting at 0
 	Line   int // line number, starting at 1
@@ -71,7 +70,6 @@ func (pos *Position) IsValid() bool { return pos.Line > 0 }
 //	line:column         valid position without file name
 //	file                invalid position with file name
 //	-                   invalid position without file name
-//
 func (pos Position) String() string {
 	s := ""
 	if pos.IsValid() {
