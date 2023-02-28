@@ -3,7 +3,6 @@ package token
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"regexp"
 	"strconv"
@@ -215,5 +214,5 @@ func (this *TokenMap) WriteFile(file string) error {
 	for i := 1; i < len(this.tokenMap); i++ {
 		out += this.TokenString(Type(i)) + "\n"
 	}
-	return ioutil.WriteFile(file, []byte(out), 0644)
+	return os.WriteFile(file, []byte(out), 0644)
 }

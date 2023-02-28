@@ -3,7 +3,7 @@
 package lexer
 
 import (
-	"io/ioutil"
+	"os"
 	"unicode/utf8"
 
 	"github.com/goccmack/gocc/internal/test/t1/token"

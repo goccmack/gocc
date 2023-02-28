@@ -66,7 +66,7 @@ package lexer
 
 import (
 {{if .Debug}}	"fmt"
-{{end}}	"io/ioutil"
+{{end}}	"os"
 	"unicode/utf8"
 
 {{if .Debug}}	"{{.UtilImport}}"
