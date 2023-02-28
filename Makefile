@@ -20,11 +20,7 @@ ci-lint: ## see https://golangci-lint.run/, applies .golangci.yml
 
 lint: govet ci-lint
 
-goimports: ## sort and separate imports
-	go get golang.org/x/tools/cmd/goimports
-	goimports -l -w .
-
-goclean: gofmt goimports ## apply go style rules to source
+goclean: gofmt ## apply go style rules to source
 
 regenerate: ## regenerate all example and test files
 	make install
@@ -41,7 +37,6 @@ check: ## regenerate, lint and run a terse version of check
 	@make --quiet -C internal/test regenerate
 	@# promote formatting changes to errors
 	@if [ -n "$(gofmt -l -s .)" ]; then { echo "gofmt errors:"; gofmt -d -l -s . ; exit 1; }; fi
-	@if [ -n "$(gomports -l . )" ]; then { echo "goimports errors:"; goimports -l . ; exit 1; }; fi
 	@make --quiet lint
 	@go test ./... | grep -v "\[no test"
 
