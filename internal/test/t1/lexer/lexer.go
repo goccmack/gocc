@@ -45,7 +45,7 @@ func (s *SourceContext) Source() string {
 }
 
 func NewLexerFile(fpath string) (*Lexer, error) {
-	src, err := ioutil.ReadFile(fpath)
+	src, err := os.ReadFile(fpath)
 	if err != nil {
 		return nil, err
 	}
