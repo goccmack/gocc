@@ -1,9 +1,5 @@
 module github.com/goccmack/gocc
 
-go 1.12
+go 1.19
 
-require (
-	golang.org/x/mod v0.8.0
-	golang.org/x/tools v0.6.0 // indirect
-	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-)
+require golang.org/x/mod v0.8.0

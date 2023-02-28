@@ -17,15 +17,13 @@ Package md extracts code sections of markdown files
 */
 package md
 
-import (
-	"io/ioutil"
-)
+import "os"
 
 /*
 GetSource returns code sections enclosed in triple backticks.
 */
 func GetSource(mdfile string) (string, error) {
-	inbuf, err := ioutil.ReadFile(mdfile)
+	inbuf, err := os.ReadFile(mdfile)
 	if err != nil {
 		return "", err
 	}

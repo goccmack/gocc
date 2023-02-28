@@ -66,7 +66,7 @@ package lexer
 
 import (
 {{if .Debug}}	"fmt"
-{{end}}	"io/ioutil"
+{{end}}	"os"
 	"unicode/utf8"
 
 {{if .Debug}}	"{{.UtilImport}}"
@@ -109,7 +109,7 @@ func (s *SourceContext) Source() string {
 }
 
 func NewLexerFile(fpath string) (*Lexer, error) {
-	src, err := ioutil.ReadFile(fpath)
+	src, err := os.ReadFile(fpath)
 	if err != nil {
 		return nil, err
 	}

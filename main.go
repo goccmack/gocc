@@ -20,7 +20,6 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"strings"
@@ -119,7 +118,7 @@ func getSource(cfg config.Config) []byte {
 		}
 		return []byte(str)
 	}
-	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
+	srcBuffer, err := os.ReadFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

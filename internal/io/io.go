@@ -15,7 +15,6 @@
 package io
 
 import (
-	"io/ioutil"
 	"os"
 	"path"
 )
@@ -28,7 +27,7 @@ func WriteFile(fpath string, data []byte) {
 	if err := os.MkdirAll(dir, PermDir); err != nil {
 		panic(err)
 	}
-	if err := ioutil.WriteFile(fpath, data, PermFile); err != nil {
+	if err := os.WriteFile(fpath, data, PermFile); err != nil {
 		panic(err)
 	}
 }
