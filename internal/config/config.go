@@ -19,7 +19,6 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -260,7 +259,7 @@ func currentModule() (string, string, error) {
 	}
 
 	full := path.Join(parent, info.Name())
-	data, err := ioutil.ReadFile(full)
+	data, err := os.ReadFile(full)
 	if err != nil {
 		return "", "", fmt.Errorf("reading file '%s': %s", full, err)
 	}

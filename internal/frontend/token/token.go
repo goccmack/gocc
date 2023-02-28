@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -130,7 +131,7 @@ func (this *TokenMap) AddToken(str string) {
 }
 
 func NewMapFromFile(file string) (*TokenMap, error) {
-	src, err := ioutil.ReadFile(file)
+	src, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
