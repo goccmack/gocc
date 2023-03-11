@@ -11,7 +11,7 @@ import (
 )
 
 func TestFail(t *testing.T) {
-	sml, err := test([]byte("a b ; d e f"))
+	sml, err := test([]byte("a ; b"))
 	if err != nil {
 		t.Fail()
 	}
