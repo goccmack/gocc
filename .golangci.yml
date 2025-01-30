@@ -16,6 +16,6 @@ linters:
     - unconvert
     - whitespace
   disable:
-    - deadcode
     - unused
-    - varcheck
+    - depguard
+    - govet
