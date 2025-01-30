@@ -10,7 +10,6 @@ linters:
     - goimports
     - misspell
     - prealloc
-    - scopelint
     - unconvert
     - whitespace
   disable:
