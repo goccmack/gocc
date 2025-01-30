@@ -2,7 +2,6 @@ run:
   timeout: 60s
 linters:
   enable:
-    - depguard
     - dogsled
     - dupl
     - errcheck
