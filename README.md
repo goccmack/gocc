@@ -194,8 +194,8 @@ These projects use gocc:
 * [gonum/gonum](https://github.com/gonum/gonum) - [BNF file](https://github.com/gonum/gonum/blob/master/graph/formats/dot/internal/dot.bnf) - DOT decoder (part of the graph library of Gonum)
 * [llir/llvm](https://github.com/llir/llvm) - [BNF file](https://github.com/llir/llvm/blob/28149269dab73cc63915a9c2c6c7b25dbd4db027/asm/internal/ll.bnf) - LLVM IR library in pure Go
 * [mewmew/uc](https://github.com/mewmew/uc) - [BNF file](https://github.com/mewmew/uc/blob/master/gocc/uc.bnf) - A compiler for the µC language
-* [gographviz](https://github.com/awalterschulze/gographviz) - [BNF file](https://github.com/awalterschulze/gographviz/blob/master/dot.bnf) - Parses the Graphviz DOT language in golang
-* [katydid/relapse](http://katydid.github.io/) - [BNF file](https://github.com/katydid/katydid/blob/master/relapse/bnf/all.bnf) - Encoding agnostic validation language
+* [gographviz](https://github.com/awalterschulze/gographviz) - [BNF file](https://github.com/awalterschulze/gographviz/blob/main/dot.bnf) - Parses the Graphviz DOT language in golang
+* [katydid](http://katydid.github.io/) - [BNF file](https://github.com/katydid/validator-go/blob/main/validator/bnf/all.bnf) - Encoding agnostic validation language
 * [skius/stringlang](https://github.com/skius/stringlang) - [BNF file](https://github.com/skius/stringlang/blob/main/lang.bnf) - An interpreter for the expression-oriented language StringLang
 * [miller](https://github.com/johnkerl/miller) - [BNF file](https://github.com/johnkerl/miller/blob/main/internal/pkg/parsing/mlr.bnf) - Miller is like awk, sed, cut, join, and sort for name-indexed data such as CSV, TSV, and tabular JSON.
 * [nesgo](https://github.com/retroenv/nesgo) - [BNF file](https://github.com/retroenv/nesgo/blob/main/internal/gocc/lang.bnf) - A Go compiler for NES
