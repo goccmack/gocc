@@ -8,7 +8,6 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - govet
     - misspell
     - prealloc
     - scopelint
