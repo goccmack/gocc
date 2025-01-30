@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [1.19]
+        go: [1.23]
     env:
       working-directory: ./src/github.com/goccmack/gocc
 
@@ -31,7 +31,7 @@ jobs:
         path: src/github.com/goccmack/gocc
 
     - name: Install linter
-      run: "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1 && go install golang.org/x/tools/cmd/goimports@latest"
+      run: "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.63.4"
       working-directory: ${{env.working-directory}}
 
     - name: Check

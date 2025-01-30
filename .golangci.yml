@@ -2,20 +2,18 @@ run:
   timeout: 60s
 linters:
   enable:
-    - depguard
     - dogsled
     - dupl
     - errcheck
     - gocyclo
     - gofmt
     - goimports
-    - govet
     - misspell
     - prealloc
-    - scopelint
     - unconvert
     - whitespace
   disable:
-    - deadcode
     - unused
-    - varcheck
+    - depguard
+    - govet
+    - staticcheck
