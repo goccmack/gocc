@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [1.23]
+        go: [1.24]
     env:
       working-directory: ./src/github.com/goccmack/gocc
 
