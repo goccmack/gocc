@@ -116,5 +116,5 @@ func checkItemsetResult(t *testing.T, set *ItemSet, data *itemSetTestData) {
 }
 
 func testItemSetsErr(t *testing.T, set *ItemSet, data *itemSetTestData, msg string) {
-	t.Fatalf(msg)
+	t.Fatal(msg)
 }
