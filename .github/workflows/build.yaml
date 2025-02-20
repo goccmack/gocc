@@ -34,8 +34,8 @@ jobs:
     #   run: "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.63.4"
     #   working-directory: ${{env.working-directory}}
 
-    # - name: Check
-    #   run: go get && make ci
-    #   working-directory: ${{env.working-directory}}
+    - name: Check
+      run: go get && make ci
+      working-directory: ${{env.working-directory}}
 
 

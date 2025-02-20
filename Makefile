@@ -27,7 +27,7 @@ regenerate: ## regenerate all example and test files
 	make -C example regenerate
 	make -C internal/test regenerate
 	make goclean
-	make lint
+	# make lint
 
 check: ## regenerate, lint and run a terse version of check
 	@# quietly install and regenerate
