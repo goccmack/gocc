@@ -35,6 +35,7 @@ jobs:
       with:
         version: v1.60
         working-directory: ${{env.working-directory}}
+        install-mode: "goinstall"
 
     - name: Check
       run: go get && make ci
