@@ -19,8 +19,8 @@ ci-lint: ## see https://golangci-lint.run/, applies .golangci.yml
 	golangci-lint run
 
 lint:
-    govet
-    ## ci-lint ## Disabled for go 1.24 until golangci-lint supports it
+    make govet
+    ## make ci-lint ## Temporarily disabled for go 1.24 until golangci-lint supports go 1.24
 
 goclean: gofmt ## apply go style rules to source
 
