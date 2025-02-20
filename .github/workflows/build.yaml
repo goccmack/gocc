@@ -30,6 +30,10 @@ jobs:
         fetch-depth: 1
         path: src/github.com/goccmack/gocc
 
+    - name: Check
+      run: go get && make ci
+      working-directory: ${{env.working-directory}}
+
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v6
       with:
@@ -37,8 +41,4 @@ jobs:
         working-directory: ${{env.working-directory}}
         install-mode: "goinstall" # This is slow, but necessary if you are using a newer version of Go than golangci-lint supports
         args: --config=./.golangci.yml
-
-    - name: Check
-      run: go get && make ci
-      working-directory: ${{env.working-directory}}
 
