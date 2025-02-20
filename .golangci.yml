@@ -16,4 +16,6 @@ linters:
     - unused
     - depguard
     - govet
+    - typecheck
     - staticcheck
+    
