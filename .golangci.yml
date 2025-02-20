@@ -17,4 +17,3 @@ linters:
     - depguard
     - govet
     - staticcheck
-    - typecheck
