@@ -33,7 +33,7 @@ jobs:
     - name: golangci-lint
       uses: golangci/golangci-lint-action@v6
       with:
-        version: v1.63.5
+        version: v1.60
 
     - name: Check
       run: go get && make ci
