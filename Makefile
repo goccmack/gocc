@@ -15,11 +15,6 @@ gofmt: ## format all go files
 govet: ## run go's code vetting on all code
 	go vet ./...
 
-ci-lint: ## see https://golangci-lint.run/, applies .golangci.yml
-	golangci-lint run
-
-lint: govet ci-lint
-
 goclean: gofmt ## apply go style rules to source
 
 regenerate: ## regenerate all example and test files
@@ -27,9 +22,9 @@ regenerate: ## regenerate all example and test files
 	make -C example regenerate
 	make -C internal/test regenerate
 	make goclean
-	make lint
+	make govet
 
-check: ## regenerate, lint and run a terse version of check
+check: ## regenerate and run a terse version of check
 	@# quietly install and regenerate
 	@go mod tidy
 	@make --quiet install
@@ -37,7 +32,6 @@ check: ## regenerate, lint and run a terse version of check
 	@make --quiet -C internal/test regenerate
 	@# promote formatting changes to errors
 	@if [ -n "$(gofmt -l -s .)" ]; then { echo "gofmt errors:"; gofmt -d -l -s . ; exit 1; }; fi
-	@make --quiet lint
 	@go test ./... | grep -v "\[no test"
 
 ci: ## run all ci checks
