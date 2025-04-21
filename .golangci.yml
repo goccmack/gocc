@@ -1,20 +1,36 @@
-run:
-  timeout: 60s
+version: "2"
 linters:
   enable:
     - dogsled
     - dupl
-    - errcheck
     - gocyclo
-    - gofmt
-    - goimports
     - misspell
     - prealloc
     - unconvert
     - whitespace
   disable:
-    - unused
     - depguard
     - govet
     - staticcheck
-    
+    - unused
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

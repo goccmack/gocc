@@ -31,9 +31,9 @@ jobs:
         path: src/github.com/goccmack/gocc
 
     - name: golangci-lint
-      uses: golangci/golangci-lint-action@v6
+      uses: golangci/golangci-lint-action@v7
       with:
-        version: v1.60
+        version: v2.1.2
         args: --issues-exit-code=0 # Do not care about output, we run golangci-lint in the Makefile again and then we do care.
         working-directory: ${{env.working-directory}}
         install-mode: "goinstall" # This is slow, but necessary if you are using a newer version of Go than golangci-lint supports
