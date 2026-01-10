@@ -156,11 +156,17 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 				}
 				// Compute first set once per item instead of per production
 				first := first1(this.FS, bodySuffix, i.FollowingSymbol)
+				// Pre-allocate expected number of new items to reduce allocations
 				for _, pi := range prodIndices {
 					prod := this.Prods[pi]
 					for _, t := range first {
-						if item := NewItem(pi, prod, 0, t); !c.Contain(item) {
-							c.AddItem(item)
+						// Create item and check containment
+						item := NewItem(pi, prod, 0, t)
+						// Use direct map lookup instead of Contain() for better performance
+						if _, exists := c.imap[item.str]; !exists {
+							c.imap[item.str] = item
+							c.Items = append(c.Items, item)
+							c.keyDirty = true
 							again = true
 						}
 					}
@@ -173,10 +179,8 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 }
 
 func (this *ItemSet) Contain(item *Item) bool {
-	if _, contain := this.imap[item.str]; contain {
-		return true
-	}
-	return false
+	_, exists := this.imap[item.str]
+	return exists
 }
 
 func (this *ItemSet) ContainString(item string) bool {
@@ -203,9 +207,9 @@ func (this *ItemSet) Equal(that *ItemSet) bool {
 // first1 returns the characters contained within the first set.
 // We iterate over the map directly to avoid unnecessary sorting.
 func first1(firstSets *first.FirstSets, symbols []string, following string) []string {
-	// Build symbol sequence efficiently - avoid copy when possible
 	var symbolSeq []string
 	if len(symbols) == 0 {
+		// Avoid allocation for the common case of empty symbols
 		symbolSeq = []string{following}
 	} else {
 		// Pre-allocate with exact size to avoid reallocation
@@ -215,9 +219,7 @@ func first1(firstSets *first.FirstSets, symbols []string, following string) []st
 	}
 
 	firsts := first.FirstS(firstSets, symbolSeq)
-	// Pre-allocate with exact capacity if known, otherwise reasonable estimate
-	// Return keys directly from map iteration - order doesn't matter for this use case
-	// Removed sort.Strings() call which was O(n log n) and unnecessary
+	// Pre-allocate keys slice with exact capacity to avoid reallocations
 	keys := make([]string, 0, len(firsts))
 	for key := range firsts {
 		keys = append(keys, key)
@@ -228,7 +230,7 @@ func first1(firstSets *first.FirstSets, symbols []string, following string) []st
 // Goto implements Dragon book, 2nd ed, section 4.7.2, p261.
 func (I *ItemSet) Goto(X string) *ItemSet {
 	J := NewItemSet(I.Symbols, I.Prods, I.FS)
-	// Pre-allocate Items slice capacity based on expected number of matching items
+	// Pre-filter items that match X to avoid unnecessary Move() calls
 	for _, item := range I.Items {
 		if item.Pos < item.Len && X == item.ExpectedSymbol {
 			nextItem := item.Move()
