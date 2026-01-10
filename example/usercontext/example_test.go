@@ -18,9 +18,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goccmack/gocc/example/usercontext/ast"
-	"github.com/goccmack/gocc/example/usercontext/lexer"
-	"github.com/goccmack/gocc/example/usercontext/parser"
+	"github.com/johnkerl/gocc/example/usercontext/ast"
+	"github.com/johnkerl/gocc/example/usercontext/lexer"
+	"github.com/johnkerl/gocc/example/usercontext/parser"
 )
 
 func tryParse(t *testing.T, code string, lexContext, parseContext interface{}) (interface{}, error) {

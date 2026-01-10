@@ -1,1 +1,1 @@
-gocc -a -p github.com/goccmack/gocc/example/usercontext example.bnf
+gocc -a -p github.com/johnkerl/gocc/example/usercontext example.bnf

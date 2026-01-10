@@ -19,7 +19,7 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/goccmack/gocc/internal/io"
+	"github.com/johnkerl/gocc/internal/io"
 )
 
 func GenContext(pkg, outDir string) {

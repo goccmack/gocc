@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/goccmack/gocc/example/errormsg/errors"
-	"github.com/goccmack/gocc/example/errormsg/lexer"
-	"github.com/goccmack/gocc/example/errormsg/parser"
-	"github.com/goccmack/gocc/example/errormsg/token"
+	"github.com/johnkerl/gocc/example/errormsg/errors"
+	"github.com/johnkerl/gocc/example/errormsg/lexer"
+	"github.com/johnkerl/gocc/example/errormsg/parser"
+	"github.com/johnkerl/gocc/example/errormsg/token"
 )
 
 // assertEqual is a crude implementation of testify's assert.Equal.

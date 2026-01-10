@@ -2,7 +2,7 @@
 
 package parser
 
-import "github.com/goccmack/gocc/example/bools/ast"
+import "github.com/johnkerl/gocc/example/bools/ast"
 
 type (
 	ProdTab      [numProductions]ProdTabEntry

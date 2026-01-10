@@ -4,7 +4,7 @@ lowercase   : 'a'-'z' { 'a'-'z' };
 
 capitalized : 'A'-'Z' { 'a'-'z' | 'A'-'Z' };
 
-<< import "github.com/goccmack/gocc/example/usercontext/ast" >>
+<< import "github.com/johnkerl/gocc/example/usercontext/ast" >>
 
 // This grammar supports some random number of identifiers (1,N),
 // and must be ended with the literal "...42..."
