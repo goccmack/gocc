@@ -105,7 +105,25 @@ func (this *Item) Equals(that *Item) bool {
 }
 
 func (this *Item) Move() (next *Item) {
-	return NewItem(this.ProdIdx, this.Prod, this.Pos+1, this.FollowingSymbol)
+	// Optimize Move() by reusing Body slice to avoid allocations
+	next = &Item{
+		ProdIdx:         this.ProdIdx,
+		Prod:            this.Prod,
+		Id:              this.Id,
+		Body:            this.Body, // Reuse the Body slice
+		Pos:             this.Pos + 1,
+		Len:             this.Len,
+		FollowingSymbol: this.FollowingSymbol,
+	}
+	// Update ExpectedSymbol based on new position
+	if next.Pos < next.Len {
+		next.ExpectedSymbol = next.Body[next.Pos]
+	} else {
+		next.ExpectedSymbol = ""
+	}
+	// Recompute string representation
+	next.str = next.getString()
+	return next
 }
 
 // reduce returns true if this is a reduce item.
@@ -118,25 +136,34 @@ func (this *Item) Symbol(i int) string {
 }
 
 func (this *Item) getString() string {
-	buf := new(strings.Builder)
-	fmt.Fprintf(buf, "%s : ", this.Id)
+	// Pre-allocate buffer with estimated capacity to avoid reallocations
+	// Estimate: Id (avg 10) + ": " + body symbols (avg 5 * 5 chars) + "• " + " «»" + following (avg 5) = ~50
+	estimatedCap := len(this.Id) + 2 + this.Len*8 + 10 + len(this.FollowingSymbol)
+	buf := strings.Builder{}
+	buf.Grow(estimatedCap)
+
+	// Use WriteString instead of fmt.Fprintf for better performance
+	buf.WriteString(this.Id)
+	buf.WriteString(" : ")
 	if this.Len == 0 {
-		fmt.Fprintf(buf, "empty")
+		buf.WriteString("empty")
 	} else {
 		for i, s := range this.Body {
 			if this.Pos == i {
-				fmt.Fprintf(buf, "•")
+				buf.WriteString("•")
 			}
-			fmt.Fprint(buf, s)
+			buf.WriteString(s)
 			if i < this.Len-1 {
-				fmt.Fprintf(buf, " ")
+				buf.WriteString(" ")
 			}
 		}
 	}
 	if this.Pos == this.Len {
-		fmt.Fprintf(buf, "•")
+		buf.WriteString("•")
 	}
-	fmt.Fprintf(buf, " «%s»", this.FollowingSymbol)
+	buf.WriteString(" «")
+	buf.WriteString(this.FollowingSymbol)
+	buf.WriteString("»")
 	return buf.String()
 }
 

@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"runtime/pprof"
 	"strings"
 
 	"github.com/johnkerl/gocc/internal/ast"
@@ -44,6 +45,31 @@ import (
 )
 
 func main() {
+	// Handle CPU profiling flag manually (before config.New() calls flag.Parse())
+	var cpuProfile string
+	for i, arg := range os.Args {
+		if arg == "-cpuprofile" && i+1 < len(os.Args) {
+			cpuProfile = os.Args[i+1]
+			// Remove cpuprofile flags from os.Args so config doesn't see them
+			os.Args = append(os.Args[:i], os.Args[i+2:]...)
+			break
+		}
+	}
+
+	if cpuProfile != "" {
+		f, err := os.Create(cpuProfile)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error creating CPU profile: %v\n", err)
+			os.Exit(1)
+		}
+		defer f.Close()
+		if err := pprof.StartCPUProfile(f); err != nil {
+			fmt.Fprintf(os.Stderr, "Error starting CPU profile: %v\n", err)
+			os.Exit(1)
+		}
+		defer pprof.StopCPUProfile()
+	}
+
 	flag.Usage = usage
 	cfg, err := config.New()
 	if err != nil {

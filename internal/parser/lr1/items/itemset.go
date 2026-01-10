@@ -203,12 +203,19 @@ func (this *ItemSet) Equal(that *ItemSet) bool {
 // first1 returns the characters contained within the first set.
 // We iterate over the map directly to avoid unnecessary sorting.
 func first1(firstSets *first.FirstSets, symbols []string, following string) []string {
-	// Pre-allocate with capacity for following symbol to avoid reallocation
-	symbolSeq := make([]string, len(symbols)+1)
-	copy(symbolSeq, symbols)
-	symbolSeq[len(symbols)] = following
+	// Build symbol sequence efficiently - avoid copy when possible
+	var symbolSeq []string
+	if len(symbols) == 0 {
+		symbolSeq = []string{following}
+	} else {
+		// Pre-allocate with exact size to avoid reallocation
+		symbolSeq = make([]string, len(symbols)+1)
+		copy(symbolSeq, symbols)
+		symbolSeq[len(symbols)] = following
+	}
 
 	firsts := first.FirstS(firstSets, symbolSeq)
+	// Pre-allocate with exact capacity if known, otherwise reasonable estimate
 	// Return keys directly from map iteration - order doesn't matter for this use case
 	// Removed sort.Strings() call which was O(n log n) and unnecessary
 	keys := make([]string, 0, len(firsts))
@@ -249,13 +256,25 @@ func (this *ItemSet) canonicalKey() string {
 	if !this.keyDirty && this.cachedKey != "" {
 		return this.cachedKey
 	}
-	// Recompute key
+	// Recompute key - pre-allocate with exact size to avoid append reallocations
 	keys := make([]string, 0, len(this.imap))
+	totalLen := 0
+	// Collect keys and compute total length in one pass
 	for k := range this.imap {
 		keys = append(keys, k)
+		totalLen += len(k) + 1 // +1 for separator
 	}
 	sort.Strings(keys)
-	this.cachedKey = strings.Join(keys, "\x00")
+	// Pre-allocate builder with exact capacity to avoid reallocation
+	buf := strings.Builder{}
+	buf.Grow(totalLen)
+	for i, k := range keys {
+		if i > 0 {
+			buf.WriteByte('\x00')
+		}
+		buf.WriteString(k)
+	}
+	this.cachedKey = buf.String()
 	this.keyDirty = false
 	return this.cachedKey
 }

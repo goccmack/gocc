@@ -57,14 +57,21 @@ internal/parser/lr1/items/itemsets.go
 justtime ~/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
 justtime ./gocc        -o foo2 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
 
+ORIGINAL
+$ justtime /Users/kerl/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+TIME IN SECONDS 413.809 -- /Users/kerl/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+
 PERF1
 
-+ justtime /Users/kerl/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
-TIME IN SECONDS 413.809 -- /Users/kerl/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
-+ justtime ./gocc -o foo2 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+$ justtime ./gocc -o foo2 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
 TIME IN SECONDS 321.756 -- ./gocc -o foo2 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
 
 PERF2
 
-justtime ./gocc        -o foo3 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+$ justtime ./gocc        -o foo3 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
 TIME IN SECONDS 226.692 -- ./gocc -o foo3 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+
+PERF3
+
+$ justtime ./gocc        -o foo4 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+TIME IN SECONDS 155.959 -- ./gocc -o foo4 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
