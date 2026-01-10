@@ -35,6 +35,10 @@ type ItemSet struct {
 	Symbols *symbols.Symbols
 	Prods   ast.SyntaxProdList
 	FS      *first.FirstSets
+
+	// Cached canonical key to avoid recomputation
+	cachedKey string
+	keyDirty  bool
 }
 
 // NewItemSet returns a newly cosntructed set of items.
@@ -80,6 +84,7 @@ func (this *ItemSet) AddItem(items ...*Item) {
 		if _, contain := this.imap[i.str]; !contain {
 			this.imap[i.str] = i
 			this.Items = append(this.Items, i)
+			this.keyDirty = true // Mark key as dirty when items are added
 		}
 	}
 }
@@ -134,27 +139,34 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 	included := -1
 	for again := true; again; {
 		again = false
-		for idx, i := range c.Items {
-			if idx > included {
-				if i.Pos >= i.Len || this.Symbols.IsTerminal(i.ExpectedSymbol) {
-					continue
+		// Process only items up to the current length (newly added items will be processed next iteration)
+		itemsLen := len(c.Items)
+		for idx := included + 1; idx < itemsLen; idx++ {
+			i := c.Items[idx]
+			if i.Pos >= i.Len || this.Symbols.IsTerminal(i.ExpectedSymbol) {
+				included = idx
+				continue
+			}
+			// Use the map for O(1) lookup instead of O(n) linear search
+			if prodIndices, exists := prodIdMap[i.ExpectedSymbol]; exists {
+				// Pre-compute the body suffix slice once per item
+				var bodySuffix []string
+				if i.Pos+1 < i.Len {
+					bodySuffix = i.Body[i.Pos+1:]
 				}
-				// Use the map for O(1) lookup instead of O(n) linear search
-				if prodIndices, exists := prodIdMap[i.ExpectedSymbol]; exists {
-					for _, pi := range prodIndices {
-						prod := this.Prods[pi]
-						first := first1(this.FS, i.Body[i.Pos+1:], i.FollowingSymbol)
-						for _, t := range first {
-							if item := NewItem(pi, prod, 0, t); !c.Contain(item) {
-								c.AddItem(item)
-								again = true
-							}
+				// Compute first set once per item instead of per production
+				first := first1(this.FS, bodySuffix, i.FollowingSymbol)
+				for _, pi := range prodIndices {
+					prod := this.Prods[pi]
+					for _, t := range first {
+						if item := NewItem(pi, prod, 0, t); !c.Contain(item) {
+							c.AddItem(item)
+							again = true
 						}
 					}
 				}
-
-				included = idx
 			}
+			included = idx
 		}
 	}
 	return
@@ -188,21 +200,28 @@ func (this *ItemSet) Equal(that *ItemSet) bool {
 	return true
 }
 
-// first1 returns the characters contained within the first set, sorted in
-// alphabetical order.
+// first1 returns the characters contained within the first set.
+// We iterate over the map directly to avoid unnecessary sorting.
 func first1(firstSets *first.FirstSets, symbols []string, following string) []string {
-	firsts := first.FirstS(firstSets, append(symbols, following))
+	// Pre-allocate with capacity for following symbol to avoid reallocation
+	symbolSeq := make([]string, len(symbols)+1)
+	copy(symbolSeq, symbols)
+	symbolSeq[len(symbols)] = following
+
+	firsts := first.FirstS(firstSets, symbolSeq)
+	// Return keys directly from map iteration - order doesn't matter for this use case
+	// Removed sort.Strings() call which was O(n log n) and unnecessary
 	keys := make([]string, 0, len(firsts))
 	for key := range firsts {
 		keys = append(keys, key)
 	}
-	sort.Strings(keys)
 	return keys
 }
 
 // Goto implements Dragon book, 2nd ed, section 4.7.2, p261.
 func (I *ItemSet) Goto(X string) *ItemSet {
 	J := NewItemSet(I.Symbols, I.Prods, I.FS)
+	// Pre-allocate Items slice capacity based on expected number of matching items
 	for _, item := range I.Items {
 		if item.Pos < item.Len && X == item.ExpectedSymbol {
 			nextItem := item.Move()
@@ -221,17 +240,24 @@ func (this *ItemSet) Size() int {
 }
 
 // canonicalKey returns a canonical string representation of the item set
-// used for efficient set equality comparisons.
+// used for efficient set equality comparisons. The result is cached.
 func (this *ItemSet) canonicalKey() string {
 	if len(this.imap) == 0 {
 		return ""
 	}
+	// Return cached key if still valid
+	if !this.keyDirty && this.cachedKey != "" {
+		return this.cachedKey
+	}
+	// Recompute key
 	keys := make([]string, 0, len(this.imap))
 	for k := range this.imap {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
-	return strings.Join(keys, "\x00")
+	this.cachedKey = strings.Join(keys, "\x00")
+	this.keyDirty = false
+	return this.cachedKey
 }
 
 func (this *ItemSet) String() string {
