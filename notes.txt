@@ -1,0 +1,65 @@
+  499  pbp|grep circumflex > x
+  500  v x
+  501  mkdir tmp
+  502  cd tmp
+  503  ll
+  504  ll empty
+  505  rmdir empty
+  506  mkdir foo1
+  507  cd foo1
+  508  which gocc
+  509  gocc
+  510  ~/go/bin/gocc
+  511  ~/go/bin/gocc -o . /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf 
+  512  ~/go/bin/gocc -o . /Users/kerl/git/johnkerl/miller//cmd/experiments/dsl_parser/two/temp.bnf
+  513  fage
+  514  fff
+  515  cd ~/git
+  516  ll -d */*gocc*
+  517  oclone https://github.com/goccmark/gocc
+  518  oclone https://github.com/goccmack/gocc
+  519  cd goccmack/gocc/
+  520  lt
+  521  go build
+  522  lsr gocc
+  523  ~/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller//cmd/experiments/dsl_parser/two/temp.bnf
+  524  cursor .
+  525  ./gocc -o foo1 /Users/kerl/git/johnkerl/miller//cmd/experiments/dsl_parser/two/temp.bnf
+  526  ~/go/bin/gocc -o . /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf 
+  527  h
+  528  h > notes.txt
+
+----------------------------------------------------------------
+{
+  "cursor.automation.allowAutoRun": true,
+  "cursor.general.allowAutomation": true
+}
+
+----------------------------------------------------------------
+
+Please analyze and fix the performance problem with the following:
+
+```
+./gocc -o . /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+```
+
+Please focus on the following spots the author flagged as needing optimization:
+
+```
+internal/parser/lr1/items/itemset.go
+110://TODO: optimise loop
+
+internal/parser/lr1/items/itemsets.go
+31:// TODO: optimise loop
+```
+
+================================================================
+justtime ~/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+justtime ./gocc        -o foo2 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+
+PERF1
+
++ justtime /Users/kerl/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+TIME IN SECONDS 413.809 -- /Users/kerl/go/bin/gocc -o foo1 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
++ justtime ./gocc -o foo2 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
+TIME IN SECONDS 321.756 -- ./gocc -o foo2 /Users/kerl/git/johnkerl/miller/pkg/parsing/mlr.bnf
