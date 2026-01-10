@@ -107,9 +107,9 @@ func (this *ItemSet) NextSetIndex(symbol string) int {
 	return -1
 }
 
-//TODO: optimise loop
 /*
 Dragon book, 2nd ed, section 4.7.2, p261
+
 	Closure(I)
 	repeat
 		for each item [A->x•By, a] in I
@@ -124,6 +124,13 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 	}
 	c = NewItemSet(this.Symbols, this.Prods, this.FS)
 	c.AddItem(this.Items...)
+
+	// Build a map from production ID to list of production indices for O(1) lookup
+	prodIdMap := make(map[string][]int)
+	for pi, prod := range this.Prods {
+		prodIdMap[prod.Id] = append(prodIdMap[prod.Id], pi)
+	}
+
 	included := -1
 	for again := true; again; {
 		again = false
@@ -132,8 +139,10 @@ func (this *ItemSet) Closure() (c *ItemSet) {
 				if i.Pos >= i.Len || this.Symbols.IsTerminal(i.ExpectedSymbol) {
 					continue
 				}
-				for pi, prod := range this.Prods {
-					if prod.Id == i.ExpectedSymbol {
+				// Use the map for O(1) lookup instead of O(n) linear search
+				if prodIndices, exists := prodIdMap[i.ExpectedSymbol]; exists {
+					for _, pi := range prodIndices {
+						prod := this.Prods[pi]
 						first := first1(this.FS, i.Body[i.Pos+1:], i.FollowingSymbol)
 						for _, t := range first {
 							if item := NewItem(pi, prod, 0, t); !c.Contain(item) {
@@ -209,6 +218,20 @@ func (I *ItemSet) Goto(X string) *ItemSet {
 // Size returns the number of items in the set.
 func (this *ItemSet) Size() int {
 	return len(this.Items)
+}
+
+// canonicalKey returns a canonical string representation of the item set
+// used for efficient set equality comparisons.
+func (this *ItemSet) canonicalKey() string {
+	if len(this.imap) == 0 {
+		return ""
+	}
+	keys := make([]string, 0, len(this.imap))
+	for k := range this.imap {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return strings.Join(keys, "\x00")
 }
 
 func (this *ItemSet) String() string {
