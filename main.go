@@ -12,15 +12,14 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-//Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
-//Please see https://github.com/johnkerl/gocc/ for more documentation.
+// Gocc is LR1 parser generator for go written in go. The generator uses a BNF with very easy to use SDT rules.
+// Please see https://github.com/goccmack/gocc/ for more documentation.
 package main
 
 import (
 	"bytes"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"strings"
@@ -119,7 +118,7 @@ func getSource(cfg config.Config) []byte {
 		}
 		return []byte(str)
 	}
-	srcBuffer, err := ioutil.ReadFile(cfg.SourceFile())
+	srcBuffer, err := os.ReadFile(cfg.SourceFile())
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

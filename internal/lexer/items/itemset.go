@@ -88,9 +88,7 @@ func (this *ItemSet) Action() Action {
 	return nil
 }
 
-/*
-Returns the number of new items added to this.
-*/
+// Add will return the number of deduplicated items added to the ItemSet.
 func (this *ItemSet) Add(items ...*Item) {
 	this.Items.AddNoDuplicate(items...)
 }
@@ -127,9 +125,7 @@ func (this *ItemSet) newTransitions() {
 	}
 }
 
-/*
-See algorithm: set.Next() in package doc
-*/
+// See algorithm: set.Next() in package doc.
 func (this *ItemSet) Next(rng CharRange) ItemList {
 	// fmt.Printf("S%d%s\n", this.setNo, this)
 	nextItems := NewItemList(16)

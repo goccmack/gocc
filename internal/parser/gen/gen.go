@@ -12,9 +12,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-/*
-This package controls the generation of all parser-related code.
-*/
+// This package controls the generation of all parser-related code.
 package gen
 
 import (
@@ -30,6 +28,7 @@ func Gen(pkg, outDir, header string, prods ast.SyntaxProdList, symbols *symbols.
 	itemsets *items.ItemSets, tokMap *token.TokenMap, cfg config.Config) (conflicts map[int]items.RowConflicts) {
 	golang.GenAction(outDir)
 	conflicts = golang.GenActionTable(outDir, prods, itemsets, tokMap, cfg.Zip())
+	golang.GenContext(pkg, outDir)
 	golang.GenErrors(pkg, outDir)
 	golang.GenGotoTable(outDir, itemsets, symbols, cfg.Zip())
 	golang.GenParser(pkg, outDir, prods, itemsets, symbols, cfg)

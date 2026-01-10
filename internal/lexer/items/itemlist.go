@@ -22,7 +22,7 @@ import (
 	"github.com/johnkerl/gocc/internal/lexer/symbols"
 )
 
-// Each Itemset element is a ItemList
+// Each Itemset element is a ItemList.
 type ItemList []*Item
 
 func NewItemList(len int) ItemList {
@@ -39,9 +39,7 @@ func (this ItemList) AddExclusive(item *Item) (ItemList, error) {
 	return append(this, item), nil
 }
 
-/*
-If this does not already contain a copy of item, item is added to this.
-*/
+// AddNoDuplicate will add any of the listed items that are not already in the list.
 func (this ItemList) AddNoDuplicate(items ...*Item) ItemList {
 	newList := this
 	for _, item := range items {
@@ -52,9 +50,7 @@ func (this ItemList) AddNoDuplicate(items ...*Item) ItemList {
 	return newList
 }
 
-/*
-See Algorithm: set.Closure() in package doc
-*/
+// See Algorithm: set.Closure() in package doc.
 func (this ItemList) Closure(lexPart *ast.LexPart, symbols *symbols.Symbols) ItemList {
 	closure := this
 	for i := 0; i < len(closure); i++ {

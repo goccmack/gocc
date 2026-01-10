@@ -3,7 +3,7 @@ package token
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -33,7 +33,7 @@ func (this *Token) Equals(that *Token) bool {
 func (this *Token) String() string {
 	str := ""
 	if this.Type == EOF {
-		str += "\"$\""
+		str += "\"␚\""
 	} else {
 		str += "\"" + string(this.Lit) + "\""
 	}
@@ -55,7 +55,6 @@ func (T Type) String() string {
 // Position describes an arbitrary source position
 // including the file, line, and column location.
 // A Position is valid if the line number is > 0.
-//
 type Position struct {
 	Offset int // offset, starting at 0
 	Line   int // line number, starting at 1
@@ -71,7 +70,6 @@ func (pos *Position) IsValid() bool { return pos.Line > 0 }
 //	line:column         valid position without file name
 //	file                invalid position with file name
 //	-                   invalid position without file name
-//
 func (pos Position) String() string {
 	s := ""
 	if pos.IsValid() {
@@ -91,33 +89,21 @@ func (T *Token) UintValue() (uint64, error) {
 	return strconv.ParseUint(string(T.Lit), 10, 64)
 }
 
+var sdtRex = regexp.MustCompile(`\$(?:[0-9]+|T[0-9]+|Context)`)
+
 func (T *Token) SDTVal() string {
-	sdt := string(T.Lit)
-	rex, err := regexp.Compile(`\$[0-9]+`)
-	if err != nil {
-		panic(err)
-	}
-	idx := rex.FindAllStringIndex(sdt, -1)
-	res := ""
-	if len(idx) <= 0 {
-		res = sdt
-	} else {
-		for i, loc := range idx {
-			if loc[0] > 0 {
-				if i > 0 {
-					res += sdt[idx[i-1][1]:loc[0]]
-				} else {
-					res += sdt[0:loc[0]]
-				}
-			}
-			res += "X["
-			res += sdt[loc[0]+1 : loc[1]]
-			res += "]"
+	res := sdtRex.ReplaceAllStringFunc(string(T.Lit), func(match string) string {
+		switch match[1] {
+		case 'T': // user wants this as a token.
+			return "X[" + match[2:] + "].(*token.Token)"
+
+		case 'C': // user wants context.
+			return "C"
+
+		default: // just pass it as an attrib.
+			return "X[" + match[1:] + "]"
 		}
-		if idx[len(idx)-1][1] < len(sdt) {
-			res += sdt[idx[len(idx)-1][1]:]
-		}
-	}
+	})
 	return strings.TrimSpace(res[2 : len(res)-2])
 }
 
@@ -130,7 +116,7 @@ type TokenMap struct {
 
 func NewMap() *TokenMap {
 	tm := &TokenMap{make([]string, 0, 10), make(map[string]Type)}
-	tm.AddToken("$")
+	tm.AddToken("␚")
 	// tm.AddToken("ε")
 	return tm
 }
@@ -144,7 +130,7 @@ func (this *TokenMap) AddToken(str string) {
 }
 
 func NewMapFromFile(file string) (*TokenMap, error) {
-	src, err := ioutil.ReadFile(file)
+	src, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
@@ -228,5 +214,5 @@ func (this *TokenMap) WriteFile(file string) error {
 	for i := 1; i < len(this.tokenMap); i++ {
 		out += this.TokenString(Type(i)) + "\n"
 	}
-	return ioutil.WriteFile(file, []byte(out), 0644)
+	return os.WriteFile(file, []byte(out), 0644)
 }

@@ -29,7 +29,7 @@ type ItemSet struct {
 	SetNo int
 	imap  map[string]*Item
 	Items []*Item
-	// string: symbol, int: nextState
+	// string: symbol, int: nextState.
 	Transitions map[string]int
 
 	Symbols *symbols.Symbols
@@ -37,7 +37,7 @@ type ItemSet struct {
 	FS      *first.FirstSets
 }
 
-//Creates a set of items.
+// NewItemSet returns a newly cosntructed set of items.
 func NewItemSet(symbols *symbols.Symbols, prods ast.SyntaxProdList, fs *first.FirstSets) *ItemSet {
 	return &ItemSet{
 		SetNo:       -1,
@@ -165,7 +165,7 @@ func (this *ItemSet) ContainString(item string) bool {
 	return false
 }
 
-//Returns whether two lists of Items are equal.
+// Equal will return whether two lists of Items are equal.
 func (this *ItemSet) Equal(that *ItemSet) bool {
 	if that == nil || len(this.Items) != len(that.Items) {
 		return false
@@ -191,7 +191,7 @@ func first1(firstSets *first.FirstSets, symbols []string, following string) []st
 	return keys
 }
 
-// Dragon book, 2nd ed, section 4.7.2, p261
+// Goto implements Dragon book, 2nd ed, section 4.7.2, p261.
 func (I *ItemSet) Goto(X string) *ItemSet {
 	J := NewItemSet(I.Symbols, I.Prods, I.FS)
 	for _, item := range I.Items {
@@ -206,9 +206,7 @@ func (I *ItemSet) Goto(X string) *ItemSet {
 	return J
 }
 
-/*
-Returns the number of items in the set.
-*/
+// Size returns the number of items in the set.
 func (this *ItemSet) Size() int {
 	return len(this.Items)
 }

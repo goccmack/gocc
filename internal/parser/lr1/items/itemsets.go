@@ -23,7 +23,7 @@ import (
 	"github.com/johnkerl/gocc/internal/parser/symbols"
 )
 
-//A list of a list of Items.
+// A list of a list of Items.
 type ItemSets struct {
 	sets []*ItemSet
 }
@@ -59,7 +59,7 @@ func GetItemSets(g *ast.Grammar, s *symbols.Symbols, firstSets *first.FirstSets)
 	return S
 }
 
-//Returns whether the list of a list of items contains the list of items.
+// Returns whether the list of a list of items contains the list of items.
 func (this *ItemSets) Contains(I *ItemSet) bool {
 	for _, i := range this.sets {
 		if i.Equal(I) {
@@ -69,7 +69,7 @@ func (this *ItemSets) Contains(I *ItemSet) bool {
 	return false
 }
 
-//Returns the index of the list of items.
+// Returns the index of the list of items.
 func (this *ItemSets) GetIndex(I *ItemSet) int {
 	if I == nil || I.Size() == 0 {
 		return -1
@@ -104,7 +104,7 @@ func (this *ItemSets) Size() int {
 	return len(this.sets)
 }
 
-//Returns a string representing the list of the list of items.
+// Returns a string representing the list of the list of items.
 func (this *ItemSets) String() string {
 	buf := new(strings.Builder)
 	for i, is := range this.sets {
@@ -113,11 +113,11 @@ func (this *ItemSets) String() string {
 	return buf.String()
 }
 
-//Returns the initial Item of a Grammar.
+// Returns the initial Item of a Grammar.
 func InitialItemSet(g *ast.Grammar, symbols *symbols.Symbols, fs *first.FirstSets) *ItemSet {
 	set := NewItemSet(symbols, g.SyntaxPart.ProdList, fs)
 	set.SetNo = 0
 	prod := g.SyntaxPart.ProdList[0]
-	set.AddItem(NewItem(0, prod, 0, "$"))
+	set.AddItem(NewItem(0, prod, 0, "␚"))
 	return set
 }

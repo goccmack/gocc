@@ -18,8 +18,5 @@ import (
 	"github.com/johnkerl/gocc/internal/parser/lr1/action"
 )
 
-/*
-key: symbol
-value: list of actions
-*/
+// key: symbol; value: list of actions.
 type RowConflicts map[string][]action.Action

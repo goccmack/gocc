@@ -5,7 +5,6 @@
 // A scanner for Go source text. Takes a []byte as source which can
 // then be tokenized through repeated calls to the Scan function.
 // For a sample use of a scanner, see the implementation of Tokenize.
-//
 package scanner
 
 import (
@@ -21,7 +20,6 @@ import (
 // a given text.  It can be allocated as part of another data
 // structure but must be initialized via Init before use. For
 // a sample use, see the implementation of Tokenize.
-//
 type Scanner struct {
 	// immutable state
 	src      []byte // source
@@ -38,7 +36,6 @@ type Scanner struct {
 
 // Read the next Unicode char into S.ch.
 // S.ch < 0 means end-of-file.
-//
 func (S *Scanner) next() {
 	if S.offset < len(S.src) {
 		S.pos.Offset = S.offset
@@ -68,7 +65,6 @@ func (S *Scanner) next() {
 
 // The mode parameter to the Init function is a set of flags (or 0).
 // They control scanner behavior.
-//
 const (
 	ScanComments      = 1 << iota // return comments as COMMENT tokens
 	AllowIllegalChars             // do not report an error for illegal chars
@@ -82,7 +78,6 @@ const (
 // filename in the token.Position returned by Scan for each token. The
 // mode parameter determines how comments and illegal characters are
 // handled.
-//
 func (S *Scanner) Init(src []byte, tokenMap *token.TokenMap) {
 	// Explicitly initialize all fields since a scanner may be reused.
 	S.src = src
@@ -464,7 +459,6 @@ var semicolon = []byte{';'}
 // a client may not assume that no error occurred. Instead it
 // must check the scanner's ErrorCount or the number of calls
 // of the error handler, if there was one installed.
-//
 func (S *Scanner) Scan() (*token.Token, token.Position) {
 scanAgain:
 	S.skipWhitespace()
@@ -480,7 +474,7 @@ scanAgain:
 		S.next() // always make progress
 		switch ch {
 		case -1:
-			tok = S.tokenMap.Type("$")
+			tok = S.tokenMap.Type("␚")
 		case '"':
 			tok = S.tokenMap.Type("string_lit")
 			S.scanString(pos)
@@ -544,7 +538,6 @@ scanAgain:
 // If a syntax error is encountered and a handler was installed, Error
 // is called with a position and an error message. The position points
 // to the beginning of the offending token.
-//
 type ErrorHandler interface {
 	Error(pos token.Position, msg string)
 }
@@ -552,7 +545,6 @@ type ErrorHandler interface {
 // Within ErrorVector, an error is represented by an Error node. The
 // position Pos, if valid, points to the beginning of the offending
 // token, and the error condition is described by Msg.
-//
 type Error struct {
 	Pos token.Position
 	Msg string

@@ -17,6 +17,7 @@ func AppendStmt(stmtList, stmt interface{}) (StmtList, error) {
 	return append(stmtList.(StmtList), stmt.(Stmt)), nil
 }
 
-func NewStmt(stmtList interface{}) (Stmt, error) {
-	return Stmt(stmtList.(*token.Token).Lit), nil
+// stmtList is passed using $T0.
+func NewStmt(stmtList *token.Token) (Stmt, error) {
+	return Stmt(stmtList.Lit), nil
 }

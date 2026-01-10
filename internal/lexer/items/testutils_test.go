@@ -15,7 +15,6 @@
 package items
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/johnkerl/gocc/internal/ast"
@@ -60,7 +59,7 @@ func parse(src string, t *testing.T) *ast.Grammar {
 	parser := parser.NewParser(parser.ActionTable, parser.GotoTable, parser.ProductionsTable, token.FRONTENDTokens)
 	g, err := parser.Parse(scanner)
 	if err != nil {
-		t.Fatal(fmt.Sprintf("Parse error: %s\n", err))
+		t.Fatalf("Parse error: %s\n", err)
 		return nil
 	}
 

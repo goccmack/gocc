@@ -35,10 +35,14 @@ type Item struct {
 }
 
 /*
-For a lex production,
-  T : s
-func NewItem returns
-  T : •s
+NewItem will return
+
+	T : s
+
+for a lex production,
+
+	T : •s
+
 without executing the ℇ-moves for s.
 
 Func *Item.Emoves must be called to return the set of basic items for T : •s.
@@ -71,36 +75,36 @@ func (this *Item) Clone() *Item {
 
 For a general description of dotted items (items) and ℇ-moves of items, see:
 
-  Modern Compiler Design. Dick Grune, et al. Second Edition. Springer 2012.
+	Modern Compiler Design. Dick Grune, et al. Second Edition. Springer 2012.
 
 ℇ-moves for lex items:
 
-  Lex T be any production.
-  Let w,x,y,z be any strings of lexical symbols.
-  Let s = x|...|y have one or more alternatives.
+	Lex T be any production.
+	Let w,x,y,z be any strings of lexical symbols.
+	Let s = x|...|y have one or more alternatives.
 
-  Then
+	Then
 
-  T : •s              =>  T : •x|...|z
-                          ...
-                          T :  x|...|•z
+	T : •s              =>  T : •x|...|z
+	                        ...
+	                        T :  x|...|•z
 
-  T : x•[y]z          =>  T : x[•y]z
-                          T : x[y]•z
+	T : x•[y]z          =>  T : x[•y]z
+	                        T : x[y]•z
 
-  T : x[y•]z          =>  T : x[y]•z
+	T : x[y•]z          =>  T : x[y]•z
 
-  T : x•{y}z          =>  T : x{•y}z
-                          T : x{y}•z
+	T : x•{y}z          =>  T : x{•y}z
+	                        T : x{y}•z
 
-  T : x{y•}z          =>  T : x{•y}z
-                          T : x{y}•z
+	T : x{y•}z          =>  T : x{•y}z
+	                        T : x{y}•z
 
-  T : w•(x|...|y)z    =>  T : w(•x|...|y)z
-                          ...
-                          T : w( x|...|•y)z
+	T : w•(x|...|y)z    =>  T : w(•x|...|y)z
+	                        ...
+	                        T : w( x|...|•y)z
 
-  T : x(...|y•|...)z  =>  T : x(...|y|...)•z
+	T : x(...|y•|...)z  =>  T : x(...|y|...)•z
 */
 func (this *Item) Emoves() (items []*Item) {
 	newItems := util.NewStack(8).Push(this)
@@ -263,11 +267,8 @@ func (this *Item) Equal(that *Item) bool {
 	return this.hashKey == that.hashKey
 }
 
-/*
-This function returns the expected symbol for shift items and
-nil for reduce items.
-This is the position of a basic item -- no ℇ-moves are possible.
-*/
+// ExpectedSymbol returns the expected symbol for shift items and nil for reduce
+// items. This is the position of a basic item -- no ℇ-moves are possible.
 func (this *Item) ExpectedSymbol() (node ast.LexTNode) {
 	nt, pos := this.pos.top()
 	if pos >= nt.Len() {
@@ -331,12 +332,7 @@ func (this *Item) MoveRegDefId(id string) []*Item {
 	return nil
 }
 
-/*
-returns true for reduce items, like:
-	T : xyz •
-
-and false otherwise
-*/
+// Reduce returns true for return items, such as `T : xyz •`, otherwise returns false.
 func (this *Item) Reduce() bool {
 	if this.pos.level() != 0 {
 		return false

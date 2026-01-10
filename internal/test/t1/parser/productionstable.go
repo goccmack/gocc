@@ -10,7 +10,7 @@ type (
 		NTType     int
 		Index      int
 		NumSymbols int
-		ReduceFunc func([]Attrib) (Attrib, error)
+		ReduceFunc func([]Attrib, interface{}) (Attrib, error)
 	}
 	Attrib interface {
 	}
@@ -18,42 +18,42 @@ type (
 
 var productionsTable = ProdTab{
 	ProdTabEntry{
-		String: `S' : A	<<  >>`,
+		String:     `S' : A	<<  >>`,
 		Id:         "S'",
 		NTType:     0,
 		Index:      0,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
 		},
 	},
 	ProdTabEntry{
-		String: `A : B "c"	<< []interface{}{X[0], "c"}, nil >>`,
+		String:     `A : B "c"	<< []interface{}{X[0], "c"}, nil >>`,
 		Id:         "A",
 		NTType:     1,
 		Index:      1,
 		NumSymbols: 2,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return []interface{}{X[0], "c"}, nil
 		},
 	},
 	ProdTabEntry{
-		String: `B : empty	<<  >>`,
+		String:     `B : empty	<<  >>`,
 		Id:         "B",
 		NTType:     2,
 		Index:      2,
 		NumSymbols: 0,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return nil, nil
 		},
 	},
 	ProdTabEntry{
-		String: `B : "b"	<< "b", nil >>`,
+		String:     `B : "b"	<< "b", nil >>`,
 		Id:         "B",
 		NTType:     2,
 		Index:      3,
 		NumSymbols: 1,
-		ReduceFunc: func(X []Attrib) (Attrib, error) {
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return "b", nil
 		},
 	},

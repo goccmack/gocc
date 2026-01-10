@@ -9,9 +9,9 @@ int64 : '1'-'9' {_digit} ;
 /* Syntax part */
 
 << 
-import(
-	"github.com/johnkerl/gocc/example/calc/token"
-	"github.com/johnkerl/gocc/example/calc/util"
+import (
+	"github.com/goccmack/gocc/example/calc/token"
+	"github.com/goccmack/gocc/example/calc/util"
 )
 >>
 
