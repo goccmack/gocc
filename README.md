@@ -197,5 +197,5 @@ These projects use gocc:
 * [gographviz](https://github.com/awalterschulze/gographviz) - [BNF file](https://github.com/awalterschulze/gographviz/blob/main/dot.bnf) - Parses the Graphviz DOT language in golang
 * [katydid](http://katydid.github.io/) - [BNF file](https://github.com/katydid/validator-go/blob/main/validator/bnf/all.bnf) - Encoding agnostic validation language
 * [skius/stringlang](https://github.com/skius/stringlang) - [BNF file](https://github.com/skius/stringlang/blob/main/lang.bnf) - An interpreter for the expression-oriented language StringLang
-* [miller](https://github.com/johnkerl/miller) - [BNF file](https://github.com/johnkerl/miller/blob/main/internal/pkg/parsing/mlr.bnf) - Miller is like awk, sed, cut, join, and sort for name-indexed data such as CSV, TSV, and tabular JSON.
+* [miller](https://github.com/johnkerl/miller) - [BNF file](https://github.com/johnkerl/miller/blob/main/pkg/parsing/mlr.bnf) - Miller is like awk, sed, cut, join, and sort for name-indexed data such as CSV, TSV, and tabular JSON.
 * [nesgo](https://github.com/retroenv/nesgo) - [BNF file](https://github.com/retroenv/nesgo/blob/main/internal/gocc/lang.bnf) - A Go compiler for NES
