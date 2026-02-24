@@ -3,6 +3,8 @@
 package lexer
 
 import (
+	"errors"
+	"io"
 	"os"
 	"unicode/utf8"
 
@@ -24,14 +26,18 @@ type Lexer struct {
 }
 
 func NewLexer(src []byte) *Lexer {
-	lexer := &Lexer{
-		src:     src,
-		pos:     0,
-		line:    1,
-		column:  1,
-		Context: nil,
-	}
+	lexer := &Lexer{}
+	lexer.Init(src)
 	return lexer
+}
+
+// Init reuses the Lexer object, so new do not have to allocate another.
+func (l *Lexer) Init(src []byte) {
+	l.src = src
+	l.pos = 0
+	l.line = 1
+	l.column = 1
+	l.Context = nil
 }
 
 // SourceContext is a simple instance of a token.Context which
@@ -122,6 +128,79 @@ func (l *Lexer) Scan() (tok *token.Token) {
 
 	return
 }
+
+// Next returns the next token as a byte slice and avoids allocations,
+// except for utf8.DecodeRune.
+// EOF is return as an io.EOF error.
+func (l *Lexer) Next() ([]byte, error) {
+	if l.pos >= len(l.src) {
+		return nil, io.EOF
+	}
+	start, end := l.pos, 0
+	tokType := token.INVALID
+	state, rune1, size := 0, rune(-1), 0
+	for state != -1 {
+		if l.pos >= len(l.src) {
+			rune1 = -1
+		} else {
+			rune1, size = utf8.DecodeRune(l.src[l.pos:])
+			l.pos += size
+		}
+
+		nextState := -1
+		if rune1 != -1 {
+			nextState = TransTab[state](rune1)
+		}
+		state = nextState
+
+		if state != -1 {
+
+			switch rune1 {
+			case '\n':
+				l.line++
+				l.column = 1
+			case '\r':
+				l.column = 1
+			case '\t':
+				l.column += 4
+			default:
+				l.column++
+			}
+
+			switch {
+			case ActTab[state].Accept != -1:
+				tokType = ActTab[state].Accept
+				end = l.pos
+			case ActTab[state].Ignore != "":
+				start = l.pos
+				state = 0
+				if start >= len(l.src) {
+					tokType = token.EOF
+				}
+
+			}
+		} else {
+			if tokType == token.INVALID {
+				end = l.pos
+			}
+		}
+	}
+	var res []byte = nil
+	if end > start {
+		l.pos = end
+		res = l.src[start:end]
+	}
+
+	if tokType == token.INVALID {
+		return res, errInvalidToken
+	} else if tokType == token.EOF {
+		return res, io.EOF
+	}
+
+	return res, nil
+}
+
+var errInvalidToken = errors.New("invalid token")
 
 func (l *Lexer) Reset() {
 	l.pos = 0

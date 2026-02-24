@@ -14,7 +14,7 @@ var testData1 = map[string]bool{
 	`"unclosed quote@mymail.com`: false,
 }
 
-func Test1(t *testing.T) {
+func TestScan1(t *testing.T) {
 	for input, ok := range testData1 {
 		l := lexer.NewLexer([]byte(input))
 		tok := l.Scan()
@@ -33,6 +33,22 @@ func Test1(t *testing.T) {
 	}
 }
 
+func TestNext1(t *testing.T) {
+	for input, ok := range testData1 {
+		l := lexer.NewLexer([]byte(input))
+		_, err := l.Next()
+		if ok {
+			if err != nil {
+				t.Errorf("want parsed %s, but got %v", input, err)
+			}
+		} else {
+			if err == nil {
+				t.Errorf("wanted fail %s", input)
+			}
+		}
+	}
+}
+
 var checkData2 = []string{
 	"addr1@gmail.com",
 	"addr2@gmail.com",
@@ -45,7 +61,7 @@ var testData2 = `
 	addr3@gmail.com
 `
 
-func Test2(t *testing.T) {
+func TestScan2(t *testing.T) {
 	l := lexer.NewLexer([]byte(testData2))
 	num := 0
 	for tok := l.Scan(); tok.Type == token.TokMap.Type("addrspec"); tok = l.Scan() {
@@ -56,5 +72,61 @@ func Test2(t *testing.T) {
 	}
 	if num != len(checkData2) {
 		t.Fatalf("%d addresses parsed", num)
+	}
+}
+
+func TestNext2(t *testing.T) {
+	l := lexer.NewLexer([]byte(testData2))
+	num := 0
+	tokBytes, err := l.Next()
+	for err == nil {
+		if string(tokBytes) != checkData2[num] {
+			t.Errorf("%s != %s", string(tokBytes), checkData2[num])
+		}
+		num++
+		tokBytes, err = l.Next()
+	}
+	if num != len(checkData2) {
+		t.Fatalf("%d addresses parsed", num)
+	}
+}
+
+func BenchmarkScan(b *testing.B) {
+	l := lexer.NewLexer([]byte{})
+	inputs := [][]byte{
+		[]byte("mymail@google.com"),
+		[]byte(`"quoted string"@mymail.com`),
+		[]byte("addr1@gmail.com"),
+	}
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, input := range inputs {
+			l.Init(input)
+			tok := l.Scan()
+			if tok.Type == token.INVALID {
+				b.Error("unexpected invalid token")
+			}
+		}
+	}
+}
+
+func BenchmarkNext(b *testing.B) {
+	l := lexer.NewLexer([]byte{})
+	inputs := [][]byte{
+		[]byte("mymail@google.com"),
+		[]byte(`"quoted string"@mymail.com`),
+		[]byte("addr1@gmail.com"),
+	}
+	b.ResetTimer()
+	b.ReportAllocs()
+	for b.Loop() {
+		for _, input := range inputs {
+			l.Init(input)
+			_, err := l.Next()
+			if err != nil {
+				b.Fatal(err)
+			}
+		}
 	}
 }

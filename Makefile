@@ -24,6 +24,9 @@ lint:
 
 goclean: gofmt ## apply go style rules to source
 
+bench:
+	go test -test.run=XXX -test.bench=. ./...
+
 regenerate: ## regenerate all example and test files
 	make install
 	make -C example regenerate
