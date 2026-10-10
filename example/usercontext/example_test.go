@@ -63,9 +63,8 @@ func TestTokenContext(t *testing.T) {
 			if err == nil {
 				t.Fatalf("expecting an error")
 			}
-			// not sure why err.ErrorToken has 12 in its pos.Column field, but currently
-			// this is correct.
-			const expected = `1:12: error: sixbyseven: NewIdentifier expected ParserContext, got <nil>`
+			// err.ErrorToken corresponds to the production start token (column 1).
+			const expected = `1:1: error: sixbyseven: NewIdentifier expected ParserContext, got <nil>`
 			if err.Error() != expected {
 				t.Fatalf("incorrect error:\nexpected: %q\nactual  : %q", expected, err.Error())
 			}

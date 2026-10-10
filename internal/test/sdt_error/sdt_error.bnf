@@ -1,0 +1,29 @@
+!whitespace : ' ' | '\t' | '\r' | '\n' ;
+
+<<
+import (
+	"errors"
+)
+>>
+
+TestRule
+	: SimpleAction
+	| MultiTokenAction
+	| NestedAction
+	;
+
+SimpleAction
+	: "fail" << nil, errors.New("simple action failed") >>
+	;
+
+MultiTokenAction
+	: "start" "middle" "end" << nil, errors.New("multi token action failed") >>
+	;
+
+NestedAction
+	: NonTerminalPrefix "suffix" << nil, errors.New("nested action failed") >>
+	;
+
+NonTerminalPrefix
+	: "nested" "prefix" << "nested prefix", nil >>
+	;

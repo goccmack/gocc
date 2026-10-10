@@ -82,6 +82,7 @@ const (
 type stack struct {
 	state  []int
 	attrib []Attrib
+	token  []*token.Token
 }
 
 const iNITIAL_STACK_SIZE = 100
@@ -90,17 +91,20 @@ func newStack() *stack {
 	return &stack{
 		state:  make([]int, 0, iNITIAL_STACK_SIZE),
 		attrib: make([]Attrib, 0, iNITIAL_STACK_SIZE),
+		token:  make([]*token.Token, 0, iNITIAL_STACK_SIZE),
 	}
 }
 
 func (s *stack) reset() {
 	s.state = s.state[:0]
 	s.attrib = s.attrib[:0]
+	s.token = s.token[:0]
 }
 
-func (s *stack) push(state int, a Attrib) {
+func (s *stack) push(state int, a Attrib, tok *token.Token) {
 	s.state = append(s.state, state)
 	s.attrib = append(s.attrib, a)
+	s.token = append(s.token, tok)
 }
 
 func (s *stack) top() int {
@@ -122,6 +126,7 @@ func (s *stack) popN(items int) []Attrib {
 
 	s.state = s.state[:lo]
 	s.attrib = s.attrib[:lo]
+	s.token = s.token[:lo]
 
 	return attrib
 }
@@ -167,7 +172,7 @@ func NewParser() *Parser {
 
 func (p *Parser) Reset() {
 	p.stack.reset()
-	p.stack.push(0, nil)
+	p.stack.push(0, nil, nil)
 }
 
 func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib *parseError.Error) {
@@ -184,7 +189,7 @@ func (p *Parser) Error(err error, scanner Scanner) (recovered bool, errorAttrib 
 	}
 
 	if action := actionTab[p.stack.top()].actions[token.TokMap.Type("error")]; action != nil {
-		p.stack.push(int(action.(shift)), errorAttrib) // action can only be shift
+		p.stack.push(int(action.(shift)), errorAttrib, p.nextToken) // action can only be shift
 	} else {
 		return
 	}
@@ -225,11 +230,11 @@ func (p *Parser) firstRecoveryState() (recoveryState int, canRecover bool) {
 	return
 }
 
-func (p *Parser) newError(err error) error {
+func (p *Parser) newError(err error, errorToken *token.Token) error {
 	e := &parseError.Error{
 		Err:        err,
 		StackTop:   p.stack.top(),
-		ErrorToken: p.nextToken,
+		ErrorToken: errorToken,
 	}
 	actRow := actionTab[p.stack.top()]
 	for i, t := range actRow.actions {
@@ -248,7 +253,7 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 		if action == nil {
 			if recovered, errAttrib := p.Error(nil, scanner); !recovered {
 				p.nextToken = errAttrib.ErrorToken
-				return nil, p.newError(nil)
+				return nil, p.newError(nil, p.nextToken)
 			}
 			if action = actionTab[p.stack.top()].actions[p.nextToken.Type]; action == nil {
 				panic("Error recovery led to invalid action")
@@ -263,15 +268,24 @@ func (p *Parser) Parse(scanner Scanner) (res interface{}, err error) {
 			res = p.stack.popN(1)[0]
 			acc = true
 		case shift:
-			p.stack.push(int(act), p.nextToken)
+			p.stack.push(int(act), p.nextToken, p.nextToken)
 			p.nextToken = scanner.Scan()
 		case reduce:
 			prod := productionsTable[int(act)]
+			var startToken *token.Token
+			if prod.NumSymbols > 0 && len(p.stack.token) >= prod.NumSymbols {
+				startToken = p.stack.token[len(p.stack.token)-prod.NumSymbols]
+			} else {
+				startToken = p.nextToken
+			}
+			if startToken == nil {
+				startToken = p.nextToken
+			}
 			attrib, err := prod.ReduceFunc(p.stack.popN(prod.NumSymbols), p.Context)
 			if err != nil {
-				return nil, p.newError(err)
+				return nil, p.newError(err, startToken)
 			} else {
-				p.stack.push(gotoTab[p.stack.top()][prod.NTType], attrib)
+				p.stack.push(gotoTab[p.stack.top()][prod.NTType], attrib, startToken)
 			}
 		default:
 			panic("unknown action: " + action.String())
